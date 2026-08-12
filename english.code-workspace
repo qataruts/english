@@ -1,0 +1,9 @@
+{
+	"folders": [
+		{ "name": "الإنكليزية — english", "path": "." },
+		{ "name": "اِقْرَأْ — مرجع البذرة (لا يُمَسّ)", "path": "../read" },
+		{ "name": "احسب — مرجع FAMILY.md (لا يُمَسّ)", "path": "../calc" },
+		{ "name": "بريد العائلة", "path": "../family" }
+	],
+	"settings": {}
+}
