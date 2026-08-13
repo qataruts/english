@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>تطبيق الإنكليزية على مقاسات الآيباد</title>
+<style>html,body{margin:0;height:100%}iframe{display:block;width:100%;height:100%;border:0}</style>
+</head>
+<body>
+<iframe id="app" src="/"></iframe>
+<script type="module">
+  /* صفحةُ الجهاز: التطبيقُ يملأ المنظور بمقاس الآيباد الذي فُتحت به النافذة،
+     فيُقاس **الفائضُ الأفقيّ** حيث يقع فعلاً — لا في إطارٍ ذي مقاسٍ آخر.
+     و«بلا فائض أفقي» عهدٌ مطلق (`METHOD.md §١٠.٧`): طفلُ الرابعة لا يسحب ليجد زرّاً. */
+  const frame = document.getElementById('app');
+
+  /* **وتُقاس شاشاتُ التمارين لا الخريطةُ وحدَها** (الجلسة ٣): الكمياتُ المرسومة أوسعُ
+     ما في التطبيق (لوحُ العدّ يفرد الشكلَ ليبلغ العنصرُ هدفَ اللمس)، فهي أولى ما
+     يفيض على آيباد mini. ويُبلَّغ **أسوأُ** ما قِيس لا آخرُه. */
+  /* **وتُقاس شاشاتُ التطبيق كلُّها لا الخريطةُ وحدَها**: أوسعُ ما فيه اليوم لوحةُ
+     الوالد (بطاقاتُ الوحدات صفّان وقوائمُ التحكّم). والجلساتُ التالية تزيد هنا
+     شاشاتِ تمارينها — **ويُبلَّغ أسوأُ ما قِيس لا آخرُه**. */
+  const SCREENS = [
+    '/',                          // الخريطة (بذرةٌ فارغة اليوم)
+    '/?preview=1&v=2#/review',    // مسارُ المراجعة (يردّ إلى الخريطة بلا حصيلة)
+    '/?preview=1&v=3#/parent',    // بوابةُ الوالد — أعرضُ صندوقٍ في البذرة
+  ];
+
+  let worst = { overflow: -1e9 };
+  for (const src of SCREENS) {
+    frame.src = src;
+    await new Promise((r) => frame.addEventListener('load', r, { once: true }));
+    await new Promise((r) => setTimeout(r, 1200));
+    const doc = frame.contentDocument;
+    const win = frame.contentWindow;
+    const row = {
+      overflow: doc.documentElement.scrollWidth - win.innerWidth,
+      width: win.innerWidth,
+      height: win.innerHeight,
+      at: src,
+    };
+    if (row.overflow > worst.overflow) worst = row;
+  }
+
+  await fetch('/result', { method: 'POST', body: JSON.stringify({ from: 'english', rows: [worst] }) });
+</script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>فحصُ تطبيق الإنكليزية في متصفّحٍ حقيقي</title>
+<style>body{font-family:system-ui;padding:2rem;direction:rtl}</style>
+</head>
+<body>
+<p>يُشغَّل الفحص… (تُرسَل النتائج إلى <code>POST /result</code> ثم يُقتل المتصفّح)</p>
+
+<iframe id="app" src="/" style="width:834px;height:1194px;border:1px solid #ccc"></iframe>
+
+<script type="module">
+  /* عدّةُ المتصفّح — **بذرةُ المنصة**: ما لا يُثبته إلا متصفّحٌ حقيقي.
+     الجلسة ٠ تفحص **بذرةً فارغة**: أتفتح؟ أهي RTL بعلامتها؟ أأرقامُها مشرقية؟
+     أفيها محرفُ إيموجي يُسلَّم لخطّ النظام؟ أتعمل بوابةُ الوالد؟ **وأتتعاقب القناةُ
+     الصوتية المنسوخة أم تتراكب؟**
+     والجلساتُ التالية تضيف فحوصَ شاشاتها هنا (لا تُنشئ عدّةً ثانية). */
+
+  const out = [];
+  const ok = (cond, msg) => out.push({ ok: !!cond, msg });
+
+  /* **عطبُ الصفحة يُبلَّغ ولا يصمت**: خطأٌ واحد يوقف هذا النصّ فلا تصل نتيجةٌ أصلاً،
+     فيُقرأ «لم تصل نتيجة» بطءَ جهازٍ أو قِصَرَ مهلة — وهو عينُ الالتباس الذي وُجد له
+     `--self-test` في `browser_test.py`. فما مضى من الفحوص يُرسَل، ومعه العطبُ نفسُه
+     فحصاً أحمر باسمه. */
+  const report = (rows) => fetch('/result', { method: 'POST', body: JSON.stringify({ from: 'english', rows }) });
+
+  /* **والتعلّقُ يُبلَّغ كما يُبلَّغ العطب**: انتظارُ حدثٍ لا يجيء يوقف النصَّ بلا خطأ،
+     فلا يصل شيء. فمهلةٌ حارسة ترسل ما تمّ ومعه سطرٌ أحمر يسمّي التعلّق. */
+  const watchdog = setTimeout(() => {
+    report([...out, { ok: false, msg: 'تعلّقت صفحةُ الفحص قبل تمامها (انتظارٌ لم ينتهِ)' }]);
+  }, 60000);
+
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const frame = document.getElementById('app');
+
+  /* **لا يُنتظَر حدثٌ، ولا يُصدَّق `readyState`** — عيبان مقيسان ساعةَ كُتبت هذه
+     الصفحة، وكلاهما يُقرأ «لم تصل نتيجة» أو حمرةً كاذبة لا عطباً في التطبيق:
+       ١) وحدةُ هذه الصفحة مؤجَّلةٌ بطبعها (`type="module"`)، فقد يكون الإطارُ حمّل
+          قبل أن نصل — فانتظارُ `load` عندئذٍ انتظارٌ أبديّ.
+       ٢) و**`readyState === 'complete'` يصدُق على `about:blank`**: الإطارُ قبل أن
+          يبدأ تنقّلَه مستندٌ فارغٌ «تامّ»، فمن قنع به قاس **صفحةً بيضاء** وظنّها
+          التطبيق — فتحمرّ فحوصُ الخريطة والعلامة والاتجاه جميعاً وهي سليمة.
+     فالمقياسُ **ما نبحث عنه نفسُه**: نُمهل حتى يظهر، ونحكم بغيابه إن لم يظهر. */
+  const waitFor = async (fn, ms = 10000) => {
+    const end = performance.now() + ms;
+    for (;;) {
+      let value = null;
+      try { value = fn(); } catch { value = null; }
+      if (value) return value;
+      if (performance.now() > end) return null;
+      await wait(100);
+    }
+  };
+  const appDoc = () => {
+    const d = frame.contentDocument;
+    return d && d.location && d.location.href !== 'about:blank' ? d : null;
+  };
+
+  try {
+  const mapEl = await waitFor(() => appDoc()?.querySelector('.map'));
+  let doc = appDoc() || frame.contentDocument;
+  let win = frame.contentWindow;
+  ok(!!mapEl, 'التطبيقُ يفتح فعلاً في الإطار (لا مستندٌ فارغ يُظنّ تطبيقاً)');
+
+  // ————— ١. التطبيق يفتح، والشاشةُ الأولى خريطة —————
+
+  ok(!doc.querySelector('.boot'), 'التطبيق يفتح ويحلّ محلَّ سطر التحميل');
+  ok(!!doc.querySelector('.map'), 'والشاشةُ الأولى خريطةُ الرحلة');
+  ok(doc.documentElement.getAttribute('dir') === 'rtl'
+    && doc.documentElement.getAttribute('lang') === 'ar',
+    'والصفحةُ عربيةٌ من اليمين (`dir=rtl` · `lang=ar`)');
+
+  // ————— ٢. الرحلةُ فارغةٌ وتقول ذلك — معيارُ قبول الجلسة ٠ —————
+
+  const empty = doc.querySelector('.note--empty');
+  ok(!!empty && /الرحلة لم تُكتب بعد/.test(empty.textContent),
+    'وخريطةُ البذرة الفارغة **تقول حالَها** ولا تُقرأ عطباً');
+  ok(doc.querySelectorAll('.station').length === 0
+    && doc.querySelectorAll('.node').length === 0,
+    'وصفرُ محطةٍ وصفرُ عقدة (لا محتوى منهجٍ في هذه الجلسة)');
+
+  // ————— ٣. العلامةُ نائبةٌ **تُعلن نيابتَها** (ق٣ · `docs/SEED.md §٤`) —————
+  //
+  // **وهذا حارسُ هويةٍ مبكّر**: الوجهُ المستعار يعمل عملَ الصحيح تماماً، فيُرى العيبُ
+  // على شاشة آيبادٍ أمام طفلٍ لا في سَوقة. فما دامت النيابةُ قائمةً تُعلَن في DOM.
+
+  const brand = doc.querySelector('.brand');
+  ok(!!brand && brand.dataset.pending === '1',
+    'وعلامةُ التطبيق **تُعلن نيابتَها** في DOM (`data-pending`) حتى قرار الهوية');
+  const word = doc.querySelector('.brand-word');
+  ok(!!word && win.getComputedStyle(word).fontFamily.includes('Marhey'),
+    'وتُرسَم بخطّ العلامة وحدَه (لا خطّ النصّ)');
+  ok(!!doc.querySelector('.brand-bird svg'), 'والمرشدُ رسمٌ متجه لا محرفُ خطّ');
+
+  // ————— ٤. «أيقونات لا إيموجي»: صفرُ محرفٍ يُسلَّم لخطّ النظام —————
+
+  /* **والقاعدةُ تُقرأ من موضعها لا تُكتب هنا ثانيةً** (عيبٌ مقيسٌ ساعةَ كُتبت هذه
+     الصفحة): كتبتُ نطاقاً تقريبياً فحمّرته «★» — وهي **محرفٌ نصّيّ** يرسمه خطُّ
+     النصّ نفسُه، و`ui.js` يُخرجها صراحةً («وبها تخرج ✦ و✓ و★»). فحارسٌ أشدُّ من
+     القاعدة التي يحرسها **يمنع الصواب** ويُقرأ عطباً — والمصدرُ واحد:
+     `isEmoji` نفسُها من `ui.js`، فيومَ تتبدّل القاعدةُ يتبدّل الحارسُ معها. */
+  const { isEmoji } = await import('/js/ui.js');
+  const textOf = (root) => [...root.querySelectorAll('*')]
+    .flatMap((el) => [...el.childNodes])
+    .filter((n) => n.nodeType === 3)
+    .map((n) => n.nodeValue).join('');
+  const glyphs = [...textOf(doc.body)].filter((ch) => isEmoji(ch));
+  ok(glyphs.length === 0,
+    `ولا محرفَ إيموجي واحد يُسلَّم لخطّ النظام في نصّ الشاشة `
+    + `(${glyphs.length ? glyphs.join('') : 'صفر'} — والقاعدةُ \`isEmoji\` من \`ui.js\`)`);
+
+  // ————— ٥. أرقامُ الواجهة مشرقية —————
+
+  const stars = doc.querySelector('.pill--stars');
+  ok(!!stars && !/[0-9]/.test(stars.textContent),
+    `وعدّادُ النجوم بأرقامٍ مشرقية («${stars ? stars.textContent.trim() : '—'}»)`);
+
+  // ————— ٦. **لا فعلَ يلزم الطفلَ وسيلتُه الوحيدة قراءة** (`METHOD.md §٩·٢`) —————
+  //
+  // قاعدةُ العائلة المرقّاة، **وهي عندنا بلغتين**: جمهورُنا قبل-قارئ إنكليزيةً
+  // بالبناء وعربيةً بالواقع. فكلُّ زرٍّ في شاشة الطفل له صورةٌ دالّة أو أيقونة —
+  // والحارسُ **يجرد ولا يُصدَّق**: اليومَ لا زرَّ تمرينٍ بعد، فيمرّ على ما هو قائم
+  // ويحمرّ يومَ يُضاف زرٌّ نصّيّ (نظيرُ حرّاس الغياب).
+
+  const childBtns = [...doc.querySelectorAll('.topbar button, .map button')]
+    .filter((b) => !b.closest('.dev'));
+  const bare = childBtns.filter((b) => !b.querySelector('svg, img') && b.textContent.trim());
+  ok(childBtns.length > 0 && bare.length === 0,
+    `وكلُّ زرٍّ في شاشة الطفل له صورةٌ دالّة لا نصٌّ وحدَه (${childBtns.length} زرّاً)`
+    + (bare.length ? ` — نصّيّ: ${bare.map((b) => b.textContent.trim()).join('، ')}` : ''));
+
+  // ————— ٧. `hidden` يخفي فعلاً (درسُ اللوح المنقول) —————
+
+  const probe = doc.createElement('div');
+  probe.className = 'dl';
+  probe.hidden = true;
+  doc.body.append(probe);
+  ok(win.getComputedStyle(probe).display === 'none',
+    'و`hidden` يخفي فعلاً ولو أعطى اللوحُ العنصرَ `display` صريحاً');
+  probe.remove();
+
+  // ————— ٨. المراجعةُ بلا حصيلة تردّ إلى الخريطة ولا تعطب —————
+
+  win.location.hash = '#/review';
+  ok(!!await waitFor(() => appDoc()?.querySelector('.map')),
+    'ومسارُ المراجعة بلا حصيلةٍ يردّ الطفلَ إلى الخريطة (لا شاشةَ خطأ)');
+
+  // ————— ٩. بوابةُ وليّ الأمر: تسأل، وترفض الخطأ، وتفتح بالصواب —————
+
+  win.location.hash = '#/parent';
+  await waitFor(() => appDoc()?.querySelector('.gate'));
+  doc = appDoc();
+  ok(!!doc.querySelector('.gate') && !doc.querySelector('.audit'),
+    'ولوحةُ الوالد خلف بوابةٍ حسابية (لا تُفتح بلمسة طفل)');
+  const ask = doc.querySelector('.gate .giant')?.textContent || '';
+  ok(/×/.test(ask) && !/[0-9]/.test(ask), `وسؤالُها ضربٌ بأرقامٍ مشرقية («${ask.trim()}»)`);
+
+  const AR = '٠١٢٣٤٥٦٧٨٩';
+  const [a, b] = ask.split('×').map((part) =>
+    Number([...part.trim()].map((c) => AR.indexOf(c)).join('')));
+  const input = doc.querySelector('.gate input');
+  const enter = doc.querySelector('.gate-go');
+  input.value = String(a * b + 1);
+  enter.click();
+  await wait(250);
+  doc = appDoc();
+  ok(!!doc.querySelector('.gate') && !doc.querySelector('.audit'),
+    'وجوابٌ خاطئ لا يفتحها (ويُبدَّل السؤال)');
+
+  const ask2 = doc.querySelector('.gate .giant').textContent;
+  const [c, d] = ask2.split('×').map((part) =>
+    Number([...part.trim()].map((ch) => AR.indexOf(ch)).join('')));
+  doc.querySelector('.gate input').value = String(c * d);
+  doc.querySelector('.gate-go').click();
+  await waitFor(() => appDoc()?.querySelector('.audit'));
+  doc = appDoc();
+  ok(!!doc.querySelector('.audit'), 'والجوابُ الصحيح يفتح اللوحة');
+  ok(/راجِع مختصاً/.test(doc.body.textContent),
+    'وحدُّ النطاق معلَنٌ فيها (تدريسٌ وقياسٌ لا تشخيص — `METHOD.md §١٣`)');
+  ok(/الوحدة × المدى × نوع التمرين/.test(doc.body.textContent),
+    'ومفتاحُ القياس معلَنٌ للوالد بنصّ `METHOD.md §٧`');
+
+  // ————— ١٠. **حارسُ التعاقب على القناة المنسوخة** (معيارُ قبول الجلسة ٠) —————
+  //
+  // الحرّاسُ الذين **يعدّون التشغيلات ولا يقيسون التعاقب** أخضرُ كاذب (قاعدةُ اقرأ
+  // المقيَّدة، وبلاغُ الميدان ١ عند احسب). فهذا يقيس **لحظاتِ البدء والتمام** في
+  // متصفّحٍ حقيقيّ: لا لحظةَ فيها صوتان، والثاني يبدأ **بعد** تمام الأول لا فوقه.
+  //
+  // و`test_audio_stack.mjs` أخوه في node بمشاهده الخمسة (بعثُ الموقوف، والتتابعُ
+  // المتجاوَز) — وهذا يقيس القناةَ **وهي محمَّلةٌ في متصفّح** كما تعمل عند الطفل.
+
+  const timeline = [];
+  const spoken = [];      // {text, lang} — كلُّ لجوءٍ إلى النطق الآليّ
+  let failKey = null;     // مفتاحٌ نجعل ملفَّه يتعثّر (لنقيس مسار الاحتياط)
+  const AUDIO_MS = 140;
+
+  window.Audio = class extends EventTarget {
+    constructor(src = '') { super(); this.preload = ''; this.src = src; }
+    set src(v) {
+      this._src = v || '';
+      this.__key = (String(this._src).split('/').pop() || '').split('?')[0].replace('.mp3', '');
+    }
+    get src() { return this._src; }
+    play() {
+      if (failKey && this.__key === failKey) {
+        setTimeout(() => this.dispatchEvent(new Event('error')), 10);
+        return Promise.resolve();
+      }
+      this.__row = { key: this.__key, t0: performance.now(), t1: Infinity };
+      timeline.push(this.__row);
+      this.__timer = setTimeout(() => {
+        this.__close();
+        this.dispatchEvent(new Event('ended'));
+      }, AUDIO_MS);
+      return Promise.resolve();
+    }
+    __close() {
+      clearTimeout(this.__timer);
+      if (this.__row && this.__row.t1 === Infinity) this.__row.t1 = performance.now();
+    }
+    pause() { this.__close(); }
+    load() {}
+    removeAttribute() { this.src = ''; }
+  };
+  window.SpeechSynthesisUtterance = class {
+    constructor(text) { this.text = text; this.__i = spoken.push({ text, lang: '' }) - 1; }
+    set lang(v) { spoken[this.__i].lang = v; }
+    get lang() { return spoken[this.__i].lang; }
+  };
+  /* `speechSynthesis` وصفٌ للقراءة على `window` — فيُبدَّل بالتعريف لا بالإسناد
+     (والإسنادُ في وحدةٍ صارمة يرتمي). */
+  Object.defineProperty(window, 'speechSynthesis', {
+    configurable: true,
+    value: { cancel() {}, speak(u) { setTimeout(() => u.onend?.(), 10); } },
+  });
+
+  const audio = await import('/js/audio.js');
+
+  // نداءان في اللحظة نفسها — جملةُ توجيهٍ عربية ثم كلمةٌ إنكليزية
+  const t0 = performance.now();
+  const first = audio.play('اِسْمَعْ', 'ar');
+  const second = audio.play('cat', 'en');
+  ok((await first) === true && (await second) === true,
+    'والقناةُ تُسمع النداءين كليهما (لا دهسَ ولا وعدٌ معلَّق)');
+  const mine = timeline.filter((r) => r.t0 >= t0).sort((x, y) => x.t0 - y.t0);
+  ok(mine.length === 2, `وتشغيلان اثنان لا أكثر (${mine.length})`);
+  const clash = mine.length === 2 && mine[1].t0 < mine[0].t1 - 1;
+  ok(!clash,
+    'ولا لحظةَ يعمل فيها صوتان معاً — **الثاني بعد تمام الأول لا فوقه**'
+    + (clash ? ` (تراكبٌ ${Math.round(mine[0].t1 - mine[1].t0)}ms)` : ''));
+
+  // إسكاتُ الطفل الناقل: ما في الطابور يسقط، ووعدُه يُسوَّى بهدوء
+  const cut1 = audio.play('اِسْمَعْ مَرَّةً أُخْرَى', 'ar');
+  const cut2 = audio.play('dog', 'en');
+  await wait(20);
+  audio.stop();
+  ok((await cut1) === false && (await cut2) === false,
+    'والإسكاتُ يُسوّي وعدَ العامل ووعدَ المنتظِر في الطابور بهدوء (لا وعدَ يتجمّد)');
+
+  // ————— ١١. **القناتان اللغويتان**: الاحتياطُ ينطق بلسان قناته —————
+  //
+  // `METHOD.md §٩·١`: «لا تُنطَق الكلمةُ المدروسة معرَّبةً أبداً». فحتى الاحتياطُ
+  // عند تعثّر الملفّ يجب أن يحمل لسانَ نصّه — وهذا يقيسه على `SpeechSynthesisUtterance`
+  // نفسِها لا على نيّةٍ في الشيفرة.
+
+  failKey = audio.keyFor('fish');
+  await audio.play('fish', 'en');
+  failKey = null;
+  const en = spoken.find((s) => s.text === 'fish');
+  ok(!!en && /^en/.test(en.lang),
+    `والاحتياطُ ينطق المادّةَ الإنكليزية بلسانها (${en ? en.lang : 'لم يقع'})`);
+
+  failKey = audio.keyFor('أَحْسَنْتَ');
+  await audio.play('أَحْسَنْتَ', 'ar');
+  failKey = null;
+  const ar = spoken.find((s) => s.text === 'أَحْسَنْتَ');
+  ok(!!ar && /^ar/.test(ar.lang),
+    `ويُنطق التوجيهُ العربيّ بلسانه (${ar ? ar.lang : 'لم يقع'})`);
+
+  } catch (err) {
+    ok(false, `عطبٌ في صفحة الفحص: ${(err && (err.stack || err.message)) || err}`);
+  }
+
+  clearTimeout(watchdog);
+  await report(out);
+</script>
+</body>
+</html>

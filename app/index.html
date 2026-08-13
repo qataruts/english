@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <!-- **قرصةُ الطفل حرة** (بلاغُ ميدانٍ ناقض من اقرأ — `read@7f18bf0`): كان قفلُ
+       المقياس علاجاً لاسترجاع iPadOS المكبَّر، **فنقضه بلاغُ الميدان**: الطفل كان
+       يكبّر الصفحة بالقرصة ليرى جيداً («أمرٌ مريح وتلقائي») والقفلُ حرمه إياها —
+       تحويطٌ أوسعُ من عيبه. يبقى من العلاج: العودةُ من الخلفية تُرجِع المقياسَ ١
+       برمجياً (`main.js`)، وتكبيرُ النقر المزدوج العارض ساقطٌ باللوح
+       (`touch-action: manipulation`) والقرصةُ المتعمَّدة لا يمسّها. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- **الاسمُ والوصفُ نائبان مؤقتان** (ق٣ · `docs/SEED.md §٤`): سياسةُ التسمية تنصّ
+       على **اسمٍ إنكليزيٍّ صريح لا نقحرة**، وهو قرارُ مالكٍ لا تجتهد فيه جلسةُ تنفيذ.
+       ويُبدَّل هذا كلُّه قبل أول عرضٍ على طفل. -->
+  <meta name="description" content="تأسيسُ الإنكليزية لطفلٍ عربيّ في السادسة: السمعُ قبل الحرف، ولا يقرأ إلا ما أتقن سمعَه">
+  <meta name="theme-color" content="#FAF4E8">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2A241C">
+  <!-- **والوسمان معاً لا أحدُهما** (عيبٌ مقيسٌ في الجلسة ٠): كروم يطبع تحذيرَ
+       إهمالٍ في الطرفية على `apple-*` وحدَه، وهو **المعروضُ الوحيد في سجلّ الوحدة**
+       على بذرةٍ سليمة — فيصير سطرُ ضجيجٍ يُقرأ سريعاً فوق أول عطبٍ حقيقيّ. و`apple-*`
+       لا يُحذَف: سفاري وحدَه يقرؤه، وiPadOS جهازُ هذا الطفل. -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="الإنكليزية">
+  <title>الإنكليزية — تأسيسٌ لطفلٍ عربيّ</title>
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div id="app" class="app" aria-live="polite">
+    <p class="boot">يُحمَّل التطبيق…</p>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <noscript>
+    <p class="boot">هذا التطبيق يحتاج تفعيل جافاسكربت في المتصفّح.</p>
+  </noscript>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
