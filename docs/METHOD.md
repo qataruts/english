@@ -43,7 +43,7 @@
 
 ### س٢ — اسمع ونفّذ: TPR (٤ محطات · `tpr` الجديد)
 أمرٌ يُسمَع وفعلٌ يُنفَّذ لمساً/سحباً — قابلٌ للفحص الآلي (فعلُ الطفل يطابق الأمر أو لا):
-س٢-١ أوامرُ اللمس (touch the cat) · س٢-٢ أوامرُ الوضع المكاني (put the apple **in/on/under** the box — سحباً) · س٢-٣ أفعالُ الحركة (jump, clap, point — الشخصيةُ تنفّذ بلمسة الطفل الموقِّتة) · س٢-٤ أوامرُ مركّبة قصيرة (touch the red fish).
+س٢-١ أوامرُ الإشارة (**point to the cat** — صُحّح عن «touch»: ليست في رصيد Starters ‏2025، والحاكمُ البياناتُ لا العيّنة، §١٢-١١) · س٢-٢ أوامرُ الوضع المكاني (put the apple **in/on/under** the box — سحباً أو لمساً) · س٢-٣ أفعالُ الحركة أوضاعاً تُفعَل · س٢-٤ أوامرُ مركّبة قصيرة (**point to the big red ball** — **كرةٌ مُصيَّرة** بصفتيها: المصوَّرُ الوحيد الذي يصدُق فيه اللونُ والحجمُ معاً شكلٌ يُرسَم، و`ball` تُسمَع قبل محطتها السمعية **مدخلاً مفهوماً لا مقيساً**؛ **والأمرُ المركّب يُقاس بمفتاحَي صفتيه معاً** `word|big|tpr-two` و`word|red|tpr-two` — فإصابتُه فهمُهما، وخطؤه يُكتب عليهما وليتنر يتعافى، والمعالجةُ تُسمِعهما — أحكامُ المدير، ١٣ أغسطس ٢٠٢٦).
 
 ### س٣ — ميّز الزوجين (٤ محطات · `contrast`)
 زوجان يُسمَعان ويُميَّزان — مادةُ الباب ٣ من الدراسة:
@@ -134,7 +134,7 @@ CVCC/CCVC (went, stand, frog, jumps) — علاجُ إقحام الحركة ال
 
 ## ٧. القياس — مفاتيح ليتنر `(الوحدة × المدى × نوع التمرين)`
 
-`word|cat|listen-pick` · `verb|jump|tpr-do` · `pair|p-b|pick` · `phon|initial-s|pick` · `oral|cat|blend-ear` · `oral|cat|segment-ear` · `rhyme|at|pick` · `gpc|s|sound-pick` (اسمع الصوتَ واختر رسمَه) · `gpc|s|letter-pick` (انظر الرسمَ واختر صوتَه) · `word|sat|build` · `word|sat|decode` · `vowel|bit-bet|mid-pick` (الصائتُ الأوسط — شكل `haraka`) · `tricky|the|read` · `sentence|…|match` (جمل س٥-٦) · `text|h05|read`.
+`word|cat|listen-pick` · `verb|jump|tpr-do` · `pair|p-b|pick` · `phon|initial-s|pick` · `oral|cat|blend-ear` · `oral|cat|segment-ear` · `rhyme|at|pick` · `gpc|s|sound-pick` (اسمع الصوتَ واختر رسمَه) · `gpc|s|letter-pick` (انظر الرسمَ واختر صوتَه) · `word|sat|build` · `word|sat|decode` · `vowel|bit-bet|mid-pick` (الصائتُ الأوسط — شكل `haraka`) · `word|big|tpr-two` (صفتا الأمر المركّب معاً) · `tricky|the|read` · `sentence|…|match` (جمل س٥-٦) · `text|h05|read`.
 سلّمُ الصناديق [0,1,2,4,8,16] يوماً (عقدُ `progress.js`)، والمراجعةُ اليومية تسحب من الجبهتين معاً، وكلُّ محطةٍ تكتب قياسَها (`test_measure` من أول محطة)، ولوحةُ الوالد تعرض بالمهارة لا بالدرجة.
 
 ## ٨. أنواع التمارين (كلُّها لمسٌ واختيار — لا كتابةَ ولا نطقَ مقيس)

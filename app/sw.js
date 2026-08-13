@@ -35,7 +35,7 @@
 // عند تغيير أي ملف من ملفات الهيكل: ارفع VERSION فيُمحى مخزون **القشرة** القديم.
 // ويحرس `tools/test_pwa.mjs` أن قائمة SHELL لا تنسى ملفاً موجوداً في `app/` ولا
 // تَعِد بملفٍ غير موجود.
-const VERSION = 'v1';
+const VERSION = 'v2';
 const SHELL_CACHE = `english-shell-${VERSION}`;
 const AUDIO_CACHE = 'english-audio';      // ثابتٌ عمداً — لا يحمل VERSION
 const KEEP = [SHELL_CACHE, AUDIO_CACHE];
@@ -52,12 +52,16 @@ const SHELL = [
   'fonts/Marhey-arabic.woff2',
   'js/audio.js',
   'js/curriculum.js',
+  'js/figures.js',
   'js/gate.js',
   'js/main.js',
   'js/parent.js',
   'js/progress.js',
+  'js/quiz.js',
   'js/registry.js',
   'js/review.js',
+  'js/station.js',
+  'js/tpr.js',
   'js/ui.js',
   // فهرسُ الرموز في القشرة، و**ملفاتُها من فهرسها** (`precacheEmoji` أدناه): كُتب
   // الرصيدُ المصوَّر في `curriculum.js` (الجلسة ١) فوُجد الفهرس، ولا يدخل مخزونَ
@@ -219,8 +223,30 @@ async function report(state) {
   for (const client of windows) client.postMessage({ type: 'audio-progress', ...state });
 }
 
-/** طلبٌ صريح من المستعمل: «نزّل الأصوات الآن» — يتجاوز مهلةَ الشفاء ولا ينتظرها. */
+/**
+ * **نسخةُ القشرة تُرى** (أمرُ المالك — `METHOD.md §١٢-١٠` وبلاغ
+ * `2026-08-13-version-visibility.md`): «القشرةُ تجيب `{type:'version'}` من ثابت
+ * `VERSION` نفسِه، ولوحةُ الوالد تسأل وتعرض نسخةَ **ما يعمل** على الجهاز — فلا يشهد
+ * ميدانٌ على شيفرةٍ لم تصله».
+ *
+ * **والجوابُ من الثابت نفسِه** الذي يسمّي مخزنَ القشرة (`SHELL_CACHE`): فلا رقمُ
+ * نسخةٍ ثانٍ يُكتب في موضعٍ آخر فيفترق عن الشيفرة العاملة — وهو عينُ ما يُراد قياسُه.
+ *
+ * ويُجاب على القناة التي سأل بها السائل: منفذُ الرسالة إن أرسله (`ports[0]`)، وإلّا
+ * فالنافذةُ نفسُها (`source`) — فلا يحتاج السائلُ أن يعرف أيَّهما يملك هذا المتصفّح.
+ */
+function reply(event, message) {
+  const port = event.ports && event.ports[0];
+  if (port) port.postMessage(message);
+  else event.source?.postMessage(message);
+}
+
 self.addEventListener('message', (event) => {
+  if (event.data?.type === 'version') {
+    reply(event, { type: 'version', version: VERSION });
+    return;
+  }
+  /** طلبٌ صريح من المستعمل: «نزّل الأصوات الآن» — يتجاوز مهلةَ الشفاء ولا ينتظرها. */
   if (event.data?.type !== 'audio-sync') return;
   event.waitUntil(syncAudio());
 });

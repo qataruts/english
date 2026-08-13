@@ -196,8 +196,16 @@ export const FIELDS = [
 //   • `scene` (س٢-٢ · س٢-٤ · س٥-٦): المعنى **ترتيبُ شيئين** (in/on/under · «السمكةُ
 //     الحمراء» · «القطةُ على السرير») — تُصوَّر مشهداً لا رمزاً.
 //   • `act` (س٢-٣): الفعلُ حركةٌ تفعلها الشخصية بلمسة الطفل — لا رمزَ ساكناً له.
+//   • `swatch` (س١-٥): **بقعةُ لونٍ مُصيَّرة** — حكمُ المدير ١٣ أغسطس (`METHOD.md §٤`
+//     أحكامُ المادة): «الألوانُ بلا مربع يونيكود (pink · grey) تُصوَّر بقعةَ لونٍ
+//     مُصيَّرة (CSS) — صدقُ الصورة لا يشترط إيموجي، والبقعةُ أصدقُ من بديلٍ ملتبس».
+//     فمحطةُ الألوان نمطُها `swatch`: كلمتُها **صورةٌ أو بقعةٌ بقيمة لونها**، ولا
+//     بقعةَ لكلمةٍ من غير حقل الألوان (يحرسه `check_range` بابَه الأول).
 
-/** كلماتُ الرصيد المصوَّر: `w` الكلمة · `field` حقلُها · `at` محطتُها · `face` صورتُها. */
+/**
+ * كلماتُ الرصيد المصوَّر: `w` الكلمة · `field` حقلُها · `at` محطتُها · `face` صورتُها
+ * (أو `count` كمّيةً · `swatch` بقعةَ لون · `pictured` سببَ ألّا تكون صورةً مفردة).
+ */
 export const WORDS = [
   // س١-١ الأهل
   { w: 'mum', field: 'family', at: 's1-1', face: '👩‍👦' },
@@ -248,16 +256,24 @@ export const WORDS = [
   { w: 'carrot', field: 'food', at: 's1-4', face: '🥕' },
   { w: 'rice', field: 'food', at: 's1-4', face: '🍚' },
   { w: 'ice cream', field: 'food', at: 's1-4', face: '🍦' },
-  // س١-٥ الألوان — والمربّعُ الملوّن أصدقُ صورةٍ للّون: لا شيءَ فيه سواه
-  { w: 'red', field: 'colours', at: 's1-5', face: '🟥' },
-  { w: 'blue', field: 'colours', at: 's1-5', face: '🟦' },
-  { w: 'green', field: 'colours', at: 's1-5', face: '🟩' },
-  { w: 'yellow', field: 'colours', at: 's1-5', face: '🟨' },
+  // س١-٥ الألوان — والمربّعُ الملوّن أصدقُ صورةٍ للّون: لا شيءَ فيه سواه.
+  // **وأربعةٌ تحمل قيمتَها معها**: هي ألوانُ الأمر المركّب في س٢-٤ (كرةٌ حمراء
+  // كبيرة)، وقيمتُها **قيمةُ مربّعها في Twemoji نفسِها** — فاللونُ الذي رآه الطفلُ
+  // مربّعاً هو اللونُ الذي يراه كرةً، ولا لونان لاسمٍ واحد.
+  { w: 'red', field: 'colours', at: 's1-5', face: '🟥', swatch: '#DD2E44' },
+  { w: 'blue', field: 'colours', at: 's1-5', face: '🟦', swatch: '#55ACEE' },
+  { w: 'green', field: 'colours', at: 's1-5', face: '🟩', swatch: '#78B159' },
+  { w: 'yellow', field: 'colours', at: 's1-5', face: '🟨', swatch: '#FDCB58' },
   { w: 'orange', field: 'colours', at: 's1-5', face: '🟧' },
   { w: 'purple', field: 'colours', at: 's1-5', face: '🟪' },
   { w: 'brown', field: 'colours', at: 's1-5', face: '🟫' },
   { w: 'black', field: 'colours', at: 's1-5', face: '⬛' },
   { w: 'white', field: 'colours', at: 's1-5', face: '⬜' },
+  // **وبقعتان مُصيَّرتان بصدق لونهما** (حكمُ المدير — `METHOD.md §٤`): لا مربّعَ
+  // ورديّ ولا رماديّ في يونيكود، والقيمةُ هنا **قيمةُ اللون نفسِه** لا تقريبٌ له
+  // (`pink` و`gray` من ألوان CSS المسمّاة حرفاً) — فما يراه الطفلُ هو ما يُسمّى.
+  { w: 'pink', field: 'colours', at: 's1-5', swatch: '#FFC0CB' },
+  { w: 'grey', field: 'colours', at: 's1-5', swatch: '#808080' },
   // س١-٦ الأعداد سمعاً — كميةٌ تُعَدّ لا رقمٌ يُقرأ
   { w: 'one', field: 'numbers', at: 's1-6', count: 1 },
   { w: 'two', field: 'numbers', at: 's1-6', count: 2 },
@@ -281,6 +297,17 @@ export const WORDS = [
   { w: 'walk', field: 'verbs', at: 's2-3', pictured: 'act' },
   { w: 'sit', field: 'verbs', at: 's2-3', pictured: 'act' },
   { w: 'stand', field: 'verbs', at: 's2-3', pictured: 'act' },
+  // **وثلاثٌ نزلت من `RAISED` إلى الفعل** (حكمُ المدير ١٣ أغسطس — `METHOD.md §٤`):
+  // «ما له فعلٌ جسديّ من المرفوعات (arm · face · smile…) يُنقل لشكل `tpr`
+  // («المس ذراعك» — **الفعلُ جوابُه**) بدل الصورة الملتبسة». فما امتنع تصويرُه
+  // رمزاً ساكناً (💪 عضلةٌ لا ذراع · وجوهُ الإيموجي كلُّها وجوه) يُؤدَّى **حركةً**:
+  // الشخصيةُ تلمس ذراعَها أو وجهَها أو تبتسم، والطفلُ يلمس الفاعلةَ ثم يفعلها معها.
+  // ونسبُها محفوظٌ في `RESOLVED` أدناه.
+  // و`order` أمرُها المنطوق حيث يفارق قالبَ محطته (أدناه): الفعلُ يُؤمَر به مجرَّداً
+  // («jump»)، وعضوُ الجسد يُؤمَر بلمسه («touch your arm») — والابتسامةُ فعلٌ فتُجرَّد.
+  { w: 'arm', field: 'body', at: 's2-3', pictured: 'act', order: 'point to your arm' },
+  { w: 'face', field: 'body', at: 's2-3', pictured: 'act', order: 'point to your face' },
+  { w: 'smile', field: 'body', at: 's2-3', pictured: 'act' },
   // س٢-٤ الأمرُ المركّب — الصفةُ تُميَّز في مشهدٍ من شيئين
   { w: 'big', field: 'school', at: 's2-4', pictured: 'scene' },
   { w: 'small', field: 'school', at: 's2-4', pictured: 'scene' },
@@ -348,21 +375,21 @@ export const WORDS = [
  * `check_range` ألّا تدخلها لاحقاً بلا قرار. وهي **بندٌ يُرفَع إلى مدير المشروع**.
  */
 export const RAISED = [
-  { w: 'hello', field: 'family', why: 'تحيّةٌ لا صورةَ لها تُميّزها من «bye»: «👋» تصلح للاثنتين معاً، فالسؤالُ المصوَّر يصير سؤالاً بلا جواب' },
-  { w: 'bye', field: 'family', why: 'كسابقتها — والتحيّاتُ موضعُها طقسُ المعلم المنطوق لا محطةٌ مصوَّرة' },
-  { w: 'hi', field: 'family', why: 'مرادفُ hello في الصورة نفسِها' },
-  { w: 'goodbye', field: 'family', why: 'مرادفُ bye في الصورة نفسِها' },
+  // **ومرادفا التحيّة بقيا بعد حكم ١٣ أغسطس**: صارت `hello` و`bye` طقسَ المعلم
+  // (`RESOLVED` أدناه)، وطقسٌ **واحد** لا طقسان بمعنىً واحد — فلا موضعَ لمرادفَيهما
+  // اليوم، ويدخلان الرصيدَ حين يسمعهما الطفلُ في سياقٍ يرفع اللبس (نصُّ الحكم).
+  { w: 'hi', field: 'family', why: 'مرادفُ hello — وطقسُ الافتتاح واحدٌ لا يُثنّى، ولا صورةَ تميّزه' },
+  { w: 'goodbye', field: 'family', why: 'مرادفُ bye — وطقسُ الختام واحدٌ كذلك' },
   { w: 'brother', field: 'family', why: '«👦» صورةُ boy لا صورةُ أخٍ — والقرابةُ علاقةٌ لا شكل' },
   { w: 'sister', field: 'family', why: 'كسابقتها مع «👧»' },
-  { w: 'arm', field: 'body', why: '«💪» عضلةٌ مفتولة لا ذراعٌ — ورسمُها يعلّم غيرَ ما يُسأل عنه' },
   { w: 'body', field: 'body', why: 'لا رمزَ للجسد كلِّه إلا شخصٌ كامل، فيُخلَط بـ boy/girl/man' },
-  { w: 'face', field: 'body', why: 'وجوهُ الإيموجي كلُّها وجوه، فلا تمييزَ بينها وبين smile' },
-  { w: 'hair', field: 'body', why: '«💇» قصُّ شعرٍ لا شَعر' },
-  { w: 'head', field: 'body', why: 'لا رمزَ لرأسٍ مجرَّد — و«🗣» وجهٌ يتكلم' },
-  { w: 'smile', field: 'body', why: 'يلتبس بـ face التباساً تاماً في صفٍّ واحد' },
-  { w: 'pink', field: 'colours', why: 'لا مربّعَ ورديّ في يونيكود — ولوحُ الألوان صدقُه أن يكون المربّعُ لونَه وحدَه' },
-  { w: 'grey', field: 'colours', why: 'لا مربّعَ رماديّ في يونيكود' },
-  { w: 'colour', field: 'colours', why: 'اسمُ جنسٍ لا لون — لا يُصوَّر بمربّعٍ واحد' },
+  // **وهاتان بقيتا بعد حكم ١٣ أغسطس بسببٍ زائد**: الحكمُ ينقل «ما له فعلٌ جسديّ»
+  // إلى `tpr`، وفعلُهما **لا يُميَّز في صورةِ وضعٍ واحدة**: يدٌ على الرأس ويدٌ في
+  // الشعر وضعٌ واحد لعينِ طفل — وهو عينُ اللبس الذي رُفعتا له، منقولاً من الرمز
+  // إلى الوضع. فتبقيان حتى تدخلا الرصيدَ عبر جمل س٥-٦ السياقية (نصُّ الحكم).
+  { w: 'head', field: 'body', why: 'لا رمزَ لرأسٍ مجرَّد («🗣» وجهٌ يتكلم) — ووضعُ «المس رأسك» يلتبس بـ hair في صورةٍ واحدة' },
+  { w: 'hair', field: 'body', why: '«💇» قصُّ شعرٍ لا شَعر — ووضعُ لمسه يلتبس بـ head' },
+  { w: 'colour', field: 'colours', why: 'اسمُ جنسٍ لا لون — لا يُصوَّر بمربّعٍ واحد ولا ببقعةٍ واحدة' },
   { w: 'skirt', field: 'clothes', why: '«👗» فستانٌ (dress) — ولا رمزَ للتنّورة وحدَها' },
   { w: 'shirt', field: 'clothes', why: '«👕» قميصُ T-shirt بعينه، وهو مدخلٌ آخر في القائمة' },
   { w: 'bag', field: 'clothes', why: '«👜» حقيبةُ يدٍ (handbag) لا حقيبةً مطلقة' },
@@ -370,6 +397,35 @@ export const RAISED = [
   { w: 'park', field: 'places', why: '«🏞» منظرٌ طبيعيّ يلتبس بـ tree وsea معاً' },
   { w: 'sand', field: 'places', why: '«🏖» شاطئٌ (beach) وهو مدخلٌ آخر' },
 ];
+
+/**
+ * **ما كان مرفوعاً فحُلَّ — بحكمٍ لا باجتهاد** (المدير، ١٣ أغسطس ٢٠٢٦ · `METHOD.md §٤`
+ * أحكامُ المادة). و`RAISED` أعلاه **حالُها الجديد** فسقطت منه هذه التسع، وهذا سِجلُّ
+ * نسبها: من أين خرجت وإلى أين ذهبت — فلا يعود أحدٌ يسأل «ولِمَ دخلت `pink` وقد
+ * رُفعت؟» ولا تُعاد `hello` محطةً مصوَّرة بحسن نيّة.
+ *
+ * ويحرسه `check_range`: لا كلمةَ في هذا السجلّ باقيةٌ في `RAISED`، وكلٌّ **بلغت
+ * مقصدَها فعلاً** (الرصيدَ المصوَّر أو طقسَ المعلم المنطوق).
+ */
+export const RESOLVED = [
+  { w: 'hello', to: 'ritual', why: 'طقسُ المعلم المنطوق: يفتتح كلَّ جلسةٍ بتحيّة — تُكتسَب سماعاً كما يكتسب الطفلُ السلام، بلا سؤالٍ مصوَّرٍ يستحيل جوابُه' },
+  { w: 'bye', to: 'ritual', why: 'كسابقتها ختاماً — «Bye bye!» آخرَ كل جلسة' },
+  { w: 'pink', to: 'swatch', why: 'بقعةُ لونٍ مُصيَّرة بقيمة لونها — أصدقُ من مربّعٍ ملتبس' },
+  { w: 'grey', to: 'swatch', why: 'كسابقتها' },
+  { w: 'arm', to: 'act', why: '«point to your arm» — الفعلُ جوابُه: الشخصيةُ تلمس ذراعَها في س٢-٣' },
+  { w: 'face', to: 'act', why: '«touch your face» — يدٌ على الوجه وضعٌ يُرى، ولا يلتبس بابتسامةٍ' },
+  { w: 'smile', to: 'act', why: '«smile» — ابتسامةٌ تُفعَل لا وجهٌ يُختار' },
+];
+
+/**
+ * **طقسُ المعلم المنطوق** (حكمُ المدير — `METHOD.md §٤`): «التحياتُ طقسُ المعلم
+ * المنطوق لا محطةٌ مصوَّرة: يفتتح المعلمُ كلَّ جلسةٍ بتحيةٍ ويختمها بوداع».
+ *
+ * فهذان نصّان **إنكليزيان بلا قياسٍ بصريّ**: لا محطةَ لهما ولا مفتاحَ ليتنر ولا
+ * سؤال — يُسمعان في موضعهما من كل جلسة محطة (`station.js`)، ويدخلان قائمةَ الصوت
+ * كسائر المادّة. ومادّتُهما من الرصيد نفسِه (`hello` · `bye` مدخلان في Starters).
+ */
+export const RITUAL = { open: 'Hello!', close: 'Bye bye!' };
 
 // ————————————————————————————————————————————————————————————————————————
 // ٤) سلّمُ الحرف — Letters and Sounds ‏2007 بمراحله وشائكاته المعدودة
@@ -768,22 +824,28 @@ const LISTEN_STAGES = [
       { part: 's1-2', title: 'الجسد والوجه', field: 'body', face: '👁️' },
       { part: 's1-3', title: 'الحيوانات', field: 'animals', face: '🐈' },
       { part: 's1-4', title: 'الطعام والشراب', field: 'food', face: '🍎' },
-      { part: 's1-5', title: 'الألوان', field: 'colours', face: '🟥' },
+      // **والألوانُ نمطُها `swatch`**: تسعٌ مربّعاتُها في يونيكود، وثنتان بقعتان
+      // مُصيَّرتان بقيمة لونهما (حكمُ المدير — رأسُ الرصيد المصوَّر أعلاه).
+      { part: 's1-5', title: 'الألوان', field: 'colours', face: '🟥', pictures: 'swatch' },
       { part: 's1-6', title: 'الأعداد سمعاً', field: 'numbers', face: '🔵', pictures: 'count' },
     ],
   },
   {
     id: 'listen2', ar: 'س٢ — اسمع ونفّذ', sub: 'أمرٌ يُسمَع وفعلٌ يُنفَّذ',
     type: 'tpr', face: '✋',
+    // **والأمرُ المنطوق مادّةُ منهجٍ لا نصُّ شاشة** (`METHOD.md §٣`: «ولا كلمةَ في
+    // تمرينٍ خارجه»): `order` قالبُ الأمر بالإنكليزية، و`{w}` موضعُ الكلمة منه.
+    // فمن أراد أن يعرف ما يُقال للطفل قرأه هنا، ومنه تُستخرَج نصوصُ قائمة الصوت.
     parts: [
       { part: 's2-1', title: 'المس ما تسمع', field: 'animals', face: '✋', kind: 'tpr-do',
-        from: ['cat', 'dog', 'fish', 'bird', 'duck', 'frog'] },
+        order: 'point to the {w}', from: ['cat', 'dog', 'fish', 'bird', 'duck', 'frog'] },
       { part: 's2-2', title: 'أين أضعه؟', field: 'places', face: '📦', kind: 'tpr-put',
-        pictures: 'scene' },
+        pictures: 'scene', props: ['apple', 'box'], order: 'put the apple {w} the box' },
       { part: 's2-3', title: 'افعل مثلي', field: 'verbs', face: '🏃', kind: 'tpr-do',
-        pictures: 'act' },
+        pictures: 'act', order: '{w}' },
       { part: 's2-4', title: 'أمرٌ من شيئين', field: 'school', face: '🟩', kind: 'tpr-two',
-        pictures: 'scene', from: ['big', 'small'], colours: ['red', 'blue', 'green', 'yellow'] },
+        pictures: 'scene', props: ['ball'], order: 'point to the {size} {colour} ball',
+        from: ['big', 'small'], colours: ['red', 'blue', 'green', 'yellow'] },
     ],
   },
   {
@@ -867,6 +929,19 @@ function listenWords(part) {
   return wordsAt(part.part);
 }
 
+/**
+ * **أدواتُ المشهد** — كلماتٌ **تُعرَض ولا تُقاس**: التفاحةُ والصندوق في «ضع التفاحةَ
+ * في الصندوق»، والكرةُ في «المس الكرة الحمراء الكبيرة». المقيسُ في تلك المحطات
+ * **حرفُ الجرّ والصفةُ** لا اسمُ الشيء، فلو دخلت الأدواتُ `words` لَصار لها مفتاحُ
+ * ليتنر تُسأل عنه ولم تُدرَّس قطّ.
+ *
+ * **وهي مُعلَنةٌ لا مُهرَّبة**: تدخل جبهةَ محطتها بحقلها (أدناه) ويجردها
+ * `check_range` كما يجرد كلماتِ التمرين — فما يراه الطفلُ محسوبٌ كلُّه، مقيساً كان
+ * أو مادّةَ مشهد.
+ */
+const listenProps = (part) =>
+  (part.props || []).map((w) => WORDS.find((x) => x.w === w)).filter(Boolean);
+
 /** مفاتيحُ محطةٍ سمعية — تُشتقّ من موادّها، فلا مفتاحَ يُكتب مرّتين. */
 function listenSkills(part) {
   if (part.sentences) return part.sentences.map((s) => `sentence|${s.id}|listen-pick`);
@@ -887,6 +962,7 @@ const listenFrontier = (part) => ({
   fields: [...new Set([
     ...(part.field ? [part.field] : []),
     ...listenWords(part).map((word) => word.field),
+    ...listenProps(part).map((word) => word.field),
     ...(part.sentences ? ['sentences'] : []),
   ])],
   symbols: [],
@@ -905,6 +981,12 @@ function listenStations() {
     face: part.face,
     pictures: part.pictures || 'face',
     words: listenWords(part),
+    props: listenProps(part),
+    // نوعُ تمرينها وقالبُ أمرها المنطوق وألوانُه — مادّةُ س٢ كما أعلنتها المحطة
+    // (تقرؤها `tpr.js`، فلا تعرف شاشةٌ محطةً بمعرّفها بل بما تُعلنه)
+    kind: part.kind || 'listen-pick',
+    order: part.order || '',
+    colours: (part.colours || []).map((w) => WORDS.find((x) => x.w === w)).filter(Boolean),
     pairs: part.pairs || [],
     sentences: part.sentences || [],
     frontier: listenFrontier(part),
@@ -1043,11 +1125,23 @@ export const GATES = [
 //
 // **وترتيبُها عقدُ الرحلة**: القفلُ تسلسليّ (`progress.js`)، فما وُضع أولاً فُتح أولاً.
 //
-// **وموضعُ س٥ بندٌ يُرفَع**: `METHOD.md §٤` يقول إنّ س٥ «تُواصل بعد 🚪١ **موازيةً**
-// لمسار الحرف» — والخريطةُ خطٌّ واحد لا يعرف التوازي. فوُضعت س٥ **بعد 🚪١ وقبل ح١**
-// لأنّ كلماتِ ح٥ فصاعداً (bed · book · tree · sea · white · plane…) حقولُها في س٥،
-// **وقيدُ الاقتران يمنع قراءتَها قبل إتقانها سمعاً** — فلو تأخّرت س٥ إلى آخر الخريطة
-// لَوقف مسارُ الحرف عند أول كلمةٍ من حقولها. والتوازي الحقيقيّ يقع حيث نصَّ عليه
+// ————— **موضعُ س٥: تداخلٌ محسوب لا كتلةٌ تُقدَّم** (حكمُ المدير، `METHOD.md §٤`) —————
+//
+// وضعت الجلسةُ ١ كتلةَ س٥ الستَّ **بعد 🚪١ وقبل ح١** لتمنع وقوفَ مسار الحرف عند أوّل
+// كلمةٍ من حقولها (قيدُ الاقتران)، فحكم المدير (١٣ أغسطس ٢٠٢٦): العلّةُ وجيهةٌ
+// **ونصفُ الحلّ** — إذ يؤخّر ذلك أوّلَ حرفٍ ستَّ محطات فينقض توازيَ المرشَّح ب. ونصُّ
+// الحكم: «الخريطةُ خطٌّ واحد (مبدأ العائلة الأول)، فالتوازي يُترجَم **تداخلاً
+// بالبيانات**: كلُّ محطةِ س٥ تُوضَع قبل أولِ درجةِ حرفٍ تحتاج كلماتِ حقولها مباشرةً،
+// **ولا تتقدم كتلةُ س٥ كلُّها على ح١**».
+//
+// **والموضعُ محسوبٌ من البيانات لا مكتوبٌ بيد**: لكلِّ كلمةِ قراءةٍ **مفتاحُها السمعيّ
+// مكتوباً** (`GRADES[].words[].listen` — عقدُ الجلسة ١)، فأوّلُ درجةٍ تحمل كلمةً
+// مفتاحُها من محطة س٥ هي التي تسبقها تلك المحطة. فإن تحرّكت كلمةٌ في السلّم غداً تحرّك
+// موضعُ المحطة معها، ولا سطرَ يُعدَّل هنا. (وما لا تحتاجه درجةٌ — جملُ س٥-٦ — يلحق
+// بآخر موضعِ تداخل، فلا يُترك إلى ذيل الرحلة بلا علّة.)
+//
+// **وهذا هو التوازي مترجَماً**: أوّلُ ثلاث درجاتٍ من الحرف تسبق أوّلَ محطةِ توسعة،
+// ثم يتناوب المساران بحسب حاجة الكلمة نفسِها — والتوازي التامّ يقع حيث نصَّ عليه
 // المنهج: في **المراجعة اليومية** التي تسحب من الجبهتين معاً (`METHOD.md §٧`).
 
 const nodeOf = (station) => ({
@@ -1080,28 +1174,119 @@ const stageSection = (stage) => ({
   nodes: stationsAt(stage.id).map(nodeOf),
 });
 
-const eraSection = (era) => ({
-  kind: 'era', id: era.id, title: era.ar.split(' — ')[0], sub: era.ar.split(' — ')[1],
+/**
+ * قسمُ عهدٍ — أو **جزءٌ منه** حين تتخلّله محطةُ توسعةٍ سمعية.
+ *
+ * **والجزءُ الأخير يحمل معرّفَ العهد** (`letter1`) وما قبله مرقَّم (`letter1-1`):
+ * لأنّ البوابةَ تُعلن موضعَها بـ`after: 'letter1'` — وهي إنّما تلي **تمامَ** العهد
+ * لا أوّلَ أجزائه. فلو حمل الأولُ الاسمَ لَوقعت 🚪٢ في وسط العهد الذي تختمه.
+ */
+const eraSection = (era, stations, index, count) => ({
+  kind: 'era',
+  id: index === count - 1 ? era.id : `${era.id}-${index + 1}`,
+  title: era.ar.split(' — ')[0],
+  sub: index === 0 ? era.ar.split(' — ')[1]
+    : 'تتمةُ العهد — بعد محطةِ السمع التي تفتح كلماتِها',
   face: '🔠', accent: 'var(--accent-letter)',
-  nodes: stationsAt(era.id).map(nodeOf),
+  nodes: stations.map(nodeOf),
 });
+
+/** **المرحلةُ المتداخلة** — نصُّ `METHOD.md §٤`: س٥ وحدَها تُواصل موازيةً لمسار الحرف. */
+const INTERLEAVED = 'listen5';
+
+/** قسمُ توسعةٍ سمعية متداخل — محطةٌ أو أكثرُ يجمعها موضعُ تداخلٍ واحد. */
+const listen5Section = (stations) => {
+  const stage = LISTEN_STAGES.find((s) => s.id === INTERLEAVED);
+  return {
+    kind: 'stage', id: `${stage.id}-${stations[0].part}`, title: stage.ar,
+    sub: stations.map((s) => s.title).join(' · '),
+    face: stage.face, accent: 'var(--accent-listen)',
+    nodes: stations.map(nodeOf),
+  };
+};
+
+/**
+ * **أوّلُ درجةِ حرفٍ تحتاج كلماتِ هذه المحطة مباشرةً** — أو `null` إن لم تحتجها درجة.
+ *
+ * تُقرأ من **المفتاح السمعيّ المكتوب** في كل كلمة قراءة (`words[].listen`)، وهو عينُ
+ * ما يفرضه قيدُ الاقتران — فموضعُ المحطة على الخريطة والقيدُ الذي يحكمها **مصدرُهما
+ * واحد**، ولا يفترقان يومَ تنتقل كلمةٌ من درجةٍ إلى درجة.
+ */
+function firstGradeNeeding(station) {
+  const keys = new Set(station.skills);
+  return GRADES.find((g) => g.words.some((w) => keys.has(w.listen)))?.id || null;
+}
+
+/**
+ * مواضعُ التداخل: `درجةٌ ← محطاتُ س٥ التي تسبقها`.
+ * **وما لا تحتاجه درجة** (جملُ س٥-٦ — لا تدخل كلمةُ قراءةٍ حقلَها) يلحق **بآخر موضع**
+ * لا بذيل الرحلة: مادّتُه جملٌ من حقولٍ فُتحت كلُّها قبله، فتأخيرُه بلا علّةٍ تأخير.
+ */
+function listen5Slots() {
+  const slots = new Map();
+  const loose = [];
+  for (const station of listenStations().filter((s) => s.stage === INTERLEAVED)) {
+    const at = firstGradeNeeding(station);
+    if (at) slots.set(at, [...(slots.get(at) || []), station]);
+    else loose.push(station);
+  }
+  const order = GRADES.map((g) => g.id);
+  const last = [...slots.keys()].sort((a, b) => order.indexOf(a) - order.indexOf(b)).pop();
+  if (loose.length && last) slots.set(last, [...slots.get(last), ...loose]);
+  return { slots, loose: last ? [] : loose };
+}
+
+/** أقسامُ مسار الحرف ومعها محطاتُ س٥ في مواضعها المحسوبة. */
+function letterSections() {
+  const { slots, loose } = listen5Slots();
+  const used = new Set();
+  const out = [];
+  for (const era of ERAS) {
+    const groups = [[]];
+    const inserts = new Map();      // موضعُ المجموعة ← محطاتُ س٥ التي تسبقها
+    for (const station of stationsAt(era.id)) {
+      // **والقصةُ لا تفتح موضعاً**: هي ودرجتُها جزءٌ واحد (`part` نفسُه)، والتداخلُ
+      // يقع قبل **الدرجة** التي تحتاج الكلمات لا قبل قصّتها.
+      const before = station.type === 'story' || used.has(station.part)
+        ? null : slots.get(station.part);
+      if (before?.length) {
+        used.add(station.part);
+        if (groups.at(-1).length) groups.push([]);
+        inserts.set(groups.length - 1, before);
+      }
+      groups.at(-1).push(station);
+    }
+    groups.forEach((stations, index) => {
+      if (inserts.has(index)) out.push(listen5Section(inserts.get(index)));
+      out.push(eraSection(era, stations, index, groups.length));
+    });
+  }
+  // **ولا محطةَ تسقط من الخريطة**: موضعٌ لم يُصادَف (درجةٌ حُذفت) أو ذيلٌ بلا مواضعَ
+  // أصلاً يلحق بآخر الرحلة — ويمسكه `check_range` («محطةٌ في المنهج لا تصل») إن ضاع.
+  const orphans = [...slots].filter(([at]) => !used.has(at)).flatMap(([, list]) => list);
+  if (orphans.length || loose.length) out.push(listen5Section([...orphans, ...loose]));
+  return out;
+}
 
 /**
  * **أقسامُ الرحلة بالترتيب** — تُؤلَّف تأليفاً من المراحل والعهود والبوابات،
  * فلا عقدةَ تُكتب بيد ولا عددَ يُحصى.
+ *
+ * **والبوابةُ تلي قسمَها بإعلانها** (`GATES[].after`) لا بسطرٍ يُكتب هنا: فلو انقسم
+ * عهدٌ أجزاءً بتداخل س٥ بقيت البوابةُ في موضعها من تمامه.
  */
 export function sections() {
-  const stage = (id) => stageSection(LISTEN_STAGES.find((s) => s.id === id));
-  const era = (id) => eraSection(ERAS.find((e) => e.id === id));
-  return [
-    stage('listen1'), stage('listen2'), stage('listen3'), stage('listen4'),
-    gateSection('ear'),
-    stage('listen5'),
-    era('letter1'),
-    gateSection('decode'),
-    era('letter2'), era('letter3'), era('letter4'),
-    gateSection('end'),
-  ];
+  const out = [];
+  const emit = (section) => {
+    out.push(section);
+    const gate = GATES.find((g) => g.after === section.id);
+    if (gate) out.push(gateSection(gate.id));
+  };
+  for (const stage of LISTEN_STAGES) {
+    if (stage.id !== INTERLEAVED) emit(stageSection(stage));
+  }
+  for (const section of letterSections()) emit(section);
+  return out;
 }
 
 /** البوابةُ التي تقف قبل هذا الموضع، أو `null` — بيانٌ مُعلَن لا شرطٌ مضمر. */

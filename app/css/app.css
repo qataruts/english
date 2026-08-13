@@ -681,6 +681,237 @@ button {
   background: color-mix(in srgb, var(--ok) 14%, var(--mix));
 }
 
+/* ————— حلقةُ المحطة: خطواتُها وخرزاتُ جولاتها (`station.js`) —————
+
+   **الخطواتُ أسماؤها لا أعدادُها، والجولاتُ خرزاتٌ تمتلئ**: الطفلُ يرى أين هو من
+   الحلقة بلا رقمٍ يُقرأ — منقولُ «اِحْسِبْ» بعلّته (قاعدةُ اللاقراءة بلغتين عندنا). */
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .35rem .9rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-soft);
+  font-size: .9rem;
+}
+
+.step { display: inline-flex; align-items: center; gap: .35rem; opacity: .5; }
+.step--now { opacity: 1; color: var(--ink); font-weight: 700; }
+.step--done { opacity: .85; color: var(--ok-text); }
+
+.step-dot {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ink) 7%, var(--card));
+  font-size: .8rem;
+  line-height: 1;
+}
+
+.step--now .step-dot { background: color-mix(in srgb, var(--accent) 20%, var(--mix)); }
+.step--done .step-dot { background: color-mix(in srgb, var(--ok) 18%, var(--mix)); }
+
+.beads {
+  display: flex;
+  justify-content: center;
+  gap: .45rem;
+  margin: 0 0 1.1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.bead {
+  width: .75rem;
+  height: .75rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--ink) 12%, var(--card));
+}
+
+.bead--now { background: var(--accent); transform: scale(1.35); }
+.bead--done { background: var(--ok); }
+
+/* ————— أشكالُ المادّة (`figures.js`) —————
+
+   **مقاسٌ واحد للشكل داخل الدور الواحد**: بطلُ النمذجة أكبرُ من بطاقة الاختيار،
+   وبطاقاتُ الجولة الواحدة سواءٌ كلُّها — فتقع المقارنةُ على المعنى لا على المساحة. */
+
+.fig {
+  display: inline-grid;
+  place-items: center;
+  font-size: 3.4rem;               /* مقاسُ الصورة: `1em` من `emojiImg` */
+  line-height: 1;
+}
+
+.q-shown .fig, .q-shown-one .fig { font-size: 5rem; }
+
+/* بقعةُ اللون: مربّعٌ مستديرُ الحواف بقياس الصورة نفسِه — فلا يفترق لونٌ عن مربّعٍ
+   في صفٍّ واحد (`METHOD.md §٤` أحكامُ المادة). */
+.fig-swatch {
+  display: block;
+  width: 1em;
+  height: 1em;
+  border-radius: .18em;
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 1px rgba(61, 52, 40, .18);
+}
+
+/* الكمّية: نقاطٌ تُعَدّ في صفوف الخمسة — **ولا رقمَ على شاشة الطفل** */
+.fig-count {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: .12em;
+  width: 1.15em;
+}
+
+.fig-dot {
+  width: .19em;
+  height: .19em;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 80%, var(--ink));
+}
+
+/* الكرةُ الموصوفة: لونُها من المنهج وحجمُها من الأمر (`the big red ball`) */
+.fig-ball {
+  display: block;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%,
+    color-mix(in srgb, var(--swatch) 55%, #fff), var(--swatch) 72%);
+  box-shadow: inset 0 0 0 1px rgba(61, 52, 40, .16);
+}
+
+.fig-ball--big { width: 1em; height: 1em; }
+.fig-ball--small { width: .52em; height: .52em; }
+
+/* الوضعُ المرسوم: شخصيةٌ بخطٍّ واحد كأيقونات الواجهة */
+/* والوضعُ أكبرُ من الصورة قليلاً: خطٌّ رفيعٌ يحتاج مساحةً ليُقرأ سريعاً من بعيد */
+.fig-pose { display: block; width: 1.3em; height: 1.3em; color: var(--accent); }
+.q-choices .fig--pose { font-size: 4.2rem; }
+.fig-pose svg { display: block; width: 100%; height: 100%; }
+
+/* **الشخصيةُ تنفّذ بلمسة الطفل** (`METHOD.md §٤`): الوضعُ يقفز حين يُختار */
+.is-acting .fig-pose { animation: act .6s ease 2; }
+
+@keyframes act {
+  0%, 100% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-12%) scale(1.06); }
+  70% { transform: translateY(0) scale(.98); }
+}
+
+/* ————— ساحةُ السؤال وبطاقاتُ الجواب ————— */
+
+.q-stage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: .75rem;
+  margin: .25rem 0 1rem;
+}
+
+.q-shown, .q-shown-one { display: inline-grid; place-items: center; }
+
+/* زرُّ السماع: **أذنٌ لا كلمة** — الوسيلةُ الوحيدة إلى إعادة الأمر، وهدفُها ≥٦٤بك */
+.btn--hear {
+  display: grid;
+  place-items: center;
+  width: 4.75rem;
+  height: 4.75rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 14%, var(--mix));
+  border: 3px solid color-mix(in srgb, var(--accent) 45%, var(--mix));
+  color: color-mix(in srgb, var(--accent) 80%, var(--ink));
+  box-shadow: var(--shadow);
+}
+
+.btn--hear .ui-icon { width: 2.2rem; height: 2.2rem; }
+.btn--hear:active { transform: scale(.95); }
+
+.q-choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem;
+  margin-top: .5rem;
+}
+
+.qcard {
+  display: grid;
+  place-items: center;
+  min-width: var(--tap);
+  min-height: var(--tap);
+  padding: .55rem;
+  border-radius: 20px;
+  background: var(--card);
+  border: 3px solid color-mix(in srgb, var(--accent) 25%, var(--mix));
+  box-shadow: var(--shadow);
+  transition: transform .15s ease, border-color .2s ease, background .2s ease;
+}
+
+.qcard:active { transform: scale(.96); }
+.qcard.good { background: color-mix(in srgb, var(--ok) 14%, var(--mix)); border-color: var(--ok); }
+.qcard.bad { background: color-mix(in srgb, var(--err) 12%, var(--mix)); border-color: var(--err); }
+
+/* بطاقاتُ الكرات: الفرقُ بينها **حجمٌ ولون**، فيبقى صندوقُها واحداً كي يُرى الفرق */
+.q-choices--two .qcard { width: 6.5rem; height: 6.5rem; }
+
+/* ————— مشهدُ الوضع المكانيّ (س٢-٢): صندوقٌ ومواضعُه الأربعة —————
+
+   **والموضعُ يُرى بعد الاختيار**: التفاحةُ تصير **في** الصندوق أو **فوقه** أو
+   **تحته** أو **خلفه** (يحجبها) — فيصحّح المشهدُ نفسُه بلا كلمةٍ تُقرأ. */
+
+.q-tray { display: grid; place-items: center; min-height: 4.5rem; margin-bottom: .35rem; }
+
+.q-thing { display: inline-grid; place-items: center; touch-action: none; cursor: grab; }
+.q-thing .fig { font-size: 2.8rem; }
+.q-thing.is-dragging { cursor: grabbing; opacity: .85; transform-origin: center; }
+
+.q-box {
+  position: relative;
+  width: min(22rem, 92vw);
+  height: 17rem;
+  margin: 0 auto;
+}
+
+.q-holder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.q-holder .fig { font-size: 7rem; }
+
+.q-zone {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 4.75rem;
+  height: 4.75rem;
+  border-radius: 16px;
+  border: 3px dashed color-mix(in srgb, var(--accent) 40%, var(--mix));
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.q-zone--on { top: .35rem; left: 50%; transform: translateX(-50%); z-index: 3; }
+.q-zone--in { top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 3; }
+.q-zone--under { bottom: .35rem; left: 50%; transform: translateX(-50%); z-index: 3; }
+/* **وخلفَه يعني خلفَه**: هذا الموضعُ وحدَه تحت الصندوق في ترتيب الطبقات **ويتداخل
+   معه**، فتُرى التفاحةُ محجوبةً بعضُها — وهي الصورةُ التي تُعلّم معنى الكلمة. ولو
+   وقعت إلى جانبه بلا تداخلٍ لَقالت «بجانبه» لا «خلفه». */
+.q-zone--behind { top: 3.2rem; inset-inline-start: calc(50% + 1.1rem); z-index: 1; }
+
+.q-zone--full { border-style: solid; background: transparent; }
+.q-zone.good { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, var(--mix)); }
+.q-zone.bad { border-color: var(--err); background: color-mix(in srgb, var(--err) 12%, var(--mix)); }
+.q-zone .q-thing .fig { font-size: 2.4rem; }
+.q-box--model .q-zone { border-style: solid; }
+
 /* ————— بطاقات الاختيار ————— */
 
 .vchip {
@@ -851,6 +1082,10 @@ button {
 .unit--mastered .unit-line { color: var(--ok-text); }
 .unit--struggling .unit-line { color: var(--err-text); }
 .unit-stuck { margin-top: 1rem; }
+
+/* سطرُ نسخة القشرة (`METHOD.md §١٢-١٠`) — هادئٌ في ذيل اللوحة، يُقرأ يومَ يُسأل */
+.sw-version { font-size: .9rem; }
+.sw-version-num { font-family: var(--font-num); }
 
 /* القائمة: هدف لمسٍ ككل أزرار اللوحة، ولا تفيض عن الشاشة الضيقة */
 .pick {

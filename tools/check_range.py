@@ -46,8 +46,17 @@ SEED_MODULES = {
 FRONTIER_FIELDS = ("fields", "symbols", "tricky")
 
 # أنماطُ التصوير المعروفة (`curriculum.js` — رأسُ الرصيد المصوَّر): صورةٌ واحدة ·
-# كمّيةٌ تُعَدّ · مشهدٌ من شيئين · حركةٌ تُفعَل · نصٌّ يُفكّ.
-PICTURE_KINDS = ("face", "count", "scene", "act", "text")
+# كمّيةٌ تُعَدّ · بقعةُ لونٍ مُصيَّرة · مشهدٌ من شيئين · حركةٌ تُفعَل · نصٌّ يُفكّ.
+PICTURE_KINDS = ("face", "count", "swatch", "scene", "act", "text")
+
+# **البقعةُ قيمةُ لونٍ لا كلمة** (حكمُ المدير ١٣ أغسطس — `METHOD.md §٤`): تُكتب
+# ستَّ عشريةً كما تُكتب في اللوح، فما يُصيَّر هو ما يُسمّى.
+SWATCH_RE = re.compile(r"^#[0-9A-Fa-f]{6}$")
+
+# والحقلُ الوحيد الذي تصدُق فيه البقعةُ صورةً: الألوان. وبلا هذا القيد لَكانت البقعةُ
+# باباً خلفياً لكل كلمةٍ عجزت عن صورتها («cat» بقعةٌ بنّية!) — والحكمُ إنّما أباحها
+# **لأنّ اللون هو الكلمة**.
+SWATCH_FIELD = "colours"
 
 # عقدُ المولّد (تلتزم به الجلسات ٢+): وحدةٌ **خالصة** تُستورَد في node بلا متصفّح،
 # تُعلن ما تستهلك (`CONSUMES`) وتفتح جولاتِها للجرد (`probeRounds`).
@@ -66,7 +75,8 @@ def load_curriculum() -> dict:
     const m = await import({json.dumps(CURRICULUM.as_uri())});
     console.log(JSON.stringify({{
       starters: m.STARTERS, forms: [...m.starterForms()],
-      words: m.WORDS, raised: m.RAISED, fields: m.FIELDS,
+      words: m.WORDS, raised: m.RAISED, resolved: m.RESOLVED, ritual: m.RITUAL,
+      fields: m.FIELDS,
       eras: m.ERAS, grades: m.GRADES,
       vowels: [...m.VOWEL_SYMBOLS], clusterGrade: m.CLUSTER_GRADE,
       units: m.UNIT_UNITS, unitSections: m.UNIT_SECTIONS,
@@ -99,9 +109,13 @@ def label_of(station: dict) -> str:
 
 def used_of(station: dict) -> dict:
     """ما تستهلكه محطةٌ من أصنافٍ ثلاثة: كلماتٌ · رموزٌ · شائكات."""
-    words = [w["w"] for w in station.get("words") or []]
+    # **وأدواتُ المشهد تُجرَد ككلمات التمرين** (`props` — الجلسة ٢): التفاحةُ والصندوق
+    # والكرةُ يراها الطفلُ ويسمع اسمَها، فحكمُها حكمُ ما يُقاس وإن لم تُقَس. ولولا
+    # جردُها لَدخلت الشاشةَ كلمةٌ من خارج الرصيد من بابٍ لا يمرّ عليه حارس.
+    shown = (station.get("words") or []) + (station.get("props") or [])
+    words = [w["w"] for w in shown]
     # والحقلُ الدلاليّ للكلمة المصوَّرة وحدَها: كلماتُ القراءة تُحكَم برموزها لا بحقلها
-    fields = [w["field"] for w in station.get("words") or [] if w.get("field")]
+    fields = [w["field"] for w in shown if w.get("field")]
     gpcs, tricky = [], []
     for word in station.get("pool") or []:
         words.append(word["w"])
@@ -114,11 +128,16 @@ def used_of(station: dict) -> dict:
     # فحتى ذلك اليوم لا مادّةَ تُجرَد (ونومُه معلَنٌ في بابه أدناه).
     for line in (station.get("text") or "").split():
         words.append(re.sub(r"[^A-Za-z'’-]", "", line))
+    # **وقالبُ الأمر المنطوق يُجرَد بكلماته** (`order` — س٢): ما يُقال للطفل مادّةٌ
+    # كما يُعرَض له، وحدُّه مداخلُ Starters لا الرصيدُ المصوَّر (كلماتُ الوظيفة فيه
+    # لا صورةَ لها). و`{…}` موضعُ الكلمة فيُسقَط: كلمتُه مجرودةٌ في `words` أصلاً.
+    said = [w for w in re.sub(r"\{\w+\}", " ", station.get("order") or "").split() if w]
     return {
         "words": [w for w in words if w],
         "fields": fields,
         "gpcs": gpcs,
         "tricky": tricky,
+        "said": said,
     }
 
 
@@ -147,6 +166,15 @@ def usage_errors(label: str, used: dict, frontier: dict, bank: dict) -> list:
                           f"(`WORDS` في `curriculum.js`)")
         elif word not in bank["forms"]:
             errors.append(f"{label}: «{word}» في الرصيد وليست من مداخل "
+                          "Cambridge Pre A1 Starters ‏2025")
+
+    # **وكلماتُ الأمر المنطوق تُقابَل بالقائمة الأصل**: `point to the cat` — «cat»
+    # مجرودةٌ في الرصيد المصوَّر أعلاه، و«point» و«to» و«the» مداخلُ في Starters ولا
+    # صورةَ لها. ولولا هذا البابُ لَدخل الأمرَ فعلٌ من خارج القائمة («touch») بلا حارس.
+    for word in used.get("said", []):
+        bare = re.sub(r"[^A-Za-z'’-]", "", word)
+        if bare and bare not in bank["forms"] and bare.lower() not in bank["forms"]:
+            errors.append(f"{label}: «{bare}» في أمرٍ منطوق وليست من مداخل "
                           "Cambridge Pre A1 Starters ‏2025")
 
     open_fields = set(frontier.get("fields") or [])
@@ -227,6 +255,14 @@ def frontier_errors(stations: list, bank: dict) -> list:
             blind = [w["w"] for w in station.get("words") or [] if not w.get("count")]
             if blind:
                 errors.append(f"{label}: كلماتٌ بلا كمّيةٍ في محطةِ عدّ: {'، '.join(blind)}")
+        elif pictures == "swatch":
+            # **ولا تُرخي البقعةُ حكمَ الصورة**: كلمةُ محطةِ الألوان **صورةٌ أو بقعة**،
+            # وليس لها أن تكون بلا واحدةٍ منهما — وإلا صار `swatch` كلمةً تُعطَّل بها
+            # مطالبةُ الصورة كما كان يصير بنمطٍ مخترَع.
+            blind = [w["w"] for w in station.get("words") or []
+                     if not w.get("face") and not w.get("swatch")]
+            if blind:
+                errors.append(f"{label}: كلماتٌ بلا صورةٍ ولا بقعةِ لون: {'، '.join(blind)}")
     return errors
 
 
@@ -394,8 +430,41 @@ def source_errors(data: dict) -> list:
     for word in data["words"]:
         if word["field"] not in bank["fields"]:
             errors.append(f"[الرصيد] «{word['w']}» في حقلٍ مجهول: «{word['field']}»")
-        if not word.get("face") and not word.get("count") and not word.get("pictured"):
+        if not (word.get("face") or word.get("count") or word.get("swatch")
+                or word.get("pictured")):
             errors.append(f"[الرصيد] «{word['w']}» بلا صورةٍ ولا سببٍ معلَن لغيابها")
+        swatch = word.get("swatch")
+        if swatch and not SWATCH_RE.match(str(swatch)):
+            errors.append(f"[الرصيد] «{word['w']}» بقعتُها ليست قيمةَ لونٍ ستَّ عشرية: "
+                          f"«{swatch}»")
+        if swatch and word["field"] != SWATCH_FIELD:
+            errors.append(f"[الرصيد] «{word['w']}» بقعةُ لونٍ في حقل «{word['field']}» — "
+                          "والبقعةُ لا تصدُق إلا حيث اللونُ هو الكلمة (حقل الألوان)")
+
+    # ————— **سجلُّ ما حُلَّ من المرفوعات** (`RESOLVED` — حكمُ المدير ١٣ أغسطس) —————
+    #
+    # كلمةٌ خرجت من `RAISED` بحكم: إمّا بلغت مقصدَها في الرصيد (بقعةً أو حركةً) وإمّا
+    # صارت طقساً منطوقاً. **والسجلُّ يُقابَل بالواقع** لا يُصدَّق: فمن كتب «حُلَّت»
+    # ولم يُدخلها موضعَها كتب سطراً لا أثرَ له.
+    resolved = {r["w"]: r for r in data.get("resolved") or []}
+    ritual_words = {re.sub(r"[^a-z]", "", part.lower())
+                    for text in (data.get("ritual") or {}).values()
+                    for part in str(text).split()}
+    for word, row in resolved.items():
+        if word in bank["raised"]:
+            errors.append(f"[المرفوعات] «{word}» في سجلّ المحلولة وهي ما تزال مرفوعة")
+        if not row.get("to") or not row.get("why"):
+            errors.append(f"[المرفوعات] «{word}» حُلَّت بلا مقصدٍ أو بلا علّةٍ مكتوبة")
+        reached = word in bank["words"] if row.get("to") != "ritual" else word in ritual_words
+        if not reached:
+            errors.append(f"[المرفوعات] «{word}» أُعلن حلُّها إلى «{row.get('to')}» "
+                          "ولم تبلغه — لا في الرصيد المصوَّر ولا في طقس المعلم")
+    for text in (data.get("ritual") or {}).values():
+        outside = [p for p in str(text).split()
+                   if re.sub(r"[^A-Za-z]", "", p) not in bank["forms"]
+                   and re.sub(r"[^a-z]", "", p.lower()) not in bank["forms"]]
+        if outside:
+            errors.append(f"[الطقس] «{text}» فيه كلمةٌ خارج الرصيد: {'، '.join(outside)}")
     return errors
 
 
@@ -615,9 +684,19 @@ def self_test(data: dict) -> int:
        "**وكلمةٌ مفكوكةٌ تماماً لكنها ليست في الرصيد تُمسَك** — «pot» مفكوكةٌ بـ p·o·t "
        "ولا مدخلَ لها في Starters (وهو الخطأُ الذي لا يمسكه حارسُ الرموز وحدَه)")
     ok(find(dosed(lambda s: s["words"].append(
-        {"w": "hello", "field": "family", "at": "s1-1", "face": "👋"}), "quiz:s1-1"),
+        {"w": "brother", "field": "family", "at": "s1-1", "face": "👦"}), "quiz:s1-1"),
         "مرفوعةٌ لانعدام الصورة الصادقة"),
        "وكلمةٌ **مرفوعةٌ** تعود إلى محطتها بصورةٍ متكلَّفة تُمسَك بسببِ رفعها")
+    # **وأداةُ المشهد تُجرَد كالكلمة** (`props` — الجلسة ٢): تُعرَض ولا تُقاس، فلولا
+    # جردُها لَدخلت الشاشةَ كلمةٌ من خارج الرصيد بلا حارس.
+    ok(find(dosed(lambda s: s["props"].append(
+        {"w": "penguin", "field": "animals", "at": "s2-2", "face": "🐧"}), "tpr:s2-2"),
+        "خارج الرصيد السمعي المعلَن"),
+       "**وأداةُ مشهدٍ دخيلة تُمسَك كما تُمسَك كلمةُ التمرين** — «penguin» صندوقاً في س٢-٢")
+    ok(find(dosed(lambda s: s["props"].append(
+        {"w": "hat", "field": "clothes", "at": "s5-1", "face": "🎩"}), "tpr:s2-2"),
+        "من حقل «clothes»"),
+       "وأداةٌ من حقلٍ خارج جبهة محطتها تُمسَك")
     ok(find(dosed(lambda s: s["words"].append(
         {"w": "bed", "field": "home", "at": "s5-3", "face": "🛏️"}), "quiz:s1-3"),
         "من حقل «home»"),
@@ -730,11 +809,35 @@ def self_test(data: dict) -> int:
         {"w": "cake", "field": "food", "at": "s1-4"})), "بلا صورةٍ ولا سببٍ معلَن"),
        "وكلمةٌ بلا صورةٍ ولا سببٍ معلَن لغيابها تُمسَك")
     ok(find(sourced(lambda d: d["words"].append(
-        {"w": "hello", "field": "family", "at": "s1-1", "face": "👋"})),
+        {"w": "brother", "field": "family", "at": "s1-1", "face": "👦"})),
         "مرفوعةٌ وهي في الرصيد"),
        "وكلمةٌ مرفوعةٌ تعود إلى الرصيد تُمسَك من جهة المصدر أيضاً")
     ok(find(sourced(lambda d: d["starters"].append(d["starters"][0])), "مدخلٌ مكرَّر"),
        "ومدخلٌ مكرَّر في الرصيد المنقول يُمسَك")
+
+    print("\n— البقعةُ والمحلولُ من المرفوعات (أحكامُ ١٣ أغسطس) —")
+    ok(find(sourced(lambda d: d["words"].append(
+        {"w": "cat", "field": "animals", "at": "s1-3", "swatch": "#8B5A2B"})),
+        "والبقعةُ لا تصدُق إلا حيث اللونُ هو الكلمة"),
+       "**بقعةُ لونٍ لكلمةٍ ليست لوناً تُمسَك** — «cat» بنّيةً: البابُ الخلفيّ لكل "
+       "كلمةٍ عجزت عن صورتها")
+    ok(find(sourced(lambda d: d["words"].append(
+        {"w": "purple", "field": "colours", "at": "s1-5", "swatch": "بنفسجي"})),
+        "ليست قيمةَ لونٍ ستَّ عشرية"),
+       "وبقعةٌ بلا قيمة لونٍ تُمسَك (ما يُصيَّر هو ما يُسمّى)")
+    ok(find(structured(lambda s: next(x for x in s if x["id"] == "quiz:s1-5")["words"]
+                       .append({"w": "black", "field": "colours", "at": "s1-5"})),
+            "بلا صورةٍ ولا بقعةِ لون"),
+       "وكلمةُ لونٍ بلا صورةٍ ولا بقعةٍ تُمسَك — فالنمطُ الجديد لا يُرخي حكمَ الصورة")
+    ok(find(sourced(lambda d: d["raised"].append(
+        {"w": "pink", "field": "colours", "why": "دسّة"})), "وهي ما تزال مرفوعة"),
+       "وكلمةٌ في سجلّ المحلولة وهي في `RAISED` تُمسَك (سجلّان يفترقان)")
+    ok(find(sourced(lambda d: d["resolved"].append(
+        {"w": "zoo", "to": "swatch", "why": "دسّة"})), "ولم تبلغه"),
+       "**ودعوى حلٍّ لم تبلغ موضعَها تُمسَك** — «حُلَّت» سطراً بلا أثرٍ في الرصيد")
+    ok(find(sourced(lambda d: d["ritual"].__setitem__("open", "Welcome!")),
+            "فيه كلمةٌ خارج الرصيد"),
+       "وطقسٌ منطوقٌ بكلمةٍ خارج الرصيد يُمسَك (المادّةُ من القائمة ولو في تحيّة)")
 
     print("\n— حكمُ الاستهلاك دالّةٌ خالصة: يُجرَّب بلا مولّدٍ ولا متصفّح —")
     letters = next(s for s in stations if s["id"] == "grade:h05")["frontier"]
@@ -750,6 +853,16 @@ def self_test(data: dict) -> int:
     ok(find(usage_errors("ج", {"words": [], "fields": [], "gpcs": [], "tricky": ["said"]},
                          letters, bank), "فوق شائكات درجته"),
        "وجولةٌ تعرض شائكةً لم تُفتَح تُمسَك")
+    animals = next(s for s in stations if s["id"] == "tpr:s2-1")["frontier"]
+    ok(not usage_errors("ج", {"words": ["cat"], "fields": ["animals"], "gpcs": [],
+                              "tricky": [], "said": ["point", "to", "the", "cat"]},
+                        animals, bank),
+       "وأمرٌ كلماتُه كلُّها من Starters يمرّ (`point to the cat`)")
+    ok(find(usage_errors("ج", {"words": ["cat"], "fields": ["animals"], "gpcs": [],
+                               "tricky": [], "said": ["touch", "the", "cat"]},
+                         animals, bank), "في أمرٍ منطوق"),
+       "**وأمرٌ فيه فعلٌ من خارج القائمة يُمسَك** — «touch» ليست في Starters ‏2025، "
+       "وهي مثالُ `METHOD.md §٤` التوضيحيّ (وقد أمسكها الحارسُ ساعةَ كُتب)")
 
     print(f"\n{fails} فشل" if fails else "\n✓ الفاحصُ يمسك المدسوسَ كلَّه")
     return 1 if fails else 0

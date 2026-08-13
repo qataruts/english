@@ -265,6 +265,53 @@ if (!types.length) {
     // والبوابةُ تُبنى بالمحرّك نفسِه، فما دخل المراجعةَ دخلها
     ok(/sessionItems/.test(src('gate.js')) && /weakestSkills/.test(src('gate.js')),
       'والبوابةُ تبني بالمحرّك نفسِه من أضعف المهارات — فما يُقاس يُسأل عنه فيها');
+
+    // ————— ٣ب) **ولكلِّ مفتاحٍ مادّةٌ تُنتجه بمداه** (زيادةُ الجلسة ٢) —————
+    //
+    // البابُ الذي قبله يسأل: «أللنوع تمرينٌ؟» — ويكفيه **مفتاحٌ واحد** من النوع.
+    // وبينهما ثغرةٌ صامتة: **مفتاحٌ بعينه لا تستطيع شاشتُه أن تسأل عنه**. مثالُها
+    // حاضر: كلمةٌ تُعلَن `pictured: 'act'` ولا وضعَ مرسومَ لها (`figures.js`)، أو
+    // حرفُ جرٍّ لا موضعَ له في مشهد الصندوق — فيبنى تمرينُ النوع **بكلمةٍ أخرى**،
+    // ويبقى المفتاحُ في الصندوق الأول أبداً: لوحةُ الوالد تعدّه مهارةً «قيد التعلّم»
+    // وهو لا يُسأل عنه في عمر الجهاز. ولا يُحمِر ذلك بابَ النوع ولا `check_range`.
+    //
+    // **والنومُ بالمحطة لا بالجميع**: محطةٌ لا تولّد جولةً بعد (`probeRounds` فارغة —
+    // جملُ س٥-٦ مثلاً، شاشتُها في الجلسة ٧) نائمةٌ بشرطٍ **مجرود**، وما ولّد يُطالَب
+    // بكل مفاتيحه. فيستيقظ الحارسُ يومَ تُكتب شاشتُها بلا سطرٍ يُضاف.
+
+    console.log('\n— ولكلِّ مفتاحٍ مادّةٌ تُنتجه بمداه —');
+    const generators = [];
+    for (const file of screenFiles) {
+      const mod = await import(new URL(file, APP));
+      if (typeof mod.probeRounds === 'function') generators.push(mod);
+    }
+    const probeOf = (id) => generators.flatMap((m) => m.probeRounds(id, 5) || []);
+    const asked = (round, range) => (round.skills || [round])
+      .some((s) => String(s.range) === String(range));
+
+    let checked = 0;
+    let sleeping = 0;
+    const orphans = [];
+    for (const station of curriculum.stations()) {
+      const known = STATIONS[station.type];
+      if (!known || known.exempt || !has(known.file)) continue;
+      if (!probeOf(station.id).length) { sleeping++; continue; }
+      for (const key of station.skills || []) {
+        const [unit, range, kind] = key.split('|');
+        checked++;
+        const due = [{ unit, range: p.spanOf(range), kind, box: 0, wrong: 1 }];
+        const built = [3, 9].map((seed) =>
+          review.sessionItems(due, 1, seeded(seed))[0]).filter(Boolean);
+        if (!built.length || !built.some((round) => asked(round, range))) {
+          orphans.push(key);
+        }
+      }
+    }
+    ok(orphans.length === 0,
+      `${checked} مفتاحاً في المحطات المكتوبة، لكلٍّ تمرينٌ يسأل عن مداه هو`
+      + (orphans.length ? ` — **بلا مادّة: ${orphans.slice(0, 6).join('، ')}**`
+        + (orphans.length > 6 ? ` و${orphans.length - 6} غيرُها` : '') : ''));
+    if (sleeping) dormant(`${sleeping} محطةً لم تولّد جولةً بعد (شاشتُها في جلسةٍ تالية)`);
   }
 }
 

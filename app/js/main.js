@@ -23,7 +23,9 @@ import { renderParent, skillsText } from './parent.js';
    اسمَ شاشةٍ واحدة منها، ولا تدخل محطةٌ جديدة بسطرٍ يُعدَّل هنا. والسطرُ الواحدُ لكل
    **وحدة** (لا لكل محطة) ثمنُ أن تصل إليها شجرةُ الاستيراد، وبه يعرف عاملُ الخدمة
    ماذا يخزّن وحارسُ `test_pwa` أنّ الملفَّ حيٌّ لا ميّت.
-   ولا وحدةَ اليوم: الجلسة ٠ بذرةٌ بلا شاشةِ تمرين. */
+   **ووحدتا الجلسة ٢**: «افهم والمس» (س١ وس٥) و«اسمع ونفّذ» (س٢). */
+import './quiz.js';
+import './tpr.js';
 import {
   h, icon, faceEl, toast, go, arNum, starsRow, topbar, brandMark, landmark, DEV,
   PAUSE_ACCENT,

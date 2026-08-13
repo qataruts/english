@@ -30,7 +30,7 @@
      فلا يصل شيء. فمهلةٌ حارسة ترسل ما تمّ ومعه سطرٌ أحمر يسمّي التعلّق. */
   const watchdog = setTimeout(() => {
     report([...out, { ok: false, msg: 'تعلّقت صفحةُ الفحص قبل تمامها (انتظارٌ لم ينتهِ)' }]);
-  }, 60000);
+  }, 150000);
 
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
   const frame = document.getElementById('app');
@@ -304,6 +304,293 @@
   const ar = spoken.find((s) => s.text === 'أَحْسَنْتَ');
   ok(!!ar && /^ar/.test(ar.lang),
     `ويُنطق التوجيهُ العربيّ بلسانه (${ar ? ar.lang : 'لم يقع'})`);
+
+  // ————— ١٢. **طفلٌ يجتاز س١-١ بلا قراءةٍ ولا زرٍّ نصّيّ** (معيارُ قبول الجلسة ٢) —————
+  //
+  // لا يُصدَّق «الشاشةُ تعمل» من لقطة: تُقاد المحطةُ **كما يقودها طفل** — نمذجةٌ ثم
+  // «تابع» ثم جولاتٌ تُلمَس فيها الصورةُ المطابقة، حتى الاحتفال. والصوتُ لا يُقرأ في
+  // DOM، فتُعلن الجولةُ مادّتَها في `data-ask` (سِمةٌ لا يراها طفل) — وبها يعرف
+  // الفاحصُ **ما سُئل عنه** فيلمس جوابَه.
+  //
+  // وقناةُ الصوت تُبدَّل في الإطار نفسِه: بلا بنكٍ مولَّد يقع كلُّ نصٍّ على النطق
+  // الآليّ (وهو معلَّقٌ حتى ق١ وق٢)، فتصير المحطةُ دقائقَ انتظار. فتُوضَع القناةُ
+  // المزيَّفة نفسُها هناك — **وتُجمَع مفاتيحُ ما نُطق** لتُقابَل بقائمة الانتظار.
+
+  frame.contentWindow.Audio = window.Audio;
+  Object.defineProperty(frame.contentWindow, 'speechSynthesis', {
+    configurable: true, value: { cancel() {}, speak(u) { setTimeout(() => u.onend?.(), 5); } },
+  });
+  frame.contentWindow.SpeechSynthesisUtterance = window.SpeechSynthesisUtterance;
+
+  const startedAt = performance.now();
+  win.location.hash = '#/quiz/s1-1';
+  const screen = await waitFor(() => appDoc()?.querySelector('.station-screen'), 12000);
+  doc = appDoc();
+  ok(!!screen, 'محطةُ «الأهل» (س١-١) تُفتَح بشاشتها');
+  ok(doc.querySelectorAll('.step').length === 3,
+    'وحلقتُها ثلاثُ خطوات: شاهِدْ · جرِّبْ مَعِي · وَحْدَكْ');
+
+  // **خطوةُ «شاهِدْ»**: تنتهي بزرّ «تابع» — عرضٌ لا امتحان، ولا يُترك الطفلُ معلَّقاً
+  const onward = await waitFor(() => appDoc()?.querySelector('.station-body .next'), 20000);
+  ok(!!onward, 'وخطوةُ «شاهِدْ» تعرض وتنطق ثم تفتح «تَابِعْ» (نمذجةٌ بلا مطالبة)');
+  ok(!!doc.querySelector('.q-shown .fig[data-word]'),
+    'والمعلّمُ يعرض صورةَ الكلمة التي ينطقها');
+  onward?.click();
+
+  /**
+   * يلمس الجوابَ الصحيح: البطاقةُ (أو **الموضعُ** في «أين أضعه؟») التي تحمل ما
+   * أعلنته الجولةُ في `data-ask`. وهو الجوابُ الوحيد الذي يعرفه الفاحص — كما لا
+   * يعرف الطفلُ غيرَ ما سمع.
+   */
+  const answerIn = (d) => {
+    const askEl = d.querySelector('.q-stage[data-ask]');
+    if (!askEl) return null;
+    const want = askEl.dataset.ask;
+    const card = [...d.querySelectorAll('.q-choices .qcard')].find((el) => {
+      const fig = el.querySelector('.fig');
+      return fig && (fig.dataset.name || fig.dataset.word) === want;
+    });
+    return card
+      || [...d.querySelectorAll('.q-zone')].find((z) => z.dataset.word === want)
+      || null;
+  };
+
+  let rounds = 0;
+  let latin = 0;
+  let bareBtns = 0;
+  for (let i = 0; i < 12; i++) {
+    const found = await waitFor(() => {
+      const d = appDoc();
+      return d && (answerIn(d) || d.querySelector('.celebrate'));
+    }, 15000);
+    doc = appDoc();
+    if (!found || doc.querySelector('.celebrate')) break;
+    /* **ولا يُقاس أثرُ نقرةٍ قبل أن تقع**: الجولةُ تبقى مرسومةً حتى يتمّ الثناءُ
+       المنطوق ثم تُستبدَل — فلو قنع الفاحصُ بوجود بطاقةٍ صحيحة لَنقر الجولةَ نفسَها
+       اثنتي عشرةَ مرّة وظنّها اثنتي عشرةَ جولة. فالانتظارُ **لتبدّل الساحة** نفسِها. */
+    const stageNow = doc.querySelector('.q-stage');
+    // **ولا حرفَ إنكليزيّ مكتوب في شاشة الطفل**: المادّةُ تُسمَع ولا تُقرأ، وتوجيهُها
+    // عربيّ — فأيُّ حرفٍ لاتينيّ في نصّ الشاشة نقضٌ لقاعدة اللاقراءة بلغتين.
+    if (/[A-Za-z]/.test(doc.querySelector('.station-body')?.textContent || '')) latin++;
+    bareBtns += [...doc.querySelectorAll('.station-body button')]
+      .filter((b) => !b.querySelector('svg, img, .fig') && b.textContent.trim()).length;
+    rounds++;
+    found.click();
+    await waitFor(() => {
+      const d = appDoc();
+      return d && (d.querySelector('.q-stage') !== stageNow || d.querySelector('.celebrate'));
+    }, 15000);
+  }
+
+  const celebrate = await waitFor(() => appDoc()?.querySelector('.celebrate'), 15000);
+  doc = appDoc();
+  ok(rounds >= 7, `وسبعُ جولاتٍ تُلعَب باللمس وحدَه (${rounds} جولة)`);
+  ok(latin === 0,
+    `**ولا حرفَ إنكليزيّ مكتوب في شاشة الطفل** في أيّ جولة (${latin} خرقاً)`);
+  ok(bareBtns === 0, `وكلُّ زرٍّ في الجولة له صورةٌ دالّة (${bareBtns} زرّاً نصّياً)`);
+  ok(!!celebrate, 'والمحطةُ تنتهي باحتفالٍ لا بشاشة خطأ');
+  const earned = doc.querySelectorAll('.big-stars .on').length;
+  ok(earned === 3,
+    `**وطفلٌ أصاب كلَّ جولاته يخرج بثلاث نجوم** (${earned})`);
+  ok(!doc.querySelector('.station-body progress, .station-body .timer'),
+    'ولا مؤقّتَ في الشاشة (`METHOD.md §٤`)');
+
+  // ————— ١٣. كلُّ محطةٍ تكتب قياسَها، ومفاتيحُها مفاتيحُ المنهج —————
+
+  const saved = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const keys = Object.keys(saved.skills || {});
+  const station = curriculum.stations().find((s) => s.id === 'quiz:s1-1');
+  ok(keys.length > 0 && keys.every((k) => station.skills.includes(k)),
+    `والمحطةُ تكتب قياسَها بمفاتيح المنهج (${keys.length} مفتاحاً من `
+    + `${station.skills.length})`);
+  ok((saved.stars || {})['quiz:s1-1'] === 3, 'ونجمةُ العقدة مكتوبةٌ بمعرّفها هو');
+
+  // ————— ١٣ب. **وشاشاتُ «اسمع ونفّذ» الثلاث تُقاد كما تُقاد أختُها** —————
+  //
+  // ثلاثةُ أشكالٍ لا شكل: أمرٌ تُلمَس صورتُه · تفاحةٌ تُوضَع في موضعها · وضعٌ يُختار
+  // فاعلُه. **وشكلُ الوضع لا نظيرَ له في اقرأ**، فلا يُصدَّق إلا مقوداً في متصفّح.
+  //
+  // ويُفتَح طريقُها كما يفتحه طفلٌ أتمّ س١: تُكتب نجومُ محطاتها في التقدّم نفسِه ثم
+  // يُعاد تحميلُ الإطار — **لا قفلَ يُلتَفّ عليه في الشيفرة**، والجبهةُ تُحسب كما هي.
+  const opened = { ...saved.stars };
+  for (const node of curriculum.sections().flatMap((s) => s.nodes))
+    if (node.id.startsWith('quiz:s1-')) opened[node.id] = 3;
+  win.localStorage.setItem('english.progress.v1',
+    JSON.stringify({ ...saved, stars: opened }));
+  frame.contentWindow.location.replace('/');
+  await waitFor(() => appDoc()?.querySelector('.map'), 15000);
+  win = frame.contentWindow;
+  win.Audio = window.Audio;
+  Object.defineProperty(win, 'speechSynthesis', {
+    configurable: true, value: { cancel() {}, speak(u) { setTimeout(() => u.onend?.(), 5); } },
+  });
+  win.SpeechSynthesisUtterance = window.SpeechSynthesisUtterance;
+
+  for (const part of ['s2-1', 's2-2', 's2-3', 's2-4']) {
+    win.location.hash = `#/tpr/${part}`;
+    const next = await waitFor(() => appDoc()?.querySelector('.station-body .next'), 25000);
+    next?.click();
+    let played = 0;
+    let small = 0;
+    for (let i = 0; i < 12; i++) {
+      const found = await waitFor(() => {
+        const d = appDoc();
+        return d && (answerIn(d) || d.querySelector('.celebrate'));
+      }, 20000);
+      const d = appDoc();
+      if (!found || d.querySelector('.celebrate')) break;
+      const stageNow = d.querySelector('.q-stage');
+      // **وهدفُ اللمس ٦٤ بكسل** (`METHOD.md §٩·٤`): يُقاس على ما يُلمَس فعلاً
+      small += [...d.querySelectorAll('.q-choices .qcard, .q-zone')]
+        .filter((el) => el.getBoundingClientRect().width < 64
+          || el.getBoundingClientRect().height < 64).length;
+      played++;
+      found.click();
+      await waitFor(() => {
+        const x = appDoc();
+        return x && (x.querySelector('.q-stage') !== stageNow || x.querySelector('.celebrate'));
+      }, 20000);
+    }
+    const done = await waitFor(() => appDoc()?.querySelector('.celebrate'), 20000);
+    const marks = appDoc().querySelectorAll('.big-stars .on').length;
+    ok(!!done && played >= 7 && marks === 3,
+      `ومحطةُ ${part} تُقاد بلمسٍ صحيحٍ إلى ثلاث نجوم (${played} جولة · ${marks} نجوم)`);
+    ok(small === 0, `  وهدفُ اللمس فيها ≥٦٤بك في كل جولة (${small} أصغرَ من الحدّ)`);
+  }
+
+  const after = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const tprKeys = Object.keys(after.skills || {}).filter((k) => /tpr-/.test(k));
+  const wanted = curriculum.stations()
+    .filter((s) => s.type === 'tpr').flatMap((s) => s.skills);
+  ok(tprKeys.length > 0 && tprKeys.every((k) => wanted.includes(k)),
+    `وقياسُ «اسمع ونفّذ» مكتوبٌ بمفاتيح المنهج (${tprKeys.length} مفتاحاً)`);
+  ok(['tpr-do', 'tpr-put', 'tpr-two'].every((kind) => tprKeys.some((k) => k.endsWith(kind))),
+    'وأنواعُ أوامرها الثلاثة كلُّها مقيسة (لمسٌ · وضعٌ · أمرٌ مركّب)');
+
+  // ————— ١٣ج. **الخطأ: يُسمَع ما اختار مقابلَ الصواب ثم يمضي** (`METHOD.md §٤`) —————
+  //
+  // نصُّ المنهج حرفاً، وهو ما يفارق فيه هذا التطبيقُ «اِحْسِبْ» (هناك تُعَدّ الكميةُ
+  // **ثم يحاول ثانية**، وهنا يمضي): فيُقاس **الثلاثةُ معاً** — أنّ ما لمسه يُعلَّم
+  // خطأً، وأنّ الصوابَ يُضاء معه (التقابلُ هو الدرس)، وأنّ الجولةَ **تمضي** ولا
+  // تُحبَس. ويُقاس رابعٌ: أنّ الخطأ كُتب على **المهارة المطلوبة** لا على ما لمس.
+
+  win.location.hash = '#/quiz/s1-2';
+  (await waitFor(() => appDoc()?.querySelector('.station-body .next'), 25000))?.click();
+  const stepNow = () => appDoc()?.querySelector('.step--now .step-name')?.textContent || '';
+  let missTarget = null;
+  let missChosen = null;
+  let missStage = null;
+  for (let i = 0; i < 8; i++) {
+    const right = await waitFor(() => answerIn(appDoc()), 20000);
+    const d = appDoc();
+    if (!right) break;
+    const stage = d.querySelector('.q-stage');
+    if (stepNow().includes('وَحْدَك')) {
+      missTarget = stage.dataset.ask;
+      missChosen = [...d.querySelectorAll('.q-choices .qcard')].find((c) => c !== right);
+      missStage = stage;
+      missChosen?.click();
+      break;
+    }
+    right.click();
+    await waitFor(() => appDoc()?.querySelector('.q-stage') !== stage, 20000);
+  }
+
+  const marked = await waitFor(() => {
+    const d = appDoc();
+    return d && d.querySelector('.q-choices .qcard.bad') && d.querySelector('.q-choices .qcard.good')
+      ? { bad: d.querySelector('.qcard.bad'), good: d.querySelector('.qcard.good') } : null;
+  }, 12000);
+  ok(!!missChosen && marked?.bad === missChosen,
+    'وخطأُ الطفل يُعلَّم على ما لمس هو');
+  ok(marked?.good?.querySelector('.fig')?.dataset.word === missTarget,
+    `**ويُضاء الصوابُ معه** فيقع التقابل («${missTarget ?? '—'}»)`);
+  const moved = await waitFor(() => appDoc()?.querySelector('.q-stage') !== missStage, 20000);
+  ok(!!moved, '**ثم تمضي الجولة** — لا حبسَ ولا إعادةَ محاولةٍ على كلمةٍ لم تثبت بعد');
+
+  const afterMiss = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const missed = (afterMiss.skills || {})[`word|${missTarget}|listen-pick`];
+  ok(missed && missed.wrong >= 1 && missed.box === 0,
+    'والخطأ مكتوبٌ على **المهارة المطلوبة** وصندوقُها عاد صفراً (تعود غداً)');
+
+  // ————— ١٤. **حارسُ اللاقراءة مُجرَّبٌ سالباً** (شرطُ بند الجلسة) —————
+  //
+  // «لا يُصدَّق حارسٌ لم يُرَ وهو يمسك»: يُدسّ **زرٌّ نصّيّ مصنوع** في شاشة الطفل
+  // فيجب أن يُمسَك، ثم يُرفَع فتعود الشاشةُ نظيفة. ولولا هذه الدسّة لَكان خضارُ
+  // الحارس أعلاه شهادةً على أنّه **لا يرى** لا على أنّ الشاشة سليمة.
+
+  const jard = () => [...appDoc().querySelectorAll('.screen button')]
+    .filter((b) => !b.closest('.dev') && !b.querySelector('svg, img, .fig') && b.textContent.trim());
+  // **والمستندُ يُقرأ حين يُقاس لا قبله**: أُعيد تحميلُ الإطار بين الفحصين، فمستندٌ
+  // مُمسَكٌ من قبلُ **مقطوعٌ من الصفحة** — تُدسّ فيه الدسّةُ فلا يراها أحد، ويُقرأ
+  // ذلك «الحارسُ لا يمسك» وهو يمسك. (وهو عينُ درسِ `onScreen`: ما ليس على الصفحة
+  // لا يُقاس.)
+  doc = appDoc();
+  ok(jard().length === 0, 'وجردُ أزرار الشاشة نظيفٌ قبل الدسّة');
+  const planted = doc.createElement('button');
+  planted.className = 'btn';
+  planted.textContent = 'اِضْغَطْ هُنَا';
+  doc.querySelector('.screen-card').append(planted);
+  const caught = jard();
+  ok(caught.length === 1 && caught[0] === planted,
+    '**وزرٌّ نصّيٌّ مصنوع يُدسّ فيُمسَك** — حارسُ اللاقراءة يرى فعلاً');
+  planted.remove();
+  ok(jard().length === 0, 'ويُرفَع فتعود الشاشةُ نظيفة');
+
+  // ————— ١٥. **لا نصَّ يُنطَق خارج قائمة الصوت** (`AUDIO_QUEUE.md §٣`) —————
+  //
+  // النصُّ يُركَّب في زمن التشغيل («point to the big red ball»)، فلا يراه جردُ شجرةٍ
+  // ولا يُمسَك إلا حيث يُنطَق. وبنكُ الصوت لم يُولَّد بعد، فالمطلوبُ اليومَ أن يكون
+  // كلُّ منطوقٍ **مصفوفاً منتظِراً** — ويصير المطلوبُ غداً أن يكون له ملفّ، بلا تعديلٍ
+  // في هذه الصفحة (يخدم `browser_test.py` القائمةَ على `/__queue.json`).
+
+  const queued = await fetch('/__queue.json').then((r) => r.json()).catch(() => []);
+  const inQueue = new Set(queued.map((text) => audio.keyFor(text)));
+  const heard = [...new Set(timeline.filter((r) => r.t0 >= startedAt).map((r) => r.key))];
+  const strays = heard.filter((key) => !inQueue.has(key));
+  ok(heard.length > 0 && strays.length === 0,
+    `وكلُّ ما نطقته المحطةُ مصفوفٌ في قائمة الصوت (${heard.length} نصاً`
+    + `، و${queued.length} في القائمة)`
+    + (strays.length ? ` — خارجها: ${strays.length}` : ''));
+
+  // ————— ١٦. **نسخةُ القشرة تُرى** (`METHOD.md §١٢-١٠` — أمرُ المالك) —————
+  //
+  // يُقاس **الطرفان في متصفّحٍ حقيقيّ**: قشرةٌ حيّة تُسأل فتجيب من ثابتها، ولوحةُ
+  // الوالد تعرض جوابَها. ولو أجابت القشرةُ ولم تعرض اللوحةُ لَما شهد ميدانٌ بشيء.
+
+  const reg = await win.navigator.serviceWorker?.ready?.catch(() => null);
+  const worker = reg && (reg.active || win.navigator.serviceWorker.controller);
+  if (!worker) {
+    ok(false, 'لم تُسجَّل قشرةُ العمل دون إنترنت في الفحص (فلا يُقاس جوابُها)');
+  } else {
+    const version = await new Promise((resolve) => {
+      const channel = new MessageChannel();
+      channel.port1.onmessage = (e) => resolve(e.data);
+      worker.postMessage({ type: 'version' }, [channel.port2]);
+      setTimeout(() => resolve(null), 4000);
+    });
+    ok(version?.type === 'version' && /^v\d+$/.test(String(version.version || '')),
+      `والقشرةُ الحيّة تجيب بنسختها («${version?.version ?? 'لا جواب'}»)`);
+
+    // **والبوابةُ تُفتَح مرّةً في الجلسة** (`parent.js`): فُتحت في الفحص ٩ أعلاه،
+    // فيُقبَل الحالان — بوابةٌ تُجاب، أو لوحةٌ مفتوحةٌ سلفاً.
+    win.location.hash = '#/parent';
+    await waitFor(() => appDoc()?.querySelector('.gate .giant, .audit'));
+    doc = appDoc();
+    const q3 = doc.querySelector('.gate .giant');
+    if (q3) {
+      const [x, y] = q3.textContent.split('×').map((part) =>
+        Number([...part.trim()].map((ch) => AR.indexOf(ch)).join('')));
+      doc.querySelector('.gate input').value = String(x * y);
+      doc.querySelector('.gate-go').click();
+    }
+    const shown = await waitFor(() => {
+      const el = appDoc()?.querySelector('.sw-version-num');
+      return el && el.textContent.trim() ? el : null;
+    }, 8000);
+    ok(!!shown && shown.textContent.trim() === String(version?.version),
+      `ولوحةُ الوالد تعرض **نسخةَ ما يعمل** لا رقماً مكتوباً («${shown?.textContent.trim() ?? '—'}»)`);
+  }
 
   } catch (err) {
     ok(false, `عطبٌ في صفحة الفحص: ${(err && (err.stack || err.message)) || err}`);

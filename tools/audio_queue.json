@@ -1,1 +1,1752 @@
-[]
+[
+  {
+    "text": "اِسْمَعِ الْأَمْرَ وَاخْتَرْ مَنْ يَفْعَلُهُ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اِسْمَعِ الْأَمْرَ وَالْمَسْ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اِسْمَعِ الْأَمْرَ وَضَعِ التُّفَّاحَة",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اِسْمَعْ وَالْمَسْ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اِفْعَلْهَا مَعَهُ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اُنْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقُولُ وَأَنْتَ تَسْمَعْ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اُنْظُرْ: الْمُعَلِّمُ يَأْمُرُ وَيَفْعَل",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "قُلْهَا مَعِي",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "لَمَسْتَ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "وَهَذِهِ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "الْآنَ جَرِّبْ مَعِي",
+    "lang": "ar",
+    "voice": "",
+    "category": "modeling",
+    "requestedBy": "session-2",
+    "priority": 20,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اُنْظُرْ وَاسْمَعْ",
+    "lang": "ar",
+    "voice": "",
+    "category": "modeling",
+    "requestedBy": "session-2",
+    "priority": 20,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "وَالْآنَ وَحْدَكْ",
+    "lang": "ar",
+    "voice": "",
+    "category": "modeling",
+    "requestedBy": "session-2",
+    "priority": 20,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "أَحْسَنْتْ",
+    "lang": "ar",
+    "voice": "",
+    "category": "celebration",
+    "requestedBy": "session-2",
+    "priority": 30,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "رَائِعْ",
+    "lang": "ar",
+    "voice": "",
+    "category": "celebration",
+    "requestedBy": "session-2",
+    "priority": 30,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "apple",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "arm",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "baby",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "ball",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "banana",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "bath",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "beach",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "bear",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "bed",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "bee",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "behind",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "bike",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "bird",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "black",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "blue",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "boat",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "book",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "boots",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "box",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "boy",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "bread",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "brown",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "Bye bye!",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "cake",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "car",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "carrot",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "cat",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "chair",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "clap",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "clock",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "cow",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "dad",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "dog",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "door",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "dress",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "drink",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "duck",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "ear",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "eat",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "egg",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "eight",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "elephant",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "eye",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "face",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "family",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "fish",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "five",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "flower",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "foot",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "four",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "friend",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "frog",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "girl",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "glasses",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "goat",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "grandma",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "grandpa",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "grape",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "green",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "grey",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "guitar",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "hand",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "hat",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "Hello!",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "horse",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "house",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "ice cream",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "in",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "jacket",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "jeans",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "jump",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "kite",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "lamp",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "leg",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "milk",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "mirror",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "monkey",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "mouth",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "mum",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "nine",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "nose",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "on",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "one",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "orange",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "pear",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "pen",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "pencil",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "phone",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "pink",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "plane",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "purple",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "read",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "red",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "rice",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "robot",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "ruler",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "run",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "school",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "sea",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "seven",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "sheep",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "shell",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "ship",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "shoe",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "sit",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "six",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "sleep",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "smile",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "snake",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "sock",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "sofa",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "spider",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "stand",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "stop",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "street",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "sun",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "swim",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "T-shirt",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "teddy",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "ten",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "three",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "tiger",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "train",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "tree",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "two",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "under",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "walk",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "water",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "white",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "window",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "write",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "yellow",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the big blue ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the big green ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the big red ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the big yellow ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the bird",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the cat",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the dog",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the duck",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the fish",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the frog",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the small blue ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the small green ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the small red ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to the small yellow ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to your arm",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "point to your face",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "put the apple behind the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "put the apple in the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "put the apple on the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "put the apple under the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the big blue ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the big green ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the big red ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the big yellow ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the small blue ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the small green ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the small red ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the small yellow ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  }
+]

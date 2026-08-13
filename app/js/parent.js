@@ -243,6 +243,42 @@ function previewSection() {
   );
 }
 
+/**
+ * **سطرُ النسخة العاملة** (`METHOD.md §١٢-١٠` — أمرُ المالك): «لوحةُ الوالد تسأل
+ * وتعرض نسخةَ **ما يعمل** على الجهاز».
+ *
+ * **ولا يُقرأ الرقمُ من الشيفرة التي تعمل الآن في الصفحة**: تلك تُحمَّل من الشبكة أو
+ * من المخزون، وقد تكون أحدثَ من القشرة المسيطرة — فالسؤالُ **للقشرة الحيّة نفسِها**
+ * (`navigator.serviceWorker.controller`) وجوابُها من ثابتها. وبلا قشرةٍ مسيطرة
+ * (أوّلُ فتحةٍ قبل التسجيل، أو `file://`) يُقال ذلك صريحاً ولا يُخترَع رقم.
+ *
+ * وهو سطرٌ **هادئ**: لوحةُ الوالد للتقدّم لا للتقنية، وموضعُ هذا السطرِ ذيلُها —
+ * ولكنّه يُقرأ يومَ يُسأل «أيّ نسخةٍ على جهاز الميدان؟».
+ */
+function versionLine() {
+  const line = h('p', { class: 'note sw-version' }, 'نسخةُ التطبيق العاملة: جارٍ السؤال…');
+  const sw = typeof navigator !== 'undefined' && navigator.serviceWorker;
+  const controller = sw && sw.controller;
+  if (!controller) {
+    line.textContent = 'نسخةُ التطبيق العاملة: لم تُسجَّل قشرةُ العمل دون إنترنت بعد'
+      + ' — تظهر النسخةُ بعد أول فتحةٍ مكتملة (أو بعد تثبيت التطبيق).';
+    return line;
+  }
+  const channel = new MessageChannel();
+  const timer = setTimeout(() => {
+    if (line.isConnected) line.textContent = 'نسخةُ التطبيق العاملة: لم تُجب القشرة.';
+  }, 3000);
+  channel.port1.onmessage = (event) => {
+    if (event.data?.type !== 'version') return;
+    clearTimeout(timer);
+    line.replaceChildren('نسخةُ التطبيق العاملة على هذا الجهاز: ',
+      h('b', { class: 'sw-version-num' }, String(event.data.version)),
+      ' — وهي نسخةُ القشرة التي تعمل الآن، لا التي في الخادم.');
+  };
+  controller.postMessage({ type: 'version' }, [channel.port2]);
+  return line;
+}
+
 function backupSection(rerender) {
   const slot = h('div', { class: 'confirm-slot' });
   const storage = h('p', { class: 'hint' }, 'التخزين على هذا الجهاز: جارٍ الفحص…');
@@ -627,6 +663,8 @@ function dashboard(rerender = () => {}) {
       + ' ونحن ندعوه إلى ترديد ما يسمع ولا نحكم على نطقه: تقييمُ النطق يحتاج أذناً'
       + ' بشرية — أذنَك أنت. وهذا التطبيق **يدرّس ويقيس ولا يشخّص**: إن تكرّر تعثّرُ'
       + ' طفلك في مهارةٍ واحدة أسابيع فراجِع مختصاً — هذه إشارةٌ لا حكم.'),
+
+    versionLine(),
   );
 
   return h('div', { class: 'screen', css: { '--accent': ACCENT } },

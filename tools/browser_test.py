@@ -329,6 +329,12 @@ def main() -> int:
     # يفتح القفلَ ولا يكتب تقدّماً).
     ap.add_argument("--at", default="", metavar="PATH",
                     help="مسارُ اللقطة داخل التطبيق، مثل '?preview=1#/count/ten'")
+    # **ولقطةُ شاشةٍ تنطق تحتاج زمناً أطول** (الجلسة ٢): حلقةُ المحطة تنتظر تمامَ
+    # الكلام قبل أن تعرض شكلَها، وبلا بنكٍ مولَّد يأخذ كلُّ نصٍّ مهلتَه المقدَّرة —
+    # فأربعةُ آلاف مللٍ من الزمن الافتراضيّ تنقضي في أوّل جملة. والقيمةُ **معلَنةٌ
+    # لا مرفوعةٌ صامتاً**: مَن أراد لقطةً لجولةٍ رفعها بيده وعرف لماذا.
+    ap.add_argument("--budget", type=int, default=4000,
+                    help="ميزانيةُ الزمن الافتراضيّ للقطة (مللي ثانية)")
     ap.add_argument("--device", action="store_true", help="مقاسات الآيباد الخمسة")
     ap.add_argument("--size", help="مقاس النافذة W,H")
     ap.add_argument("--show", action="store_true", help="متصفّح مرئي")
@@ -358,7 +364,7 @@ def main() -> int:
             size = args.size or "834,1194"
             proc = run_chrome(f"http://127.0.0.1:{args.port}/{args.at}", profile,
                               ["--headless=new", "--disable-gpu", "--hide-scrollbars",
-                               "--virtual-time-budget=4000",
+                               "--virtual-time-budget=" + str(args.budget),
                                f"--screenshot={out}", f"--window-size={size}"], False)
             deadline = time.time() + args.timeout
             while time.time() < deadline and not out.exists():
