@@ -72,14 +72,40 @@
     && doc.documentElement.getAttribute('lang') === 'ar',
     'والصفحةُ عربيةٌ من اليمين (`dir=rtl` · `lang=ar`)');
 
-  // ————— ٢. الرحلةُ فارغةٌ وتقول ذلك — معيارُ قبول الجلسة ٠ —————
+  // ————— ٢. الرحلةُ مرسومةٌ من بياناتها — معيارُ قبول الجلسة ١ —————
+  //
+  // **والعددُ يُقرأ من المنهج لا يُكتب هنا** (عهدُ «أرقامٌ محسوبة لا مكتوبة»): تُستورَد
+  // `curriculum.js` نفسُها في هذه الصفحة ويُقابَل ما أعلنته بما رُسم في الـDOM. فلو
+  // كُتب رقمٌ بيد لَصار الحارسُ يحرس رقمَه لا الرحلة، ولَخضِر يوم تسقط محطةٌ ويُصحَّح
+  // الرقمُ معها. **وهذه هي الوصلةُ التي كانت معيارَ الجلسة ٠**: بذرةٌ فارغة ⇒ خريطةٌ
+  // تقول حالَها، ورحلةٌ مكتوبة ⇒ خريطةٌ ترسمها كلَّها بلا سطرٍ يُعدَّل في وحدةٍ أخرى.
 
-  const empty = doc.querySelector('.note--empty');
-  ok(!!empty && /الرحلة لم تُكتب بعد/.test(empty.textContent),
-    'وخريطةُ البذرة الفارغة **تقول حالَها** ولا تُقرأ عطباً');
-  ok(doc.querySelectorAll('.station').length === 0
-    && doc.querySelectorAll('.node').length === 0,
-    'وصفرُ محطةٍ وصفرُ عقدة (لا محتوى منهجٍ في هذه الجلسة)');
+  const curriculum = await import('/js/curriculum.js');
+  const sections = curriculum.sections();
+  const nodeCount = sections.reduce((n, s) => n + (s.nodes || []).length, 0);
+
+  ok(!doc.querySelector('.note--empty'),
+    'وخريطةُ الرحلة لم تعد تقول «لم تُكتب بعد» — كُتب المنهجُ في الجلسة ١');
+  ok(doc.querySelectorAll('.station').length === sections.length,
+    `وعلى الخريطة ${sections.length} قسماً — عينُ ما يُرجعه \`sections()\``);
+
+  /* **والعقدُ تُعَدّ في المفرود لا في المطويّ**: الخريطةُ تطوي ما بَعُد عن جبهة الطفل
+     (`FOLD_NEAR` — طيٌّ كسول من البذرة)، فرأسُ المطويّة وحدَه يُرسَم. فيُقاس القسمُ
+     المفرودُ الأول: عقدُه في الـDOM = عقدُه في البيانات. ولو عُدَّت العقدُ كلُّها
+     لاحمرَّ الحارسُ على **طيٍّ سليم** — وهو أسوأُ الحمرة: صحيحةُ العدد كاذبةُ الحكم. */
+  const opener = sections[0];
+  const drawn = [...doc.querySelectorAll('.station')][0].querySelectorAll('.node');
+  ok(drawn.length === opener.nodes.length,
+    `وأولُ قسمٍ («${opener.title}») مفرودٌ بعقده ${opener.nodes.length} — عينُ ما يحمله`);
+  ok(doc.querySelectorAll('.node').length > 0
+    && doc.querySelectorAll('.node').length <= nodeCount,
+    `والمرسومُ من عقد الرحلة (${nodeCount}) ما فُرد منها لا أكثر`);
+
+  // **والقفلُ التسلسليّ مرئيّ**: العقدةُ الأولى وحدَها مفتوحةٌ على تقدّمٍ خالٍ،
+  // وما بعدها مقفلٌ — وهو ما يجعل قيدَ الاقتران ممكناً أصلاً (ترتيبٌ لا يُقفَز).
+  ok(drawn.length > 1 && !drawn[0].classList.contains('node--locked')
+    && drawn[1].classList.contains('node--locked'),
+    'وأولُ عقدةٍ مفتوحةٌ والتي تليها مقفلة (القفلُ التسلسليّ مرئيّ على تقدّمٍ خالٍ)');
 
   // ————— ٣. العلامةُ نائبةٌ **تُعلن نيابتَها** (ق٣ · `docs/SEED.md §٤`) —————
   //

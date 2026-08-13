@@ -59,6 +59,10 @@ const SHELL = [
   'js/registry.js',
   'js/review.js',
   'js/ui.js',
+  // فهرسُ الرموز في القشرة، و**ملفاتُها من فهرسها** (`precacheEmoji` أدناه): كُتب
+  // الرصيدُ المصوَّر في `curriculum.js` (الجلسة ١) فوُجد الفهرس، ولا يدخل مخزونَ
+  // القشرة رمزٌ بسطرٍ يدويّ.
+  'emoji/index.json',
   'icons/icon-192.png',
   'icons/icon-512.png',
   'icons/maskable-512.png',
