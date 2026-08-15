@@ -734,6 +734,123 @@ export const VOWEL_SYMBOLS = new Set([
  */
 export const CLUSTER_GRADE = 'h13';
 
+// ————————————————————————————————————————————————————————————————————————
+// ٤ب) أصواتُ اللغة — **الرمزُ رسمٌ والصوتُ مهارة** (مادّةُ س٣ وس٤)
+// ————————————————————————————————————————————————————————————————————————
+//
+// **العلّة، وهي علّةُ س٤ نفسِها**: «الأذنُ الفونيمية … بلا حرفٍ مرسوم إطلاقاً»
+// (`METHOD.md §٤`) — والسؤالُ فيها «أيُّ الصور تبدأ بـ/s/؟» سؤالٌ عن **صوت**، فلو
+// جُمعت الكلماتُ برسمها لَصار `cat` و`kite` صوتَين مختلفين وهما صوتٌ واحد، ولَصار
+// `kite` **جواباً صحيحاً** في سؤالٍ عن مدىً آخر — خطأٌ لا يُمسَك بحارس رسم.
+//
+// فهذا جدولُ **الأربعة والأربعين صوتاً** بمجموعات L&S (وثيقة 00281-2007 — جدولُ
+// الفونيمات وبدائلُ رسومها في المرحلة ٥، ص١٣٤–١٣٥): لكلِّ صوتٍ **رسومُه** التي
+// تُنطَق به. ومنه يُشتقّ صوتُ كل رمزٍ في السلّم، فلا رمزَ بلا صوت (يحرسه
+// `check_range.py`).
+//
+// **و`say` نصُّه المنطوق** — وهو مفتاحُ ملفّه في قائمة الصوت (`docs/AUDIO_QUEUE.md`،
+// الفئة `phoneme`: «الأصواتُ المعزولة `/s/ /a/ /t/`»)، فيلزم أن يكون **فريداً**: نصّان
+// متطابقان يتقاسمان ملفاً واحداً فيُسمع صوتٌ مكانَ صوت. **والرسمُ الحرفيّ يشترك فيه
+// صوتان** (`oo` في boot غيرُها في book — نصُّ L&S ص٧٤)، فأُفرد الثاني بعلامته الصوتية
+// الدولية `/ʊ/` وحدَه: استثناءٌ واحد معلَنٌ بعلّته، لا لسانٌ ثانٍ في الجدول.
+//
+// **ونقاءُ نطق الصوت المعزول شأنُ جلسة ص** (`SESSIONS.md`): البنكُ غيرُ مولَّد،
+// والاحتياطُ الناطق قد يلفظ **اسمَ الحرف** لا صوتَه — نقصُ نقاءٍ معلومٌ مقبولٌ
+// مؤقتاً، لا يُجتهَد في حلّه بتوليد صوتٍ هنا (عهدُ `AUDIO_QUEUE.md`).
+
+export const PHONEMES = [
+  // الصوامتُ الأربعةُ والعشرون
+  { id: 's', say: '/s/', ex: 'sun', graphemes: ['s', 'ss'] },
+  { id: 't', say: '/t/', ex: 'tree', graphemes: ['t'] },
+  { id: 'p', say: '/p/', ex: 'pen', graphemes: ['p'] },
+  { id: 'n', say: '/n/', ex: 'nose', graphemes: ['n'] },
+  { id: 'm', say: '/m/', ex: 'mum', graphemes: ['m'] },
+  { id: 'd', say: '/d/', ex: 'dog', graphemes: ['d'] },
+  { id: 'g', say: '/g/', ex: 'goat', graphemes: ['g'] },
+  { id: 'k', say: '/k/', ex: 'cat', graphemes: ['c', 'k', 'ck', 'ch-alt'] },
+  { id: 'r', say: '/r/', ex: 'red', graphemes: ['r'] },
+  { id: 'h', say: '/h/', ex: 'hat', graphemes: ['h'] },
+  { id: 'b', say: '/b/', ex: 'bed', graphemes: ['b'] },
+  { id: 'f', say: '/f/', ex: 'fish', graphemes: ['f', 'ff', 'ph'] },
+  { id: 'l', say: '/l/', ex: 'leg', graphemes: ['l', 'll'] },
+  { id: 'j', say: '/j/', ex: 'jump', graphemes: ['j'] },
+  { id: 'v', say: '/v/', ex: 'very', graphemes: ['v'] },
+  { id: 'w', say: '/w/', ex: 'white', graphemes: ['w', 'wh'] },
+  { id: 'ks', say: '/ks/', ex: 'box', graphemes: ['x'] },
+  { id: 'y', say: '/y/', ex: 'yellow', graphemes: ['y'] },
+  { id: 'z', say: '/z/', ex: 'zebra', graphemes: ['z', 'zz'] },
+  { id: 'kw', say: '/kw/', ex: 'queen', graphemes: ['qu'] },
+  { id: 'ch', say: '/ch/', ex: 'chair', graphemes: ['ch'] },
+  { id: 'sh', say: '/sh/', ex: 'ship', graphemes: ['sh'] },
+  { id: 'th', say: '/th/', ex: 'mouth', graphemes: ['th'] },
+  { id: 'ng', say: '/ng/', ex: 'ring', graphemes: ['ng'] },
+  // الصوائتُ العشرون
+  { id: 'a', say: '/a/', ex: 'cat', graphemes: ['a'] },
+  { id: 'e', say: '/e/', ex: 'bed', graphemes: ['e', 'ea-alt'] },
+  { id: 'i', say: '/i/', ex: 'fish', graphemes: ['i'] },
+  { id: 'o', say: '/o/', ex: 'dog', graphemes: ['o'] },
+  { id: 'u', say: '/u/', ex: 'duck', graphemes: ['u'] },
+  { id: 'ai', say: '/ai/', ex: 'plane', graphemes: ['ai', 'ay', 'a-e'] },
+  { id: 'ee', say: '/ee/', ex: 'sheep', graphemes: ['ee', 'ea', 'e-e', 'y-alt'] },
+  { id: 'igh', say: '/igh/', ex: 'white', graphemes: ['igh', 'ie', 'i-e'] },
+  { id: 'oa', say: '/oa/', ex: 'goat', graphemes: ['oa', 'oe', 'o-e', 'ow-alt'] },
+  { id: 'oo', say: '/oo/', ex: 'blue', graphemes: ['oo', 'ue', 'ew', 'u-e'] },
+  // **الاستثناءُ المعلَن** (رأسُ الجدول): رسمُه رسمُ أخيه، فنصُّه المنطوق علامتُه الدولية
+  { id: 'oo-book', say: '/ʊ/', ex: 'book', graphemes: ['oo-book'] },
+  { id: 'ar', say: '/ar/', ex: 'car', graphemes: ['ar'] },
+  { id: 'or', say: '/or/', ex: 'for', graphemes: ['or', 'aw', 'au'] },
+  { id: 'ur', say: '/ur/', ex: 'girl', graphemes: ['ur', 'ir'] },
+  { id: 'er', say: '/er/', ex: 'spider', graphemes: ['er'] },
+  { id: 'ow', say: '/ow/', ex: 'cow', graphemes: ['ow', 'ou'] },
+  { id: 'oi', say: '/oi/', ex: 'boy', graphemes: ['oi', 'oy'] },
+  { id: 'ear', say: '/ear/', ex: 'ear', graphemes: ['ear'] },
+  { id: 'air', say: '/air/', ex: 'chair', graphemes: ['air'] },
+  { id: 'ure', say: '/ure/', ex: 'sure', graphemes: ['ure'] },
+];
+
+/** رسمٌ ← صوتُه (يُبنى مرّةً من الجدول أعلاه — ولا خريطةَ ثانية تُكتب بيد). */
+const SOUND_OF_SYMBOL = new Map(
+  PHONEMES.flatMap((p) => p.graphemes.map((g) => [g, p.id])));
+
+/** صوتُ رمزٍ بمعرّفه، أو `null` — يقرؤه `check_range` فيمسك رمزاً بلا صوت. */
+export const phonemeOf = (symbolId) => SOUND_OF_SYMBOL.get(symbolId) || null;
+
+/** **نصُّ الصوت المنطوق** (`/s/`) — وهو مفتاحُ ملفّه في قائمة الصوت. */
+export const phonemeSay = (id) => PHONEMES.find((p) => p.id === id)?.say || '';
+
+/** أصائتٌ هذا الصوت؟ — يُقرأ من `VOWEL_SYMBOLS` لا يُعلَن ثانيةً (مصدرٌ واحد). */
+export const isVowelSound = (id) =>
+  (PHONEMES.find((p) => p.id === id)?.graphemes || []).some((g) => VOWEL_SYMBOLS.has(g));
+
+/** كلمةُ القراءة ← مقاطعُها (تُبنى مرّةً — وهي الطريقُ الوحيد إلى أصوات الكلمة). */
+const GPC_OF_WORD = new Map(GRADES.flatMap((g) => g.words.map((w) => [w.w, w.gpc])));
+
+/**
+ * **أصواتُ كلمةٍ** بمعرّفاتها، أو `null` لكلمةٍ لا مقاطعَ لها في السلّم.
+ *
+ * **ومقاطعُ الرسم مادّةُ صوتٍ هنا لا مادّةَ قراءة**: س٤ سمعيةٌ خالصة ولا يُعرَض فيها
+ * رسمٌ (`METHOD.md §٤`) — وإنّما تُقرأ من `gpc` **بنيةُ الكلمة الصوتية** وحدَها،
+ * فلا يعرف الطفلُ أنّ ثَمَّ رسماً أصلاً. وهي الوصلةُ التي تجعل «أوّلَ الصوت» دقيقاً:
+ * `cat` و`kite` صوتُهما الأولُ واحد وإن اختلف رسمُهما.
+ */
+export function soundsOf(word) {
+  const gpc = GPC_OF_WORD.get(String(word));
+  if (!gpc) return null;
+  const sounds = gpc.map(phonemeOf);
+  return sounds.some((s) => !s) ? null : sounds;
+}
+
+/**
+ * **قافيةُ كلمة** (rime): من أوّل صائتٍ فيها إلى آخرها — `cat` ⇒ `at`، و`duck` ⇒ `uk`.
+ * **وهي أصواتٌ لا رسوم**، فـ`duck` و`sock` تتقافيان وإن اختلف رسمُ آخرهما.
+ */
+export function rimeOf(word) {
+  const sounds = soundsOf(word);
+  if (!sounds) return null;
+  const at = sounds.findIndex(isVowelSound);
+  return at < 0 ? null : sounds.slice(at).join('');
+}
+
 /** الدرجاتُ حتى هذه الدرجة ضمناً — عليها تُبنى الجبهاتُ كلُّها. */
 export function gradesUpTo(gradeId) {
   const end = GRADES.findIndex((g) => g.id === gradeId);
@@ -849,35 +966,52 @@ const LISTEN_STAGES = [
     ],
   },
   {
+    // **صورةُ الزوج بالبيانات لا باليد** (رأسُ `pairMode` أدناه): الزوجُ مصوَّرٌ حيث
+    // **كلتا** كلمتيه في الرصيد المصوَّر بصورةٍ مفردة، وإلّا فتمييزٌ صوتيٌّ خالص —
+    // وهو حكمُ f/v المقيَّد في `METHOD.md §٤` **معمَّماً بالبيانات** لا مكتوباً لزوج.
     id: 'listen3', ar: 'س٣ — ميّز الزوجين', sub: 'زوجان يُسمَعان ويُميَّزان',
     type: 'contrast', face: '🔀',
     parts: [
       { part: 's3-1', title: 'p و b', face: '🍐', pairs: [
-        { key: 'p-b', a: 'pear', b: 'bear' }] },
+        { key: 'p-b', phonemes: ['p', 'b'], words: ['pear', 'bear'] }] },
       { part: 's3-2', title: 'f و v', face: '🔊', pairs: [
-        { key: 'f-v', mode: 'sound', a: '/f/', b: '/v/' }] },
+        { key: 'f-v', phonemes: ['f', 'v'],
+          why: 'بابُ V في Starters ‏2025 فيه كلمةٌ واحدة (very) ولا صورةَ صادقة لها '
+            + '— فلا زوجَ أدنى مصوَّرٌ في الرصيد (`METHOD.md §٤` أحكامُ المادة)' }] },
       { part: 's3-3', title: 'الحركاتُ القصار', face: '🐑', pairs: [
-        { key: 'i-ee', a: 'ship', b: 'sheep' },
-        { key: 'i-e', mode: 'sound', a: '/i/', b: '/e/' },
-        { key: 'a-u', mode: 'sound', a: '/a/', b: '/u/' }] },
+        { key: 'i-ee', phonemes: ['i', 'ee'], words: ['ship', 'sheep'] },
+        { key: 'i-e', phonemes: ['i', 'e'],
+          why: 'bit/bet وأخواتُهما ليست من مداخل Starters ‏2025' },
+        { key: 'a-u', phonemes: ['a', 'u'],
+          why: 'cap/cup ليستا من مداخل Starters ‏2025 (وفيها `baseball cap` وحدَها)' }] },
+      // **والعنقودُ تجاورُ ساكنين لا صوتٌ ثالث**: التمييزُ فيه بين مطلعٍ عنقوديّ
+      // ومطلعٍ مفرد (‏spider/sun) — فلا صوتَ معزولاً يُقابَل به، وحاملاه لازمان.
       { part: 's3-4', title: 'العناقيد', face: '🕷️', pairs: [
-        { key: 'sp', a: 'spider', b: 'sun' },
-        { key: 'st', a: 'stop', b: 'sock' },
-        { key: 'fr', a: 'frog', b: 'fish' }] },
+        { key: 'sp', words: ['spider', 'sun'] },
+        { key: 'st', words: ['stop', 'sock'] },
+        { key: 'fr', words: ['frog', 'fish'] }] },
     ],
   },
   {
+    // **مادّةُ س٤ محسوبةٌ من الأصوات ومن حصيلة الطفل** (`earPool` أدناه): لا قائمةَ
+    // مديات تُكتب بيد — فلا مدىً بلا مادّةٍ تكفيه، ولا صورةٌ يُسأل عنها الطفلُ ولم
+    // يلقَها بعدُ في محطةٍ سابقة.
     id: 'listen4', ar: 'س٤ — الأذنُ الفونيمية', sub: 'أصواتٌ بلا حرفٍ يُرى',
     type: 'ear', face: '🔊',
     parts: [
+      // **ثلاثٌ عتبةُ المادّة**: هدفٌ ومشتّتان في الجولة، فمدىً بأقلَّ من ثلاث كلماتٍ
+      // يُعيد الصورةَ نفسَها في كل جولة فيُحفَظ الجوابُ بالشكل لا بالسمع.
       { part: 's4-1', title: 'الصوتُ الأول', face: '🔤', unit: 'phon', kind: 'pick',
-        ranges: ['initial-s', 'initial-m', 'initial-t', 'initial-d', 'initial-c', 'initial-b'] },
+        pool: 'met', initials: { min: 3 } },
+      // **والدمجُ والتقطيعُ ثلاثةُ أصوات** (عينُ L&S المرحلة ١: CVC شفهياً) — ومادّتُهما
+      // واحدة لأنّهما مهارتان متعاكستان على الكلمة نفسِها.
       { part: 's4-2', title: 'اجمعِ الأصوات', face: '🧩', unit: 'oral', kind: 'blend-ear',
-        from: ['cat', 'dog', 'sun', 'hat', 'bed', 'duck'] },
+        pool: 'met', sounds: { count: 3 } },
       { part: 's4-3', title: 'قطِّع الكلمة', face: '✂️', unit: 'oral', kind: 'segment-ear',
-        from: ['cat', 'dog', 'sun', 'hat', 'bed', 'duck'] },
+        pool: 'met', sounds: { count: 3 } },
+      // **والقافيةُ كلمتان فأكثر**: تُسمَع واحدةٌ وتُلمَس أختُها، فاثنتان تكفيان مدىً.
       { part: 's4-4', title: 'القافية', face: '🎵', unit: 'rhyme', kind: 'pick',
-        ranges: ['at', 'og', 'ee'] },
+        pool: 'met', rhymes: { min: 2 } },
     ],
   },
   {
@@ -911,22 +1045,119 @@ const wordsAt = (part) => WORDS.filter((word) => word.at === part);
 const unitOfWord = (word) => (word.field === 'verbs' ? 'verb' : 'word');
 
 /**
+ * كلمةٌ من الرصيد المصوَّر باسمها، أو `undefined`.
+ * **وبفهرسٍ يُبنى مرّة** لا بمسحٍ في كل نداء: تُنادى مئاتِ المرّات في تأليف الرحلة،
+ * وبطءُ الخريطة على آيبادٍ قديم درسٌ مدفوعُ الثمن (`main.js` — الطيُّ الكسول).
+ */
+const WORD_INDEX = new Map(WORDS.map((word) => [word.w, word]));
+const wordNamed = (name) => WORD_INDEX.get(name);
+
+/**
+ * **أمصوَّرٌ هذا الزوج؟ — حكمٌ بالبيانات لا بيد** (`METHOD.md §٤`: «بالصور **حيث**
+ * للزوجين معنى مصوَّر»، وحكمُ المدير في f/v: «تمييزٌ صوتيٌّ خالص»).
+ *
+ * فالزوجُ مصوَّرٌ حيث **كلتا** كلمتيه في الرصيد المصوَّر **بصورةٍ مفردة تُلمَس**
+ * (`face`)، وإلّا فتمييزٌ صوتيٌّ خالص. ولم يُكتب `mode` لزوجٍ بعينه: يومَ تدخل
+ * كلمةٌ الرصيدَ (أو تخرج منه) ينتقل زوجُها من شكلٍ إلى شكل بلا سطرٍ يُعدَّل.
+ */
+export const pairMode = (pair) =>
+  ((pair.words || []).length === 2 && pair.words.every((w) => wordNamed(w)?.face)
+    ? 'word' : 'sound');
+
+/** ترتيبُ محطات السمع مسطَّحاً — عليه يقوم «ما لقيَه الطفلُ قبل هذه المحطة». */
+const listenParts = () => LISTEN_STAGES.flatMap((stage) => stage.parts);
+
+/**
+ * **حوضُ س٤: ما لقيَه الطفلُ قبل هذه المحطة، ممّا نعرف أصواتَه.**
+ *
+ * شرطان معاً، ولكلٍّ علّتُه:
+ *   • **مصوَّرةٌ بوجهٍ ولها أصواتٌ معلَنة** — الجوابُ صورةٌ تُلمَس، وحكمُ «أوّلِ الصوت»
+ *     والقافيةِ يحتاج أصواتَ الكلمة (`soundsOf`).
+ *   • **لقيَها في محطةٍ سابقة** — سؤالُ «أيُّ الصور تبدأ بـ/s/؟» يفترض أنّ الطفلَ
+ *     **يسمّي** ما يرى؛ فصورةُ كلمةٍ لم يلقَها بعدُ تجعل السؤالَ حزراً لا سمعاً.
+ *     (وهو أشدُّ من قاعدة «المدخل المفهوم» عند س٢-٤: تلك كلمةٌ **تُسمَع** ولا تُقاس،
+ *     وهذه صورةٌ **يُطلَب تسميتُها** ليُحكَم على صوتها.)
+ */
+const EAR_POOLS = new Map();
+
+function earPool(partId) {
+  // **ويُحسَب مرّةً**: الحوضُ يقرأ كلَّ محطةٍ قبله (ومنها محطاتُ س٤ نفسُها)، فحسابُه
+  // في كل نداءٍ يضرب كلفةَ تأليف الرحلة — وبياناتُ المنهج لا تتحرّك وقتَ التشغيل.
+  if (EAR_POOLS.has(partId)) return EAR_POOLS.get(partId);
+  const parts = listenParts();
+  const at = parts.findIndex((p) => p.part === partId);
+  const met = new Map();
+  for (const part of parts.slice(0, Math.max(at, 0))) {
+    for (const word of listenWords(part)) {
+      if (word.face && soundsOf(word.w)) met.set(word.w, word);
+    }
+  }
+  const pool = [...met.values()];
+  EAR_POOLS.set(partId, pool);
+  return pool;
+}
+
+/** حوضُ محطةٍ مصنَّفاً بمفتاحٍ صوتيّ — أساسُ مديات س٤-١ وس٤-٤. */
+function soundGroups(part, keyOf) {
+  const groups = new Map();
+  for (const word of earPool(part.part)) {
+    const key = keyOf(word.w);
+    if (key) groups.set(key, [...(groups.get(key) || []), word]);
+  }
+  return groups;
+}
+
+/** مدياتُ «الصوتِ الأول»: أصواتٌ لها من حوض المحطة ما يكفي (`initials.min`). */
+const initialRanges = (part) =>
+  [...soundGroups(part, (w) => soundsOf(w)?.[0])]
+    .filter(([, words]) => words.length >= part.initials.min)
+    .map(([sound]) => `initial-${sound}`).sort();
+
+/** مدياتُ القافية: قوافٍ لها من حوض المحطة كلمتان فأكثر (`rhymes.min`). */
+const rhymeRanges = (part) =>
+  [...soundGroups(part, rimeOf)]
+    .filter(([, words]) => words.length >= part.rhymes.min)
+    .map(([rime]) => rime).sort();
+
+/**
  * **موادُّ محطةٍ سمعية**: كلماتُها من الرصيد المصوَّر — إمّا كلماتُ محطتها كلُّها
- * (`WORDS[].at`)، وإمّا قائمةٌ معلَنة (`from`) تستعير ممّا سبق (س٢ تأمر بكلمات س١).
+ * (`WORDS[].at`)، وإمّا قائمةٌ معلَنة (`from`) تستعير ممّا سبق (س٢ تأمر بكلمات س١)،
+ * وإمّا حوضٌ **محسوب** ممّا لقيَه الطفل (س٤ — `earPool`).
  */
 function listenWords(part) {
-  const byName = (list) => list.map((w) => WORDS.find((x) => x.w === w)).filter(Boolean);
-  // زوجُ التمييز: طرفاه كلمتان مصوَّرتان إلا ما أُعلن `mode: 'sound'` (صوتان يُميَّزان
-  // بلا كلمة — وذلك حيث لا زوجَ أدنى في الرصيد، `METHOD.md §٤`: «بالصور **حيث**
-  // للزوجين معنى مصوَّر»).
+  const byName = (list) => list.map(wordNamed).filter(Boolean);
+  // زوجُ التمييز: حاملاه كلمتان مصوَّرتان — والزوجُ الصوتيّ الخالص بلا حاملَين
+  // (`pairMode` أعلاه: الحكمُ بالبيانات).
   if (part.pairs) {
-    return byName(part.pairs.filter((p) => p.mode !== 'sound').flatMap((p) => [p.a, p.b]));
+    return byName(part.pairs.filter((p) => pairMode(p) === 'word')
+      .flatMap((p) => p.words || []));
   }
   if (part.sentences) return byName(part.sentences.flatMap((s) => s.uses));
   const named = [...(part.from || []), ...(part.colours || [])];
   if (named.length) return byName(named);
-  if (part.ranges) return [];
+  if (part.pool === 'met') {
+    const pool = earPool(part.part);
+    return part.sounds
+      ? pool.filter((w) => soundsOf(w.w).length === part.sounds.count)
+      : pool;
+  }
   return wordsAt(part.part);
+}
+
+/**
+ * **أصواتُ محطةٍ المنطوقةُ معزولةً** — نصوصٌ من `PHONEMES` لا كلماتٌ من الرصيد، فلا
+ * يجردها حارسُ الكلمات بل حارسُ الأصوات (`check_range` — بابُ أصوات المنهج).
+ */
+function listenSounds(part) {
+  const says = (ids) => [...new Set(ids)].map(phonemeSay).filter(Boolean);
+  if (part.pairs) {
+    return says(part.pairs.filter((p) => pairMode(p) === 'sound')
+      .flatMap((p) => p.phonemes || []));
+  }
+  if (part.initials) return says(initialRanges(part).map((r) => r.slice('initial-'.length)));
+  // الدمجُ والتقطيعُ ينطقان أصواتَ كلماتهما واحداً واحداً
+  if (part.sounds) return says(listenWords(part).flatMap((w) => soundsOf(w.w)));
+  return [];
 }
 
 /**
@@ -946,7 +1177,8 @@ const listenProps = (part) =>
 function listenSkills(part) {
   if (part.sentences) return part.sentences.map((s) => `sentence|${s.id}|listen-pick`);
   if (part.pairs) return part.pairs.map((p) => `pair|${p.key}|pick`);
-  if (part.ranges) return part.ranges.map((r) => `${part.unit}|${r}|${part.kind}`);
+  if (part.initials) return initialRanges(part).map((r) => `${part.unit}|${r}|${part.kind}`);
+  if (part.rhymes) return rhymeRanges(part).map((r) => `${part.unit}|${r}|${part.kind}`);
   const kind = part.kind || 'listen-pick';
   // و**الوحدةُ تُعلَن حين تفارق حقلَها**: س٤-٢ وس٤-٣ تسمعان كلماتِ س١ نفسَها ولكنّ
   // المقيسَ فيهما **الدمجُ والتقطيع** لا معرفةُ الكلمة (`oral|cat|blend-ear`، §٧).
@@ -982,12 +1214,31 @@ function listenStations() {
     pictures: part.pictures || 'face',
     words: listenWords(part),
     props: listenProps(part),
-    // نوعُ تمرينها وقالبُ أمرها المنطوق وألوانُه — مادّةُ س٢ كما أعلنتها المحطة
-    // (تقرؤها `tpr.js`، فلا تعرف شاشةٌ محطةً بمعرّفها بل بما تُعلنه)
+    // نوعُ تمرينها ووحدةُ قياسها وقالبُ أمرها المنطوق وألوانُه — كما أعلنتها المحطة
+    // (تقرؤها شاشتُها، فلا تعرف شاشةٌ محطةً بمعرّفها بل بما تُعلنه). **والوحدةُ تلزم
+    // حيث يشترك النوع**: س٤-١ وس٤-٤ كلتاهما `pick`، وتفترقان بوحدتيهما (`phon` ·
+    // `rhyme`) — فبها تعرف الشاشةُ أيَّ سؤالٍ تبني.
     kind: part.kind || 'listen-pick',
+    unit: part.unit || '',
     order: part.order || '',
-    colours: (part.colours || []).map((w) => WORDS.find((x) => x.w === w)).filter(Boolean),
-    pairs: part.pairs || [],
+    colours: (part.colours || []).map(wordNamed).filter(Boolean),
+    // **والزوجُ يخرج محكوماً لا خاماً**: شكلُه (`mode`) محسوبٌ، وحاملاه كلمتان من
+    // الرصيد، ونصّا صوتيه منطوقان — فلا تعيد شاشتُه الحسابَ ولا تخالفه.
+    pairs: (part.pairs || []).map((pair) => ({
+      key: pair.key,
+      mode: pairMode(pair),
+      // **والمُعلَنُ يخرج مع المحسوب**: `names` أسماءُ الحاملَين كما أُعلنا، و`words`
+      // ما وُجد منهما في الرصيد المصوَّر — فيقابل الحارسُ الشكلَ المحسوب بقاعدته،
+      // ويمسك حاملاً أُعلن ولم يبلغ الرصيد (وإلّا سقط صامتاً وانقلب الشكل).
+      names: [...(pair.words || [])],
+      words: (pair.words || []).map(wordNamed).filter(Boolean),
+      sounds: (pair.phonemes || []).map(phonemeSay),
+      why: pair.why || '',
+    })),
+    // مدياتُ المحطة كما تُقاس (الحقلُ الثاني من مفتاحها) — تقرؤها شاشتُها
+    ranges: listenSkills(part).map((key) => key.split('|')[1]),
+    // ما تنطقه معزولاً من أصوات المنهج
+    sounds: listenSounds(part),
     sentences: part.sentences || [],
     frontier: listenFrontier(part),
     skills: listenSkills(part),
@@ -1366,19 +1617,26 @@ const RANGE_WORDS = {
   'p-b': 'p و b', 'f-v': 'f و v', 'i-ee': 'ship و sheep',
   'i-e': 'الحركة القصيرة i و e', 'a-u': 'الحركة القصيرة a و u',
   sp: 'عنقود sp', st: 'عنقود st', fr: 'عنقود fr',
-  at: 'قافية ‎-at', og: 'قافية ‎-og', ee: 'قافية ‎-ee',
   'a-i': 'الصائت a و i', 'e-o': 'الصائت e و o', 'i-u': 'الصائت i و u',
 };
 
 /**
  * **المدى بعبارة الوالد**: يترجم الحقلَ الثاني من المفتاح (`cat` · `p-b` · `h05` …)
  * إلى ما يقرؤه بالغٌ عربيّ. **والمجهولُ يُردّ كما هو لا يُخفى**.
+ *
+ * **والوحدةُ تُمرَّر لأنّ المدى وحدَه يلتبس**: مدَى القافية أصواتٌ (`ee`) قد يوافق
+ * **رسمَ** رمزٍ في السلّم (`gpc|ee|sound-pick`) — فيقرأ الوالدُ سطرين متطابقين
+ * لمهارتين مختلفتين. (وكان جدولُ العبارات يحسم ذلك بيد فيغلب القافيةَ على الرمز.)
  */
-export function rangeText(range) {
+export function rangeText(range, unit = '') {
   const text = String(range ?? '');
   if (!text) return '';
+  if (unit === 'rhyme') return `قافية ‎-${text}`;
   if (RANGE_WORDS[text]) return RANGE_WORDS[text];
-  if (text.startsWith('initial-')) return `أوّلُ صوت ${text.slice(8)}`;
+  if (text.startsWith('initial-')) {
+    const sound = text.slice('initial-'.length);
+    return `أوّلُ صوت ${phonemeSay(sound) || sound}`;
+  }
   const grade = GRADES.find((g) => g.id === text);
   if (grade) return `الدرجة ${grade.ar.slice(1)}`;
   // **والرسمُ وحدَه لا يكفي حين يشترك فيه رمزان**: `oo` في boot غيرُها في look،

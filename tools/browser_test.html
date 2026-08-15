@@ -28,9 +28,13 @@
 
   /* **والتعلّقُ يُبلَّغ كما يُبلَّغ العطب**: انتظارُ حدثٍ لا يجيء يوقف النصَّ بلا خطأ،
      فلا يصل شيء. فمهلةٌ حارسة ترسل ما تمّ ومعه سطرٌ أحمر يسمّي التعلّق. */
+  /* **والمهلةُ تتبع ما يُساق، وتوسيعُها قرارٌ معلَن لا صمت** (قاعدةُ بلاغ الجهاز
+     المزدحم): كانت ١٥٠ ثانية وتسوق خمسَ محطات؛ وصارت الجلسةُ ٣ تسوق ثلاثَ عشرةَ
+     محطةً ومراجعةً وبوابةً مرّتين (إخفاقاً ثم عبوراً) — فرُفعت إلى ٤٨٠، وتبقى **دون**
+     مهلة `browser_test.py` (٦٢٠) كي يصل التقريرُ الناقصُ بدل أن يُقتَل المتصفّح صامتاً. */
   const watchdog = setTimeout(() => {
     report([...out, { ok: false, msg: 'تعلّقت صفحةُ الفحص قبل تمامها (انتظارٌ لم ينتهِ)' }]);
-  }, 150000);
+  }, 480000);
 
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
   const frame = document.getElementById('app');
@@ -537,7 +541,279 @@
   planted.remove();
   ok(jard().length === 0, 'ويُرفَع فتعود الشاشةُ نظيفة');
 
-  // ————— ١٥. **لا نصَّ يُنطَق خارج قائمة الصوت** (`AUDIO_QUEUE.md §٣`) —————
+  // ————— ١٥. **مسارُ الأذن كلُّه يُقاد كما يقوده طفل** (معيارُ قبول الجلسة ٣) —————
+  //
+  // ثمانِ محطاتٍ بستّة أشكال: زوجٌ مصوَّر يُلمَس · صوتان يُميَّزان («أهما سواء؟») ·
+  // أوّلُ الصوت · الدمجُ الشفهي · **التقطيعُ الشفهي** (أزرارٌ صوتيةٌ تُرتَّب — لا
+  // نظيرَ له في اقرأ ولا في احسب) · القافية. ولا يُصدَّق شيءٌ من ذلك من لقطة.
+  //
+  // **والقفلُ لا يُلتَفّ عليه**: تُفتَح المحطاتُ كما يفتحها طفل — بإتمام ما قبلها
+  // (نجومُ س٢ كُتبت بقيادتها أعلاه، فصارت س٣ على الجبهة).
+
+  /** أزرارُ التقطيع إن كانت الجولةُ جولةَ ترتيب — وحالُها مُعلَنةٌ في `data-ready`. */
+  const orderIn = (d) => {
+    const stage = d.querySelector('.q-stage[data-order]');
+    if (!stage) return null;
+    return {
+      stage,
+      ready: stage.dataset.ready === '1',
+      want: stage.dataset.order.split(' '),
+      btns: [...d.querySelectorAll('.q-choices--sounds .qcard--sound')],
+    };
+  };
+
+  /** أيمكن الجواب الآن؟ (بطاقةٌ تُلمَس، أو أزرارُ ترتيبٍ فُتحت) */
+  const readyIn = (d) => (d ? (orderIn(d)?.ready ? orderIn(d) : answerIn(d)) : null);
+
+  /**
+   * يلعب جولةً واحدة: يلمس الصوابَ — أو **خطأً مقصوداً** حين يُطلَب (للبوابة).
+   * ويُرجِع `true` إن وقع لمسٌ فعلاً.
+   */
+  async function answerNow(d, wrong = false, onPlace = null) {
+    const seq = orderIn(d);
+    if (seq) {
+      const free = () => [...d.querySelectorAll('.q-choices--sounds .qcard--sound')];
+      const at = (sound) => free().find((b) => b.querySelector('.fig')?.dataset.sound === sound);
+      if (wrong) {
+        const bad = free().find((b) => b.querySelector('.fig')?.dataset.sound !== seq.want[0]);
+        (bad || free()[0]).click();
+        return true;
+      }
+      for (const sound of seq.want) {
+        const btn = await waitFor(() => {
+          const now = appDoc();
+          const stage = now?.querySelector('.q-stage[data-order]');
+          return stage && stage.dataset.ready === '1' ? at(sound) : null;
+        }, 20000);
+        if (!btn) return false;
+        btn.click();
+        // **ويُقاس الصفُّ فورَ اللمسة**: النقلُ إلى صفّ الترتيب يقع في المُنصِت نفسِه
+        // قبل أيّ انتظار، فهذه اللحظةُ هي التي يُرى فيها ما بناه الطفل.
+        onPlace?.(d);
+      }
+      return true;
+    }
+    const right = answerIn(d);
+    if (!right) return false;
+    if (!wrong) { right.click(); return true; }
+    const other = [...d.querySelectorAll('.q-choices .qcard')].find((c) => c !== right);
+    (other || right).click();
+    return true;
+  }
+
+  /**
+   * يقود محطةً من أوّلها إلى احتفالها كما يقودها طفل، ويقيس في كل جولة:
+   * حرفاً لاتينياً في شاشة الطفل · زرّاً نصّياً · هدفَ لمسٍ دون ٦٤بك.
+   */
+  async function driveStation(hash, onPlace = null) {
+    win.location.hash = hash;
+    const onward = await waitFor(() => appDoc()?.querySelector('.station-body .next'), 30000);
+    onward?.click();
+    const seen = { rounds: 0, latin: 0, bare: 0, small: 0, opened: !!onward };
+    for (let i = 0; i < 14; i++) {
+      const found = await waitFor(() => {
+        const d = appDoc();
+        return d && (readyIn(d) || d.querySelector('.celebrate'));
+      }, 25000);
+      const d = appDoc();
+      if (!found || d.querySelector('.celebrate')) break;
+      const stageNow = d.querySelector('.q-stage');
+      if (/[A-Za-z]/.test(d.querySelector('.station-body')?.textContent || '')) seen.latin++;
+      seen.bare += [...d.querySelectorAll('.station-body button')]
+        .filter((b) => !b.querySelector('svg, img, .fig') && b.textContent.trim()).length;
+      seen.small += [...d.querySelectorAll('.q-choices .qcard, .q-zone')]
+        .filter((el) => el.getBoundingClientRect().width < 64
+          || el.getBoundingClientRect().height < 64).length;
+      seen.rounds++;
+      if (!await answerNow(d, false, onPlace)) break;
+      await waitFor(() => {
+        const x = appDoc();
+        return x && (x.querySelector('.q-stage') !== stageNow || x.querySelector('.celebrate'));
+      }, 25000);
+    }
+    await waitFor(() => appDoc()?.querySelector('.celebrate'), 25000);
+    seen.stars = appDoc().querySelectorAll('.big-stars .on').length;
+    seen.done = !!appDoc().querySelector('.celebrate');
+    return seen;
+  }
+
+  for (const part of ['s3-1', 's3-2', 's3-3', 's3-4']) {
+    const seen = await driveStation(`#/contrast/${part}`);
+    ok(seen.done && seen.rounds >= 7 && seen.stars === 3,
+      `ومحطةُ «ميّز الزوجين» ${part} تُقاد إلى ثلاث نجوم (${seen.rounds} جولة · ${seen.stars} نجوم)`);
+    ok(seen.latin === 0 && seen.bare === 0 && seen.small === 0,
+      `  وبلا حرفٍ لاتينيّ ولا زرٍّ نصّيّ، وهدفُ اللمس ≥٦٤بك`
+      + ` (${seen.latin}/${seen.bare}/${seen.small})`);
+  }
+
+  // **والشكلُ من البيانات لا من المعرّف**: س٣-٢ زوجٌ صوتيٌّ خالص (لا زوجَ أدنى مصوَّراً
+  // له في الرصيد)، فجوابُه شكلان لا صورتان — ويُقاس ذلك في الشاشة الحيّة.
+  const soundPairs = curriculum.stations()
+    .filter((s) => s.type === 'contrast').flatMap((s) => s.pairs)
+    .filter((p) => p.mode === 'sound');
+  ok(soundPairs.length > 0 && soundPairs.every((p) => p.sounds.length === 2 && p.why),
+    `و${soundPairs.length} أزواجٍ صوتيةٍ خالصة، لكلٍّ صوتاه وعلّتُه المكتوبة`);
+
+  /* **وصفُّ الترتيب يُقاس هندسةً لا نيّة** (عيبٌ أُمسك ساعةَ كُتب): قاعدةُ الصفّ
+     وقاعدةُ صينيّة س٢-٢ بدرجةِ ترجيحٍ واحدة، فسبقُ إحداهما يقلب الصفَّ **عموداً**
+     والزرَّ المنقولَ **أصغرَ** — ولا يُمسَك ذلك بجردٍ ولا بنصّ، يُمسَك بقياس ما رُسم:
+     أزرارُ الترتيب في **سطرٍ واحد**، تتقدّم **من اليسار** (`METHOD.md §٩·٣`)،
+     وكلُّ زرٍّ ≥٦٤بك في صفّه كما كان في مكانه. */
+  const trayRows = [];
+  for (const part of ['s4-1', 's4-2', 's4-3', 's4-4']) {
+    const seen = await driveStation(`#/ear/${part}`, (d) => {
+      const set = [...d.querySelectorAll('.q-tray--sounds .qcard--sound')];
+      if (set.length < 2) return;
+      const box = set.map((el) => el.getBoundingClientRect());
+      trayRows.push({
+        row: box.every((b) => Math.abs(b.top - box[0].top) < 4),
+        ltr: box.every((b, i) => i === 0 || b.left > box[i - 1].left),
+        small: box.filter((b) => b.width < 64 || b.height < 64).length,
+      });
+    });
+    ok(seen.done && seen.rounds >= 7 && seen.stars === 3,
+      `ومحطةُ «الأذن الفونيمية» ${part} تُقاد إلى ثلاث نجوم (${seen.rounds} جولة · ${seen.stars} نجوم)`);
+    ok(seen.latin === 0 && seen.bare === 0 && seen.small === 0,
+      `  وبلا حرفٍ لاتينيّ ولا زرٍّ نصّيّ، وهدفُ اللمس ≥٦٤بك`
+      + ` (${seen.latin}/${seen.bare}/${seen.small})`);
+  }
+  ok(trayRows.length > 0 && trayRows.every((r) => r.row && r.ltr && !r.small),
+    `**وصفُّ التقطيع سطرٌ واحد يتقدّم من اليسار** (${trayRows.length} قياساً`
+    + `، وكلُّ زرٍّ فيه ≥٦٤بك)`
+    + (trayRows.some((r) => !r.row) ? ' — **يتراصّ عموداً**' : '')
+    + (trayRows.some((r) => !r.ltr) ? ' — **يتقدّم من اليمين**' : '')
+    + (trayRows.some((r) => r.small) ? ' — **زرٌّ انكمش بانتقاله**' : ''));
+
+  const earState = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const earKeys = Object.keys(earState.skills || {});
+  const earWanted = curriculum.stations()
+    .filter((s) => ['contrast', 'ear'].includes(s.type)).flatMap((s) => s.skills);
+  const written = earKeys.filter((k) => earWanted.includes(k));
+  ok(written.length > 0 && written.every((k) => earWanted.includes(k)),
+    `وقياسُ س٣ وس٤ مكتوبٌ بمفاتيح المنهج (${written.length} مفتاحاً)`);
+  ok(['pair', 'phon', 'oral', 'rhyme'].every((unit) =>
+    written.some((k) => k.startsWith(`${unit}|`))),
+    'ووحداتُه الأربع كلُّها مقيسة (الزوجُ · أوّلُ الصوت · الدمجُ والتقطيعُ · القافية)');
+  ok(['pick', 'blend-ear', 'segment-ear'].every((kind) =>
+    written.some((k) => k.endsWith(`|${kind}`))),
+    'وأنواعُ تمارينها الثلاثة كلُّها مكتوبة في ليتنر');
+
+  // ————— ١٦. **المراجعةُ اليومية**: بابُها من الخريطة، ومادّتُها من الحصيلة —————
+  //
+  // «المراجعةُ اليومية تسحب من الجبهتين معاً» (`METHOD.md §٧`) — **وجبهتُنا اليومَ
+  // سمعيةٌ واحدة**: مسارُ الحرف لم يُفتَح بعد (ق٤)، والثانيةُ تُفتَح في جلسته.
+
+  win.location.hash = '#/';
+  await waitFor(() => appDoc()?.querySelector('.map'));
+  const reviewCard = appDoc().querySelector('.continue--review');
+  ok(!!reviewCard, 'وبطاقةُ «مراجعة اليوم» ظهرت على الخريطة حين صار للطفل حصيلة');
+  reviewCard?.click();
+  const reviewScreen = await waitFor(() => appDoc()?.querySelector('.dots'), 25000);
+  ok(!!reviewScreen, 'وبابُها من الخريطة يفتح جلسةً حقيقية');
+  const reviewBefore = Object.keys(JSON.parse(
+    win.localStorage.getItem('english.progress.v1') || '{}').skills || {}).length;
+  let reviewRounds = 0;
+  for (let i = 0; i < 10; i++) {
+    const found = await waitFor(() => {
+      const d = appDoc();
+      return d && (readyIn(d) || d.querySelector('.celebrate'));
+    }, 25000);
+    const d = appDoc();
+    if (!found || d.querySelector('.celebrate')) break;
+    const stageNow = d.querySelector('.q-stage');
+    reviewRounds++;
+    if (!await answerNow(d)) break;
+    await waitFor(() => {
+      const x = appDoc();
+      return x && (x.querySelector('.q-stage') !== stageNow || x.querySelector('.celebrate'));
+    }, 25000);
+  }
+  const reviewDone = await waitFor(() => appDoc()?.querySelector('.celebrate'), 25000);
+  ok(!!reviewDone && reviewRounds >= 5,
+    `وتُقاد ستةُ تمارينَ من حصيلته إلى ختامها (${reviewRounds} تمريناً)`);
+  const afterReview = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  ok(Object.keys(afterReview.reviews || {}).length > 0,
+    'ومراجعةُ اليوم مسجَّلةٌ بمحاولاتها (وحدةُ لوحة الوالد نفسُها)');
+  ok(Object.keys(afterReview.skills || {}).length >= reviewBefore,
+    'وكلُّ تمرينٍ فيها يكتب قياسَه على مفاتيحه');
+
+  // ————— ١٧. 🚪 **بوابةُ الأذن**: إخفاقٌ يعيد بلا رسوب، ثم عبورٌ يفتح ما بعدها —————
+  //
+  // نصُّ المنهج (`METHOD.md §٤`): «من **أضعف** مهارات س١–س٤ (إصابة ≥٨٠٪، **لا رسوب**)»،
+  // **واجتيازُها شرطُ فتح مسار الحرف** (ق٤ · `METHOD.md §٦`). فيُقاس الطرفان في
+  // متصفّحٍ حقيقيّ: **إخفاقٌ محاكى** (ثلاثةُ أخطاء في عشرة = ٧٠٪) ثم **عبورٌ**.
+
+  win.location.hash = '#/gate/ear';
+  const gateScreen = await waitFor(() => appDoc()?.querySelector('.gate-head'), 25000);
+  ok(!!gateScreen, '🚪 بوابةُ «عبورِ الأذن» تُفتَح بعد س٤ (والقفلُ التسلسليّ فتحها)');
+  ok(appDoc().querySelectorAll('.dots li').length === 10,
+    `وتمارينُها عشرة (${appDoc().querySelectorAll('.dots li').length})`);
+
+  /** يقود جلسةَ بوابةٍ: أوّلُ `misses` تمارينَ خطأً عمداً، وما بعدها صواب. */
+  async function driveGate(misses) {
+    const asks = [];
+    for (let i = 0; i < 12; i++) {
+      const found = await waitFor(() => {
+        const d = appDoc();
+        return d && (readyIn(d) || d.querySelector('.celebrate'));
+      }, 25000);
+      const d = appDoc();
+      if (!found || d.querySelector('.celebrate')) break;
+      const stageNow = d.querySelector('.q-stage');
+      asks.push(stageNow?.dataset.ask || '');
+      if (!await answerNow(d, i < misses)) break;
+      await waitFor(() => {
+        const x = appDoc();
+        return x && (x.querySelector('.q-stage') !== stageNow || x.querySelector('.celebrate'));
+      }, 25000);
+    }
+    await waitFor(() => appDoc()?.querySelector('.celebrate'), 25000);
+    return asks;
+  }
+
+  const firstAsks = await driveGate(3);
+  let doc2 = appDoc();
+  ok(firstAsks.length === 10, `وتُقاد عشرةَ تمارين (${firstAsks.length})`);
+  ok(!!doc2.querySelector('.celebrate--again'),
+    '**وإخفاقُها «ليس بعدُ» لا رسوب** (٧٠٪ دون العتبة)');
+  ok(!/رسوب|فشل|خسر/.test(doc2.body.textContent),
+    'ولا لفظَ رسوبٍ ولا فشلٍ في شاشتها');
+  const gateData = curriculum.gateById('ear');
+  ok(doc2.body.textContent.includes(gateData.again),
+    `ونصُّ تشجيعها **من بيان البوابة** لا مكتوباً في الشيفرة («${gateData.again}»)`);
+  const midStars = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars || {};
+  ok(!midStars['gate:ear'], 'ولا نجمةَ تُكتب لبوابةٍ لم تُعبَر');
+
+  const retry = [...doc2.querySelectorAll('.celebrate button')]
+    .find((b) => /أعِد/.test(b.textContent));
+  retry?.click();
+  await waitFor(() => appDoc()?.querySelector('.q-stage'), 25000);
+  doc2 = appDoc();
+  ok(doc2.querySelector('.station-screen')?.dataset.tries === '2',
+    '**وإعادتُها تبني تمارينَها من جديد** (لا نمطَ يُحفَظ فيُستظهَر)');
+  const secondAsks = await driveGate(0);
+  ok(secondAsks.join('|') !== firstAsks.join('|'),
+    'وتمارينُ الإعادة غيرُ تمارين المحاولة الأولى');
+  doc2 = appDoc();
+  ok(!!doc2.querySelector('.celebrate') && !doc2.querySelector('.celebrate--again'),
+    '**وعبورُها بإصابةٍ تامّة يفتحها** (١٠٠٪ فوق العتبة)');
+  const gateStars = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars || {};
+  ok(gateStars['gate:ear'] > 0, 'ونجمةُ البوابة مكتوبةٌ بمعرّفها هو');
+
+  // **واجتيازُها هو فتحُ مسار الحرف نفسِه** (ق٤): لا شيفرةَ خاصّةَ به — القفلُ
+  // التسلسليّ يفعله، فأوّلُ عقدةِ حرفٍ صارت مفتوحةً على الخريطة.
+  win.location.hash = '#/';
+  await waitFor(() => appDoc()?.querySelector('.map'));
+  doc2 = appDoc();
+  const afterGate = curriculum.sections()
+    .flatMap((s) => s.nodes).find((n) => n.type === 'grade' || n.type === 'cluster');
+  const gradeBtn = [...doc2.querySelectorAll('.node')]
+    .find((b) => (b.getAttribute('aria-label') || '').startsWith(afterGate.title));
+  ok(!!gradeBtn && !gradeBtn.classList.contains('node--locked'),
+    `**وأوّلُ درجةِ حرفٍ («${afterGate.title}») صارت مفتوحة** — فتحُ مسار الحرف `
+    + 'هو اجتيازُ البوابة نفسُه (ق٤)، والقفلُ التسلسليّ يفعله بلا شيفرةٍ خاصة');
+
+  // ————— ١٨. **لا نصَّ يُنطَق خارج قائمة الصوت** (`AUDIO_QUEUE.md §٣`) —————
   //
   // النصُّ يُركَّب في زمن التشغيل («point to the big red ball»)، فلا يراه جردُ شجرةٍ
   // ولا يُمسَك إلا حيث يُنطَق. وبنكُ الصوت لم يُولَّد بعد، فالمطلوبُ اليومَ أن يكون
@@ -553,7 +829,7 @@
     + `، و${queued.length} في القائمة)`
     + (strays.length ? ` — خارجها: ${strays.length}` : ''));
 
-  // ————— ١٦. **نسخةُ القشرة تُرى** (`METHOD.md §١٢-١٠` — أمرُ المالك) —————
+  // ————— ١٩. **نسخةُ القشرة تُرى** (`METHOD.md §١٢-١٠` — أمرُ المالك) —————
   //
   // يُقاس **الطرفان في متصفّحٍ حقيقيّ**: قشرةٌ حيّة تُسأل فتجيب من ثابتها، ولوحةُ
   // الوالد تعرض جوابَها. ولو أجابت القشرةُ ولم تعرض اللوحةُ لَما شهد ميدانٌ بشيء.

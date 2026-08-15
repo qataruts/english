@@ -121,6 +121,7 @@ export function renderSession({
   if (!items.length) return null;   // لا حصيلة بعدُ: `main.js` يعيده إلى الخريطة
 
   const state = { index: 0, errors: 0, right: 0, done: false, token: 0 };
+  let tries = 1;                     // محاولةُ الجلسة — تُعلَن في DOM (انظر `again`)
 
   const dots = h('ol', { class: 'dots' });
   const body = h('div', { class: 'station-body' });
@@ -211,11 +212,20 @@ export function renderSession({
     }));
   }
 
-  /** إعادة المحاولة: تمارين تُبنى من جديد (لا نمط يُحفظ فيُستظهَر) وحالةٌ نظيفة. */
+  /**
+   * إعادة المحاولة: تمارين تُبنى من جديد (لا نمط يُحفظ فيُستظهَر) وحالةٌ نظيفة.
+   *
+   * **ورقمُ المحاولة مُعلَنٌ في DOM** (`data-tries` — سِمةٌ لا يراها طفل، نظيرُ
+   * `data-ask`): «لا رسوب، وإعادةٌ تبني تمارينَها من جديد» عهدُ البوابات
+   * (`METHOD.md §٤`)، ولا يُصدَّق بلا أن يُرى — فبها يقيس الفاحصُ **أنّ الإعادة
+   * بَنَت** لا أنّ الشاشة أُعيد رسمُها بما كان.
+   */
   function again() {
     const built = make();
     if (!built.length) return void go('#/');
     items = built;
+    tries++;
+    if (root) root.dataset.tries = String(tries);
     Object.assign(state, { index: 0, errors: 0, right: 0, done: false });
     paint();
   }
@@ -230,7 +240,9 @@ export function renderSession({
 
   paint();
 
-  root = h('div', { class: 'screen station-screen', css: { '--accent': accent } },
+  root = h('div', {
+    class: 'screen station-screen', 'data-tries': String(tries), css: { '--accent': accent },
+  },
     topbar(
       h('button', {
         class: 'btn',

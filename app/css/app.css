@@ -859,12 +859,77 @@ button {
 /* بطاقاتُ الكرات: الفرقُ بينها **حجمٌ ولون**، فيبقى صندوقُها واحداً كي يُرى الفرق */
 .q-choices--two .qcard { width: 6.5rem; height: 6.5rem; }
 
+/* ————— أشكالُ الأذن (س٣ وس٤): جوابٌ عن صوتٍ لا صورةَ له —————
+
+   **سواءٌ ومختلفان**: دائرتان متطابقتان · دائرةٌ ومثلّث — والفارقُ يُرى من بعيد
+   (قاعدةُ الأوضاع نفسُها). وبطاقتاهما أوسعُ قليلاً كأخواتهما في `--two`. */
+
+.fig-tokens { display: block; width: 1.35em; height: 1.35em; color: var(--accent); }
+.fig-tokens svg { display: block; width: 100%; height: 100%; }
+.q-choices--same .qcard { width: 7.5rem; height: 6.5rem; }
+.q-choices--same .fig { font-size: 3.6rem; }
+
+/* زوجُ القافية في النمذجة: كلمتان تُرَيان معاً فيُدرَك تشابهُ آخرهما */
+.q-pair { display: inline-flex; align-items: center; gap: 1.1rem; }
+
+/* زرُّ الصوت في التقطيع: **أعمى قصداً** — أذنٌ واحدة لا تميّز نفسَها، يعرفها الطفلُ
+   بما تُسمِعه. وهدفُ لمسها ≥٦٤بك كسائر ما يُلمَس. */
+.fig-sound { display: block; width: 1em; height: 1em; color: var(--accent); }
+.fig-sound svg { display: block; width: 100%; height: 100%; }
+
+/* **ومقاسُه لا يتبع أباه**: الزرُّ ينتقل من صفّ الأزرار إلى صفّ الترتيب عند اللمس،
+   فلو كان مقاسُه من محتدِه لَانكمش وهو ينتقل — وهدفُ اللمس عهدٌ لا يتبدّل بموضع. */
+.qcard--sound { width: 5rem; height: 5rem; }
+.qcard--sound .fig { font-size: 2.6rem; }
+
+/* الزرُّ الذي يُسمِع الآن (إسماعةُ التعريف) — ومضةٌ تربط الصوتَ بموضعه */
+.qcard--sound.is-hint {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, var(--mix));
+  transform: scale(1.06);
+}
+
+.qcard--sound.is-set { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--mix)); }
+.qcard--sound[disabled] { opacity: 1; }
+
+.q-choices--sounds { direction: ltr; }
+
 /* ————— مشهدُ الوضع المكانيّ (س٢-٢): صندوقٌ ومواضعُه الأربعة —————
 
    **والموضعُ يُرى بعد الاختيار**: التفاحةُ تصير **في** الصندوق أو **فوقه** أو
    **تحته** أو **خلفه** (يحجبها) — فيصحّح المشهدُ نفسُه بلا كلمةٍ تُقرأ. */
 
 .q-tray { display: grid; place-items: center; min-height: 4.5rem; margin-bottom: .35rem; }
+
+/* **صفُّ الترتيب من اليسار** (`METHOD.md §٩·٣`): الواجهةُ RTL والكلمةُ الإنكليزية
+   تُبنى من اليسار — فالصفُّ `ltr` ومعه **مؤشّرُ بدء السطر** (نقطةُ انطلاقٍ خضراء
+   يساره) علاجاً لانقلاب المسح الموثَّق في الدراسة **تدريساً لا افتراضاً**.
+
+   **وموضعُه بعد `.q-tray` لا قبله**: صفُّ س٢-٢ شبكةٌ تُوسِّط شيئاً واحداً، وهذا صفٌّ
+   يُرصّ من اليسار — ولهما درجةُ ترجيحٍ واحدة، فالسابقُ منهما يُغلَب. (وقد كُتب أوّلاً
+   فوقه فصارت أزرارُ الترتيب تتراصّ **عمودياً**، ولا يُمسَك ذلك إلا بالنظر.) */
+.q-tray--sounds {
+  direction: ltr;
+  display: flex;
+  flex-wrap: wrap;                 /* كلمةٌ طويلةُ الأصوات تلفّ ولا تفيض (عهدُ «بلا فائض») */
+  align-items: center;
+  justify-content: flex-start;
+  gap: .6rem;
+  min-height: 5.75rem;
+  padding-inline-start: 1.6rem;
+  position: relative;
+}
+
+.q-tray--sounds::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: .35rem;
+  width: .7rem;
+  height: .7rem;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 22%, transparent);
+}
 
 .q-thing { display: inline-grid; place-items: center; touch-action: none; cursor: grab; }
 .q-thing .fig { font-size: 2.8rem; }

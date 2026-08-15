@@ -114,6 +114,45 @@ function countEl(n) {
 }
 
 // ————————————————————————————————————————————————————————————————————————
+// ٢ب) أشكالُ الأذن — **جوابٌ عن صوتٍ لا صورةَ له** (س٣ وس٤)
+// ————————————————————————————————————————————————————————————————————————
+//
+// **العلّة، وهي قاعدةُ اللاقراءة بلغتين**: التمييزُ الصوتيّ الخالص (‏/f/ و/v/) سؤالٌ
+// عن صوتين لا معنى مصوَّرَ لهما، وجوابُه «سواء» أو «مختلفان» — ولا يُكتب ذلك نصّاً
+// يُقرأ. فشكلان يُريان الجوابَ بلا حرف: **دائرتان متطابقتان** سواء، **ودائرةٌ ومثلّث**
+// مختلفان. والفارقُ بينهما يُرى من بعيد (قاعدةُ الأوضاع نفسُها).
+//
+// **وزرُّ الصوت في التقطيع أعمى قصداً**: أزرارُ س٤-٣ تُرتَّب بالسمع لا بالنظر، فلو
+// حمل كلٌّ علامةً تميّزه لَصار الترتيبُ نظراً — فكلُّها أذنٌ واحدة، ويعرفها الطفلُ
+// **بإسماعها** (الشاشةُ تُسمِع كلَّ زرٍّ في موضعه قبل السؤال، وتُعيد ذلك متى طُلب).
+
+const TOKENS = {
+  circle: '<circle cx="0" cy="0" r="11"/>',
+  triangle: '<path d="M0 -12.5 12 9 -12 9Z"/>',
+};
+
+function tokensEl(kinds = []) {
+  const el = h('span', { class: 'fig-tokens', 'aria-hidden': 'true' });
+  const at = [-16, 16];
+  el.innerHTML = `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor"
+    stroke-width="3.4" stroke-linejoin="round">`
+    + kinds.map((kind, i) =>
+      `<g transform="translate(${32 + at[i]} 32)">${TOKENS[kind] || ''}</g>`).join('')
+    + '</svg>';
+  return el;
+}
+
+/** زرُّ صوتٍ يُرتَّب: أذنٌ واحدة لا تميّز نفسَها — يعرفها الطفلُ بما تُسمِعه. */
+function soundEl() {
+  const el = h('span', { class: 'fig-sound', 'aria-hidden': 'true' });
+  el.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 9.5h3.2L12 5.5v13L7.2 14.5H4z"/>
+    <path d="M15.6 9.2a4 4 0 0 1 0 5.6"/><path d="M18.3 6.4a8 8 0 0 1 0 11.2"/></svg>`;
+  return el;
+}
+
+// ————————————————————————————————————————————————————————————————————————
 // ٣) المُصيِّرُ الواحد
 // ————————————————————————————————————————————————————————————————————————
 
@@ -125,8 +164,10 @@ function countEl(n) {
  *   `swatch` بقعةُ لونٍ بقيمتها المعلَنة (حكمُ المدير — `METHOD.md §٤`)
  *   `ball`   كرةٌ ملوّنة بحجمين — مادّةُ الأمر المركّب (`صفةٌ وصفةٌ ومسمّى`)
  *   `pose`   وضعٌ مرسوم لفعلٍ لا رمزَ ساكناً له
+ *   `tokens` شكلا «سواء / مختلفان» — جوابُ التمييز الصوتيّ الخالص (س٣)
+ *   `sound`  زرُّ صوتٍ يُرتَّب — أعمى قصداً (س٤-٣)
  *
- * @param {object} spec `{ kind, word, face, colour, n, size }`
+ * @param {object} spec `{ kind, word, face, colour, n, size, tokens }`
  * @returns {HTMLElement} عنصرٌ يحمل `data-word` — **اسمُ ما يرسمه، سِمةً لا نصّاً**
  */
 export function figureEl(spec) {
@@ -138,7 +179,9 @@ export function figureEl(spec) {
           css: { '--swatch': spec.colour },
         })
         : spec.kind === 'pose' ? poseEl(spec.word)
-          : emojiImg(spec.face);
+          : spec.kind === 'tokens' ? tokensEl(spec.tokens)
+            : spec.kind === 'sound' ? soundEl()
+              : emojiImg(spec.face);
   const el = h('span', { class: `fig fig--${spec.kind}` }, inner);
   el.dataset.word = spec.word;
   // **وما وُصف بصفتين يُعرَف بهما** (`the big red ball`): اسمُ الشيء وحدَه لا يميّز

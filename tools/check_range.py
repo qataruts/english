@@ -78,6 +78,7 @@ def load_curriculum() -> dict:
       words: m.WORDS, raised: m.RAISED, resolved: m.RESOLVED, ritual: m.RITUAL,
       fields: m.FIELDS,
       eras: m.ERAS, grades: m.GRADES,
+      phonemes: m.PHONEMES,
       vowels: [...m.VOWEL_SYMBOLS], clusterGrade: m.CLUSTER_GRADE,
       units: m.UNIT_UNITS, unitSections: m.UNIT_SECTIONS,
       gates: m.GATES, tracks: m.TRACKS,
@@ -128,6 +129,9 @@ def used_of(station: dict) -> dict:
     # فحتى ذلك اليوم لا مادّةَ تُجرَد (ونومُه معلَنٌ في بابه أدناه).
     for line in (station.get("text") or "").split():
         words.append(re.sub(r"[^A-Za-z'’-]", "", line))
+    # **والصوتُ المعزول صنفٌ خامس** (س٣ وس٤): ليس كلمةً فلا يُقابَل بالرصيد، وليس
+    # رسماً فلا يُقابَل بالسلّم — يُقابَل بجدول أصوات المنهج (`PHONEMES`).
+    sounds = list(station.get("sounds") or [])
     # **وقالبُ الأمر المنطوق يُجرَد بكلماته** (`order` — س٢): ما يُقال للطفل مادّةٌ
     # كما يُعرَض له، وحدُّه مداخلُ Starters لا الرصيدُ المصوَّر (كلماتُ الوظيفة فيه
     # لا صورةَ لها). و`{…}` موضعُ الكلمة فيُسقَط: كلمتُه مجرودةٌ في `words` أصلاً.
@@ -138,6 +142,7 @@ def used_of(station: dict) -> dict:
         "gpcs": gpcs,
         "tricky": tricky,
         "said": said,
+        "sounds": sounds,
     }
 
 
@@ -176,6 +181,14 @@ def usage_errors(label: str, used: dict, frontier: dict, bank: dict) -> list:
         if bare and bare not in bank["forms"] and bare.lower() not in bank["forms"]:
             errors.append(f"{label}: «{bare}» في أمرٍ منطوق وليست من مداخل "
                           "Cambridge Pre A1 Starters ‏2025")
+
+    # **وصوتٌ يُنطَق ليس من أصوات المنهج**: `/s/` لا يمرّ على بابَي الكلمة والرمز
+    # (ليس كلمةً ولا رسماً)، فلولا هذا البابُ لَدخل شاشةَ الطفل صوتٌ مخترَع بلا حارس —
+    # ولا يُسمَع خطؤه إلا في أذنه (`PHONEMES` في `curriculum.js`).
+    for sound in used.get("sounds", []):
+        if sound not in bank["sounds"]:
+            errors.append(f"{label}: الصوت «{sound}» ليس من أصوات المنهج "
+                          f"({len(bank['sounds'])} صوتاً في `PHONEMES`)")
 
     open_fields = set(frontier.get("fields") or [])
     for field in used.get("fields", []):
@@ -411,7 +424,85 @@ def bank_of(data: dict) -> dict:
         "raised": {r["w"]: r["why"] for r in data["raised"]},
         "fields": {f["id"] for f in data["fields"]},
         "units": {u["id"] for u in data["units"]},
+        "sounds": {p["say"] for p in data.get("phonemes") or []},
     }
+
+
+# ————— أصواتُ المنهج: لا رمزَ بلا صوت، ولا صوتَين بنصٍّ واحد —————
+
+SAY_RE = re.compile(r"^/[^/\s]+/$")
+
+
+def sound_errors(data: dict) -> list:
+    """**جدولُ الأربعة والأربعين صوتاً** (`METHOD.md §٤` — مادّةُ س٣ وس٤).
+
+    ثلاثةُ شروطٍ لكلٍّ علّتُه:
+      ١) **لا رمزَ في السلّم بلا صوتٍ معلَن** — وإلا سقطت كلمتُه من حوض س٤ صامتةً
+         (`soundsOf` تردّ `null`)، فينقص مدىً ولا يشتكي أحد.
+      ٢) **ولا صوتان بنصٍّ منطوقٍ واحد** — مفتاحُ ملفّ الصوت بصمةُ نصّه وحدَه
+         (`audio.js`)، فيتقاسم الصوتان ملفاً واحداً ويُسمع أحدُهما مكانَ الآخر.
+      ٣) **ورسومُ الصوت الواحد صائتةٌ كلُّها أو ساكنةٌ كلُّها** — القافيةُ تُحسب من
+         أوّل صائت (`rimeOf`)، فصوتٌ رسمٌ منه صائتٌ ورسمٌ ساكن يخلط القوافي.
+    """
+    errors = []
+    vowels = set(data["vowels"])
+    says = {}
+    known = set()
+    for phoneme in data.get("phonemes") or []:
+        if not SAY_RE.match(str(phoneme.get("say") or "")):
+            errors.append(f"[صوت {phoneme['id']}] نصُّه المنطوق ليس على صورة `/x/`: "
+                          f"«{phoneme.get('say')}»")
+        if phoneme["say"] in says:
+            errors.append(f"[صوت {phoneme['id']}] نصُّه المنطوق «{phoneme['say']}» هو نصُّ "
+                          f"«{says[phoneme['say']]}» — وملفُّ الصوت بصمةُ نصّه وحدَه")
+        says[phoneme["say"]] = phoneme["id"]
+        kinds = {g in vowels for g in phoneme["graphemes"]}
+        if len(kinds) > 1:
+            errors.append(f"[صوت {phoneme['id']}] رسومُه بين صائتٍ وساكن: "
+                          f"{'، '.join(phoneme['graphemes'])}")
+        for grapheme in phoneme["graphemes"]:
+            if grapheme in known:
+                errors.append(f"[صوت {phoneme['id']}] الرسم «{grapheme}» منسوبٌ إلى صوتين")
+            known.add(grapheme)
+    for grade in data["grades"]:
+        for symbol in grade["symbols"]:
+            if symbol["id"] not in known:
+                errors.append(f"[{grade['id']}] الرمز «{symbol['id']}» بلا صوتٍ معلَن في "
+                              "`PHONEMES` — فكلماتُه تسقط من حوض س٤ صامتةً")
+    return errors
+
+
+def pair_errors(data: dict) -> list:
+    """**صورةُ الزوج بالبيانات لا باليد** (`METHOD.md §٤` وحكمُ المدير في f/v).
+
+    «بالصور **حيث** للزوجين معنى مصوَّر»: فالشكلُ (`mode`) **محسوبٌ** من كون حاملَيه
+    في الرصيد المصوَّر — ويقابله هذا البابُ بقاعدته، فلا يُكتب شكلٌ بيد ولا ينقلب
+    شكلُ زوجٍ صامتاً يومَ تسقط صورةُ حامله.
+    """
+    errors = []
+    faced = {w["w"] for w in data["words"] if w.get("face")}
+    forms = set(data["forms"])
+    for station in data["stations"]:
+        for pair in station.get("pairs") or []:
+            label = f"[{station['id']} · زوج {pair['key']}]"
+            for name in pair.get("names") or []:
+                if name not in forms:
+                    errors.append(f"{label}: الحاملُ «{name}» ليس من مداخل "
+                                  "Cambridge Pre A1 Starters ‏2025")
+            names = pair.get("names") or []
+            pictured = len(names) == 2 and all(n in faced for n in names)
+            if (pair["mode"] == "word") != pictured:
+                errors.append(f"{label}: شكلُه «{pair['mode']}» ويخالف قاعدةَ الصورة "
+                              f"(حاملاه المصوَّران: {sum(n in faced for n in names)} من "
+                              f"{len(names)})")
+            sounds = pair.get("sounds") or []
+            if pair["mode"] == "sound" and len(set(sounds)) != 2:
+                errors.append(f"{label}: تمييزٌ صوتيٌّ خالص بلا صوتين **مختلفين** "
+                              f"({'، '.join(sounds) or 'لا صوت'}) — فلا فرقَ يُسأل عنه")
+            if not names and not pair.get("why"):
+                errors.append(f"{label}: بلا حاملَين وبلا علّةٍ مكتوبة "
+                              "(ولِمَ لا زوجَ أدنى مصوَّرٌ له؟)")
+    return errors
 
 
 def source_errors(data: dict) -> list:
@@ -550,6 +641,12 @@ def check(data: dict) -> int:
          f"{symbols} رمزاً في {len(data['grades'])} درجة، وكلُّ كلمةٍ عند أوّل درجةٍ تُفكّ فيها")
     door("ميزانيةُ الشائكات: المحصيُّ = المقَرّ", budget_errors(data["eras"], data["grades"]),
          "، ".join(f"{e['id']}: {e['trickyBudget']}" for e in data["eras"]))
+    door("أصواتُ المنهج: لا رمزَ بلا صوت ولا صوتان بنصٍّ واحد", sound_errors(data),
+         f"{len(data.get('phonemes') or [])} صوتاً لـ{symbols} رمزاً، ولكلٍّ نصُّه المنطوق")
+    pairs = [p for s in stations for p in (s.get("pairs") or [])]
+    door("أزواجُ التمييز: شكلُها محسوبٌ من صورة حاملَيها", pair_errors(data),
+         f"{len(pairs)} زوجاً، منها {sum(1 for p in pairs if p['mode'] == 'word')} مصوَّرٌ "
+         f"و{sum(1 for p in pairs if p['mode'] == 'sound')} صوتيٌّ خالص بعلّته")
 
     triple = []
     for station in stations:
@@ -648,6 +745,8 @@ def self_test(data: dict) -> int:
         ("سلّمُ الرموز", ladder_errors(data["grades"], set(data["vowels"]),
                                        data["clusterGrade"])),
         ("ميزانيةُ الشائكات", budget_errors(data["eras"], data["grades"])),
+        ("أصواتُ المنهج", sound_errors(data)),
+        ("أزواجُ التمييز", pair_errors(data)),
         ("الأبوابُ الثلاثة", live),
         ("عقدُ الرحلة", journey_errors(data)),
     ):
@@ -839,6 +938,58 @@ def self_test(data: dict) -> int:
             "فيه كلمةٌ خارج الرصيد"),
        "وطقسٌ منطوقٌ بكلمةٍ خارج الرصيد يُمسَك (المادّةُ من القائمة ولو في تحيّة)")
 
+    print("\n— أصواتُ المنهج وأزواجُ التمييز (مادّةُ س٣ وس٤) —")
+
+    def sounded(mutate):
+        clone = copy.deepcopy(data)
+        mutate(clone)
+        return sound_errors(clone)
+
+    ok(find(sounded(lambda d: d["grades"][0]["symbols"].append(
+        {"id": "zh", "g": "zh", "ex": "vision"})), "بلا صوتٍ معلَن"),
+       "رمزٌ يُزاد في السلّم بلا صوتٍ معلَن يُمسَك — وكلماتُه كانت تسقط من حوض س٤ صامتةً")
+    ok(find(sounded(lambda d: d["phonemes"].append(
+        {"id": "ss2", "say": "/s/", "ex": "grass", "graphemes": []})), "هو نصُّ"),
+       "**وصوتان بنصٍّ منطوقٍ واحد يُمسَكان** — مفتاحُ الملفّ بصمةُ نصّه وحدَه، "
+       "فيتقاسمان ملفاً ويُسمع أحدُهما مكانَ الآخر")
+    ok(find(sounded(lambda d: d["phonemes"][0]["graphemes"].append("a")),
+            "بين صائتٍ وساكن"),
+       "وصوتٌ رسمٌ منه صائتٌ ورسمٌ ساكن يُمسَك (القافيةُ تُحسب من أوّل صائت)")
+    ok(find(sounded(lambda d: d["phonemes"][1]["graphemes"].append("s")),
+            "منسوبٌ إلى صوتين"),
+       "ورسمٌ واحد منسوبٌ إلى صوتين يُمسَك")
+    ok(find(sounded(lambda d: d["phonemes"][0].__setitem__("say", "sss")),
+            "ليس على صورة"),
+       "ونصٌّ منطوقٌ ليس على صورة `/x/` يُمسَك (فئةُ `phoneme` في قائمة الصوت)")
+
+    def paired(mutate):
+        clone = copy.deepcopy(data)
+        mutate(clone)
+        return pair_errors(clone)
+
+    def pair_of(clone, key):
+        return next(p for s in clone["stations"] for p in (s.get("pairs") or [])
+                    if p["key"] == key)
+
+    ok(find(paired(lambda d: next(w for w in d["words"] if w["w"] == "pear").pop("face")),
+            "ويخالف قاعدةَ الصورة"),
+       "**وصورةٌ تسقط عن حامل زوجٍ مصوَّر تُمسَك** — الشكلُ محسوبٌ من الصورة، "
+       "فسقوطُها يقلبه صامتاً إلى تمييزٍ صوتيّ بلا صوتين")
+    ok(find(paired(lambda d: pair_of(d, "f-v").update(mode="word")),
+            "ويخالف قاعدةَ الصورة"),
+       "وزوجٌ يُعلَن مصوَّراً بلا حاملَين مصوَّرين يُمسَك (الحكمُ بالبيانات لا باليد)")
+    ok(find(paired(lambda d: pair_of(d, "f-v").update(sounds=[])),
+            "بلا صوتين **مختلفين**"),
+       "وتمييزٌ صوتيٌّ خالص بلا صوتين يُمسَك (سؤالٌ بلا مادّة)")
+    ok(find(paired(lambda d: pair_of(d, "f-v").update(sounds=["/f/", "/f/"])),
+            "بلا صوتين **مختلفين**"),
+       "**وزوجٌ صوتاه واحد يُمسَك** — «أهما سواء؟» بلا فرقٍ جوابُه واحدٌ أبداً")
+    ok(find(paired(lambda d: pair_of(d, "f-v").update(why="")), "وبلا علّةٍ مكتوبة"),
+       "وزوجٌ بلا حاملَين وبلا علّةٍ مكتوبة يُمسَك (ولِمَ لا زوجَ أدنى مصوَّرٌ له؟)")
+    ok(find(paired(lambda d: pair_of(d, "p-b")["names"].append("penguin")),
+            "ليس من مداخل"),
+       "وحاملُ زوجٍ من خارج Starters يُمسَك")
+
     print("\n— حكمُ الاستهلاك دالّةٌ خالصة: يُجرَّب بلا مولّدٍ ولا متصفّح —")
     letters = next(s for s in stations if s["id"] == "grade:h05")["frontier"]
     ok(not usage_errors("ج", {"words": ["cat"], "fields": [], "gpcs": ["c", "a", "t"],
@@ -863,6 +1014,14 @@ def self_test(data: dict) -> int:
                          animals, bank), "في أمرٍ منطوق"),
        "**وأمرٌ فيه فعلٌ من خارج القائمة يُمسَك** — «touch» ليست في Starters ‏2025، "
        "وهي مثالُ `METHOD.md §٤` التوضيحيّ (وقد أمسكها الحارسُ ساعةَ كُتب)")
+    ears = next(s for s in stations if s["id"] == "ear:s4-1")["frontier"]
+    ok(not usage_errors("ج", {"words": [], "fields": [], "gpcs": [], "tricky": [],
+                              "sounds": ["/s/"]}, ears, bank),
+       "وجولةٌ تنطق صوتاً من أصوات المنهج تمرّ (`/s/`)")
+    ok(find(usage_errors("ج", {"words": [], "fields": [], "gpcs": [], "tricky": [],
+                               "sounds": ["/zh/"]}, ears, bank), "ليس من أصوات المنهج"),
+       "**وجولةٌ تنطق صوتاً مخترَعاً تُمسَك** — لا يمرّ على بابَي الكلمة والرمز "
+       "(ليس كلمةً ولا رسماً)، ولا يُسمَع خطؤه إلا في أذن طفل")
 
     print(f"\n{fails} فشل" if fails else "\n✓ الفاحصُ يمسك المدسوسَ كلَّه")
     return 1 if fails else 0

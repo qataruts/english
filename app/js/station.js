@@ -154,6 +154,10 @@ export const usedOf = (round) => ({
   // Starters**، وهو ما يفرضه `METHOD.md §٣` («ولا كلمةَ في تمرينٍ خارجه»). فتُجرَد
   // على القائمة الأصل لا على الرصيد المصوَّر، ويمسك الحارسُ أمراً بكلمةٍ من خارجها.
   said: [...new Set(round.said || [])],
+  // **والصوتُ المعزول صنفٌ خامس**: `/s/` ليس كلمةً فلا يُقابَل بالرصيد، وليس رسماً
+  // فلا يُقابَل بالسلّم — يُقابَل بجدول أصوات المنهج (`PHONEMES`)، فلا يُنطَق في
+  // شاشةِ طفلٍ صوتٌ لا يعرفه المنهج (بابُ الأصوات في `check_range.py`).
+  sounds: [...new Set(round.sounds || [])],
   gpcs: [],
   tricky: [],
 });
@@ -467,15 +471,27 @@ export function stationScreen({ nodeId, title, accent, make, view, score, save }
 const EXERCISES = new Map();   // نوعُ التمرين ← [{ build, view }]
 
 /**
+ * **سقفُ التمارين الطويلة في الجلسة الواحدة** — عقدٌ قائم في محرّك المراجعة
+ * (`buildSession({ longs })`) لم يكن له مالكٌ حتى دخل أوّلُ تمرينٍ طويل.
+ *
+ * **وهو كائنٌ واحد يُحقَن مرّةً ويُملأ لاحقاً**: `setBuilders` تُنادى عند تحميل هذا
+ * الملفّ — **قبل** أن تسجّل وحداتُ التمارين نفسَها — فلو مُرِّرت نسخةٌ لَبقيت فارغة
+ * أبداً. فالمرجعُ واحد، وكلُّ تسجيلٍ يكتب فيه سقفَه.
+ */
+const LONGS = {};
+
+/**
  * تسجيلُ نوع تمرينٍ في المراجعة.
  * @param {string} kind الحقلُ الثالث من مفتاح ليتنر (`METHOD.md §٧`)
- * @param {{build: Function, view: Function, score: Function}} spec
+ * @param {{build: Function, view: Function, score: Function, max?: number}} spec
  *   `build(skill, rnd)` يبني جولةً من محطة تلك المهارة **أو `null` إن لم تكن له**،
  *   و`view(round, hooks)` يرسمها، و`score(round, correct, record)` يكتب محاولتَها —
  *   **وهو من الوحدة المالكة**: جولةُ الأمر المركّب تكتب مفتاحين (صفةً وصفة) لا مفتاحاً.
+ *   و`max` سقفُ هذا النوع في جلسة المراجعة الواحدة (لِما يطول على طفل).
  */
 export function registerExercise(kind, spec) {
   EXERCISES.set(kind, [...(EXERCISES.get(kind) || []), spec]);
+  if (spec.max) LONGS[kind] = Math.min(LONGS[kind] ?? spec.max, spec.max);
 }
 
 /** تمرينُ مهارةٍ مستحقّة — يقرؤه محرّكُ المراجعة والبوابات معاً. */
@@ -518,4 +534,4 @@ function viewFor(item, api) {
   });
 }
 
-setBuilders({ item: itemFor, fillers: fillersOf, view: viewFor });
+setBuilders({ item: itemFor, fillers: fillersOf, view: viewFor, longs: LONGS });

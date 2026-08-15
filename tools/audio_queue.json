@@ -1,5 +1,15 @@
 [
   {
+    "text": "اِسْمَعِ الْأَصْوَاتَ وَاجْمَعْهَا — أَيَّةُ صُورَةٍ هِيَ؟",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "اِسْمَعِ الْأَمْرَ وَاخْتَرْ مَنْ يَفْعَلُهُ",
     "lang": "ar",
     "voice": "",
@@ -30,11 +40,61 @@
     "doneAt": null
   },
   {
+    "text": "اِسْمَعِ الصَّوْتَ وَالْمَسْ مَا يَبْدَأُ بِهِ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اِسْمَعِ الصَّوْتَيْنِ: أَهُمَا سَوَاءٌ أَمْ مُخْتَلِفَانِ؟",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اِسْمَعِ الْكَلِمَةَ ثُمَّ الْمَسْ أَصْوَاتَهَا بِتَرْتِيبِهَا",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "اِسْمَعْ وَالْمَسْ",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
     "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اِسْمَعْ وَالْمَسِ الصُّورَةَ الَّتِي سَمِعْتَ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "اِسْمَعْ وَالْمَسْ مَا يُشْبِهُ آخِرَهُ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-3",
     "priority": 10,
     "status": "pending",
     "doneAt": null
@@ -50,6 +110,16 @@
     "doneAt": null
   },
   {
+    "text": "اُنْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يُسْمِعُ الْأَصْوَات",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "اُنْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقُولُ وَأَنْتَ تَسْمَعْ",
     "lang": "ar",
     "voice": "",
@@ -60,11 +130,31 @@
     "doneAt": null
   },
   {
+    "text": "اُنْظُرْ وَاسْمَعْ — صَوْتَانِ مُتَقَارِبَانِ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "اُنْظُرْ: الْمُعَلِّمُ يَأْمُرُ وَيَفْعَل",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
     "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "سَوَاء",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-3",
     "priority": 10,
     "status": "pending",
     "doneAt": null
@@ -85,6 +175,16 @@
     "voice": "",
     "category": "instruction",
     "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "مُخْتَلِفَان",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-3",
     "priority": 10,
     "status": "pending",
     "doneAt": null
@@ -146,6 +246,286 @@
     "category": "celebration",
     "requestedBy": "session-2",
     "priority": 30,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/a/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/b/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/d/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/e/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/ee/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/f/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/g/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/i/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/igh/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/k/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/l/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/m/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/n/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/o/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/oa/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/oo/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/ow/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/p/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/r/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/s/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/sh/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/t/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/th/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/u/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/ur/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/ʊ/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/v/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/w/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 40,
     "status": "pending",
     "doneAt": null
   },

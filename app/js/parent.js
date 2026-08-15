@@ -508,18 +508,18 @@ export function unitLine(stat, today = progress.dayNumber()) {
   const parts = stat.parts || [];
   const weakest = parts[0];                       // `unitStats` رتّبها بالضعف
   const done = parts.filter((s) => s.box >= progress.MASTERED_BOX);
-  const reached = done.map((s) => rangeText(s.range)).filter(Boolean).join('، ');
+  const reached = done.map((s) => rangeText(s.range, stat.unit)).filter(Boolean).join('، ');
   const fill = (text, what) => String(text || '').replace('{ما}', what);
 
   // ثلاثُ حالات: أتقن كلَّ تمارينه · تعثّر · بينهما — ولكلٍّ عبارتُها من بيانات المنهج
   const state = stat.mastered ? 'mastered' : stat.struggling ? 'struggling' : 'learning';
   const stuck = Boolean(stat.struggling && weakest
     && today - (weakest.since ?? weakest.seen ?? today) >= STUCK_DAYS);
-  const learning = weakest ? `يتدرّب على ${rangeText(weakest.range)}` : '';
+  const learning = weakest ? `يتدرّب على ${rangeText(weakest.range, stat.unit)}` : '';
   const line = state === 'mastered'
     ? fill(spec.does, reached)
     : state === 'struggling'
-      ? fill(spec.needs, rangeText(weakest.range))
+      ? fill(spec.needs, rangeText(weakest.range, stat.unit))
       // **وما أتقنه يُقال قبل ما يتدرّب عليه**: الوالدُ يقرأ تقدّمَ طفله لا نقصَه
       : [reached && fill(spec.does, reached), learning].filter(Boolean).join('، و');
 
