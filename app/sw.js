@@ -35,7 +35,7 @@
 // عند تغيير أي ملف من ملفات الهيكل: ارفع VERSION فيُمحى مخزون **القشرة** القديم.
 // ويحرس `tools/test_pwa.mjs` أن قائمة SHELL لا تنسى ملفاً موجوداً في `app/` ولا
 // تَعِد بملفٍ غير موجود.
-const VERSION = 'v3';
+const VERSION = 'v4';
 const SHELL_CACHE = `english-shell-${VERSION}`;
 const AUDIO_CACHE = 'english-audio';      // ثابتٌ عمداً — لا يحمل VERSION
 const KEEP = [SHELL_CACHE, AUDIO_CACHE];
@@ -56,6 +56,7 @@ const SHELL = [
   'js/ear.js',
   'js/figures.js',
   'js/gate.js',
+  'js/grade.js',
   'js/main.js',
   'js/parent.js',
   'js/progress.js',

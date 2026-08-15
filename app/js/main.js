@@ -24,11 +24,13 @@ import { renderParent, skillsText } from './parent.js';
    **وحدة** (لا لكل محطة) ثمنُ أن تصل إليها شجرةُ الاستيراد، وبه يعرف عاملُ الخدمة
    ماذا يخزّن وحارسُ `test_pwa` أنّ الملفَّ حيٌّ لا ميّت.
    **ووحدتا الجلسة ٢**: «افهم والمس» (س١ وس٥) و«اسمع ونفّذ» (س٢)،
-   **ووحدتا الجلسة ٣**: «ميّز الزوجين» (س٣) و«الأذنُ الفونيمية» (س٤). */
+   **ووحدتا الجلسة ٣**: «ميّز الزوجين» (س٣) و«الأذنُ الفونيمية» (س٤)،
+   **ووحدةُ الجلسة ٤**: درجاتُ الحرف (ح١–ح٥ — أوّلُ ما يُرسَم فيه حرف). */
 import './quiz.js';
 import './tpr.js';
 import './contrast.js';
 import './ear.js';
+import './grade.js';
 import {
   h, icon, faceEl, toast, go, arNum, starsRow, topbar, brandMark, landmark, DEV,
   PAUSE_ACCENT,

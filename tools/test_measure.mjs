@@ -249,6 +249,21 @@ if (!types.length) {
     for (const file of screenFiles) await import(new URL(file, APP));
     const review = await import(new URL('review.js', APP));
     const { seeded } = await import(new URL('ui.js', APP));
+
+    /* **وقيدُ الاقتران يُستوفى قبل السؤال** (زيادةُ الجلسة ٤ · `METHOD.md §٦`): مفتاحُ
+       قراءةٍ (`build` · `decode` · `text`) **لا مادّةَ له بحقّ** حتى تبلغ كلمتُه صندوقَ
+       الإتقان في مفتاحها السمعيّ. فلو سُئل الحارسُ والسجلُّ فارغ لَطالب بما يمنعه
+       القيدُ نفسُه فأحمرَّ على صواب. فتُصنَع **حالةُ الطفل الذي بلغ تلك المحطة**:
+       كلماتُ القراءة ناضجةٌ سمعاً — ثم يُطالَب بالمادّة. وهو يشدّ الحارسَ لا يرخيه:
+       صار يشهد أنّ كلَّ مفتاح قراءةٍ **يُنتج تمرينَه يومَ يُفتَح**. */
+    for (const station of curriculum.stations()) {
+      for (const word of station.words || []) {
+        if (!word.listen) continue;
+        const [unit, range, at] = word.listen.split('|');
+        for (let i = 0; i < p.MASTERED_BOX; i++) p.recordAttempt(unit, range, at, true);
+      }
+    }
+
     for (const kind of kinds) {
       const waiting = owners(kind).every((s) => !has(s.file));
       if (waiting) {
@@ -289,8 +304,18 @@ if (!types.length) {
     const asked = (round, range) => (round.skills || [round])
       .some((s) => String(s.range) === String(range));
 
+    /* **ومفتاحٌ مادّتُه بيانٌ لم يُكتب بعدُ ينام بشرطٍ مجرود**: الشائكةُ تُرسَم بمقاطعها
+       وموضعِ شوكتها (`HEART_WORDS` — تكتبها الجلسات ٥–٧ عهداً عهداً)، فشائكةٌ بلا رسمٍ
+       معلَن لا يستطيع أحدٌ أن يسأل عنها. **ولا رايةَ تُضبط بيد**: يومَ يُكتب رسمُها
+       تستيقظ، ويحرس `check_range` ألّا يُكتب نصفُ عهدٍ ويُترك نصفُه. */
+    const pendingKey = (key) => {
+      const [unit, range] = key.split('|');
+      return unit === 'tricky' && !Object.hasOwn(curriculum.HEART_WORDS, range);
+    };
+
     let checked = 0;
     let sleeping = 0;
+    let pending = 0;
     const orphans = [];
     for (const station of curriculum.stations()) {
       const known = STATIONS[station.type];
@@ -298,6 +323,7 @@ if (!types.length) {
       if (!probeOf(station.id).length) { sleeping++; continue; }
       for (const key of station.skills || []) {
         const [unit, range, kind] = key.split('|');
+        if (pendingKey(key)) { pending++; continue; }
         checked++;
         const due = [{ unit, range: p.spanOf(range), kind, box: 0, wrong: 1 }];
         const built = [3, 9].map((seed) =>
@@ -312,6 +338,9 @@ if (!types.length) {
       + (orphans.length ? ` — **بلا مادّة: ${orphans.slice(0, 6).join('، ')}**`
         + (orphans.length > 6 ? ` و${orphans.length - 6} غيرُها` : '') : ''));
     if (sleeping) dormant(`${sleeping} محطةً لم تولّد جولةً بعد (شاشتُها في جلسةٍ تالية)`);
+    if (pending) {
+      dormant(`${pending} شائكةً لم يُكتب رسمُها بعد (HEART_WORDS — الجلسات ٥–٧)`);
+    }
   }
 }
 

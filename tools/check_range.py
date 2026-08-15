@@ -82,6 +82,7 @@ def load_curriculum() -> dict:
       vowels: [...m.VOWEL_SYMBOLS], clusterGrade: m.CLUSTER_GRADE,
       units: m.UNIT_UNITS, unitSections: m.UNIT_SECTIONS,
       gates: m.GATES, tracks: m.TRACKS,
+      hearts: m.HEART_WORDS, sectionCap: m.SECTION_CAP,
       stations: m.stations(),
       sections: m.sections().map((s) => ({{
         kind: s.kind, id: s.id, title: s.title, accent: s.accent,
@@ -417,6 +418,70 @@ def journey_errors(data: dict) -> list:
     return errors
 
 
+# ————— حدُّ المجموعة: **سقفٌ لا هدف** (قرار المالك · `FAMILY §١٠ب`) —————
+#
+# «لا قسمَ في الخريطة فوق ١٢ عقدة». وعلّتُه في يد الطفل لا في الشيفرة: درجٌ يُفرَد
+# فيملأ الشاشةَ بما لا يُحاط به نظراً، فيضيع «أين أنا» — وهو ما تقوم عليه الخريطة.
+#
+# **وهو سقفٌ لا هدف**: قسمٌ من ثلاثٍ صحيحٌ تماماً، وإنّما يُمنَع تجاوزُ الاثنتي عشرة.
+# والرقمُ يُقرأ من `curriculum.js` (‏`SECTION_CAP`) لا يُكتب هنا — مصدرٌ واحد.
+
+def group_errors(data: dict) -> list:
+    cap = data.get("sectionCap") or 12
+    errors = []
+    for section in data["sections"]:
+        count = len(section["nodes"])
+        if count > cap:
+            errors.append(f"[{section['id']}] «{section.get('title', '')}» فيه {count} عقدة "
+                          f"وحدُّ المجموعة {cap} (`FAMILY §١٠ب` — سقفٌ لا هدف)")
+    return errors
+
+
+# ————— الشائكاتُ بطريقة heart words: لكلِّ مفتوحةٍ رسمُها وشوكتُها وسياقُها —————
+#
+# «كلُّ شائكةٍ **مفكوكةٌ إلا موضعَ شوكتها**» (`METHOD.md §١٢-١`)، فلا تُعرَض شائكةٌ في
+# شاشةِ طفلٍ بلا مقاطعَ يُوسَم فيها موضعُ الشوكة. **والغيابُ ههنا صامتٌ لولا هذا الباب**:
+# شائكةٌ بلا رسمٍ معلَن تسقط من جولات محطتها بلا خبر، ويبقى مفتاحُها في ليتنر أبداً.
+#
+# **ونومُه بالدرجة لا بالجميع، وشرطُه مجرود**: الشائكاتُ ستٌّ وخمسون تُكتب في أربع
+# جلسات (٤–٧)، فمطالبةُ الجميع يومَ تُكتب أولاها تُسقِط الجلسةَ الرابعة بذنب السابعة.
+# فالمطلوبُ **التمامُ حتى آخر درجةٍ أُعلن فيها رسم** — فمن كتب `he` (ح٦) طُولب بـ`she`
+# معها في الحال، وما بعدَها نائمٌ حتى يُكتب. ولا رايةَ تُضبط بيد.
+
+def wanted_hearts(data: dict) -> list:
+    """الشائكاتُ المطلوبُ رسمُها اليوم: كلُّ ما حتى آخر درجةٍ فيها رسمٌ معلَن."""
+    hearts = data.get("hearts") or {}
+    reached = -1
+    for at, grade in enumerate(data["grades"]):
+        if any(word in hearts for word in grade["tricky"]):
+            reached = at
+    return [w for g in data["grades"][:reached + 1] for w in g["tricky"]]
+
+
+def heart_errors(data: dict) -> list:
+    errors = []
+    hearts = data.get("hearts") or {}
+    open_tricky = [w for g in data["grades"] for w in g["tricky"]]
+    for word in wanted_hearts(data):
+        shape = hearts.get(word)
+        if not shape:
+            errors.append(f"[شائكة {word}] بلا رسمٍ معلَن في `HEART_WORDS` — "
+                          "فلا موضعَ لشوكتها يُوسَم")
+            continue
+        joined = "".join(shape["parts"])
+        if joined != word:
+            errors.append(f"[شائكة {word}] مقاطعُها «{joined}» لا تؤلّفها")
+        if not 0 <= shape["heart"] < len(shape["parts"]):
+            errors.append(f"[شائكة {word}] موضعُ شوكتها ({shape['heart']}) خارج مقاطعها")
+        if not shape.get("say"):
+            errors.append(f"[شائكة {word}] بلا سياقٍ مسموع — و`METHOD.md §٦`: "
+                          "«تُدرَّس داخل سياقٍ مسموعٍ مألوف لا معزولةً»")
+    stray = [w for w in hearts if w not in open_tricky]
+    if stray:
+        errors.append(f"[الشائكات] رسمٌ لشائكةٍ ليست في المنهج: {'، '.join(stray)}")
+    return errors
+
+
 def bank_of(data: dict) -> dict:
     return {
         "words": {w["w"] for w in data["words"]},
@@ -658,6 +723,14 @@ def check(data: dict) -> int:
 
     door("عقدُ الرحلة: البوابات في مواضعها والعقدُ محطةٌ أو بوابة", journey_errors(data),
          f"{len(data['sections'])} قسماً و{nodes} عقدة و{len(data['gates'])} بوابات")
+    biggest = max((len(s["nodes"]) for s in data["sections"]), default=0)
+    door("حدُّ المجموعة: لا قسمَ فوق سقف العقد", group_errors(data),
+         f"أكبرُ قسمٍ {biggest} عقدة، وحدُّ المجموعة {data.get('sectionCap')} "
+         "(`FAMILY §١٠ب` — سقفٌ لا هدف)")
+    door("الشائكاتُ بطريقة heart words: لكلٍّ رسمُها وشوكتُها وسياقُها",
+         heart_errors(data),
+         f"{len(data.get('hearts') or {})} شائكةً معلَنةَ الرسم، ولكلٍّ موضعُ شوكةٍ "
+         "يُوسَم وسياقٌ مسموع")
 
     print("\n— القصصُ شبهُ المفكوكة: نصُّها يُفحَص ككل تمرين —")
     stories = [s for s in stations if s["type"] == "story"]
@@ -749,6 +822,8 @@ def self_test(data: dict) -> int:
         ("أزواجُ التمييز", pair_errors(data)),
         ("الأبوابُ الثلاثة", live),
         ("عقدُ الرحلة", journey_errors(data)),
+        ("حدُّ المجموعة", group_errors(data)),
+        ("الشائكاتُ heart words", heart_errors(data)),
     ):
         ok(not rows, f"{name}: نظيف" + ("" if not rows else f" — {rows[0]}"))
 
@@ -989,6 +1064,56 @@ def self_test(data: dict) -> int:
     ok(find(paired(lambda d: pair_of(d, "p-b")["names"].append("penguin")),
             "ليس من مداخل"),
        "وحاملُ زوجٍ من خارج Starters يُمسَك")
+
+    print("\n— حدُّ المجموعة: **سقفٌ لا هدف** (قرار المالك · `FAMILY §١٠ب`) —")
+
+    def grouped(mutate):
+        clone = copy.deepcopy(data)
+        mutate(clone)
+        return group_errors(clone)
+
+    cap = data.get("sectionCap") or 12
+    biggest = max(data["sections"], key=lambda s: len(s["nodes"]))
+    ok(find(grouped(lambda d: d["sections"][0]["nodes"].extend(
+        [{"id": f"x{i}", "type": "quiz", "part": f"x{i}", "title": "مدسوسة"}
+         for i in range(cap)])), "وحدُّ المجموعة"),
+       f"قسمٌ يُنفَخ فوق {cap} عقدة يُمسَك (وهو الصنفُ الذي وُجد له الباب)")
+    ok(not grouped(lambda d: d["sections"][0]["nodes"].extend(
+        [{"id": f"x{i}", "type": "quiz", "part": f"x{i}", "title": "مدسوسة"}
+         for i in range(cap - len(d["sections"][0]["nodes"]))])),
+       f"**والبلوغُ حتى السقف يمرّ**: {cap} عقدة تماماً — سقفٌ لا هدف")
+    ok(not group_errors(data),
+       f"وأكبرُ أقسام الرحلة اليومَ «{biggest['id']}» بـ{len(biggest['nodes'])} عقدة")
+
+    print("\n— الشائكاتُ بطريقة heart words —")
+
+    def hearted(mutate):
+        clone = copy.deepcopy(data)
+        mutate(clone)
+        return heart_errors(clone)
+
+    ok(find(hearted(lambda d: d["hearts"].pop("the")), "بلا رسمٍ معلَن"),
+       "**وشائكةٌ في المنهج بلا رسمٍ معلَن تُمسَك** — كانت تسقط من جولات محطتها صامتةً "
+       "ويبقى مفتاحُها في ليتنر أبداً")
+    ok(find(hearted(lambda d: d["hearts"]["to"].update(parts=["t", "oo"])), "لا تؤلّفها"),
+       "ومقاطعُ رسمٍ لا تؤلّف كلمتَها تُمسَك")
+    ok(find(hearted(lambda d: d["hearts"]["no"].update(heart=5)), "خارج مقاطعها"),
+       "وموضعُ شوكةٍ خارج المقاطع يُمسَك (ولا قلبَ يُرسَم تحت شيء)")
+    ok(find(hearted(lambda d: d["hearts"]["go"].update(say="")), "بلا سياقٍ مسموع"),
+       "**وشائكةٌ بلا سياقٍ مسموع تُمسَك** — `METHOD.md §٦`: تُدرَّس في سياقٍ مألوف "
+       "لا معزولة")
+    ok(find(hearted(lambda d: d["hearts"].update(
+        pot={"parts": ["p", "o", "t"], "heart": 2, "say": "a pot"})),
+        "ليست في المنهج"),
+       "ورسمٌ لكلمةٍ ليست شائكةً في المنهج يُمسَك (ميزانيةُ الشائكات مقَرّة)")
+    # **والنومُ يُجرَّب كما تُجرَّب اليقظة**: يُعلَن رسمُ شائكةٍ من ح٦ فتُطالَب أختُها
+    # في الحال، وما بعدَها يبقى نائماً — فلا تُسقِط الجلسةَ الرابعة شائكاتُ السابعة.
+    ok(len(wanted_hearts(data)) == len(data["hearts"]),
+       f"**والمطلوبُ اليومَ ما أُعلن مثلُه**: {len(wanted_hearts(data))} شائكةً "
+       f"(من {sum(len(g['tricky']) for g in data['grades'])} في المنهج) — والبقيةُ نائمة")
+    ok(find(hearted(lambda d: d["hearts"].update(
+        he={"parts": ["h", "e"], "heart": 1, "say": "he can run"})), "بلا رسمٍ معلَن"),
+       "**وإعلانُ رسمٍ في درجةٍ يُوقظ أخواتِه فيها** — `he` وحدَها تُطالِب بـ`she`")
 
     print("\n— حكمُ الاستهلاك دالّةٌ خالصة: يُجرَّب بلا مولّدٍ ولا متصفّح —")
     letters = next(s for s in stations if s["id"] == "grade:h05")["frontier"]

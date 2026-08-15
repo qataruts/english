@@ -707,6 +707,36 @@ export const GRADES = [
 ];
 
 /**
+ * ————— **الشائكاتُ بطريقة heart words** (`METHOD.md §٥`) —————
+ *
+ * «شائكاتُها المعدودة إن وُجدت بطريقة heart words (فكُّ المنتظم ووسمُ الشوكة)»،
+ * و`§١٢-١`: «كلُّ شائكةٍ **مفكوكةٌ إلا موضعَ شوكتها**». فلكلِّ شائكةٍ **مقاطعُ رسمها**
+ * و**موضعُ شوكتها** — وهما بيانٌ يُكتب، لأنّ الشوكة لا تُستنتَج من الرسم: في `to`
+ * الشوكةُ `o` (تقول ‏/oo/ لا ‏/o/)، وفي `the` الشوكةُ `e` (تقول شوَا)، وفي `I` الكلمةُ
+ * كلُّها شوكة.
+ *
+ * **والوسمُ يُحسَب بدرجة المحطة لا يُكتب هنا** (`markedTricky` أدناه): المقطعُ يُنقَّط
+ * **إن كان رمزُه مفتوحاً عند تلك الدرجة** — فـ`th` في `the` عند ح٣ لا نقطةَ له (رمزُه
+ * يُفتَح في ح٨) وله نقطةٌ يومَ يُفتَح. ولو كُتب الوسمُ بياناً ثابتاً لَكذب على الطفل
+ * في إحدى الدرجتين: «هذا تفكّه» وهو لم يتعلّمه بعد.
+ *
+ * **ولا تدخل مقاطعُ الشائكة جردَ الرموز**: هي الخرقُ المعلَن الوحيد للمفكوكية
+ * (`METHOD.md §١٢-١`) بميزانيةٍ معدودة — فتُجرَد **شائكةً** على ميزانيتها، لا رسوماً
+ * على السلّم (وإلّا لَاستحال تدريسُ `the` عند ح٣ أبداً).
+ *
+ * **ولكلٍّ سياقٌ مسموعٌ مألوف** (`say` — نصُّ `METHOD.md §٦`: «وتُدرَّس داخل سياقٍ
+ * مسموعٍ مألوف (‏the cat…) لا معزولةً»): كلماتُه كلُّها مداخلُ Starters يجردها
+ * `check_range` كما يجرد الأمرَ المنطوق، فلا يدخل أذنَ الطفل ما ليس من قائمته.
+ */
+export const HEART_WORDS = {
+  the: { parts: ['th', 'e'], heart: 1, say: 'the cat' },
+  to: { parts: ['t', 'o'], heart: 1, say: 'go to bed' },
+  no: { parts: ['n', 'o'], heart: 1, say: 'no, it is not a dog' },
+  go: { parts: ['g', 'o'], heart: 1, say: 'go to the door' },
+  I: { parts: ['I'], heart: 0, say: 'I can run' },
+};
+
+/**
  * **الرموزُ الصائتة** — قائمةٌ مُعلَنة لا تُشتقّ من شكل الرسم.
  *
  * وعلّةُ وجودها بابٌ في الفاحص: **المرحلةُ ٤ (ح١٣) لا رمزَ جديدَ فيها**، وإنما
@@ -905,6 +935,27 @@ export function readableAt(gradeId, isMastered) {
  * (`METHOD.md §١٢-١`). ونصُّ §٦ نفسُه يحصر القيد في `decode/build/text`.
  */
 export const trickyAt = (gradeId) => trickyUpTo(gradeId);
+
+/**
+ * **شائكةٌ موسومةٌ بدرجتها**: مقاطعُ رسمها ولكلٍّ وسمُه —
+ * `heart` موضعُ الشوكة · `dot` مقطعٌ رمزُه مفتوحٌ عند هذه الدرجة فيُفكّ · `''` سواهما.
+ *
+ * **علامةٌ لا نصٌّ شارح** (بندُ الجلسة ٤): الطفلُ قبل-قارئ بلغتين، فلا تُكتب له
+ * «هذا الحرفُ شاذّ» — تُرسَم تحت المقطع علامةٌ يتعلّمها في النمذجة.
+ */
+export function markedTricky(word, gradeId) {
+  const shape = HEART_WORDS[word];
+  if (!shape) return null;
+  const open = new Set(symbolsUpTo(gradeId));
+  return {
+    w: word,
+    say: shape.say,
+    parts: shape.parts.map((g, at) => ({
+      g,
+      mark: at === shape.heart ? 'heart' : open.has(g) ? 'dot' : '',
+    })),
+  };
+}
 
 // ————————————————————————————————————————————————————————————————————————
 // ٥) مسارا الرحلة ومحطاتُها
@@ -1252,6 +1303,23 @@ function listenStations() {
  */
 const gradeType = (grade) => (grade.clusters ? 'cluster' : 'grade');
 
+/**
+ * **أللكلمة صورةٌ مفردةٌ تُلمَس؟** — شرطُ شكل `decode` نفسِه: «كلمةٌ مكتوبة تُفكّ
+ * **فتُلمَس صورتُها**» (بندُ الجلسة ٤). وهو **حكمٌ بالبيانات لا بيد**، بقاعدة `specOf`
+ * عينِها في `figures.js`: وجهٌ أو كمّيةٌ أو بقعةُ لونٍ أو وضعٌ مرسوم.
+ *
+ * **وثلاثُ كلماتٍ اليومَ خارجه بعلّةٍ واحدة**: `in` و`on` و`big` مادّتُها **مشهدٌ**
+ * (`pictured: 'scene'`) — لا صورةَ مفردةَ لها تُلمَس، فمعناها إنّما يُرى في مشهد س٢
+ * (تفاحةٌ **في** الصندوق · الكرةُ **الكبيرة**). فلا مفتاحَ فكٍّ لها، **ولها مفتاحُ
+ * دمجٍ كسائرها** (الدمجُ يُسمَع فيُبنى، ولا يحتاج صورة) — فتُدرَّس ولا يسقط منها شيء.
+ * (بندٌ يُرفَع: شكلُ فكٍّ في مشهدٍ بابٌ مفتوح لجلسةٍ تالية إن رآه المدير.)
+ */
+export const isTouchable = (word) => {
+  const entry = WORD_INDEX.get(word);
+  return Boolean(entry
+    && (entry.face || entry.count || entry.swatch || entry.pictured === 'act'));
+};
+
 /** مفاتيحُ درجةٍ: رموزُها صوتاً↔رسماً · كلماتُها دمجاً وفكّاً · شائكاتُها. */
 function gradeSkills(grade) {
   const keys = [];
@@ -1262,7 +1330,9 @@ function gradeSkills(grade) {
     keys.push(`gpc|${symbol.id}|letter-pick`);
   }
   for (const word of grade.words) keys.push(`word|${word.w}|build`);
-  for (const word of grade.words) keys.push(`word|${word.w}|decode`);
+  for (const word of grade.words) {
+    if (isTouchable(word.w)) keys.push(`word|${word.w}|decode`);
+  }
   for (const word of grade.tricky) keys.push(`tricky|${word}|read`);
   for (const pair of grade.vowelPairs || []) keys.push(`vowel|${pair}|mid-pick`);
   return keys;
@@ -1426,21 +1496,39 @@ const stageSection = (stage) => ({
 });
 
 /**
- * قسمُ عهدٍ — أو **جزءٌ منه** حين تتخلّله محطةُ توسعةٍ سمعية.
+ * قسمُ عهدٍ — أو **جزءٌ منه** حين تتخلّله محطةُ توسعةٍ سمعية أو حين يطول.
  *
  * **والجزءُ الأخير يحمل معرّفَ العهد** (`letter1`) وما قبله مرقَّم (`letter1-1`):
  * لأنّ البوابةَ تُعلن موضعَها بـ`after: 'letter1'` — وهي إنّما تلي **تمامَ** العهد
  * لا أوّلَ أجزائه. فلو حمل الأولُ الاسمَ لَوقعت 🚪٢ في وسط العهد الذي تختمه.
  */
-const eraSection = (era, stations, index, count) => ({
+const eraSection = (era, stations, index, count, sub) => ({
   kind: 'era',
   id: index === count - 1 ? era.id : `${era.id}-${index + 1}`,
   title: era.ar.split(' — ')[0],
-  sub: index === 0 ? era.ar.split(' — ')[1]
-    : 'تتمةُ العهد — بعد محطةِ السمع التي تفتح كلماتِها',
+  sub: index === 0 ? era.ar.split(' — ')[1] : sub,
   face: '🔠', accent: 'var(--accent-letter)',
   nodes: stations.map(nodeOf),
 });
+
+/**
+ * **سقفُ عقد القسم الواحد** — قرارُ المالك (`FAMILY §١٠ب`): **سقفٌ لا هدف**، لا قسمَ
+ * في الخريطة فوق اثنتي عشرةَ عقدة. وعلّتُه في يد الطفل: درجٌ يُفرَد فيملأ الشاشةَ
+ * بما لا يُحاط به نظراً. ويحرسه `check_range.py` (بابُ حدّ المجموعة) مُجرَّباً سالباً.
+ */
+export const SECTION_CAP = 12;
+
+/**
+ * شطرُ قائمةٍ إلى أجزاءٍ **متساوية** لا إلى «سقفٍ وبقية»: أربعَ عشرةَ محطةً تصير
+ * سبعاً وسبعاً لا اثنتي عشرةَ واثنتين — فلا يبقى في الخريطة ذيلٌ لا يُفهَم لِمَ هو.
+ */
+function evenChunks(list, cap) {
+  const parts = Math.max(1, Math.ceil(list.length / cap));
+  const size = Math.ceil(list.length / parts);
+  const out = [];
+  for (let i = 0; i < list.length; i += size) out.push(list.slice(i, i + size));
+  return out;
+}
 
 /** **المرحلةُ المتداخلة** — نصُّ `METHOD.md §٤`: س٥ وحدَها تُواصل موازيةً لمسار الحرف. */
 const INTERLEAVED = 'listen5';
@@ -1507,10 +1595,27 @@ function letterSections() {
       }
       groups.at(-1).push(station);
     }
-    groups.forEach((stations, index) => {
-      if (inserts.has(index)) out.push(listen5Section(inserts.get(index)));
-      out.push(eraSection(era, stations, index, groups.length));
-    });
+    /* **ثم يُشطَر الطويلُ بالسقف** (`SECTION_CAP`): والشطرُ بعد التداخل لا قبله، فما
+       شطره التداخلُ قد لا يبلغ السقفَ أصلاً — ولكلِّ جزءٍ **سببُ نشأته مكتوباً** في
+       سطره، فلا يقرأ الوالدُ «تتمةً بعد محطة سمع» وليس قبلها محطةُ سمع. */
+    const parts = groups.flatMap((stations, index) => [
+      ...(inserts.has(index) ? [{ listen5: inserts.get(index) }] : []),
+      ...evenChunks(stations, SECTION_CAP).map((chunk, at) => ({
+        stations: chunk,
+        sub: at === 0 ? 'تتمةُ العهد — بعد محطةِ السمع التي تفتح كلماتِها'
+          : 'تتمةُ العهد — جزءٌ ثانٍ كي لا يطول القسمُ على عينِ الطفل',
+      })),
+    ]);
+    const eras = parts.filter((part) => part.stations).length;
+    let at = 0;
+    for (const part of parts) {
+      if (part.listen5) {
+        out.push(listen5Section(part.listen5));
+        continue;
+      }
+      out.push(eraSection(era, part.stations, at, eras, part.sub));
+      at++;
+    }
   }
   // **ولا محطةَ تسقط من الخريطة**: موضعٌ لم يُصادَف (درجةٌ حُذفت) أو ذيلٌ بلا مواضعَ
   // أصلاً يلحق بآخر الرحلة — ويمسكه `check_range` («محطةٌ في المنهج لا تصل») إن ضاع.

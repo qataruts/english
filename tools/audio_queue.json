@@ -1,150 +1,190 @@
 [
   {
-    "text": "اِسْمَعِ الْأَصْوَاتَ وَاجْمَعْهَا — أَيَّةُ صُورَةٍ هِيَ؟",
+    "text": "اسْمَعِ الْأَصْوَاتَ وَاجْمَعْهَا — أَيَّةُ صُورَةٍ هِيَ؟",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-3",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اِسْمَعِ الْأَمْرَ وَاخْتَرْ مَنْ يَفْعَلُهُ",
+    "text": "اسْمَعِ الْأَمْرَ وَاخْتَرْ مَنْ يَفْعَلُهُ",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-2",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اِسْمَعِ الْأَمْرَ وَالْمَسْ",
+    "text": "اسْمَعِ الْأَمْرَ وَالْمَسْ",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-2",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اِسْمَعِ الْأَمْرَ وَضَعِ التُّفَّاحَة",
+    "text": "اسْمَعِ الْأَمْرَ وَضَعِ التُّفَّاحَة",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-2",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اِسْمَعِ الصَّوْتَ وَالْمَسْ مَا يَبْدَأُ بِهِ",
+    "text": "اسْمَعِ الصَّوْتَ وَالْمَسْ رَسْمَهُ",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-3",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اِسْمَعِ الصَّوْتَيْنِ: أَهُمَا سَوَاءٌ أَمْ مُخْتَلِفَانِ؟",
+    "text": "اسْمَعِ الصَّوْتَ وَالْمَسْ مَا يَبْدَأُ بِهِ",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-3",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اِسْمَعِ الْكَلِمَةَ ثُمَّ الْمَسْ أَصْوَاتَهَا بِتَرْتِيبِهَا",
+    "text": "اسْمَعِ الصَّوْتَيْنِ: أَهُمَا سَوَاءٌ أَمْ مُخْتَلِفَانِ؟",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-3",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اِسْمَعْ وَالْمَسْ",
+    "text": "اسْمَعِ الْكَلِمَةَ ثُمَّ الْمَسْ أَصْوَاتَهَا بِتَرْتِيبِهَا",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-2",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اِسْمَعْ وَالْمَسِ الصُّورَةَ الَّتِي سَمِعْتَ",
+    "text": "اسْمَعِ الْكَلِمَةَ ثُمَّ رَكِّبْ لَبِنَاتِهَا بِتَرْتِيبِهَا",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-3",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اِسْمَعْ وَالْمَسْ مَا يُشْبِهُ آخِرَهُ",
+    "text": "اسْمَعْ وَالْمَسْ",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-3",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اِفْعَلْهَا مَعَهُ",
+    "text": "اسْمَعْ وَالْمَسِ الصُّورَةَ الَّتِي سَمِعْتَ",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-2",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اُنْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يُسْمِعُ الْأَصْوَات",
+    "text": "اسْمَعْ وَالْمَسْ مَا يُشْبِهُ آخِرَهُ",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-3",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اُنْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقُولُ وَأَنْتَ تَسْمَعْ",
+    "text": "افْعَلْهَا مَعَهُ",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-2",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اُنْظُرْ وَاسْمَعْ — صَوْتَانِ مُتَقَارِبَانِ",
+    "text": "انْظُرْ إِلَى الرَّسْمِ وَالْمَسْ صَوْتَهُ",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-3",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
   },
   {
-    "text": "اُنْظُرْ: الْمُعَلِّمُ يَأْمُرُ وَيَفْعَل",
+    "text": "انْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يُسْمِعُ الْأَصْوَات",
     "lang": "ar",
     "voice": "",
     "category": "instruction",
-    "requestedBy": "session-2",
+    "requestedBy": "session-4",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "انْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقْرَأُ وَأَنْتَ تَنْظُرْ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-4",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "انْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقُولُ وَأَنْتَ تَسْمَعْ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-4",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "انْظُرْ وَاسْمَعْ — صَوْتَانِ مُتَقَارِبَانِ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-4",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "انْظُرْ: الْمُعَلِّمُ يَأْمُرُ وَيَفْعَل",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
@@ -155,6 +195,16 @@
     "voice": "",
     "category": "instruction",
     "requestedBy": "session-3",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "فُكَّ الْكَلِمَةَ وَالْمَسْ صُورَتَهَا",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-4",
     "priority": 10,
     "status": "pending",
     "doneAt": null
@@ -190,6 +240,16 @@
     "doneAt": null
   },
   {
+    "text": "هَذِهِ كَلِمَةٌ نَحْفَظُهَا — اسْمَعْهَا وَالْمَسْهَا",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-4",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "وَهَذِهِ",
     "lang": "ar",
     "voice": "",
@@ -210,11 +270,11 @@
     "doneAt": null
   },
   {
-    "text": "اُنْظُرْ وَاسْمَعْ",
+    "text": "انْظُرْ وَاسْمَعْ",
     "lang": "ar",
     "voice": "",
     "category": "modeling",
-    "requestedBy": "session-2",
+    "requestedBy": "session-4",
     "priority": 20,
     "status": "pending",
     "doneAt": null
@@ -260,11 +320,51 @@
     "doneAt": null
   },
   {
+    "text": "/ai/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/air/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/ar/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "/b/",
     "lang": "en",
     "voice": "",
     "category": "phoneme",
     "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/ch/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
     "priority": 40,
     "status": "pending",
     "doneAt": null
@@ -290,11 +390,31 @@
     "doneAt": null
   },
   {
+    "text": "/ear/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "/ee/",
     "lang": "en",
     "voice": "",
     "category": "phoneme",
     "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/er/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
     "priority": 40,
     "status": "pending",
     "doneAt": null
@@ -320,6 +440,16 @@
     "doneAt": null
   },
   {
+    "text": "/h/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "/i/",
     "lang": "en",
     "voice": "",
@@ -340,11 +470,41 @@
     "doneAt": null
   },
   {
+    "text": "/j/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "/k/",
     "lang": "en",
     "voice": "",
     "category": "phoneme",
     "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/ks/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/kw/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
     "priority": 40,
     "status": "pending",
     "doneAt": null
@@ -380,6 +540,16 @@
     "doneAt": null
   },
   {
+    "text": "/ng/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "/o/",
     "lang": "en",
     "voice": "",
@@ -400,11 +570,31 @@
     "doneAt": null
   },
   {
+    "text": "/oi/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "/oo/",
     "lang": "en",
     "voice": "",
     "category": "phoneme",
     "requestedBy": "session-3",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/or/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
     "priority": 40,
     "status": "pending",
     "doneAt": null
@@ -500,6 +690,16 @@
     "doneAt": null
   },
   {
+    "text": "/ure/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "/ʊ/",
     "lang": "en",
     "voice": "",
@@ -530,6 +730,56 @@
     "doneAt": null
   },
   {
+    "text": "/y/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "/z/",
+    "lang": "en",
+    "voice": "",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 40,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "again",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "all",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "any",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "apple",
     "lang": "en",
     "voice": "",
@@ -540,11 +790,31 @@
     "doneAt": null
   },
   {
+    "text": "are",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "arm",
     "lang": "en",
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "asked",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -590,6 +860,16 @@
     "doneAt": null
   },
   {
+    "text": "be",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "beach",
     "lang": "en",
     "voice": "",
@@ -605,6 +885,16 @@
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "because",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -635,6 +925,16 @@
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "big",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -770,6 +1070,16 @@
     "doneAt": null
   },
   {
+    "text": "called",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "car",
     "lang": "en",
     "voice": "",
@@ -830,6 +1140,16 @@
     "doneAt": null
   },
   {
+    "text": "come",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "cow",
     "lang": "en",
     "voice": "",
@@ -845,6 +1165,26 @@
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "different",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "do",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -960,6 +1300,16 @@
     "doneAt": null
   },
   {
+    "text": "eyes",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "face",
     "lang": "en",
     "voice": "",
@@ -1040,6 +1390,16 @@
     "doneAt": null
   },
   {
+    "text": "friends",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "frog",
     "lang": "en",
     "voice": "",
@@ -1065,6 +1425,16 @@
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "go",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1160,11 +1530,41 @@
     "doneAt": null
   },
   {
+    "text": "have",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "he",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "Hello!",
     "lang": "en",
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "her",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1185,6 +1585,16 @@
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1260,11 +1670,71 @@
     "doneAt": null
   },
   {
+    "text": "laughed",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "leg",
     "lang": "en",
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "like",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "little",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "looked",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "many",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "me",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1300,11 +1770,41 @@
     "doneAt": null
   },
   {
+    "text": "mouse",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "mouth",
     "lang": "en",
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "Mr",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "Mrs",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1320,11 +1820,31 @@
     "doneAt": null
   },
   {
+    "text": "my",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "nine",
     "lang": "en",
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "no",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1340,11 +1860,31 @@
     "doneAt": null
   },
   {
+    "text": "oh",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "on",
     "lang": "en",
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "once",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1365,6 +1905,16 @@
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "out",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1400,6 +1950,16 @@
     "doneAt": null
   },
   {
+    "text": "people",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "phone",
     "lang": "en",
     "voice": "",
@@ -1425,6 +1985,16 @@
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "please",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1500,6 +2070,16 @@
     "doneAt": null
   },
   {
+    "text": "said",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "school",
     "lang": "en",
     "voice": "",
@@ -1525,6 +2105,16 @@
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "she",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1600,6 +2190,16 @@
     "doneAt": null
   },
   {
+    "text": "small",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "smile",
     "lang": "en",
     "voice": "",
@@ -1620,6 +2220,16 @@
     "doneAt": null
   },
   {
+    "text": "so",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "sock",
     "lang": "en",
     "voice": "",
@@ -1635,6 +2245,16 @@
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "some",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1730,6 +2350,56 @@
     "doneAt": null
   },
   {
+    "text": "the",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "their",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "there",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "they",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "thought",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "three",
     "lang": "en",
     "voice": "",
@@ -1740,11 +2410,31 @@
     "doneAt": null
   },
   {
+    "text": "through",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "tiger",
     "lang": "en",
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "to",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1800,11 +2490,71 @@
     "doneAt": null
   },
   {
+    "text": "was",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "water",
     "lang": "en",
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "were",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "what",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "when",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "where",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1820,11 +2570,31 @@
     "doneAt": null
   },
   {
+    "text": "who",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "window",
     "lang": "en",
     "voice": "",
     "category": "word",
     "requestedBy": "session-2",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "work",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
     "priority": 60,
     "status": "pending",
     "doneAt": null
@@ -1846,6 +2616,56 @@
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "you",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-4",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "go to bed",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-4",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "go to the door",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-4",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I can run",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-4",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "no, it is not a dog",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-4",
+    "priority": 70,
     "status": "pending",
     "doneAt": null
   },
@@ -2085,6 +2905,16 @@
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the cat",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-4",
     "priority": 70,
     "status": "pending",
     "doneAt": null

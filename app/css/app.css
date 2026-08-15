@@ -894,6 +894,55 @@ button {
 
 .q-choices--sounds { direction: ltr; }
 
+/* ————— مسارُ الحرف: **الرسمُ مادّةُ فكٍّ** (الجلسة ٤ · `METHOD.md §٥`) —————
+
+   الرسمُ الإنكليزيّ هنا هو الدرسُ نفسُه لا نصُّ واجهة، فمقاسُه مقاسُ الصورة التي
+   يقابلها في مسار السمع: يُرى من بعيد ويُلمَس بإصبعٍ صغير.
+
+   **وخطُّه نائبٌ معلَن** (ق٥ · `METHOD.md §١٢-٩`): خطُّ الواجهة الحاليّ موسوماً
+   `data-pending` في DOM حتى يُحسَم خطُّ المادّة الطفليّ مع عرض الهوية. */
+
+.fig-letters {
+  display: inline-flex;
+  direction: ltr;
+  align-items: flex-start;
+  gap: .05em;                      /* مقاطعُ الكلمة متجاورةٌ: كلمةٌ تُقرأ لا حروفٌ متفرّقة */
+  line-height: 1;
+}
+
+.glyph { display: inline-grid; justify-items: center; }
+
+.glyph-g {
+  display: block;
+  font-family: var(--font-en);
+  font-weight: 600;
+  letter-spacing: 0;
+  color: color-mix(in srgb, var(--accent) 78%, var(--ink));
+}
+
+/* **وسمُ المقطع علامةٌ لا نصّ**: نقطةٌ تحت المفكوك، وقلبٌ تحت موضع الشوكة
+   (طريقةُ heart words) — يتعلّمهما الطفلُ في النمذجة. */
+.glyph-mark { display: block; width: .26em; height: .26em; margin-top: .1em; }
+.glyph-mark svg { display: block; width: 100%; height: 100%; }
+.glyph-mark--dot { color: color-mix(in srgb, var(--accent) 65%, var(--mix)); }
+.glyph-mark--heart { width: .34em; height: .34em; color: var(--err); }
+
+/* بطاقاتُ الرسم: الرمزُ يُلمَس وحدَه، والكلمةُ تُعرَض في الساحة لا في بطاقة */
+.q-choices--sound .qcard { width: 6.5rem; height: 6.5rem; }
+.q-choices--sound .fig--letter,
+.q-choices--tricky .fig--letter { font-size: 3.4rem; }
+.q-choices--tricky .qcard { min-width: 7.5rem; height: 6.5rem; }
+.q-stage .fig--letter { font-size: 4rem; }
+
+/* **لبناتُ الدمج**: مقاسُها ثابتٌ لا يتبع محتدَها — تنتقل من البنك إلى صفّ البناء
+   ولا تنكمش بانتقالها (درسُ أزرار التقطيع في س٤-٣). */
+.qcard--letter { width: 5rem; height: 5rem; }
+.qcard--letter .fig--letter { font-size: 2.6rem; }
+.qcard--letter.is-set { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--mix)); }
+.qcard--letter[disabled] { opacity: 1; }
+.q-choices--letters { direction: ltr; }
+
+
 /* ————— مشهدُ الوضع المكانيّ (س٢-٢): صندوقٌ ومواضعُه الأربعة —————
 
    **والموضعُ يُرى بعد الاختيار**: التفاحةُ تصير **في** الصندوق أو **فوقه** أو
@@ -921,6 +970,33 @@ button {
 }
 
 .q-tray--sounds::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: .35rem;
+  width: .7rem;
+  height: .7rem;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 22%, transparent);
+}
+
+/* **وصفُّ بناء الحرف أخوه، وموضعُه بعد `.q-tray` كذلك** — والدرسُ نفسُه دُفع ثمنُه
+   مرّتين: كُتب أوّلاً **قبل** قاعدة `.q-tray` فغلبته (درجةُ ترجيحٍ واحدة، والسابقُ
+   يُغلَب)، فتراصّت لبناتُ الدمج **عموداً** وتقدّمت من اليمين — ولا يُمسَك ذلك بجردٍ
+   ولا بنصّ، أمسكه قياسُ ما رُسم في متصفّحٍ حقيقيّ. */
+.q-tray--letters {
+  direction: ltr;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: .35rem;                     /* أضيقُ من صفّ الأصوات: هذه لبناتُ كلمةٍ تتلاصق */
+  min-height: 5.75rem;
+  padding-inline-start: 1.6rem;
+  position: relative;
+}
+
+.q-tray--letters::before {
   content: "";
   position: absolute;
   inset-inline-start: .35rem;
