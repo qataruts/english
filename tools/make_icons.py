@@ -32,14 +32,18 @@ ICONS = ROOT / "app" / "icons"
 SOURCE = ROOT / "tools" / "icon.html"
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
+# خلفيةُ ما لا حوافَّ له (المقنَّعة وأيقونةُ أبل): **التوتي بعينه** — أرضيةُ العلامة
+# في `icon.html` نفسُها، فلا يظهر خلفَ الهامش الآمن لونٌ آخر. (`--brand-2` في اللوح.)
+BRAND_BG = "#B0326E"
+
 # كل لقطة تُؤخذ بمقاس ٥١٢ (أصغر من ذلك تُهمله نافذة Chrome فتخرج بيضاء)،
 # ثم تُصغَّر بـsips المرافق لـmacOS. (اسم الملف، المقاس، الهامش الآمن، حواف مستديرة، خلفية)
 MASTER = 512
 TARGETS = [
     ("icon-512.png", 512, 0.0, True, None),
     ("icon-192.png", 192, 0.0, True, None),
-    ("maskable-512.png", 512, 0.20, False, "#F5A524"),
-    ("apple-touch-icon.png", 180, 0.0, False, "#F5A524"),
+    ("maskable-512.png", 512, 0.20, False, BRAND_BG),
+    ("apple-touch-icon.png", 180, 0.0, False, BRAND_BG),
 ]
 
 
@@ -113,25 +117,40 @@ def self_test() -> int:
     checks = []
     src = SOURCE.read_text(encoding="utf-8") if SOURCE.exists() else ""
     checks.append((SOURCE.exists(), f"أصلُ الأيقونة موجود ({SOURCE.relative_to(ROOT)})"))
-    # **العلامةُ في الأصل هي العلامةُ في الشيفرة** — لا نسختان تفترقان يوماً
+    # **العلامةُ في الأصل هي العلامةُ في الشيفرة** — لا نسختان تفترقان يوماً.
+    # **والمقابَلُ العلامةُ المرسومة** (`BRAND_LOGO`) لا الاسمُ العربيّ (`BRAND`):
+    # ثنائيةُ الهوية (١٦ أغسطس) تجعل الأيقونةَ `Listen!` والنصَّ «اِسْمَعْ»، فمن
+    # قابل الأيقونةَ بالاسم العربيّ حرسَ الشيءَ بغيره.
     ui = (ROOT / "app" / "js" / "ui.js").read_text(encoding="utf-8")
-    brand = (ui.split("export const BRAND = '")[1].split("'")[0]
-             if "export const BRAND = '" in ui else "")
+    brand = (ui.split("export const BRAND_LOGO = '")[1].split("'")[0]
+             if "export const BRAND_LOGO = '" in ui else "")
     checks.append((bool(brand) and f"'{brand}'" in src.replace('"', "'"),
-                   f"والكلمةُ فيه هي علامةُ `ui.js` نفسُها («{brand or 'لا شيء'}»)"))
+                   f"والكلمةُ فيه هي العلامةُ المرسومة في `ui.js` («{brand or 'لا شيء'}»)"))
     # **وخطُّ العلامة يُقرأ من اللوح لا يُكتب هنا** (الجلسة هـ): كان اسمُ الخطّ مكتوباً
     # في هذا السطر، فيومَ بدّله المالكُ صار الحارسُ يحرس خطّاً مهجوراً — وهو صنفُ عيبٍ
     # يمرّ أخضرَ أبداً. فالمرجعُ `--font-brand` في `app.css`، وأصلُ الأيقونة يُقابَل به.
     css = (ROOT / "app" / "css" / "app.css").read_text(encoding="utf-8")
     stack = re.search(r"^\s*--font-brand:\s*([^;]+);", css, re.M)
     font = (stack.group(1).split(",")[0].strip().strip("'\"") if stack else "")
-    checks.append((bool(font) and f"app/fonts/{font}" in src and "font-display: block" in src,
+    # **والمقطعُ يُقرأ من اللوح كذلك** (`-latin` أو `-arabic`): صارت علامتُنا لاتينيةً
+    # يومَ حُسمت، فلو كُتب المقطعُ هنا بيد لَحرس الحارسُ سنّةَ تسميةٍ لا ملفَّ خطّ.
+    face = re.search(rf"fonts/{re.escape(font)}-(\w+)\.woff2", css) if font else None
+    file_name = f"{font}-{face.group(1)}.woff2" if face else ""
+    checks.append((bool(file_name) and f"app/fonts/{file_name}" in src
+                   and "font-display: block" in src,
                    f"وبخطّ العلامة الذي يعلنه اللوح («{font or 'لا شيء'}») من `app/fonts/`"
                    " لا خطّ النظام، ولا يُلتقط قبل وصوله"))
-    checks.append((f"font-family: '{font}'" in css and f"fonts/{font}-arabic.woff2" in css,
+    checks.append((bool(file_name) and f"font-family: '{font}'" in css,
                    "واللوحُ نفسُه يحمّل ملفَّه من `app/fonts/` (لا خطّ علامةٍ مُعلَنٍ بلا ملفّ)"))
-    checks.append((bool(font) and (ROOT / "app" / "fonts" / f"{font}-arabic.woff2").exists(),
-                   "والملفُّ موجودٌ في الشجرة"))
+    checks.append((bool(file_name) and (ROOT / "app" / "fonts" / file_name).exists(),
+                   f"والملفُّ موجودٌ في الشجرة ({file_name or 'لا شيء'})"))
+    # **وأرضيةُ الأيقونة هي التوتيّ الذي في اللوح** (البند ٢ والبند ٣ معاً): لونٌ
+    # يُكتب في ثلاثة مواضع (اللوح · أصلُ الأيقونة · خلفيةُ المقنَّعة هنا) يفترق يومَ
+    # يُبدَّل في واحدٍ منها — فيُقابَل الثلاثةُ بمرجعٍ واحد هو `--brand-2`.
+    brand_bg = re.search(r"^\s*--brand-2:\s*(#[0-9A-Fa-f]{6});", css, re.M)
+    bg = brand_bg.group(1) if brand_bg else ""
+    checks.append((bool(bg) and bg.upper() in src.upper() and bg.upper() == BRAND_BG.upper(),
+                   f"وأرضيةُ العلامة واحدةٌ في اللوح والأصل والمقنَّعة ({bg or 'لا شيء'})"))
     checks.append(("--ink-lift" in src and "fontBoundingBoxAscent" in src,
                    "ورفعةُ الحبر **مقيسةٌ** لا مقدَّرة (توسيطٌ بصريّ لا هندسيّ)"))
     # **والمقاسُ مقيسٌ كذلك** (الجلسة هـ): نسبةُ الخطّ سقفٌ يضيق إن كان حبرُ الكلمة
@@ -158,7 +177,7 @@ def self_test() -> int:
 
 
 def main():
-    ap = argparse.ArgumentParser(description="توليد أيقونات التطبيق (نائبةٌ مؤقتة حتى قرار الهوية)")
+    ap = argparse.ArgumentParser(description="توليد أيقونات «اِسْمَعْ» بالعلامة المختومة Listen!")
     ap.add_argument("--port", type=int, default=8793)
     ap.add_argument("--timeout", type=int, default=40)
     ap.add_argument("--check", action="store_true", help="تحقّق فقط بلا توليد")

@@ -370,6 +370,16 @@
     "doneAt": null
   },
   {
+    "text": "خُتِمَ جَوَازُكْ",
+    "lang": "ar",
+    "voice": "",
+    "category": "celebration",
+    "requestedBy": "session-identity",
+    "priority": 30,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "رَائِعْ",
     "lang": "ar",
     "voice": "",

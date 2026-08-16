@@ -21,10 +21,13 @@
 
 import { sections, stations, pendingListenOf } from './curriculum.js';
 
-// **مفتاحُ التخزين نائبٌ مؤقت كالاسم** (`docs/SEED.md §٤`): `english` وصفُ المشروع لا
-// اسمَ المنتج، ويُبدَّل يومَ الهوية (ق٣) — **ولا تقدّمَ يُفقَد**، فلا طفلَ استعمل
-// التطبيقَ بعدُ (بوابةُ العرض على طفل بعد الهوية، `PLAN.md §٩`).
-const STORE_KEY = 'english.progress.v1';
+// **ومفتاحُ التخزين هُوجر يومَ الهوية** (جلسةُ الهوية هـ): كان `english.progress.v1`
+// — و`english` وصفُ المشروع لا اسمَ المنتج — فصار باسم المنتج المُقَرّ (`listen`،
+// ونطاقُه `listen.mishkat.qa`). **ولا تقدّمَ يُفقَد ولا سطرَ هجرةٍ يُكتب**: لا طفلَ
+// استعمل التطبيقَ بعدُ (بوابةُ العرض على طفل بعد الهوية، `PLAN.md §٩`)، فالقديمُ
+// حالُ أجهزةِ تطويرٍ تبدأ من الصفر — ولو كان في الحساب طفلٌ لَكانت هذه هجرةَ بيانات
+// تُكتب وتُختبر لا تبديلَ اسمٍ يُقَرّ.
+const STORE_KEY = 'listen.progress.v1';
 export const VERSION = 1;
 export const MAX_STARS = 3;
 
@@ -507,7 +510,7 @@ export function reviewStreak(today = new Date()) {
 // الطفل كلها**، وأن تبديل الجهاز يبدأ من الصفر. فالمخرج ملفٌّ صغير يملكه وليّ الأمر:
 // نجومٌ وصناديقُ ليتنر ودقائقُ ومراجعات.
 
-export const BACKUP_KIND = 'english.progress';
+export const BACKUP_KIND = 'listen.progress';
 export const BACKUP_FORMAT = 1;      // شكل الملف نفسه — لا نسخة حالة الطفل (`VERSION`)
 
 /** النسخة كما تُكتب في الملف: ترويسةٌ تعرّف نفسها، وحالةُ الطفل كاملةً. */
@@ -521,7 +524,7 @@ export function backupText(bundle = backup()) {
 
 /** اسم الملف بيومه — فتتراكم نسخُ وليّ الأمر مرتَّبةً بلا أن يطمس بعضها بعضاً. */
 export function backupName(date = new Date()) {
-  return `english-progress-${dayKey(date)}.json`;
+  return `listen-progress-${dayKey(date)}.json`;
 }
 
 /**
@@ -685,7 +688,7 @@ export async function persistedStorage() {
 export async function audioStored() {
   if (typeof caches === 'undefined') return null;
   try {
-    const name = (await caches.keys()).find((n) => n.startsWith('english-audio'));
+    const name = (await caches.keys()).find((n) => n.startsWith('listen-audio'));
     if (!name) return null;
     const app = new URL('../', import.meta.url);
     const hit = await caches.match(new URL('audio/manifest.json', app));

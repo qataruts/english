@@ -134,18 +134,33 @@
     && drawn[1].classList.contains('node--locked'),
     'وأولُ عقدةٍ مفتوحةٌ والتي تليها مقفلة (القفلُ التسلسليّ مرئيّ على تقدّمٍ خالٍ)');
 
-  // ————— ٣. العلامةُ نائبةٌ **تُعلن نيابتَها** (ق٣ · `docs/SEED.md §٤`) —————
+  // ————— ٣. العلامةُ **وقعت** (`docs/REVIEW_IDENTITY.md`، ١٦ أغسطس ٢٠٢٦) —————
   //
-  // **وهذا حارسُ هويةٍ مبكّر**: الوجهُ المستعار يعمل عملَ الصحيح تماماً، فيُرى العيبُ
-  // على شاشة آيبادٍ أمام طفلٍ لا في سَوقة. فما دامت النيابةُ قائمةً تُعلَن في DOM.
+  // **وهذا حارسُ هويةٍ في الشاشة**: كان يقيس إعلانَ النيابة ما دامت قائمة، فلمّا
+  // وقعت الهويةُ صار يقيس وقوعَها — صفرُ `data-pending`، والعلامةُ `Listen!` بخطّها
+  // المقرَّر معزولةً `ltr`. (واللوحُ نفسُه يحرسه `tools/test_identity.mjs`.)
 
   const brand = doc.querySelector('.brand');
-  ok(!!brand && brand.dataset.pending === '1',
-    'وعلامةُ التطبيق **تُعلن نيابتَها** في DOM (`data-pending`) حتى قرار الهوية');
+  ok(!!brand && !brand.dataset.pending,
+    'وعلامةُ التطبيق **بلا إعلان نيابة** في DOM — وقعت الهوية (صفرُ `data-pending`)');
   const word = doc.querySelector('.brand-word');
-  ok(!!word && win.getComputedStyle(word).fontFamily.includes('Marhey'),
-    'وتُرسَم بخطّ العلامة وحدَه (لا خطّ النصّ)');
-  ok(!!doc.querySelector('.brand-bird svg'), 'والمرشدُ رسمٌ متجه لا محرفُ خطّ');
+  ok(!!word && word.textContent.trim() === 'Listen!' && word.getAttribute('dir') === 'ltr',
+    `والعلامةُ المرسومة «${word ? word.textContent.trim() : '—'}» معزولةٌ \`ltr\` في ترويسةٍ عربية`);
+  ok(!!word && win.getComputedStyle(word).fontFamily.includes('Caveat'),
+    'وتُرسَم بخطّ العلامة Caveat وحدَه (لا خطّ النصّ)');
+  ok(!!brand && brand.children.length === 1 && !brand.querySelector('svg'),
+    'والعلامةُ **الكلمةُ وحدَها بلا علامةٍ فوقها** — كما خُتمت الأيقونةُ نفسُها');
+
+  // **والعلامةُ هي اللاتينيُّ الوحيد في شاشة الخريطة — وهي المستثناةُ بسببها**:
+  // «أولُ كلمةٍ إنكليزية يلقاها الطفل: العلامةُ نفسُها مادةُ تدريس» (حكمُ المالك،
+  // تعديلُ ١٦ أغسطس مساءً). فالاستثناءُ **مكتوبٌ ومقيس**: لا يلزم الطفلَ فعلٌ
+  // وسيلتُه قراءتُها (لا زرَّ عليها)، ولا لاتينيَّ سواها في الشاشة.
+  const mapLatin = doc.querySelector('.app')?.cloneNode(true);
+  for (const el of mapLatin?.querySelectorAll('.brand-word') || []) el.remove();
+  ok(!!mapLatin && !/[A-Za-z]/.test(mapLatin.textContent || ''),
+    'ولا لاتينيَّ في شاشة الخريطة سوى العلامة — وهي **مادّةُ تدريسٍ مستثناةٌ بحكم المالك**');
+  ok(!!brand && !brand.closest('button'),
+    'والعلامةُ لا تُلمَس ولا يُبنى عليها فعل (قاعدةُ اللاقراءة قائمةٌ عليها)');
 
   // ————— ٤. «أيقونات لا إيموجي»: صفرُ محرفٍ يُسلَّم لخطّ النظام —————
 
@@ -428,7 +443,7 @@
 
   // ————— ١٣. كلُّ محطةٍ تكتب قياسَها، ومفاتيحُها مفاتيحُ المنهج —————
 
-  const saved = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const saved = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   const keys = Object.keys(saved.skills || {});
   const station = curriculum.stations().find((s) => s.id === 'quiz:s1-1');
   ok(keys.length > 0 && keys.every((k) => station.skills.includes(k)),
@@ -446,7 +461,7 @@
   const opened = { ...saved.stars };
   for (const node of curriculum.sections().flatMap((s) => s.nodes))
     if (node.id.startsWith('quiz:s1-')) opened[node.id] = 3;
-  win.localStorage.setItem('english.progress.v1',
+  win.localStorage.setItem('listen.progress.v1',
     JSON.stringify({ ...saved, stars: opened }));
   frame.contentWindow.location.replace('/');
   await waitFor(() => appDoc()?.querySelector('.map'), 15000);
@@ -490,7 +505,7 @@
     ok(small === 0, `  وهدفُ اللمس فيها ≥٦٤بك في كل جولة (${small} أصغرَ من الحدّ)`);
   }
 
-  const after = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const after = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   const tprKeys = Object.keys(after.skills || {}).filter((k) => /tpr-/.test(k));
   const wanted = curriculum.stations()
     .filter((s) => s.type === 'tpr').flatMap((s) => s.skills);
@@ -540,7 +555,7 @@
   const moved = await waitFor(() => appDoc()?.querySelector('.q-stage') !== missStage, 20000);
   ok(!!moved, '**ثم تمضي الجولة** — لا حبسَ ولا إعادةَ محاولةٍ على كلمةٍ لم تثبت بعد');
 
-  const afterMiss = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const afterMiss = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   const missed = (afterMiss.skills || {})[`word|${missTarget}|listen-pick`];
   ok(missed && missed.wrong >= 1 && missed.box === 0,
     'والخطأ مكتوبٌ على **المهارة المطلوبة** وصندوقُها عاد صفراً (تعود غداً)');
@@ -752,7 +767,7 @@
     + (trayRows.some((r) => !r.ltr) ? ' — **يتقدّم من اليمين**' : '')
     + (trayRows.some((r) => r.small) ? ' — **زرٌّ انكمش بانتقاله**' : ''));
 
-  const earState = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const earState = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   const earKeys = Object.keys(earState.skills || {});
   const earWanted = curriculum.stations()
     .filter((s) => ['contrast', 'ear'].includes(s.type)).flatMap((s) => s.skills);
@@ -779,7 +794,7 @@
   const reviewScreen = await waitFor(() => appDoc()?.querySelector('.dots'), 25000);
   ok(!!reviewScreen, 'وبابُها من الخريطة يفتح جلسةً حقيقية');
   const reviewBefore = Object.keys(JSON.parse(
-    win.localStorage.getItem('english.progress.v1') || '{}').skills || {}).length;
+    win.localStorage.getItem('listen.progress.v1') || '{}').skills || {}).length;
   let reviewRounds = 0;
   for (let i = 0; i < 10; i++) {
     const found = await waitFor(() => {
@@ -799,7 +814,7 @@
   const reviewDone = await waitFor(() => appDoc()?.querySelector('.celebrate'), 25000);
   ok(!!reviewDone && reviewRounds >= 5,
     `وتُقاد ستةُ تمارينَ من حصيلته إلى ختامها (${reviewRounds} تمريناً)`);
-  const afterReview = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const afterReview = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   ok(Object.keys(afterReview.reviews || {}).length > 0,
     'ومراجعةُ اليوم مسجَّلةٌ بمحاولاتها (وحدةُ لوحة الوالد نفسُها)');
   ok(Object.keys(afterReview.skills || {}).length >= reviewBefore,
@@ -849,7 +864,7 @@
   const gateData = curriculum.gateById('ear');
   ok(doc2.body.textContent.includes(gateData.again),
     `ونصُّ تشجيعها **من بيان البوابة** لا مكتوباً في الشيفرة («${gateData.again}»)`);
-  const midStars = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars || {};
+  const midStars = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}').stars || {};
   ok(!midStars['gate:ear'], 'ولا نجمةَ تُكتب لبوابةٍ لم تُعبَر');
 
   const retry = [...doc2.querySelectorAll('.celebrate button')]
@@ -865,7 +880,7 @@
   doc2 = appDoc();
   ok(!!doc2.querySelector('.celebrate') && !doc2.querySelector('.celebrate--again'),
     '**وعبورُها بإصابةٍ تامّة يفتحها** (١٠٠٪ فوق العتبة)');
-  const gateStars = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars || {};
+  const gateStars = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}').stars || {};
   ok(gateStars['gate:ear'] > 0, 'ونجمةُ البوابة مكتوبةٌ بمعرّفها هو');
 
   // **واجتيازُها هو فتحُ مسار الحرف نفسِه** (ق٤): لا شيفرةَ خاصّةَ به — القفلُ
@@ -900,7 +915,7 @@
   const gradeWords = curriculum.GRADES
     .flatMap((g) => g.words.map((w) => ({ ...w, grade: g.id })));
   const held = gradeWords.find((w) => w.w === 'hat') || gradeWords.at(-1);
-  const before = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const before = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   const ripe = (box) => ({ right: box, wrong: 0, box, due: 0, seen: 0, since: 0 });
   const grown = { ...(before.skills || {}) };
   for (const word of gradeWords) grown[word.listen] = ripe(4);
@@ -921,7 +936,7 @@
   for (const node of curriculum.sections().flatMap((s) => s.nodes)) {
     if (!DRIVEN.has(node.type)) openStars[node.id] = 3;
   }
-  win.localStorage.setItem('english.progress.v1',
+  win.localStorage.setItem('listen.progress.v1',
     JSON.stringify({ ...before, skills: grown, stars: openStars }));
 
   /**
@@ -960,10 +975,15 @@
     }
     const ask = d.querySelector('.q-stage[data-ask]')?.dataset.ask;
     if (ask) shownWords.add(ask);
+    for (const g of d.querySelectorAll('.station-body .glyph-g')) {
+      materialFonts.add(win.getComputedStyle(g).fontFamily.split(',')[0].replace(/["']/g, ''));
+    }
   };
 
   const letterRows = [];
   let pendingSeen = 0;
+  // خطُّ المادّة كما يُحسَب فعلاً على الرسم المعروض (لا كما يُعلَن في اللوح)
+  const materialFonts = new Set();
   for (const part of GRADE_PARTS.slice(0, ERA_ONE)) {
     const seen = await driveStation(`#/grade/${part}`, (d) => {
       const set = [...d.querySelectorAll('.q-tray--letters .qcard--letter')];
@@ -1006,7 +1026,7 @@
   const decodeGateData = curriculum.gateById('decode');
   ok(gateDoc.body.textContent.includes(decodeGateData.again),
     `ونصُّ تشجيعها من بيانها هو («${decodeGateData.again}»)`);
-  ok(!(JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars
+  ok(!(JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}').stars
     || {})['gate:decode'], 'ولا نجمةَ تُكتب لبوابةٍ لم تُعبَر');
 
   [...gateDoc.querySelectorAll('.celebrate button')]
@@ -1016,7 +1036,7 @@
   gateDoc = appDoc();
   ok(!!gateDoc.querySelector('.celebrate') && !gateDoc.querySelector('.celebrate--again'),
     '**وعبورُها بإصابةٍ تامّة يفتحها** (١٠٠٪ فوق العتبة)');
-  const decodeStars = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars || {};
+  const decodeStars = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}').stars || {};
   ok(decodeStars['gate:decode'] > 0, 'ونجمةُ البوابة مكتوبةٌ بمعرّفها هو');
 
 
@@ -1138,9 +1158,13 @@
     + `${[...midSeen.hearts].some((w) => era3Tricky.has(w)) ? ' — ومنها شائكةُ ح١٣ نفسِها'
       : ''}) — علامةٌ لا نصٌّ شارح`);
 
-  ok(pendingSeen > 0,
-    '**وخطُّ المادّة نائبٌ يُعلن نيابتَه في DOM** (`data-pending` — ق٥)، '
-    + 'يُستبدَل بخطٍّ طفليٍّ قبل أول عرضٍ على طفل');
+  // **وخطُّ المادّة وقع كذلك** (البند ٦ — Andika): كان الرسمُ يخرج موسوماً
+  // `data-pending` إعلاناً لنيابة خطّ الواجهة، فصار المقيسُ **صفرَ نيابةٍ** وخطَّ
+  // المادّة المقرَّرَ محسوباً على الرسم نفسِه في كل درجةٍ سِيقت.
+  ok(pendingSeen === 0,
+    `**وصفرُ نيابةٍ في رسوم المادّة** (\`data-pending\` — سقط يوم الهوية): ${pendingSeen}`);
+  ok(materialFonts.size > 0 && [...materialFonts].every((f) => f === 'Andika'),
+    `**ورسمُ الحرف بخطّ المادّة Andika** كما حكم المالك (${[...materialFonts].join('، ') || 'لا قياس'})`);
   ok(letterRows.length > 0 && letterRows.every((r) => r.row && r.ltr && !r.small),
     `**وصفُّ الدمج سطرٌ واحد يتقدّم من اليسار** (${letterRows.length} قياساً`
     + `، وكلُّ لبنةٍ فيه ≥٦٤بك)`
@@ -1231,7 +1255,7 @@
 
   // ————— ١٨د. قياسُ مسار الحرف بمفاتيح المنهج، وأنواعُه الخمسة كلُّها —————
 
-  const letterState = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const letterState = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   // **ومسارُ الحرف اليومَ ثلاثةُ أنواع**: الدرجاتُ والعناقيدُ والقصص — فمفاتيحُه
   // تُقابَل بمفاتيح **المسار** لا بمفاتيح نوعٍ واحد منه.
   const letterWanted = new Set(curriculum.stations()
@@ -1287,7 +1311,7 @@
     if (word.grade === held.grade) freed[word.listen] = ripe(2);
   }
   freed[held.listen] = ripe(4);
-  win.localStorage.setItem('english.progress.v1',
+  win.localStorage.setItem('listen.progress.v1',
     JSON.stringify({ ...letterState, skills: freed }));
   await reopen();
   const freedWords = new Set();
@@ -1330,7 +1354,7 @@
     return seen;
   };
 
-  const heldState = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const heldState = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   const trickySkills = { ...(heldState.skills || {}) };
   trickySkills[curriculum.HEART_WORDS[freeTricky].listen] = ripe(4);
   delete trickySkills[curriculum.HEART_WORDS[heldTricky].listen];
@@ -1339,7 +1363,7 @@
      **بحقّ** وكُتب مفتاحُ قراءتها. والحالُ المصنوعةُ ههنا حالُ طفلٍ **لم يتقنها
      سمعاً قطّ** — ومثلُه لا سجلَّ قراءةٍ له فيها، فيُمحى ليصدُق الشاهدُ على ما يصنع. */
   delete trickySkills[`tricky|${heldTricky}|read`];
-  win.localStorage.setItem('english.progress.v1',
+  win.localStorage.setItem('listen.progress.v1',
     JSON.stringify({ ...heldState, skills: trickySkills }));
   await reopen();
   const trickyDrawn = await drawnTricky();
@@ -1350,7 +1374,7 @@
     `**وأختُها التي لم تنضج لم تُرسَم ولم يُسأل عنها** («${heldTricky}» بلا سجلٍّ سمعيّ) `
     + '— فقيدُ الاقتران يحكم الشائكةَ كما يحكم الكلمة');
   const heldTrickyKeys = Object.keys(JSON.parse(
-    win.localStorage.getItem('english.progress.v1') || '{}').skills || {})
+    win.localStorage.getItem('listen.progress.v1') || '{}').skills || {})
     .filter((k) => k === `tricky|${heldTricky}|read`);
   ok(heldTrickyKeys.length === 0,
     `ولا مفتاحَ قراءةٍ كُتب لها في ليتنر (${heldTrickyKeys.join('، ') || 'لا شيء'})`);
@@ -1367,7 +1391,7 @@
   const isListenKey = (k) => /\|(listen-pick|tpr-do|tpr-put|tpr-two|pick|blend-ear|segment-ear)$/
     .test(k);
   const stamp = () => Object.fromEntries(Object.entries(JSON.parse(
-    win.localStorage.getItem('english.progress.v1') || '{}').skills || {})
+    win.localStorage.getItem('listen.progress.v1') || '{}').skills || {})
     .map(([key, skill]) => [key, `${skill.right}/${skill.wrong}/${skill.seen}`]));
 
   /* **وتُصفَّى الجلسةُ من المستحقّ أوّلاً** — وإلا شهدنا على غير ما نقيس: صدرُ
@@ -1382,7 +1406,7 @@
      ليتنر)، وهو **صوابٌ في يد الطفل** وابتلاعٌ لحوض التنويع في هذا الشاهد. فتُصنَع
      حالُ طفلٍ **قِيس له كلُّ مفتاح**: لا مستحقَّ اليومَ ولا بِكرَ — فما يبقى هو
      التنويعُ وحدَه، وهو موضعُ الميزان المعلَن. */
-  const rested = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const rested = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   rested.skills = rested.skills || {};
   for (const key of new Set(curriculum.stations().flatMap((t) => t.skills || []))) {
     rested.skills[key] = rested.skills[key]
@@ -1392,7 +1416,7 @@
     skill.box = Math.max(1, skill.box || 0);
     skill.due = 99999;
   }
-  win.localStorage.setItem('english.progress.v1', JSON.stringify(rested));
+  win.localStorage.setItem('listen.progress.v1', JSON.stringify(rested));
   await reopen();
 
   const beforeMix = stamp();
@@ -1433,7 +1457,7 @@
   const boxesOf = (state, pick) => Object.entries(state.skills || {})
     .filter(([key]) => pick(key)).map(([, s]) => s.box);
 
-  const beforeFall = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const beforeFall = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   const listenBefore = boxesOf(beforeFall, isListenKey);
   win.location.hash = `#/grade/${trickyGrade.id}`;
   await waitFor(() => appDoc()?.querySelector('.station-body .next'), 30000);
@@ -1455,7 +1479,7 @@
     }, 25000);
   }
   await waitFor(() => appDoc()?.querySelector('.celebrate'), 25000);
-  const afterFall = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const afterFall = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   const letterFallen = boxesOf(afterFall, isLetterKey).filter((box) => box === 0).length;
   ok(fallen > 0 && letterFallen > 0,
     `**وجبهةُ الحرف تتراجع بقياسها**: ${fallen} خطأً مقصوداً أنزلت ${letterFallen} مفتاحاً `
@@ -1484,7 +1508,7 @@
     { part: 'h13', hash: '#/cluster/h13', word: 'small', kind: 'size',
       ar: 'الحجمُ بين كرتين' },
   ];
-  const sceneState = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const sceneState = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   const sceneSkills = { ...(sceneState.skills || {}) };
   for (const row of sceneCases) {
     const grade = curriculum.GRADES.find((g) => g.id === row.part);
@@ -1493,7 +1517,7 @@
       else delete sceneSkills[word.listen];
     }
   }
-  win.localStorage.setItem('english.progress.v1',
+  win.localStorage.setItem('listen.progress.v1',
     JSON.stringify({ ...sceneState, skills: sceneSkills }));
   await reopen();
 
@@ -1521,7 +1545,7 @@
       `  ومصاديقُها معروضةٌ كلُّها في كل جولة (${[...shown].join(' · ')}) — `
       + 'فالفرقُ مكانيٌّ أو حجميّ لا استبعاد');
     const decodeKey = Object.keys(JSON.parse(
-      win.localStorage.getItem('english.progress.v1') || '{}').skills || {})
+      win.localStorage.getItem('listen.progress.v1') || '{}').skills || {})
       .filter((k) => k === `word|${row.word}|decode`);
     ok(decodeKey.length === 1,
       `  **ومفتاحُ فكِّها مكتوبٌ في ليتنر** (\`word|${row.word}|decode\`) — وهو المفتاحُ `
@@ -1587,7 +1611,7 @@
   ok(endDoc.body.textContent.includes(endGate.next),
     `🎓 **وبابُ «المستوى الثاني» يُذكَر في احتفالها** («${endGate.next}») — `
     + 'ذكرٌ لا عقدةَ له في الخريطة ولا مفتاحَ في ليتنر');
-  const endStars = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars
+  const endStars = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}').stars
     || {};
   ok(endStars['gate:end'] > 0, 'ونجمةُ بوابة الختام مكتوبةٌ بمعرّفها هو');
   // **ومدَاها الرحلةُ كلُّها**: مفاتيحُ المحطات جميعِها من الجبهتين — يُقرأ من بيانها

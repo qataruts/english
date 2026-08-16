@@ -81,6 +81,10 @@ export const SAY = {
   right: 'وَهَذِهِ',
   bravo: 'أَحْسَنْتْ',
   great: 'رَائِعْ',
+  // **ختمُ الجواز — استعارةُ الهوية مسموعةً لا مقروءة** (البند ٥ · جلسةُ الهوية هـ):
+  // نصُّ الاحتفال المكتوب زينةٌ للوالد (قاعدةُ اللاقراءة)، فلو بقيت الرحلةُ في
+  // النصّ وحدَه لَما بلغت الطفلَ أصلاً — فهي **تُقال** بعد كلمة الاحتفال بلسانه.
+  stamp: 'خُتِمَ جَوَازُكْ',
 };
 
 /**
@@ -96,7 +100,7 @@ export const SAY = {
 const SAY_CATEGORY = {
   watch: 'modeling', withMe: 'modeling', alone: 'modeling',
   repeat: 'instruction', chose: 'instruction', right: 'instruction',
-  bravo: 'celebration', great: 'celebration',
+  bravo: 'celebration', great: 'celebration', stamp: 'celebration',
 };
 
 export const SPOKEN = [
@@ -408,17 +412,19 @@ export function stationScreen({ nodeId, title, accent, make, view, score, save }
     const stars = starsForStation(state.errors, plan.solo.length);
     const before = progress.getStars(nodeId);
     save(stars);
-    // **وختامُ الجلسة وداعُ المعلم** (`RITUAL.close`): يُقال بعد كلمة الاحتفال
-    // العربية، فيكون آخرُ ما يُسمَع في المحطة إنكليزيةً كما كان أوّلُها.
+    // **ترتيبُ الختام ثلاثة**: كلمةُ الاحتفال العربية، ثم **ختمُ الجواز** (استعارةُ
+    // الهوية مسموعةً لا مقروءة — البند ٥)، ثم **وداعُ المعلم الإنكليزيّ آخراً**
+    // (`RITUAL.close`) فيكون آخرُ ما يُسمَع في المحطة إنكليزيةً كما كان أوّلُها.
     (async () => {
       await say(state.errors === 0 ? SAY.great : SAY.bravo);
+      if (live()) await say(SAY.stamp);
       if (live()) await sayEn(RITUAL.close);
     })();
 
-    const line = state.errors === 0 ? cheer('بلا خطأ واحد!')
+    const line = state.errors === 0 ? cheer('ختمٌ جديد في جوازك — بلا خطأ واحد!')
       : state.errors <= Math.ceil(plan.solo.length / 2)
-        ? 'أتممتَ المحطة — وزلّاتُك قليلة.'
-        : 'أتممتَ المحطة، وبالإعادة تزيد نجومك.';
+        ? 'ختمٌ جديد في جوازك — وزلّاتُك قليلة.'
+        : 'ختمٌ جديد في جوازك، وبالإعادة تزيد نجومك.';
 
     body.replaceChildren(h('div', { class: 'celebrate' },
       mascot('mascot mascot--cheer'),

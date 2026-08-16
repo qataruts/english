@@ -19,9 +19,15 @@
 // وهنا **يُخزَن بالرابط الموسوم ويُنظَّف الوسم الأقدم لذلك الملف وحده** — فتبديل
 // ملفٍّ واحد لا يُسقِط مخزون البقية.
 //
-// **وسابقةُ التخزين خاصّةٌ بهذا التطبيق** (`english-*`): أربعةُ تطبيقاتٍ من بذرةٍ
+// **وسابقةُ التخزين خاصّةٌ بهذا التطبيق** (`listen-*`): أربعةُ تطبيقاتٍ من بذرةٍ
 // واحدة قد تُنشَر على نطاقٍ واحد أو تُختبَر على منفذٍ واحد، وسابقةٌ مشتركة تجعل
 // `activate` أحدِها يكنس مخزونَ أخيه. والكنسُ أدناه مقيَّدٌ بسابقتنا وحدها.
+//
+// **وكانت `english-*`** (وصفُ المشروع لا اسمُ المنتج) فصارت `listen-*` يومَ وقعت
+// الهوية (`listen.mishkat.qa` — جلسةُ الهوية هـ). ويكنس `activate` **السابقتين
+// معاً**: اليتيمةُ القديمة لا تُترك على جهازٍ فُتح فيه التطبيقُ قبل اليوم (أجهزةُ
+// تطويرٍ وفحصٍ لا غير — **لا طفلَ استعمله بعدُ**، فلا تقدُّمَ يُفقَد ولا هجرةَ
+// بيانات تُكتب: `progress.js` يبدأ من مفتاحه الجديد).
 //
 // **وبنكُ الصوت لم يُولَّد بعدُ** (بندُ الجلسة ص، وهو موقوفٌ على ق١ اللكنة وق٢ المصدر
 // ونموذجِ الفونيمات على أذن المالك — `METHOD.md §١٠`): `audio/manifest.json` غائبٌ
@@ -35,10 +41,12 @@
 // عند تغيير أي ملف من ملفات الهيكل: ارفع VERSION فيُمحى مخزون **القشرة** القديم.
 // ويحرس `tools/test_pwa.mjs` أن قائمة SHELL لا تنسى ملفاً موجوداً في `app/` ولا
 // تَعِد بملفٍ غير موجود.
-const VERSION = 'v5';
-const SHELL_CACHE = `english-shell-${VERSION}`;
-const AUDIO_CACHE = 'english-audio';      // ثابتٌ عمداً — لا يحمل VERSION
+const VERSION = 'v6';
+const SHELL_CACHE = `listen-shell-${VERSION}`;
+const AUDIO_CACHE = 'listen-audio';       // ثابتٌ عمداً — لا يحمل VERSION
 const KEEP = [SHELL_CACHE, AUDIO_CACHE];
+// سابقاتُ ما نملك: الحاليةُ وسابقةُ ما قبل الهوية (يتيمةٌ تُكنَس، انظر أعلاه).
+const OURS = ['listen-', 'english-'];
 
 const SHELL = [
   './',
@@ -49,7 +57,8 @@ const SHELL = [
   'fonts/NotoNaskhArabic-latin.woff2',
   'fonts/BalooBhaijaan2-arabic.woff2',
   'fonts/BalooBhaijaan2-latin.woff2',
-  'fonts/Marhey-arabic.woff2',
+  'fonts/Andika-latin.woff2',
+  'fonts/Caveat-latin.woff2',
   'js/audio.js',
   'js/cluster.js',
   'js/contrast.js',
@@ -272,10 +281,13 @@ self.addEventListener('activate', (event) => {
     // **ولا يُهدَم مخزونٌ كاملٌ لأجل ناقص** (بلاغُ المالك في اقرأ): مخازنُ الصوت
     // القديمة تبقى حتى يثبت تمامُ الجديد **بالجرد لا بالظنّ**.
     // **وسابقتُنا وحدَها تُكنَس**: مخزونُ إخوتنا في العائلة لا يُمَسّ.
+    // **وصوتُنا الحيُّ محميٌّ، واليتيمُ يُكنَس**: `listen-audio` في `KEEP` فلا
+    // يُهدَم أبداً (عهدُ «لا يُهدَم كاملٌ لأجل ناقص»)، أمّا `english-audio` فلن
+    // يُقرأ منه بايتٌ بعد اليوم — فتركُه وزنٌ ميتٌ على جهازٍ لا احتياطُ صوت.
     const names = await caches.keys();
-    const stale = names.filter((n) => n.startsWith('english-') && !KEEP.includes(n));
+    const stale = names.filter((n) => OURS.some((p) => n.startsWith(p)) && !KEEP.includes(n));
     await Promise.all(stale
-      .filter((n) => !n.startsWith('english-audio'))
+      .filter((n) => n !== AUDIO_CACHE)
       .map((n) => caches.delete(n)));
     await self.clients.claim();
     await syncAudio();

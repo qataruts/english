@@ -18,7 +18,7 @@
 
 import * as progress from './progress.js';
 import { UNIT_SECTIONS, unitOf, rangeText, journeyUnits } from './curriculum.js';
-import { h, go, toast, arNum, arCount, topbar, shake, PAUSE_ACCENT } from './ui.js';
+import { h, go, toast, arNum, arCount, topbar, shake, BRAND, PAUSE_ACCENT } from './ui.js';
 
 const ACCENT = PAUSE_ACCENT;
 const GOOD = 'var(--ok)';
@@ -611,7 +611,10 @@ function dashboard(rerender = () => {}) {
   const section = (title, ...children) => [h('h3', {}, title), ...children];
 
   const main = h('main', { class: 'screen-card audit' },
-    h('h2', {}, 'لوحة وليّ الأمر'),
+    // **واسمُ التطبيق عربياً هنا** (ثنائيةُ الهوية): لوحةُ الوالد نصٌّ عربيٌّ
+    // يقرؤه بالغ، فيُسمّى فيها التطبيقُ باسمه «اِسْمَعْ» لا بعلامته المرسومة —
+    // والمصدرُ `BRAND` في `ui.js` وحدَه.
+    h('h2', {}, `لوحة وليّ الأمر · ${BRAND}`),
 
     h('div', { class: 'audit-row' },
       pill('اليوم', minutesText(today)),
