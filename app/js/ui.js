@@ -110,33 +110,61 @@ export function starsRow(count, className = 'node-stars') {
 // اللاقراءة: لا فعلَ في التطبيق يلزم قراءتَها، وإنما تُرى في الترويسة كما تُرى على
 // الأيقونة. (`METHOD.md §٩·٢` والجردُ في `browser_test.html`.)
 
-// الشخصية المرشدة — **عصفورُ «اِقْرَأْ» نفسُه، نائباً**: ألوانه من متغيّرات اللوح
-// فيتبع لوحَنا وثيمَه الليليّ بلا نسخةٍ ثانية. **ولم يُحكَم فيه**: أحكامُ ١٦ أغسطس
-// السبعة لا شخصيةَ فيها (اللوحُ والاسمُ والعلامةُ والأيقونةُ والاستعارةُ والخطّان)،
-// فيبقى مرفوعاً إلى مدير المشروع — ولا تجتهد فيه جلسةُ تنفيذ.
+// الشخصية المرشدة — **الطائرُ الرحّالة بقبعة المستكشف** (حكمُ المالك، ١٦ أغسطس
+// ٢٠٢٦ ليلاً — `docs/REVIEW_IDENTITY.md` البند الثامن): عُرضت ثلاثةُ مرشحاتٍ
+// مُصيَّرة (`scratch/identity/guide.html`) فحُكم بالمرشح **أ** — طائرٌ من عالم
+// «الرحلة حول العالم» يلبس الاستعارةَ (قبعةُ مستكشف) ويحفظ قرابةَ طير اقرأ
+// **أخوّةً لا تطابقاً**، ويختم جوازَ الطفل عند البوابات (`gate.js`).
+//
+// **والمساراتُ من اللوح لا من اللوحة**: رسمُ المرشح مُقَرٌّ بهندسته، وألوانُه
+// أسماءُ اللوح (التوتيُّ الغالب جسداً، والعميقُ قبعةً وجناحين، وعنبرُ القصص
+// منقاراً، والبطنُ بطاقة) — فيتبع الثيمَ الليليَّ بلا نسخةٍ ثانية.
 const MASCOT_SVG = `
-<svg viewBox="0 0 64 64" role="img">
-  <ellipse cx="32" cy="58" rx="14" ry="3" fill="var(--ink)" opacity=".08"/>
-  <circle cx="32" cy="34" r="21" fill="var(--star)"/>
-  <circle cx="32" cy="34" r="21" fill="none" stroke="var(--ink)" stroke-width="2" opacity=".25"/>
-  <ellipse cx="32" cy="42" rx="12" ry="9" fill="var(--card)"/>
-  <path d="M13 34q-7 2-9 8 7 1 11-2z" fill="var(--star)" stroke="var(--ink)" stroke-width="1.5" opacity=".9"/>
-  <path d="M51 34q7 2 9 8-7 1-11-2z" fill="var(--star)" stroke="var(--ink)" stroke-width="1.5" opacity=".9"/>
-  <circle cx="25" cy="28" r="5.5" fill="var(--card)"/>
-  <circle cx="39" cy="28" r="5.5" fill="var(--card)"/>
-  <circle cx="26" cy="29" r="2.6" fill="var(--ink)"/>
-  <circle cx="38" cy="29" r="2.6" fill="var(--ink)"/>
-  <circle cx="26.9" cy="28.1" r=".9" fill="var(--card)"/>
-  <circle cx="38.9" cy="28.1" r=".9" fill="var(--card)"/>
-  <path d="M32 33l-3.5 4h7z" fill="var(--accent-story)"/>
-  <path d="M28 12q4-6 4 0 0-6 4 0" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+<svg viewBox="0 0 100 100" role="img">
+  <ellipse cx="50" cy="62" rx="24" ry="20" fill="var(--star)"/>
+  <circle cx="50" cy="38" r="16" fill="var(--star)"/>
+  <circle cx="56" cy="35" r="3.5" fill="var(--ink)"/>
+  <path d="M62 40c4 1 7 3 8 6" stroke="var(--accent-story)" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M34 30h32l-4-8h-24z" fill="var(--accent-letter)"/>
+  <rect x="30" y="28" width="40" height="5" rx="2.5" fill="var(--accent-letter)"/>
+  <path d="M30 62c-6-2-10-7-10-12 6 0 12 3 14 8" fill="var(--accent-letter)"/>
+  <path d="M70 62c6-2 10-7 10-12-6 0-12 3-14 8" fill="var(--accent-letter)"/>
+  <ellipse cx="50" cy="66" rx="12" ry="9" fill="var(--card)"/>
 </svg>`;
 
-/** الشخصية المرشدة — تظهر في بدايات المحطات والاحتفالات. **نائبٌ مرفوع** (أعلاه). */
+/** الشخصية المرشدة — تظهر في بدايات المحطات والاحتفالات (حكمُ المالك أعلاه). */
 export function mascot(className = 'mascot') {
   const el = h('span', { class: className, 'aria-hidden': 'true' });
   el.innerHTML = MASCOT_SVG;
   return el;
+}
+
+// ختمُ الجواز — حلقةُ حبرٍ مائلة كأختام السفر، بلا حرفٍ فيها (البند ٥: الرحلةُ حول
+// العالم). ووجهُ البوابة يستوي في وسطها فيقول الختمُ **أيَّ بوابةٍ عبر** بلا نصّ.
+const STAMP_RING = `
+<svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+  <circle cx="50" cy="50" r="44" stroke="currentColor" stroke-width="5" opacity=".85"/>
+  <circle cx="50" cy="50" r="36" stroke="currentColor" stroke-width="2.5"
+    stroke-dasharray="5 6" opacity=".7"/>
+</svg>`;
+
+/**
+ * **ختمُ جواز الطفل** — الاستعارةُ عاملةً لا مذكورةً (حكمُ المالك في المرشد، البند
+ * الثامن: «يختم جوازَ الطفل عند البوابات»، والبند ٥: الرحلةُ حول العالم).
+ *
+ * **ولا نصَّ منطوقاً جديداً** (عهدُ `gate.js` في رأسه: «لا محتوى جديداً ولا نصّ
+ * منطوق جديد»): الختمُ **صورةٌ** تقع بحركةٍ قصيرة، وسطرُه المكتوب («خُتِمَ جَوَازُكْ»)
+ * قائمٌ سلفاً بملفّه في البنك. والمرشدُ يقف إلى جانبه: هو الخاتم.
+ *
+ * ووجهُ البوابة داخل الحلقة — فيُعرَف الختمُ بصورته لا بقراءته (قاعدةُ اللاقراءة).
+ */
+export function passportStamp(face) {
+  const ring = h('span', { class: 'stamp-ring', 'aria-hidden': 'true' });
+  ring.innerHTML = STAMP_RING;
+  return h('span', { class: 'passport', 'aria-hidden': 'true' },
+    mascot('mascot mascot--stamp'),
+    h('span', { class: 'stamp' }, ring, faceEl(face, 'stamp-face')),
+  );
 }
 
 /**
@@ -167,7 +195,8 @@ export const BRAND_PENDING = false;
  * لاتينيةً مختومة: صيغةُ المالك «مضبوطةً داخل الإطار **بلا علاماتٍ فوقها**»، وعهدُ
  * العدّة أنّ «الأيقونةَ والترويسةَ علامةٌ واحدة» (`tools/icon.html`) — فما فوق
  * الكلمة في الترويسة ولا شيءَ فوقها في الأيقونة علامتان لا علامة. والمرشدُ باقٍ في
- * موضعه من المحطات والاحتفالات (`mascot`)، وهو **مرفوعٌ إلى مدير المشروع** أصلاً.
+ * موضعه من المحطات والاحتفالات (`mascot`) — **وقد حُسم بحكم المالك** (المرشح أ:
+ * الطائرُ الرحّالة بقبعة)، ولا يعود إلى الترويسة: موضعُه الشاشةُ لا العلامة.
  */
 export function brandMark(tag = 'span') {
   return h(tag, { class: 'brand', 'data-pending': BRAND_PENDING ? '1' : null },
@@ -413,3 +442,44 @@ export function seeded(seed) {
   let s = seed >>> 0;
   return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; };
 }
+
+/* ————— **بذرةُ الجولة: زمنيةٌ للطفل، ثابتةٌ للفحص** (بندُ الجلسة ٩) —————
+ *
+ * **العلّةُ بندٌ قائمٌ قبلنا** (رُفع في الجلسة ص وجُدوِل هنا): بضعةُ فحوصٍ في بطارية
+ * المتصفّح تشترط أن يُسحَب **نوعُ جولةٍ بعينه** في المساق الحيّ (الرسمُ البديل ·
+ * الشائكةُ الناضجة · الصائتُ الأوسط…)، والسحبُ عشوائيّ ببذرةِ لحظته — فتسقط في
+ * تشغيلٍ وتمرّ في آخر **بلا تغييرِ حرفٍ في الشجرة**. وحمرةٌ تتبدّل بلا سببٍ
+ * **تُعلَّم أن تُتجاهَل**، فيُدفَن تحتها أوّلُ عيبٍ حقيقيّ.
+ *
+ * **والعلاجُ من مبدأٍ قائمٍ عندنا لا من استثناء**: «كلُّ مولّدٍ حتميٌّ ببذرة» (أعلاه)
+ * — فالمولّداتُ حتميةٌ أصلاً، والمتذبذبُ **مصدرُ البذرة** وحدَه. فصار مصدراً واحداً:
+ * `Date.now()` للطفل (فجولاتُه لا تتكرّر)، و`?seed=N` **معلَنةً في العنوان** لمن
+ * أراد مساقاً يُعاد كما كان — والفحصُ يسوق التطبيقَ ببذرةٍ ثابتة فيصير حتمياً.
+ *
+ * **ولا بابَ خلفياً في هذا**: ما يتبدّل ترتيبُ الجولات لا محتواها ولا قيدُ اقترانٍ
+ * ولا قياس؛ وهو أخو `?dev=1` و`?preview=1` — قرارٌ معلَنٌ في العنوان يراه من يكتبه.
+ */
+const SEED_PARAM = typeof location !== 'undefined'
+  ? new URLSearchParams(location.search).get('seed') : null;
+
+/** أبذرةٌ ثابتة مطلوبة؟ (‏`?seed=N` — يقرؤها الفحصُ ويقرؤها من يعيد مساقاً بيده) */
+export const SEEDED_RUN = SEED_PARAM !== null && SEED_PARAM !== ''
+  && Number.isFinite(Number(SEED_PARAM));
+
+const SEED_BASE = SEEDED_RUN ? (Number(SEED_PARAM) >>> 0) : 0;
+
+/** بذرةُ خطةِ محطةٍ تُبنى الآن — **حتميةٌ في المساق المبذور، زمنيةٌ فيما سواه**.
+ *
+ *  وفي المساق المبذور تتقدّم البذرةُ بخطوةٍ ثابتة مع كل بناء، فجولاتُ المحطة الثانية
+ *  غيرُ جولات الأولى (وإلّا تكرّر المشهدُ نفسُه فلم يقس شيئاً)، **والمساقُ كلُّه
+ *  يُعاد حرفاً بحرف** ما دامت خطواتُه هي هي. */
+let seedTick = 0;
+export function roundSeed() {
+  if (!SEEDED_RUN) return (Date.now() >>> 0) ^ 0x9e3779b9;
+  seedTick += 1;
+  return (SEED_BASE + seedTick * 0x9e3779b9) >>> 0;
+}
+
+/** مصدرُ الصدفة للاختيار الحرّ (المراجعةُ والبوابات) — يتبع البذرةَ نفسَها. */
+const sharedRnd = SEEDED_RUN ? seeded(SEED_BASE ^ 0x85ebca6b) : Math.random;
+export const chance = () => sharedRnd();

@@ -24,7 +24,7 @@ import * as progress from './progress.js';
 import * as audio from './audio.js';
 import {
   h, icon, toast, go, arNum, arCount, starsRow, topbar, mascot, cheer, shuffle, onScreen, DEV,
-  PAUSE_ACCENT,
+  chance, PAUSE_ACCENT,
 } from './ui.js';
 
 export const SESSION_SIZE = 6;    // جلسة قصيرة تُنجَز في دقائق (`METHOD.md §٧`)
@@ -294,8 +294,12 @@ export function setBuilders({ item, fillers, view, longs } = {}) {
   if (longs) longKinds = longs;
 }
 
-/** تمارينُ جلسةٍ من مهاراتٍ بعينها — تستعملها المراجعةُ والبوابات معاً. */
-export function sessionItems(due, size = SESSION_SIZE, rnd = Math.random) {
+/** تمارينُ جلسةٍ من مهاراتٍ بعينها — تستعملها المراجعةُ والبوابات معاً.
+ *
+ *  **وصدفتُها `chance` لا `Math.random`** (بندُ الجلسة ٩): مصدرٌ واحد للصدفة يتبع
+ *  بذرةَ المساق — زمنيٌّ عند الطفل، حتميٌّ في مساقٍ مبذور (`?seed=N`). فجلسةُ
+ *  المراجعة والبوابةُ تُعادان كما كانتا في الفحص، ولا يتبدّل عند الطفل شيء. */
+export function sessionItems(due, size = SESSION_SIZE, rnd = chance) {
   return buildSession({ due, itemFor, fillers: fillersOf(rnd), longs: longKinds, size, rnd });
 }
 

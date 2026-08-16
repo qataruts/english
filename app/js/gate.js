@@ -23,7 +23,9 @@
 import { gateById, gateSkills } from './curriculum.js';
 import * as progress from './progress.js';
 import { renderSession, sessionItems, starsForReview } from './review.js';
-import { h, icon, faceEl, go, arNum, starsRow, mascot, PAUSE_ACCENT } from './ui.js';
+import {
+  h, icon, faceEl, go, arNum, starsRow, mascot, passportStamp, chance, PAUSE_ACCENT,
+} from './ui.js';
 
 export const GATE_SIZE = 10;      // عشرة تمارين: أطول من مراجعة اليوم ودون إرهاق
 export const PASS_RATE = 0.8;     // العبور بإصابة ≥٨٠٪ من المحاولات
@@ -43,7 +45,7 @@ export const passed = (right, errors) =>
  *
  * **والتنويعُ يبقى من الحصيلة كلِّها**: المدى يحكم **مادّةَ الضعف** لا حوضَ التنويع.
  */
-export function gateItems(gateId, rnd = Math.random) {
+export function gateItems(gateId, rnd = chance) {
   const scope = new Set(gateSkills(gateId));
   const weakest = progress.weakestSkills()
     .filter((s) => scope.has(`${s.unit}|${s.range}|${s.kind}`));
@@ -80,12 +82,14 @@ export function renderGate(gateId) {
       // العبور: احتفال ونجوم. ودونه: «ليس بعدُ» — لا لفظ رسوب ولا حدّ للإعادة.
       return open
         ? h('div', { class: 'celebrate' },
-          mascot('mascot mascot--cheer'),
-          faceEl(gate.face, 'celebrate-face', 'div'),
+          // **والمرشدُ يختم الجوازَ هنا** (حكمُ المالك في المرشد — البند الثامن):
+          // فحلّت لوحةُ الختم محلَّ ميدالية الوجه — الطائرُ الرحّالة إلى جانب حلقةِ
+          // حبرٍ يقع فيها وجهُ البوابة. **الاستعارةُ عاملةٌ لا موصوفة**.
+          passportStamp(gate.face),
           h('h2', {}, 'فُتِحَتِ البَوَّابَة!'),
           starsRow(starsForReview(errors, items.length), 'big-stars'),
-          // **ختمُ الجواز** (البند ٥ — الرحلةُ حول العالم): نصٌّ مكتوبٌ يقرؤه الوالد
-          // لا شيءَ يُنطَق — والبوابةُ **لا تُضيف نصّاً منطوقاً** بعهدها في رأس الملف.
+          // **وسطرُ الختم مكتوبٌ يقرؤه الوالد** لا شيءَ يُنطَق — والبوابةُ **لا
+          // تُضيف نصّاً منطوقاً** بعهدها في رأس الملف (وله ملفُّه في البنك سلفاً).
           h('p', { class: 'rule' }, 'خُتِمَ جَوَازُكْ — إلى المحطة التالية!'),
           score,
           // **وما بعد البوابة يُذكَر إن أعلنته هي** (بوابةُ الختام وحدَها اليوم):

@@ -39,7 +39,7 @@ import {
   say, sayEn, praiseThen, missedThen, seeder, skillOf, stationById, stationForSkill,
   registerExercise, stationScreen, usedOf,
 } from './station.js';
-import { h, icon, pick, shuffle, seeded, pop, LISTEN_ACCENT } from './ui.js';
+import { h, icon, pick, shuffle, seeded, pop, LISTEN_ACCENT, roundSeed } from './ui.js';
 
 /** أنواعُ الشاشات التي تملكها هذه الوحدة (يقابلها `STATIONS` في `test_measure.mjs`). */
 const TYPES = new Set(['tpr']);
@@ -530,7 +530,7 @@ registerScreen('tpr', (part) => {
     nodeId: station.id,
     title: station.title,
     accent: LISTEN_ACCENT,
-    make: () => buildStation(station.id, (Date.now() >>> 0) ^ 0x9e3779b9),
+    make: () => buildStation(station.id, roundSeed()),
     view: viewOf,
     score,
     save: (stars) => progress.setStars(station.id, stars),

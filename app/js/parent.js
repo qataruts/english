@@ -21,6 +21,7 @@ import {
   UNIT_SECTIONS, unitOf, rangeText, journeyUnits, coupledWords, listenFields,
 } from './curriculum.js';
 import { h, go, toast, arNum, arCount, topbar, shake, BRAND, PAUSE_ACCENT } from './ui.js';
+import { feedbackSection } from './feedback.js';
 
 const ACCENT = PAUSE_ACCENT;
 const GOOD = 'var(--ok)';
@@ -267,7 +268,10 @@ function previewSection() {
  * ولكنّه يُقرأ يومَ يُسأل «أيّ نسخةٍ على جهاز الميدان؟».
  */
 function versionLine() {
-  const line = h('p', { class: 'note sw-version' }, 'نسخةُ التطبيق العاملة: جارٍ السؤال…');
+  // **ومعرّفُه يُقرأ من «بلِّغنا»** (`feedback.js`): سطرُ سياق البلاغ يحمل نسخةَ
+  // القشرة العاملة إن وصلت — فلا سؤالٌ ثانٍ للقشرة ولا رقمٌ يُكتب في موضعين.
+  const line = h('p', { class: 'note sw-version', id: 'app-version' },
+    'نسخةُ التطبيق العاملة: جارٍ السؤال…');
   const sw = typeof navigator !== 'undefined' && navigator.serviceWorker;
   const controller = sw && sw.controller;
   if (!controller) {
@@ -282,6 +286,7 @@ function versionLine() {
   channel.port1.onmessage = (event) => {
     if (event.data?.type !== 'version') return;
     clearTimeout(timer);
+    line.dataset.v = String(event.data.version);   // تقرؤه «بلِّغنا» فيدخل السياقَ
     line.replaceChildren('نسخةُ التطبيق العاملة على هذا الجهاز: ',
       h('b', { class: 'sw-version-num' }, String(event.data.version)),
       ' — وهي نسخةُ القشرة التي تعمل الآن، لا التي في الخادم.');
@@ -784,6 +789,11 @@ function dashboard(rerender = () => {}) {
     ...section('تحكّم في الرحلة', journeySection(rerender)),
 
     ...section('معاينةُ التطبيق كلِّه', previewSection()),
+
+    // **«بلِّغنا»** (قرارُ المالك ١٥ أغسطس — نمطُ العائلة): بابُ الراشد لا الطفل،
+    // فموضعُه هذه اللوحةُ خلف بوابتها الحسابية. **ووحدتُه مفصولة** (`feedback.js`)
+    // فيبقى هذا الملفُّ صفرَ عناوينَ خارجية — يقيسه `tools/test_feedback.mjs`.
+    ...section('بلِّغنا', feedbackSection()),
 
     // **حدودُ النطاق معلَنةٌ في ذيل اللوحة نفسِها** (`METHOD.md §١٣` — بندُ الجلسة ٨):
     // تدريسٌ وقياسٌ لا تشخيص، ولا قياسَ نطقٍ ولا كتابةَ يد، وفئةٌ لا تُمدَّد ضمنياً،

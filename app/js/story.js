@@ -30,7 +30,7 @@ import {
   say, sayEn, praiseThen, missedThen, seeder, skillOf, stationById,
   registerExercise, stationScreen, usedOf,
 } from './station.js';
-import { h, pick, shuffle, seeded, pop, STORY_ACCENT } from './ui.js';
+import { h, pick, shuffle, seeded, pop, STORY_ACCENT, roundSeed } from './ui.js';
 
 /** أنواعُ الشاشات التي تملكها هذه الوحدة (يقابلها `STATIONS` في `test_measure.mjs`). */
 const TYPES = new Set(['story']);
@@ -260,7 +260,7 @@ registerScreen('story', (part) => {
     nodeId: station.id,
     title: station.title,
     accent: STORY_ACCENT,
-    make: () => buildStation(station.id, (Date.now() >>> 0) ^ 0x9e3779b9),
+    make: () => buildStation(station.id, roundSeed()),
     view: pageView,
     score,
     save: (stars) => progress.setStars(station.id, stars),
