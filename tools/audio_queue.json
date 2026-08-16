@@ -2,12 +2,13 @@
   {
     "text": "اسْمَعِ الْأَصْوَاتَ وَاجْمَعْهَا — أَيَّةُ صُورَةٍ هِيَ؟",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعِ الْأَمْرَ وَاخْتَرْ مَنْ يَفْعَلُهُ",
@@ -112,12 +113,13 @@
   {
     "text": "اسْمَعْ وَالْمَسْ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعْ وَالْمَسِ الصُّورَةَ الَّتِي سَمِعْتَ",
@@ -262,12 +264,13 @@
   {
     "text": "قُلْهَا مَعِي",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-2",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "لَمَسْتَ",
@@ -332,12 +335,13 @@
   {
     "text": "الْآنَ جَرِّبْ مَعِي",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "modeling",
     "requestedBy": "session-2",
     "priority": 20,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "انْظُرْ وَاسْمَعْ",
@@ -362,22 +366,24 @@
   {
     "text": "أَحْسَنْتْ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "celebration",
     "requestedBy": "session-2",
     "priority": 30,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "خُتِمَ جَوَازُكْ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "celebration",
     "requestedBy": "session-identity",
     "priority": 30,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "رَائِعْ",
@@ -392,12 +398,13 @@
   {
     "text": "/a/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ai/",
@@ -542,12 +549,13 @@
   {
     "text": "/igh/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/j/",
@@ -602,12 +610,13 @@
   {
     "text": "/m/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/n/",
@@ -622,12 +631,13 @@
   {
     "text": "/ng/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/o/",
@@ -712,32 +722,44 @@
   {
     "text": "/s/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
-    "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن: الصوتُ طويل (٢× وسيط أقرانه)",
+        "requeuedAt": "2026-08-16"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/sh/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/t/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/th/",
@@ -782,12 +804,13 @@
   {
     "text": "/ʊ/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/v/",
@@ -862,12 +885,13 @@
   {
     "text": "apple",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "are",
@@ -1132,12 +1156,13 @@
   {
     "text": "Bye bye!",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "cake",
@@ -1182,12 +1207,13 @@
   {
     "text": "cat",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "chair",
@@ -1632,12 +1658,13 @@
   {
     "text": "Hello!",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "her",
@@ -2582,12 +2609,13 @@
   {
     "text": "water",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "we",
@@ -2732,12 +2760,13 @@
   {
     "text": "come here please",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "come to me",
@@ -2802,12 +2831,13 @@
   {
     "text": "he is happy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "he is my friend",
@@ -2882,12 +2912,13 @@
   {
     "text": "I can see the water",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I eat the bread",

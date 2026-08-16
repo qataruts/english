@@ -17,6 +17,7 @@
 """
 
 import argparse
+import hashlib
 import http.server
 import json
 import os
@@ -60,11 +61,20 @@ VIEWPORT_PAD = 87   # فرقُ نافذة Chrome عن منظورها (شريطُ
 
 
 def pending_texts() -> list:
-    """النصوص المنتظِرة في قائمة الانتظار الصوتية (`docs/AUDIO_QUEUE.md`).
+    """**ما يُعذَر أن ينطقه الطفلُ اليوم** — تُخدَم على `/__queue.json`.
 
-    صفحاتُ الاختبار تستثنيها من فحص «لا لجوء للنطق الآلي»: لا ملف لها بعدُ لأن جلسة
-    الصوتيات لم تصرّفها، فاحتياطُ النطق هو السلوك الصحيح مؤقتاً — وبعد التصريف تفرغ
-    القائمة فيعود الفحص صارماً على كل نصّ بلا تعديل في الصفحات.
+    صفحاتُ الاختبار تستثني هذه من فحص «لا نصَّ يُنطَق خارج قائمة الصوت»، وهما صنفان
+    لا ثالث (`docs/AUDIO_QUEUE.md`):
+
+      • **منتظِرٌ في القائمة**: لا ملفَّ له بعدُ لأنّ جلسةَ الصوتيات لم تصرّفه، فاحتياطُ
+        النطق هو السلوك الصحيح مؤقتاً.
+      • **ومُصرَّفٌ له ملفٌّ على القرص**: يُسمَع من ملفّه لا من الاحتياط.
+
+    **وأُضيف الصنفُ الثاني يومَ بدأ البنكُ يُولَّد** (الجلسة ص): كان الشرطُ «منتظِرٌ»
+    وحدَه لأنّ البنك كان صفراً، فأولُ ملفٍّ وُلِّد صار نصُّه **شارداً** في نظر الفحص —
+    وهو أصحُّ ما يكون. والصفحةُ لم تُمَسّ بحرف كما وُعد في نصّها: **الخادمُ يقرّر
+    ما يُعذَر**. والحكمُ يبقى صارماً على ما لا ملفَّ له ولا صفَّ: `done` سقط ملفُّه
+    من القرص يظهر شارداً كما ينبغي.
     """
     if not QUEUE_FILE.exists():
         return []
@@ -72,8 +82,17 @@ def pending_texts() -> list:
         data = json.loads(QUEUE_FILE.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
         return []
-    return [e["text"] for e in data
-            if isinstance(e, dict) and e.get("text") and e.get("status", "pending") != "done"]
+    out = []
+    for e in data:
+        if not isinstance(e, dict) or not e.get("text"):
+            continue
+        if e.get("status", "pending") != "done":
+            out.append(e["text"])
+            continue
+        key = hashlib.sha1(e["text"].encode("utf-8")).hexdigest()[:12]
+        if (APP / "audio" / f"{key}.mp3").exists():
+            out.append(e["text"])
+    return out
 
 
 def make_server(port: int, results: list):

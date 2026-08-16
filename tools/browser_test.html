@@ -335,10 +335,27 @@
 
   const audio = await import('/js/audio.js');
 
-  // نداءان في اللحظة نفسها — جملةُ توجيهٍ عربية ثم كلمةٌ إنكليزية
+  /* **ونصوصُ هذا المشهد من البنك نفسِه** (إصلاحُ الجلسة ص): كان يقيس بنصّين مكتوبين
+     هنا، وكان ذلك صحيحاً **ما دام البنكُ صفراً** — إذ يقع كلُّ نصّ على مسار الملفّ
+     (لا فهرسَ ⇒ لا نعرف ⇒ جرّبْ). فلمّا وُلِّدت أوّلُ دفعة صار `cat` في الفهرس
+     و«اِسْمَعْ» خارجَه، فمضى الأولُ على الملفّ والثاني على **الاحتياط الآليّ** —
+     فبان تشغيلٌ واحد في الخطّ الزمنيّ لا اثنان، **وسقط المشهدُ لا لأنّ القناة عطبت
+     بل لأنّ عيّنتَه شاخت**. والقياسُ المقصود (لا صوتان معاً، والثاني بعد تمام الأول)
+     **إنّما يُرى على مسار الملفّ**، فتُؤخذ عيّنتُه من الفهرس الحيّ: نصٌّ لكل قناة.
+     وبلا بنكٍ يعود إلى نصّيه القديمين فيعمل المشهدُ كما كان — لا رايةَ تُضبط بيد. */
+  const bank = await fetch('/audio/manifest.json')
+    .then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+  const bankTexts = Object.values(bank);
+  const ARABIC_RE = /[؀-ۿ]/;
+  const arBank = bankTexts.filter((t) => ARABIC_RE.test(t));
+  const enBank = bankTexts.filter((t) => !ARABIC_RE.test(t));
+  const arSay = [arBank[0] || 'اِسْمَعْ', arBank[1] || arBank[0] || 'اِسْمَعْ مَرَّةً أُخْرَى'];
+  const enSay = [enBank[0] || 'cat', enBank[1] || enBank[0] || 'dog'];
+
+  // نداءان في اللحظة نفسها — توجيهٌ عربيّ ثم مادّةٌ إنكليزية
   const t0 = performance.now();
-  const first = audio.play('اِسْمَعْ', 'ar');
-  const second = audio.play('cat', 'en');
+  const first = audio.play(arSay[0], 'ar');
+  const second = audio.play(enSay[0], 'en');
   ok((await first) === true && (await second) === true,
     'والقناةُ تُسمع النداءين كليهما (لا دهسَ ولا وعدٌ معلَّق)');
   const mine = timeline.filter((r) => r.t0 >= t0).sort((x, y) => x.t0 - y.t0);
@@ -349,8 +366,9 @@
     + (clash ? ` (تراكبٌ ${Math.round(mine[0].t1 - mine[1].t0)}ms)` : ''));
 
   // إسكاتُ الطفل الناقل: ما في الطابور يسقط، ووعدُه يُسوَّى بهدوء
-  const cut1 = audio.play('اِسْمَعْ مَرَّةً أُخْرَى', 'ar');
-  const cut2 = audio.play('dog', 'en');
+  // (ومن البنك أيضاً: الإسكاتُ يُقاس على **ما يعمل فعلاً** لا على ما ينتهي قبل أن يبدأ)
+  const cut1 = audio.play(arSay[1], 'ar');
+  const cut2 = audio.play(enSay[1], 'en');
   await wait(20);
   audio.stop();
   ok((await cut1) === false && (await cut2) === false,
@@ -749,6 +767,42 @@
     return seen;
   }
 
+  /**
+   * **شكلُ صفٍّ من بطاقاتٍ**: أفي سطرٍ واحد؟ أيتقدّم من اليسار؟ أفيه هدفُ لمسٍ انكمش؟
+   *
+   * **ويُقاس بمركز البطاقة لا بأعلاها** (إصلاحُ الجلسة ص، وعلّتُه مقيسة): البطاقةُ
+   * تُنقَل إلى الصفّ **ثم تثب فرحاً** (`pop` في `ui.js` — `scale(1.12)` عند ٤٠٪ من
+   * ٢٢٠ملّي)، والصفُّ `align-items: center`. فبطاقةٌ في وثبتها ارتفاعُها ٨٩٫٦بك بدل
+   * ٨٠، **وأعلاها يعلو ٤٫٨بك** عن أخواتها — وحدُّ التسامح كان ٤. فكان الحارسُ يقول
+   * «يتراصّ عموداً» عن صفٍّ مستوٍ، **وإنّما التقط لحظةَ الوثبة**؛ ويقع ذلك أو لا يقع
+   * بحسب متى بدأت الحركةُ في هذا الإطار — وهو ما بدّله وصولُ بنك الصوت (زمنُ الملفّ
+   * المسموع غيرُ زمن الاحتياط). **والمركزُ لا تزحزحه وثبةٌ**: المتمدّدُ يتمدّد
+   * حولَه، فيقيس الحارسُ ما أراد (سطرٌ واحد) لا ما لم يُرِد (لحظةُ حركة).
+   *
+   * **ومقاسُ اللمس من التخطيط لا من المرسوم** (`offsetWidth`): الوثبةُ تكبّر المرسومَ
+   * فتخفي زرّاً انكمش في تخطيطه — والعهدُ عهدُ تخطيطٍ (‏٦٤بك هدفُ إصبع).
+   */
+  const rowShape = (set) => {
+    const box = set.map((el) => el.getBoundingClientRect());
+    const mid = box.map((b) => b.top + b.height / 2);
+    const spread = Math.max(...mid.map((m) => Math.abs(m - mid[0])));
+    return {
+      row: spread < 4,
+      ltr: box.every((b, i) => i === 0 || b.left > box[i - 1].left),
+      small: set.filter((el) => el.offsetWidth < 64 || el.offsetHeight < 64).length,
+      // **والشاردُ يُسمّى لا يُعَدّ**: قياسٌ يسقط يقول بكم سقط وفي صفٍّ من كم —
+      // فلا يُقرأ «يتراصّ عموداً» عن فرقِ بضعِ بكسلاتٍ في لحظة حركة.
+      spread: Math.round(spread * 10) / 10,
+      n: set.length,
+      hs: [...new Set(set.map((el) => el.offsetHeight))].join('/'),
+    };
+  };
+  /** وصفُ أسوأ قياسٍ سقط — يُلحَق برسالة الفشل فيُقرأ سببُه لا رقمُه. */
+  const worstRow = (rows) => {
+    const bad = rows.filter((r) => !r.row).sort((a, b) => b.spread - a.spread)[0];
+    return bad ? ` (أسوأُ فرقٍ ${bad.spread}بك في صفٍّ من ${bad.n}، ارتفاعاتُها ${bad.hs}بك)` : '';
+  };
+
   for (const part of ['s3-1', 's3-2', 's3-3', 's3-4']) {
     const seen = await driveStation(`#/contrast/${part}`);
     ok(seen.done && seen.rounds >= 7 && seen.stars === 3,
@@ -776,12 +830,7 @@
     const seen = await driveStation(`#/ear/${part}`, (d) => {
       const set = [...d.querySelectorAll('.q-tray--sounds .qcard--sound')];
       if (set.length < 2) return;
-      const box = set.map((el) => el.getBoundingClientRect());
-      trayRows.push({
-        row: box.every((b) => Math.abs(b.top - box[0].top) < 4),
-        ltr: box.every((b, i) => i === 0 || b.left > box[i - 1].left),
-        small: box.filter((b) => b.width < 64 || b.height < 64).length,
-      });
+      trayRows.push(rowShape(set));
     });
     ok(seen.done && seen.rounds >= 7 && seen.stars === 3,
       `ومحطةُ «الأذن الفونيمية» ${part} تُقاد إلى ثلاث نجوم (${seen.rounds} جولة · ${seen.stars} نجوم)`);
@@ -792,7 +841,7 @@
   ok(trayRows.length > 0 && trayRows.every((r) => r.row && r.ltr && !r.small),
     `**وصفُّ التقطيع سطرٌ واحد يتقدّم من اليسار** (${trayRows.length} قياساً`
     + `، وكلُّ زرٍّ فيه ≥٦٤بك)`
-    + (trayRows.some((r) => !r.row) ? ' — **يتراصّ عموداً**' : '')
+    + (trayRows.some((r) => !r.row) ? ' — **يتراصّ عموداً**' + worstRow(trayRows) : '')
     + (trayRows.some((r) => !r.ltr) ? ' — **يتقدّم من اليمين**' : '')
     + (trayRows.some((r) => r.small) ? ' — **زرٌّ انكمش بانتقاله**' : ''));
 
@@ -1014,15 +1063,12 @@
   // خطُّ المادّة كما يُحسَب فعلاً على الرسم المعروض (لا كما يُعلَن في اللوح)
   const materialFonts = new Set();
   for (const part of GRADE_PARTS.slice(0, ERA_ONE)) {
+    // **وهي `measureTray` نفسُها** (تُعرَّف أدناه لدرجات ما بعد العهد الأول): كُتبت
+    // مرّتين فأُصلحت إحداهما وبقيت الأخرى — فوُحِّدتا على `rowShape` (الجلسة ص).
     const seen = await driveStation(`#/grade/${part}`, (d) => {
       const set = [...d.querySelectorAll('.q-tray--letters .qcard--letter')];
       if (set.length < 2) return;
-      const box = set.map((el) => el.getBoundingClientRect());
-      letterRows.push({
-        row: box.every((b) => Math.abs(b.top - box[0].top) < 4),
-        ltr: box.every((b, i) => i === 0 || b.left > box[i - 1].left),
-        small: box.filter((b) => b.width < 64 || b.height < 64).length,
-      });
+      letterRows.push(rowShape(set));
     }, (d) => {
       watchLetters(d);
       pendingSeen += d.querySelectorAll('.station-body .fig-letters[data-pending]').length;
@@ -1074,12 +1120,7 @@
   const measureTray = (d) => {
     const set = [...d.querySelectorAll('.q-tray--letters .qcard--letter')];
     if (set.length < 2) return;
-    const box = set.map((el) => el.getBoundingClientRect());
-    letterRows.push({
-      row: box.every((b) => Math.abs(b.top - box[0].top) < 4),
-      ltr: box.every((b, i) => i === 0 || b.left > box[i - 1].left),
-      small: box.filter((b) => b.width < 64 || b.height < 64).length,
-    });
+    letterRows.push(rowShape(set));
   };
 
   /* **وسطرُ القصة يُقاس هندسةً كما يُقاس صفُّ الدمج** (`METHOD.md §٩·٣`): سطرٌ واحد
@@ -1197,7 +1238,7 @@
   ok(letterRows.length > 0 && letterRows.every((r) => r.row && r.ltr && !r.small),
     `**وصفُّ الدمج سطرٌ واحد يتقدّم من اليسار** (${letterRows.length} قياساً`
     + `، وكلُّ لبنةٍ فيه ≥٦٤بك)`
-    + (letterRows.some((r) => !r.row) ? ' — **يتراصّ عموداً**' : '')
+    + (letterRows.some((r) => !r.row) ? ' — **يتراصّ عموداً**' + worstRow(letterRows) : '')
     + (letterRows.some((r) => !r.ltr) ? ' — **يتقدّم من اليمين**' : '')
     + (letterRows.some((r) => r.small) ? ' — **لبنةٌ انكمشت بانتقالها**' : ''));
 

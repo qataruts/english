@@ -1,1 +1,6 @@
 scratch/
+# بيئةُ بايثون لعدّة الصوت (الجلسة ص): `lameenc` مرمِّزُ mp3 — لا ffmpeg في بيئتنا.
+# تُبنى بأمرٍ واحد ولا تُلتزَم:  python3 -m venv .venv && .venv/bin/pip install lameenc
+.venv/
+__pycache__/
+*.pyc
