@@ -471,11 +471,24 @@ def heart_errors(data: dict) -> list:
         joined = "".join(shape["parts"])
         if joined != word:
             errors.append(f"[شائكة {word}] مقاطعُها «{joined}» لا تؤلّفها")
-        if not 0 <= shape["heart"] < len(shape["parts"]):
-            errors.append(f"[شائكة {word}] موضعُ شوكتها ({shape['heart']}) خارج مقاطعها")
+        # **والشوكةُ موضعٌ أو موضعان** (`was`: ‏`a` تقول /o/ و`s` تقول /z/) — تُقرأ
+        # قائمةً في الحالين، فلا يسقط الموضعُ الثاني من الفحص كما لا يسقط من الوسم.
+        hearts_at = shape["heart"] if isinstance(shape["heart"], list) else [shape["heart"]]
+        if not hearts_at:
+            errors.append(f"[شائكة {word}] بلا موضعِ شوكةٍ أصلاً — وكلُّ شائكةٍ شوكة")
+        for at in hearts_at:
+            if not 0 <= at < len(shape["parts"]):
+                errors.append(f"[شائكة {word}] موضعُ شوكتها ({at}) خارج مقاطعها")
         if not shape.get("say"):
             errors.append(f"[شائكة {word}] بلا سياقٍ مسموع — و`METHOD.md §٦`: "
                           "«تُدرَّس داخل سياقٍ مسموعٍ مألوف لا معزولةً»")
+        # **ودرجتُها من القيد معلَنةٌ لا مسكوتٌ عنها** (حكمُ المدير · `METHOD.md §٦`):
+        # مفتاحٌ سمعيٌّ (ذاتُ المدخل) **أو** علّةُ استثناء (الوظيفةُ الصرفة) — أحدُهما
+        # لا كلاهما. وأثرُ المفتاح يحرسه `check_coupling` (بابُه الخامس، سالباً).
+        if bool(shape.get("listen")) == bool(shape.get("why")):
+            errors.append(f"[شائكة {word}] لا تعلن درجتَها من قيد الاقتران: "
+                          "لها `listen` (مفتاحٌ سمعيّ) أو `why` (علّةُ استثنائها) "
+                          "— أحدُهما لا كلاهما ولا واحدَ منهما")
     stray = [w for w in hearts if w not in open_tricky]
     if stray:
         errors.append(f"[الشائكات] رسمٌ لشائكةٍ ليست في المنهج: {'، '.join(stray)}")
@@ -534,6 +547,41 @@ def sound_errors(data: dict) -> list:
             if symbol["id"] not in known:
                 errors.append(f"[{grade['id']}] الرمز «{symbol['id']}» بلا صوتٍ معلَن في "
                               "`PHONEMES` — فكلماتُه تسقط من حوض س٤ صامتةً")
+    errors += bank_sound_errors(data)
+    return errors
+
+
+def bank_sound_errors(data: dict) -> list:
+    """**أصواتُ الرصيد المصوَّر: مُعلَنةٌ أو مُعلَّلة، ولا ثالثَ** (توسعةُ الجلسة ٥).
+
+    حكمُ قبول الجلسة ٣ (البند ٣): «توسعةُ أصوات الرصيد المصوَّر (~٩٠ كلمة) بندٌ محدود
+    يُضاف للجلسة ٥» — فبها يتّسع حوضُ س٤ (الدمجُ والتقطيع والقافية). **والعلّةُ التي
+    أوجبت باباً**: كلمةٌ بلا أصواتٍ تسقط من الحوض **صامتةً** (`soundsOf` تردّ `null`)،
+    فتضيق القافيةُ ولا يشتكي أحد — وهو عينُ العيب الذي رُفع في الجلسة ٣.
+
+    فلكلِّ كلمةٍ مصوَّرة **أحدُ ثلاثة**: مقاطعُ رسمها في السلّم (كلمةُ قراءة)، أو
+    `sounds` معلَنة، أو `soundless` **بعلّةٍ تُقرأ** (شوا ليست في الأربعين، أو كلمتان
+    لا كلمة). ولا تجمع كلمةٌ بين السلّم والإعلان: **مصدرٌ واحد لأصوات الكلمة** وإلّا
+    افترق ما يسمعه الطفلُ في س٤ عمّا يفكّه في مسار الحرف بلا حارس.
+    """
+    errors = []
+    known = {p["id"] for p in data.get("phonemes") or []}
+    ladder = {w["w"] for g in data["grades"] for w in g["words"]}
+    for word in data["words"]:
+        name, declared = word["w"], word.get("sounds")
+        if declared and name in ladder:
+            errors.append(f"[{name}] تعلن أصواتَها وهي كلمةُ قراءةٍ في السلّم — "
+                          "ومصدرُ أصوات الكلمة واحد (مقاطعُ رسمها)")
+        if word.get("soundless") and (declared or name in ladder):
+            errors.append(f"[{name}] تعلن علّةَ خلوّها من الأصوات ولها أصواتٌ — "
+                          "أحدُ الحقلين لا كلاهما")
+        for sound in declared or []:
+            if sound not in known:
+                errors.append(f"[{name}] الصوت «{sound}» ليس من أصوات المنهج "
+                              f"({len(known)} صوتاً في `PHONEMES`)")
+        if not declared and name not in ladder and not word.get("soundless"):
+            errors.append(f"[{name}] بلا أصواتٍ معلَنة ولا علّةٍ مكتوبة — "
+                          "فتسقط من حوض س٤ صامتةً (`sounds` أو `soundless`)")
     return errors
 
 
@@ -1037,6 +1085,27 @@ def self_test(data: dict) -> int:
             "ليس على صورة"),
        "ونصٌّ منطوقٌ ليس على صورة `/x/` يُمسَك (فئةُ `phoneme` في قائمة الصوت)")
 
+    # **وأصواتُ الرصيد المصوَّر تُدسّ من جهاتها الأربع** (توسعةُ الجلسة ٥): الصمتُ،
+    # والصوتُ المخترَع، والمصدران المتزاحمان، والعلّةُ مع الأصوات — وكلُّها كانت
+    # تسقط بلا خبرٍ فتضيق القافيةُ ولا يشتكي أحد.
+    def worded(clone, name):
+        return next(w for w in clone["words"] if w["w"] == name)
+
+    ok(find(sounded(lambda d: worded(d, "baby").pop("sounds")), "بلا أصواتٍ معلَنة"),
+       "**وكلمةٌ مصوَّرة بلا أصواتٍ ولا علّةٍ تُمسَك** — كانت تسقط من حوض س٤ صامتةً")
+    ok(find(sounded(lambda d: worded(d, "baby")["sounds"].append("zh")),
+            "ليس من أصوات المنهج"),
+       "  وصوتٌ مخترَعٌ في إعلانها يُمسَك (الجدولُ الأربعينيّ حاكمٌ هنا كما في الرمز)")
+    ok(find(sounded(lambda d: worded(d, "cat").__setitem__("sounds", ["k", "a", "t"])),
+            "ومصدرُ أصوات الكلمة واحد"),
+       "  **وكلمةُ قراءةٍ تعلن أصواتَها تُمسَك** — مصدرُها مقاطعُ رسمها، ومصدران "
+       "يفترقان يوماً بلا حارس")
+    ok(find(sounded(lambda d: worded(d, "banana").__setitem__("sounds", ["b"])),
+            "أحدُ الحقلين لا كلاهما"),
+       "  وعلّةُ خلوٍّ مع أصواتٍ معلَنة تُمسَك")
+    ok(not find(sound_errors(data), "بلا أصواتٍ معلَنة"),
+       "  والقائمُ اليومَ سليم: لكلِّ كلمةٍ مصوَّرة أصواتُها أو علّتُها")
+
     def paired(mutate):
         clone = copy.deepcopy(data)
         mutate(clone)
@@ -1111,9 +1180,25 @@ def self_test(data: dict) -> int:
     ok(len(wanted_hearts(data)) == len(data["hearts"]),
        f"**والمطلوبُ اليومَ ما أُعلن مثلُه**: {len(wanted_hearts(data))} شائكةً "
        f"(من {sum(len(g['tricky']) for g in data['grades'])} في المنهج) — والبقيةُ نائمة")
-    ok(find(hearted(lambda d: d["hearts"].update(
-        he={"parts": ["h", "e"], "heart": 1, "say": "he can run"})), "بلا رسمٍ معلَن"),
-       "**وإعلانُ رسمٍ في درجةٍ يُوقظ أخواتِه فيها** — `he` وحدَها تُطالِب بـ`she`")
+    # (وكانت الدسّةُ بـ`he` حتى الجلسة ٥؛ فلمّا كُتب رسمُها انتقلت إلى أوّل درجةٍ
+    #  لم تُكتب — والدسّةُ تتبع الجبهةَ ولا تُثبَّت على كلمةٍ بعينها.)
+    asleep_word = next((w for g in data["grades"] for w in g["tricky"]
+                        if w not in data["hearts"]), None)
+    ok(asleep_word is not None and find(hearted(lambda d: d["hearts"].update(
+        **{asleep_word: {"parts": [asleep_word], "heart": 0, "say": asleep_word,
+                         "why": "دسّة"}})), "بلا رسمٍ معلَن"),
+       f"**وإعلانُ رسمٍ في درجةٍ يُوقظ أخواتِه فيها** — `{asleep_word}` وحدَها "
+       "تُطالِب بأخواتها في درجتها")
+    # **ودرجتُها من قيد الاقتران تُدسّ من الجهتين** (حكمُ المدير · `METHOD.md §٦`):
+    # شائكةٌ بلا إعلانٍ أصلاً، وشائكةٌ تعلن الحقلين معاً — كلتاهما تُمسَك، فلا يمرّ
+    # سكوتٌ عن سؤال «أتُقرأ قبل أن تُسمَع؟» ولا يمرّ جوابان متناقضان.
+    ok(find(hearted(lambda d: d["hearts"]["the"].pop("why")), "لا تعلن درجتَها"),
+       "**وشائكةٌ لا تعلن درجتَها من قيد الاقتران تُمسَك** (لا مفتاحَ سمعيّ ولا علّة)")
+    ok(find(hearted(lambda d: d["hearts"]["he"].update(why="علّةٌ ومفتاحٌ معاً")),
+            "لا تعلن درجتَها"),
+       "  والجمعُ بين المفتاح والعلّة يُمسَك كذلك — أحدُهما لا كلاهما")
+    ok(not find(hearted(lambda d: d), "لا تعلن درجتَها"),
+       "  والقائمُ اليومَ سليمٌ: لكلِّ شائكةٍ أحدُ الحقلين")
 
     print("\n— حكمُ الاستهلاك دالّةٌ خالصة: يُجرَّب بلا مولّدٍ ولا متصفّح —")
     letters = next(s for s in stations if s["id"] == "grade:h05")["frontier"]

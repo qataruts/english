@@ -33,10 +33,13 @@
      محطةً ومراجعةً وبوابةً مرّتين (إخفاقاً ثم عبوراً) فرُفعت إلى ٤٨٠. **والجلسةُ ٤
      تسوق خمسَ درجاتِ حرفٍ وبوابةً ثانية مرّتين** (ثمانيةَ عشرَ مساقاً لا ثلاثةَ عشر)،
      فرُفعت إلى ٦٦٠ ومعها مهلةُ `browser_test.py` إلى ٨٤٠ — وتبقى **دونها** كي يصل
-     التقريرُ الناقصُ بدل أن يُقتَل المتصفّح صامتاً. */
+     التقريرُ الناقصُ بدل أن يُقتَل المتصفّح صامتاً.
+     **والجلسةُ ٥ تسوق سبعَ درجاتٍ أخرى** (ح٦–ح١٢) وشاهدَي الشائكة والجبهتين
+     ومراجعةً ثانية — سبعةٌ وعشرون مساقاً لا ثمانيةَ عشر، فرُفعت إلى ٩٦٠ ومعها
+     مهلةُ الأداة إلى ١١٤٠. **قرارٌ معلَن لا صمت** (قاعدةُ بلاغ الجهاز المزدحم). */
   const watchdog = setTimeout(() => {
     report([...out, { ok: false, msg: 'تعلّقت صفحةُ الفحص قبل تمامها (انتظارٌ لم ينتهِ)' }]);
-  }, 660000);
+  }, 960000);
 
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
   const frame = document.getElementById('app');
@@ -880,9 +883,13 @@
   //
   // **وحالُ ليتنر تُصنَع بيد**: قيدُ الاقتران يمنع كلَّ كلمةِ قراءةٍ لم تنضج سمعاً،
   // فتُرفَع مفاتيحُ ح١–ح٥ السمعية إلى صندوق الإتقان — **إلا واحدةً مدسوسة** تُترك
-  // دونه، وهي شاهدُ القيد في الشجرة الحية (الفحصُ ١٨ج).
+  // دونه، وهي شاهدُ القيد في الشجرة الحية (الفحصُ ١٨هـ).
 
-  const gradeWords = curriculum.GRADES.slice(0, 5)
+  // **والعهدان معاً** (الجلسة ٥): ح١–ح٥ ثم ح٦–ح١٢ — اثنتا عشرةَ درجةً تُقاد بأشكالها.
+  const GRADE_PARTS = ['h01', 'h02', 'h03', 'h04', 'h05',
+    'h06', 'h07', 'h08', 'h09', 'h10', 'h11', 'h12'];
+  const ERA_ONE = 5;                       // ح١–ح٥ ثم 🚪٢ ثم ح٦–ح١٢ (ترتيبُ الرحلة)
+  const gradeWords = curriculum.GRADES.slice(0, GRADE_PARTS.length)
     .flatMap((g) => g.words.map((w) => ({ ...w, grade: g.id })));
   const held = gradeWords.find((w) => w.w === 'hat') || gradeWords.at(-1);
   const before = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
@@ -938,7 +945,65 @@
 
   const letterRows = [];
   let pendingSeen = 0;
-  for (const part of ['h01', 'h02', 'h03', 'h04', 'h05']) {
+  for (const part of GRADE_PARTS.slice(0, ERA_ONE)) {
+    const seen = await driveStation(`#/grade/${part}`, (d) => {
+      const set = [...d.querySelectorAll('.q-tray--letters .qcard--letter')];
+      if (set.length < 2) return;
+      const box = set.map((el) => el.getBoundingClientRect());
+      letterRows.push({
+        row: box.every((b) => Math.abs(b.top - box[0].top) < 4),
+        ltr: box.every((b, i) => i === 0 || b.left > box[i - 1].left),
+        small: box.filter((b) => b.width < 64 || b.height < 64).length,
+      });
+    }, (d) => {
+      watchLetters(d);
+      pendingSeen += d.querySelectorAll('.station-body .fig-letters[data-pending]').length;
+    });
+    ok(seen.done && seen.rounds >= 7 && seen.stars === 3,
+      `ودرجةُ الحرف ${part} تُقاد إلى ثلاث نجوم (${seen.rounds} جولة · ${seen.stars} نجوم)`);
+    ok(seen.loose === 0 && seen.bare === 0 && seen.small === 0,
+      `  **ولا حرفٍ لاتينيٍّ خارج \`.en\` المعزول**، ولا زرٍّ نصّيّ، وهدفُ اللمس ≥٦٤بك`
+      + ` (${seen.loose}/${seen.bare}/${seen.small})`);
+  }
+
+  // ————— ١٨ب. 🚪 **بوابةُ عبور الفكّ تقف بين العهدين — كما يمرّ بها الطفل** —————
+  //
+  // **وموضعُها في الفحص موضعُها في الرحلة**: القفلُ التسلسليّ يجعل ح٦ خلفَ البوابة،
+  // فسَوقُ العهد الثاني قبل عبورها يقود إلى **بابٍ مغلق** — وهو ما وقع في أوّل تشغيلٍ
+  // للجلسة ٥ (سبعُ درجاتٍ «صفرُ جولة»)، وأمسكه التقريرُ المسمّي في أوّل جولة.
+  //
+  // **وإخفاقُها يعيد بلا رسوب ثم تُعبَر**: «CVC بالمجموعات الخمس + الشائكات الخمس،
+  // **من أضعف ح١–ح٥**» (`METHOD.md §٥`) — ومدَاها معلَنٌ في البيان (`gateSkills`)،
+  // فلا يتصدّر جلستَها ضعفٌ في السمع.
+
+  win.location.hash = '#/gate/decode';
+  const decodeGate = await waitFor(() => appDoc()?.querySelector('.gate-head'), 25000);
+  ok(!!decodeGate, '🚪 بوابةُ «عبورِ الفكّ» تُفتَح بعد تمام العهد الأول');
+  const gateAsks = await driveGate(3);
+  let gateDoc = appDoc();
+  ok(gateAsks.length === 10, `وتُقاد عشرةَ تمارين (${gateAsks.length})`);
+  ok(!!gateDoc.querySelector('.celebrate--again'),
+    '**وإخفاقُها «ليس بعدُ» لا رسوب** (٧٠٪ دون العتبة)');
+  const decodeGateData = curriculum.gateById('decode');
+  ok(gateDoc.body.textContent.includes(decodeGateData.again),
+    `ونصُّ تشجيعها من بيانها هو («${decodeGateData.again}»)`);
+  ok(!(JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars
+    || {})['gate:decode'], 'ولا نجمةَ تُكتب لبوابةٍ لم تُعبَر');
+
+  [...gateDoc.querySelectorAll('.celebrate button')]
+    .find((b) => /أعِد/.test(b.textContent))?.click();
+  await waitFor(() => appDoc()?.querySelector('.q-stage'), 25000);
+  await driveGate(0);
+  gateDoc = appDoc();
+  ok(!!gateDoc.querySelector('.celebrate') && !gateDoc.querySelector('.celebrate--again'),
+    '**وعبورُها بإصابةٍ تامّة يفتحها** (١٠٠٪ فوق العتبة)');
+  const decodeStars = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars || {};
+  ok(decodeStars['gate:decode'] > 0, 'ونجمةُ البوابة مكتوبةٌ بمعرّفها هو');
+
+
+  // ————— ١٨ج. **والعهدُ الثاني بعدها**: سبعُ درجاتٍ برموزها وعللها —————
+
+  for (const part of GRADE_PARTS.slice(ERA_ONE)) {
     const seen = await driveStation(`#/grade/${part}`, (d) => {
       const set = [...d.querySelectorAll('.q-tray--letters .qcard--letter')];
       if (set.length < 2) return;
@@ -969,7 +1034,7 @@
     + (letterRows.some((r) => !r.ltr) ? ' — **يتقدّم من اليمين**' : '')
     + (letterRows.some((r) => r.small) ? ' — **لبنةٌ انكمشت بانتقالها**' : ''));
 
-  // ————— ١٨ب. قياسُ مسار الحرف بمفاتيح المنهج، وأنواعُه الخمسة كلُّها —————
+  // ————— ١٨د. قياسُ مسار الحرف بمفاتيح المنهج، وأنواعُه الخمسة كلُّها —————
 
   const letterState = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
   const letterWanted = new Set(curriculum.stations()
@@ -984,7 +1049,7 @@
   ok(['gpc|', 'word|', 'tricky|'].every((unit) => letterKeys.some((k) => k.startsWith(unit))),
     'ووحداتُه الثلاث (`gpc` · `word` · `tricky`) كلُّها في ليتنر');
 
-  // ————— ١٨ج. 🔒 **قيدُ الاقتران مشهودٌ عاملاً في الشجرة الحية** —————
+  // ————— ١٨هـ. 🔒 **قيدُ الاقتران مشهودٌ عاملاً في الشجرة الحية** —————
   //
   // **معيارُ قبول الجلسة نصّاً**: «كلمةُ قراءةٍ غيرُ متقنةٍ سمعاً … لا يولّدها التطبيق
   // — مُجرَّباً سالباً في الشجرة الحية لا في الفاحص وحده». فالمدسوسةُ أعلاه بقيت في
@@ -1008,7 +1073,20 @@
   ok(heldKeys.length === 0,
     `ولا مفتاحَ قراءةٍ كُتب لها في ليتنر (${heldKeys.join('، ') || 'لا شيء'})`);
 
+  /* **وحضورُها يُصنَع بالبنية لا يُنتظَر بالحظّ** — إصلاحُ فحصٍ متقلقل (بندُ المراقبة
+     في قبول الجلسة ٤، أُمسك في الجلسة ٥ بعد أن صار كلُّ إخفاقٍ يُطبَع سطرَه):
+     كانت الدرجةُ تُقاد مرّةً ويُطالَب أن تقع المدسوسةُ في جولاتها، وجولةُ الدمج
+     تنتقي **واحدةً من كلمات الدرجة الناضجات** ببذرةِ لحظتها — فأربعُ كلماتٍ في ح٥
+     تجعل غيابَها بالقرعة لا بالقيد: قِيس ذلك فكان **٢١٪ من ٣٠٠ بذرة**، وهو عينُ
+     «جولتان من أربعٍ» اللتان رآهما المدير.
+     فتُصنَع الحالُ بحيث **لا كلمةَ ناضجةً في درجتها سواها**: كلماتُ الدرجات السابقة
+     تبقى ناضجةً (فلمشتّتات الفكّ صورُها)، وأخواتُها في درجتها هي تُردّ إلى الصندوق ٢.
+     وسلّةُ الأشكال تُنفِق أشكالَها الخمسةَ في أوّل خمس جولات، فجولةُ الدمج واقعةٌ
+     لا محالة ومادّتُها هي وحدَها — فصار الشاهدُ حتمياً (صفرُ غيابٍ في ٤٠٠ بذرة). */
   const freed = { ...(letterState.skills || {}) };
+  for (const word of gradeWords) {
+    if (word.grade === held.grade) freed[word.listen] = ripe(2);
+  }
   freed[held.listen] = ripe(4);
   win.localStorage.setItem('english.progress.v1',
     JSON.stringify({ ...letterState, skills: freed }));
@@ -1025,36 +1103,155 @@
     `**وما إن تبلغ الصندوقَ ٣ تدخل الشاشةَ نفسَها** («${held.w}» ظهرت بعد نضجها) — `
     + 'فالقيدُ بابٌ لا جدار');
 
-  // ————— ١٩. 🚪 **بوابةُ عبور الفكّ**: إخفاقٌ يعيد بلا رسوب، ثم عبور —————
+  // ————— ١٨و. 🔒 **والشائكاتُ درجتان** (حكمُ المدير · `METHOD.md §٦`) —————
   //
-  // «CVC بالمجموعات الخمس + الشائكات الخمس، **من أضعف ح١–ح٥**» (`METHOD.md §٥`) —
-  // ومدَاها معلَنٌ في البيان (`gateSkills`)، فلا يتصدّر جلستَها ضعفٌ في السمع.
+  // «الشائكةُ **ذاتُ المدخل في الرصيد السمعي** يسري عليها القيدُ كسائر الكلمات» —
+  // فشائكاتُ العهد الثاني الثمانِ ضمائرُ (`he` · `she`…) لها مفاتيحُ سمعية، ولا
+  // تُقرأ حتى تنضج. **ويُقاس الطرفان في شاشةٍ حيّة**: تُنضَج `she` وحدَها فتخرج
+  // في تمرين شائكة ولا تخرج أختُها `he` معها — وهما شائكتا الدرجة نفسِها (ح٦).
+  //
+  // **والحالُ مصنوعةٌ بحيث لا يكون للحظّ فيها نصيب** (درسُ الفحص المتقلقل، الجلسة ٥):
+  // سلّةُ الأشكال تُنفِق أشكالَها في أوّل جولاتٍ خمس، فجولةُ الشائكة واقعةٌ لا محالة،
+  // ومادّتُها الناضجةُ واحدةٌ لا غير.
 
-  win.location.hash = '#/gate/decode';
-  const decodeGate = await waitFor(() => appDoc()?.querySelector('.gate-head'), 25000);
-  ok(!!decodeGate, '🚪 بوابةُ «عبورِ الفكّ» تُفتَح بعد تمام العهد الأول');
-  const gateAsks = await driveGate(3);
-  let gateDoc = appDoc();
-  ok(gateAsks.length === 10, `وتُقاد عشرةَ تمارين (${gateAsks.length})`);
-  ok(!!gateDoc.querySelector('.celebrate--again'),
-    '**وإخفاقُها «ليس بعدُ» لا رسوب** (٧٠٪ دون العتبة)');
-  const decodeGateData = curriculum.gateById('decode');
-  ok(gateDoc.body.textContent.includes(decodeGateData.again),
-    `ونصُّ تشجيعها من بيانها هو («${decodeGateData.again}»)`);
-  ok(!(JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars
-    || {})['gate:decode'], 'ولا نجمةَ تُكتب لبوابةٍ لم تُعبَر');
+  const trickyGrade = curriculum.GRADES.find((g) =>
+    g.tricky.filter((w) => curriculum.HEART_WORDS[w]?.listen).length >= 2);
+  const [heldTricky, freeTricky] = trickyGrade.tricky
+    .filter((w) => curriculum.HEART_WORDS[w]?.listen);
 
-  [...gateDoc.querySelectorAll('.celebrate button')]
-    .find((b) => /أعِد/.test(b.textContent))?.click();
-  await waitFor(() => appDoc()?.querySelector('.q-stage'), 25000);
-  await driveGate(0);
-  gateDoc = appDoc();
-  ok(!!gateDoc.querySelector('.celebrate') && !gateDoc.querySelector('.celebrate--again'),
-    '**وعبورُها بإصابةٍ تامّة يفتحها** (١٠٠٪ فوق العتبة)');
-  const decodeStars = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars || {};
-  ok(decodeStars['gate:decode'] > 0, 'ونجمةُ البوابة مكتوبةٌ بمعرّفها هو');
+  const drawnTricky = async () => {
+    const seen = new Set();
+    await driveStation(`#/grade/${trickyGrade.id}`, null, (d) => {
+      for (const fig of d.querySelectorAll('.station-body .fig[data-word]')) {
+        if (fig.dataset.word) seen.add(fig.dataset.word);
+      }
+      const ask = d.querySelector('.q-stage[data-ask]')?.dataset.ask;
+      if (ask) seen.add(ask);
+    });
+    return seen;
+  };
 
-  // ————— ٢٠. **لا نصَّ يُنطَق خارج قائمة الصوت** (`AUDIO_QUEUE.md §٣`) —————
+  const heldState = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const trickySkills = { ...(heldState.skills || {}) };
+  trickySkills[curriculum.HEART_WORDS[freeTricky].listen] = ripe(4);
+  delete trickySkills[curriculum.HEART_WORDS[heldTricky].listen];
+  win.localStorage.setItem('english.progress.v1',
+    JSON.stringify({ ...heldState, skills: trickySkills }));
+  await reopen();
+  const trickyDrawn = await drawnTricky();
+  ok(trickyDrawn.has(freeTricky),
+    `**والشائكةُ الناضجةُ سمعاً تُسأل** («${freeTricky}» بمفتاح `
+    + `«${curriculum.HEART_WORDS[freeTricky].listen}» في الصندوق ٤ — ${trickyGrade.id})`);
+  ok(!trickyDrawn.has(heldTricky),
+    `**وأختُها التي لم تنضج لم تُرسَم ولم يُسأل عنها** («${heldTricky}» بلا سجلٍّ سمعيّ) `
+    + '— فقيدُ الاقتران يحكم الشائكةَ كما يحكم الكلمة');
+  const heldTrickyKeys = Object.keys(JSON.parse(
+    win.localStorage.getItem('english.progress.v1') || '{}').skills || {})
+    .filter((k) => k === `tricky|${heldTricky}|read`);
+  ok(heldTrickyKeys.length === 0,
+    `ولا مفتاحَ قراءةٍ كُتب لها في ليتنر (${heldTrickyKeys.join('، ') || 'لا شيء'})`);
+
+  // **والمراجعةُ اليومية تسحب من الجبهتين بميزانها المعلَن** (`REVIEW_MIX`):
+  // تُفتَح جلسةٌ ويُقرأ **ما كتبته في ليتنر** — فإن جاءت من جبهةٍ واحدة فالتوازي
+  // كلامٌ في وثيقة. (والنسبةُ بيانٌ يُقرأ من المنهج، فلا يُكتب هنا رقمٌ ثانٍ.)
+  //
+  // **والجبهةُ تُقرأ من المفتاح لا من شكل الشاشة** — عيبٌ أُمسك في أوّل تشغيل: كان
+  // الفحصُ يستدلّ على جبهة التمرين بما رُسم (`.q-tray--letters` وأخواتها)، فتُحسَب
+  // جولةُ **فكٍّ** أو **رسمٍ لصوت** سمعاً لأنّ صفَّ اللبنات لا يظهر فيهما — فشهد
+  // بجبهةٍ واحدة والجلسةُ مخلوطة. والمفتاحُ لا يكذب: ما كُتب في ليتنر هو ما سُئل.
+  const isLetterKey = (k) => /\|(sound-pick|letter-pick|build|decode|read)$/.test(k);
+  const isListenKey = (k) => /\|(listen-pick|tpr-do|tpr-put|tpr-two|pick|blend-ear|segment-ear)$/
+    .test(k);
+  const stamp = () => Object.fromEntries(Object.entries(JSON.parse(
+    win.localStorage.getItem('english.progress.v1') || '{}').skills || {})
+    .map(([key, skill]) => [key, `${skill.right}/${skill.wrong}/${skill.seen}`]));
+
+  /* **وتُصفَّى الجلسةُ من المستحقّ أوّلاً** — وإلا شهدنا على غير ما نقيس: صدرُ
+     المراجعة **الأضعفُ أولاً من حوضٍ مخلوط** (وهو باقٍ كما هو، ولا حصّةَ فيه لجبهة)،
+     وحالُ ليتنر المصنوعةُ في هذا الفحص كُتبت بـ`due: 0` فصارت **كلُّ مفاتيح السمع
+     مستحقّةً في يومها** — فابتلع المستحقُّ الجلسةَ كلَّها وشهد الفحصُ بجبهةٍ واحدة
+     على ميزانٍ لم يُسأل أصلاً (أمسكه التشغيلُ الثاني: «6 تمريناً كتبت 7 مفاتيح من
+     listen»). فتُدفَع آجالُ المستحقّ إلى الغد، ويُسأل **حوضُ التنويع** وحدَه — وهو
+     موضعُ الميزان المعلَن. */
+  const rested = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  for (const skill of Object.values(rested.skills || {})) {
+    skill.box = Math.max(1, skill.box || 0);
+    skill.due = 99999;
+  }
+  win.localStorage.setItem('english.progress.v1', JSON.stringify(rested));
+  await reopen();
+
+  const beforeMix = stamp();
+  win.location.hash = '#/review';
+  await waitFor(() => appDoc()?.querySelector('.dots'), 25000);
+  let mixedRounds = 0;
+  for (let i = 0; i < 10; i++) {
+    const found = await waitFor(() => {
+      const d = appDoc();
+      return d && (readyIn(d) || d.querySelector('.celebrate'));
+    }, 25000);
+    const d = appDoc();
+    if (!found || d.querySelector('.celebrate')) break;
+    const stageNow = d.querySelector('.q-stage');
+    mixedRounds++;
+    if (!await answerNow(d)) break;
+    await waitFor(() => {
+      const x = appDoc();
+      return x && (x.querySelector('.q-stage') !== stageNow || x.querySelector('.celebrate'));
+    }, 25000);
+  }
+  await waitFor(() => appDoc()?.querySelector('.celebrate'), 25000);
+  const touched = Object.entries(stamp())
+    .filter(([key, value]) => beforeMix[key] !== value).map(([key]) => key);
+  const fronts = new Set(touched.map((k) => (isLetterKey(k) ? 'letter'
+    : isListenKey(k) ? 'listen' : 'other')));
+  ok(mixedRounds >= 5 && fronts.has('letter') && fronts.has('listen'),
+    `**ومراجعةُ اليوم تسحب من الجبهتين معاً** (${mixedRounds} تمريناً كتبت `
+    + `${touched.length} مفتاحاً من ${[...fronts].join(' و')}) — `
+    + 'بميزان `REVIEW_MIX` المعلَن في المنهج');
+
+  // ————— ١٨ز. **جبهتان مستقلتان: كلٌّ تتقدم وتتراجع بقياسها** (معيارُ الجلسة ٥) —————
+  //
+  // الجبهتان في ليتنر لا في الكلام: يُقاد **مسارُ الحرف** إلى الخطأ عمداً في درجةٍ
+  // كاملة، ثم يُقرأ السجلّ: مفاتيحُ الحرف **تراجعت إلى الصندوق صفر**، ومفاتيحُ السمع
+  // **لم تُخدَش** — فما تعلّمه الطفلُ سمعاً لا يهبط لأنّه تعثّر في رسمٍ، وعكسُه.
+
+  const boxesOf = (state, pick) => Object.entries(state.skills || {})
+    .filter(([key]) => pick(key)).map(([, s]) => s.box);
+
+  const beforeFall = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const listenBefore = boxesOf(beforeFall, isListenKey);
+  win.location.hash = `#/grade/${trickyGrade.id}`;
+  await waitFor(() => appDoc()?.querySelector('.station-body .next'), 30000);
+  appDoc().querySelector('.station-body .next')?.click();
+  let fallen = 0;
+  for (let i = 0; i < 12; i++) {
+    const found = await waitFor(() => {
+      const d = appDoc();
+      return d && (readyIn(d) || d.querySelector('.celebrate'));
+    }, 25000);
+    const d = appDoc();
+    if (!found || d.querySelector('.celebrate')) break;
+    const stageNow = d.querySelector('.q-stage');
+    if (!await answerNow(d, true)) break;          // **خطأٌ مقصود في كل جولة**
+    fallen++;
+    await waitFor(() => {
+      const x = appDoc();
+      return x && (x.querySelector('.q-stage') !== stageNow || x.querySelector('.celebrate'));
+    }, 25000);
+  }
+  await waitFor(() => appDoc()?.querySelector('.celebrate'), 25000);
+  const afterFall = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const letterFallen = boxesOf(afterFall, isLetterKey).filter((box) => box === 0).length;
+  ok(fallen > 0 && letterFallen > 0,
+    `**وجبهةُ الحرف تتراجع بقياسها**: ${fallen} خطأً مقصوداً أنزلت ${letterFallen} مفتاحاً `
+    + 'إلى الصندوق صفر');
+  ok(boxesOf(afterFall, isListenKey).join(',') === listenBefore.join(','),
+    `**وجبهةُ السمع لم تُخدَش** (${listenBefore.length} مفتاحاً بصناديقها كما كانت) — `
+    + 'فما أُتقن سمعاً لا يهبط بتعثّرٍ في رسم');
+
+
+  // ————— ١٩. **لا نصَّ يُنطَق خارج قائمة الصوت** (`AUDIO_QUEUE.md §٣`) —————
   //
   // النصُّ يُركَّب في زمن التشغيل («point to the big red ball»)، فلا يراه جردُ شجرةٍ
   // ولا يُمسَك إلا حيث يُنطَق. وبنكُ الصوت لم يُولَّد بعد، فالمطلوبُ اليومَ أن يكون
@@ -1070,7 +1267,7 @@
     + `، و${queued.length} في القائمة)`
     + (strays.length ? ` — خارجها: ${strays.length}` : ''));
 
-  // ————— ٢١. **نسخةُ القشرة تُرى** (`METHOD.md §١٢-١٠` — أمرُ المالك) —————
+  // ————— ٢٠. **نسخةُ القشرة تُرى** (`METHOD.md §١٢-١٠` — أمرُ المالك) —————
   //
   // يُقاس **الطرفان في متصفّحٍ حقيقيّ**: قشرةٌ حيّة تُسأل فتجيب من ثابتها، ولوحةُ
   // الوالد تعرض جوابَها. ولو أجابت القشرةُ ولم تعرض اللوحةُ لَما شهد ميدانٌ بشيء.

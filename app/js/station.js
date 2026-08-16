@@ -34,7 +34,7 @@
 
 import * as progress from './progress.js';
 import * as audio from './audio.js';
-import { stations, RITUAL } from './curriculum.js';
+import { stations, RITUAL, REVIEW_MIX } from './curriculum.js';
 import { setBuilders } from './review.js';
 import {
   h, icon, go, topbar, starsRow, mascot, cheer, toast, shuffle, arNum, onScreen, DEV,
@@ -524,16 +524,71 @@ function itemFor(skill, rnd = Math.random) {
  * تدرّسها. فلا يُسأل في المراجعة عمّا لم يبلغه.
  */
 function fillersOf(rnd = Math.random) {
-  const out = [];
+  const byTrack = new Map();
   for (const station of stations()) {
     if (!progress.isDone(station.id)) continue;
     for (const key of station.skills || []) {
       const [unit, range, kind] = key.split('|');
       if (!EXERCISES.has(kind)) continue;
-      out.push(() => itemFor({ unit, range: progress.spanOf(range), kind }, rnd));
+      const lane = byTrack.get(station.track) || [];
+      lane.push(() => itemFor({ unit, range: progress.spanOf(range), kind }, rnd));
+      byTrack.set(station.track, lane);
     }
   }
-  return shuffle(out, rnd);
+  return weave(byTrack, rnd);
+}
+
+/**
+ * **حصّةُ الجبهة تُحسَب بتمارينَ تُبنى فعلاً، لا بمفاتيحَ تُعَدّ** — عمقٌ محدود
+ * (`LANE_DEPTH`) يُبنى من كل جبهةٍ قبل النسج.
+ *
+ * **وعلّتُه مقيسة**: من المفاتيح ما لا يُنتج تمريناً اليوم (مفتاحُ محطةٍ لم تُكتب
+ * شاشتُها بعد — جملُ س٥-٦ مثلاً)، فلو نُسجت الحصصُ بالمفاتيح لَجاء دورُ جبهةٍ
+ * فأعطت `null` وابتلعت الأخرى مكانَها. وقِيس ذلك على مئتي بذرة: **عشرُ جلساتٍ من
+ * جبهةٍ واحدة** رغم النسج — نسبةٌ صغيرة لكنّها **فحصٌ متقلقل** وميزانٌ يكذب مرّةً
+ * في عشرين. فيُبنى من كل جبهةٍ ما يكفي جلسةً قبل القسمة (بناءٌ رخيص: كائناتُ جولةٍ
+ * لا رسمٌ ولا صوت)، ولا يدخل الميزانَ إلا **تمرينٌ موجود**.
+ */
+const LANE_DEPTH = 8;
+
+function ready(pool, rnd) {
+  const out = [];
+  for (const make of shuffle(pool, rnd)) {
+    if (out.length >= LANE_DEPTH) break;
+    const item = make();
+    if (item) out.push(() => item);
+  }
+  return out;
+}
+
+/**
+ * **حوضُ التنويع منسوجٌ من الجبهتين بميزانٍ معلَن** (`REVIEW_MIX` — بندُ الجلسة ٥).
+ *
+ * والنسبةُ **في البيانات بسببها** لا في هذه الشيفرة: هنا قسمةٌ تنفّذها، وهناك حكمٌ
+ * يُقرأ ويُغيَّر بقرار. وقبلَ اليومَ كان الحوضُ يُخلَط خلطاً واحداً، وذلك يصدُق ما
+ * دامت الجبهةُ واحدة — فلمّا صارتا اثنتين صار الخلطُ الأعمى **يعطي الأكثرَ مفاتيحَ
+ * أكثرَ حصّة**: مسارُ السمع اليومَ أوفرُ مفاتيح، فكان يبتلع التنويعَ ويُنسى الحرفُ
+ * بين محطتين.
+ *
+ * **وحصّةُ جبهةٍ بلا مادّة لا تُهدَر**: تسقط الجبهةُ من النسج فتأخذ الأخرى الجلسةَ
+ * كلَّها (طفلٌ قبل 🚪١ جبهتُه واحدة) — قسمةُ ما وُجد لا وعدٌ بما لم يوجد. **وما لا
+ * ميزانَ له** (جبهةٌ تُستحدَث ولا تُذكَر في `REVIEW_MIX`) يلحق آخراً ولا يسقط صامتاً.
+ */
+function weave(byTrack, rnd) {
+  const named = new Set(REVIEW_MIX.map((lane) => lane.track));
+  const lanes = REVIEW_MIX
+    .map(({ track, share }) => ({ share, pool: ready(byTrack.get(track) || [], rnd) }))
+    .filter((lane) => lane.pool.length);
+  const out = [];
+  while (lanes.some((lane) => lane.pool.length)) {
+    for (const lane of lanes) {
+      for (let i = 0; i < lane.share && lane.pool.length; i++) out.push(lane.pool.pop());
+    }
+  }
+  for (const [track, pool] of byTrack) {
+    if (!named.has(track)) out.push(...shuffle(pool, rnd));
+  }
+  return out;
 }
 
 /** مُصيِّرُ تمرين المراجعة — التمرينُ نفسُه الذي في المحطة، بعقد المحرّك. */

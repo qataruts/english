@@ -307,11 +307,60 @@ def self_test() -> int:
     checks.append((APP.exists() and (APP / "index.html").exists(),
                    "وجذرُ التطبيق الذي يُخدَم موجود (`app/index.html`)"))
 
+    # **ودسّةُ التقرير نفسِه** (بندُ المراقبة، قبولُ الجلسة ٤): صفٌّ مخفقٌ بلا نصّ
+    # كان يُطبَع سطراً فارغاً فيُعَدّ ولا يُسمّى. تُدسّ هنا صفوفٌ عوراءُ ويُشهَد أنّ
+    # لكلٍّ اسماً يُقرأ — فلا يعود «١ إخفاق» بلا صاحبٍ ممكناً بالبناء.
+    checks.append(("صفُّه الخام" in row_label({"ok": False}),
+                   "وصفٌّ مخفقٌ بلا `msg` يُطبَع باسمٍ خام لا سطراً فارغاً"))
+    checks.append(("صفُّه الخام" in row_label({"ok": False, "msg": "   "}),
+                   "  و`msg` فارغٌ كذلك (مسافاتٌ أو `None`)"))
+    checks.append(("ليس قاموساً" in row_label("صفٌّ غريب"),
+                   "  وصفٌّ ليس قاموساً يُعرَض بشكله ونوعه"))
+    checks.append((row_label({"ok": False, "msg": "اسمُه هنا"}) == "اسمُه هنا",
+                   "  والصفُّ السليم يبقى كما هو"))
+
     bad = [m for good, m in checks if not good]
     for good, m in checks:
         print(("  ✓ " if good else "  ✗ ") + m)
     print("\n" + ("عدّةُ المتصفّح سليمة (بلا Chrome ولا شبكة)." if not bad else f"{len(bad)} فشل"))
     return 1 if bad else 0
+
+
+def row_label(row) -> str:
+    """اسمُ الصفّ كما يُقرأ — وما لا اسمَ له يُعرَض **خاماً** لا فارغاً."""
+    if isinstance(row, dict):
+        msg = row.get("msg")
+        if isinstance(msg, str) and msg.strip():
+            return msg
+        return ("فحصٌ بلا نصٍّ يسمّيه — صفُّه الخام: "
+                + json.dumps(row, ensure_ascii=False)[:300])
+    return f"صفٌّ ليس قاموساً ({type(row).__name__}): {str(row)[:300]}"
+
+
+def report_rows(rows: list) -> int:
+    """طباعةُ صفوف التقرير — **وكلُّ إخفاقٍ يُطبَع سطرُه أياً كان شكلُ صفّه**.
+
+    عيبٌ أمسكه بندُ المراقبة في قبول الجلسة ٤: جولتان خُتمتا «١ إخفاق» **بلا سطر
+    ✗ يسمّي صاحبَه** — فتقريرٌ يَعُدّ ولا يُسمّي لا يُشخَّص به شيء، والحارسُ الذي
+    لا يُقرأ إخفاقُه حارسٌ مهدور. والعلّةُ ثقةٌ بشكل الصفّ: كان السطرُ يفترض
+    قاموساً بمفتاح `msg` نصّاً، فصفٌّ بلا `msg` (أو `msg` فارغٌ أو `None` أو ليس
+    نصّاً، أو صفٌّ ليس قاموساً أصلاً) يُعَدّ إخفاقاً ويُطبَع **سطراً فارغاً** يمرّ
+    تحت العين. فالآن ثلاثةُ أحكام: رقمُ الصفّ يسبق كلَّ سطر (فيُرى النقصُ في
+    العدد)، وما لا نصَّ له يُعرَض خاماً، **والإخفاقاتُ تُجمَع في ذيل التقرير**
+    حيث تُقرأ ولو طال المخرَجُ مئةَ سطر.
+    """
+    fails = []
+    for i, row in enumerate(rows, 1):
+        good = isinstance(row, dict) and bool(row.get("ok"))
+        label = row_label(row)
+        print(("  ✓ " if good else "  ✗ ") + f"[{i:>3}] {label}")
+        if not good:
+            fails.append((i, label))
+    if fails:
+        print(f"\n  ✗ الإخفاقاتُ بأسمائها ({len(fails)}):")
+        for i, label in fails:
+            print(f"    [{i}] {label}")
+    return len(fails)
 
 
 def main() -> int:
@@ -323,9 +372,10 @@ def main() -> int:
     # بأصواتها، فكلُّ جلسةٍ تزيد شاشاتٍ تزيدها ثوانيَ. وتبقى **فوق** مهلة الصفحة
     # الحارسة كي يصل التقريرُ الناقص بدل أن يُقتَل المتصفّح صامتاً — وهي **٤٨٠ث** في
     # `browser_test.html` (رفعتها الجلسةُ ٣ من ١٥٠ مع ثمانِ محطاتٍ جديدة وبوابةٍ
-    # تُقاد مرّتين). **والرقمُ يُقرأ من هناك**: مهلةٌ هنا دون مهلة الصفحة تجعل كلَّ
-    # جولةٍ بطيئة «لم تصل نتيجة» بلا سبب.
-    ap.add_argument("--timeout", type=int, default=840, help="ثوانٍ قبل الاستسلام")
+    # تُقاد مرّتين، ورفعتها الجلسةُ ٤ إلى ٦٦٠، والجلسةُ ٥ إلى ٩٦٠ بسبع درجاتٍ
+    # وشاهدَين ومراجعةٍ ثانية). **والرقمُ يُقرأ من هناك**: مهلةٌ هنا دون مهلة الصفحة
+    # تجعل كلَّ جولةٍ بطيئة «لم تصل نتيجة» بلا سبب.
+    ap.add_argument("--timeout", type=int, default=1140, help="ثوانٍ قبل الاستسلام")
     ap.add_argument("--shots", metavar="PNG", help="لقطة للمراجعة البصرية بدل الاختبارات")
     # **المراجعةُ البصرية تحتاج الشاشةَ بعينها**: لقطةُ الجذر تُري الخريطةَ وحدَها،
     # وشاشاتُ المحطات خلف مسارها — فتُساق بمسارها كما يسوقها الطفل (`?preview=1`
@@ -391,12 +441,9 @@ def main() -> int:
         print(f"لم تصل نتيجة من المتصفّح خلال {args.timeout} ثانية.")
         return 1
 
-    fails = 0
-    for row in results:
-        good = bool(row.get("ok"))
-        fails += not good
-        print(("  ✓ " if good else "  ✗ ") + row.get("msg", ""))
-    print(f"\n{fails} إخفاق" if fails else f"\nكل فحوص المتصفّح ناجحة ({len(results)} فحصاً).")
+    fails = report_rows(results)
+    print(f"\n{fails} إخفاق من {len(results)} فحصاً" if fails
+          else f"\nكل فحوص المتصفّح ناجحة ({len(results)} فحصاً).")
     return 1 if fails else 0
 
 

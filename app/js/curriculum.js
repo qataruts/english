@@ -210,16 +210,16 @@ export const WORDS = [
   // س١-١ الأهل
   { w: 'mum', field: 'family', at: 's1-1', face: '👩‍👦' },
   { w: 'dad', field: 'family', at: 's1-1', face: '👨‍👧' },
-  { w: 'baby', field: 'family', at: 's1-1', face: '👶' },
+  { w: 'baby', field: 'family', at: 's1-1', sounds: ['b', 'ai', 'b', 'ee'], face: '👶' },
   { w: 'boy', field: 'family', at: 's1-1', face: '👦' },
   { w: 'girl', field: 'family', at: 's1-1', face: '👧' },
-  { w: 'grandma', field: 'family', at: 's1-1', face: '👵' },
-  { w: 'grandpa', field: 'family', at: 's1-1', face: '👴' },
+  { w: 'grandma', field: 'family', at: 's1-1', soundless: 'مقطعُها الأخير شوا (/ˈɡrænmə/) — وليست في جدول الأربعين صوتاً', face: '👵' },
+  { w: 'grandpa', field: 'family', at: 's1-1', soundless: 'كسابقتها', face: '👴' },
   { w: 'family', field: 'family', at: 's1-1', face: '👨‍👩‍👧‍👦' },
-  { w: 'friend', field: 'family', at: 's1-1', face: '🧑‍🤝‍🧑' },
+  { w: 'friend', field: 'family', at: 's1-1', sounds: ['f', 'r', 'e', 'n', 'd'], face: '🧑‍🤝‍🧑' },
   // س١-٢ الجسد والوجه
   { w: 'ear', field: 'body', at: 's1-2', face: '👂' },
-  { w: 'eye', field: 'body', at: 's1-2', face: '👁️' },
+  { w: 'eye', field: 'body', at: 's1-2', sounds: ['igh'], face: '👁️' },
   { w: 'nose', field: 'body', at: 's1-2', face: '👃' },
   { w: 'mouth', field: 'body', at: 's1-2', face: '👄' },
   { w: 'hand', field: 'body', at: 's1-2', face: '✋' },
@@ -230,32 +230,32 @@ export const WORDS = [
   { w: 'dog', field: 'animals', at: 's1-3', face: '🐕' },
   { w: 'bird', field: 'animals', at: 's1-3', face: '🐦' },
   { w: 'fish', field: 'animals', at: 's1-3', face: '🐟' },
-  { w: 'horse', field: 'animals', at: 's1-3', face: '🐎' },
+  { w: 'horse', field: 'animals', at: 's1-3', sounds: ['h', 'or', 's'], face: '🐎' },
   { w: 'cow', field: 'animals', at: 's1-3', face: '🐄' },
   { w: 'duck', field: 'animals', at: 's1-3', face: '🦆' },
   { w: 'sheep', field: 'animals', at: 's1-3', face: '🐑' },
   { w: 'goat', field: 'animals', at: 's1-3', face: '🐐' },
-  { w: 'elephant', field: 'animals', at: 's1-3', face: '🐘' },
-  { w: 'monkey', field: 'animals', at: 's1-3', face: '🐒' },
+  { w: 'elephant', field: 'animals', at: 's1-3', soundless: 'شوا في مقطعها الأخير (/ˈɛləfənt/)', face: '🐘' },
+  { w: 'monkey', field: 'animals', at: 's1-3', sounds: ['m', 'u', 'ng', 'k', 'ee'], face: '🐒' },
   { w: 'frog', field: 'animals', at: 's1-3', face: '🐸' },
   { w: 'bee', field: 'animals', at: 's1-3', face: '🐝' },
-  { w: 'bear', field: 'animals', at: 's1-3', face: '🐻' },
-  { w: 'tiger', field: 'animals', at: 's1-3', face: '🐅' },
-  { w: 'snake', field: 'animals', at: 's1-3', face: '🐍' },
+  { w: 'bear', field: 'animals', at: 's1-3', sounds: ['b', 'air'], face: '🐻' },
+  { w: 'tiger', field: 'animals', at: 's1-3', sounds: ['t', 'igh', 'g', 'er'], face: '🐅' },
+  { w: 'snake', field: 'animals', at: 's1-3', sounds: ['s', 'n', 'ai', 'k'], face: '🐍' },
   { w: 'spider', field: 'animals', at: 's1-3', face: '🕷️' },
   // س١-٤ الطعام والشراب
-  { w: 'apple', field: 'food', at: 's1-4', face: '🍎' },
-  { w: 'banana', field: 'food', at: 's1-4', face: '🍌' },
-  { w: 'pear', field: 'food', at: 's1-4', face: '🍐' },
+  { w: 'apple', field: 'food', at: 's1-4', sounds: ['a', 'p', 'l'], face: '🍎' },
+  { w: 'banana', field: 'food', at: 's1-4', soundless: 'شوا في مقطعيها الأول والأخير (/bəˈnænə/)', face: '🍌' },
+  { w: 'pear', field: 'food', at: 's1-4', sounds: ['p', 'air'], face: '🍐' },
   { w: 'grape', field: 'food', at: 's1-4', face: '🍇' },
   { w: 'bread', field: 'food', at: 's1-4', face: '🍞' },
   { w: 'milk', field: 'food', at: 's1-4', face: '🥛' },
-  { w: 'water', field: 'food', at: 's1-4', face: '💧' },
-  { w: 'egg', field: 'food', at: 's1-4', face: '🥚' },
-  { w: 'cake', field: 'food', at: 's1-4', face: '🍰' },
-  { w: 'carrot', field: 'food', at: 's1-4', face: '🥕' },
-  { w: 'rice', field: 'food', at: 's1-4', face: '🍚' },
-  { w: 'ice cream', field: 'food', at: 's1-4', face: '🍦' },
+  { w: 'water', field: 'food', at: 's1-4', sounds: ['w', 'or', 't', 'er'], face: '💧' },
+  { w: 'egg', field: 'food', at: 's1-4', sounds: ['e', 'g'], face: '🥚' },
+  { w: 'cake', field: 'food', at: 's1-4', sounds: ['k', 'ai', 'k'], face: '🍰' },
+  { w: 'carrot', field: 'food', at: 's1-4', soundless: 'شوا في مقطعها الثاني (/ˈkærət/)', face: '🥕' },
+  { w: 'rice', field: 'food', at: 's1-4', sounds: ['r', 'igh', 's'], face: '🍚' },
+  { w: 'ice cream', field: 'food', at: 's1-4', soundless: 'كلمتان لا كلمة — والأصواتُ تُعلَن لكلمةٍ واحدة', face: '🍦' },
   // س١-٥ الألوان — والمربّعُ الملوّن أصدقُ صورةٍ للّون: لا شيءَ فيه سواه.
   // **وأربعةٌ تحمل قيمتَها معها**: هي ألوانُ الأمر المركّب في س٢-٤ (كرةٌ حمراء
   // كبيرة)، وقيمتُها **قيمةُ مربّعها في Twemoji نفسِها** — فاللونُ الذي رآه الطفلُ
@@ -264,37 +264,37 @@ export const WORDS = [
   { w: 'blue', field: 'colours', at: 's1-5', face: '🟦', swatch: '#55ACEE' },
   { w: 'green', field: 'colours', at: 's1-5', face: '🟩', swatch: '#78B159' },
   { w: 'yellow', field: 'colours', at: 's1-5', face: '🟨', swatch: '#FDCB58' },
-  { w: 'orange', field: 'colours', at: 's1-5', face: '🟧' },
-  { w: 'purple', field: 'colours', at: 's1-5', face: '🟪' },
+  { w: 'orange', field: 'colours', at: 's1-5', sounds: ['or', 'i', 'n', 'j'], face: '🟧' },
+  { w: 'purple', field: 'colours', at: 's1-5', sounds: ['p', 'ur', 'p', 'l'], face: '🟪' },
   { w: 'brown', field: 'colours', at: 's1-5', face: '🟫' },
   { w: 'black', field: 'colours', at: 's1-5', face: '⬛' },
   { w: 'white', field: 'colours', at: 's1-5', face: '⬜' },
   // **وبقعتان مُصيَّرتان بصدق لونهما** (حكمُ المدير — `METHOD.md §٤`): لا مربّعَ
   // ورديّ ولا رماديّ في يونيكود، والقيمةُ هنا **قيمةُ اللون نفسِه** لا تقريبٌ له
   // (`pink` و`gray` من ألوان CSS المسمّاة حرفاً) — فما يراه الطفلُ هو ما يُسمّى.
-  { w: 'pink', field: 'colours', at: 's1-5', swatch: '#FFC0CB' },
-  { w: 'grey', field: 'colours', at: 's1-5', swatch: '#808080' },
+  { w: 'pink', field: 'colours', at: 's1-5', sounds: ['p', 'i', 'ng', 'k'], swatch: '#FFC0CB' },
+  { w: 'grey', field: 'colours', at: 's1-5', sounds: ['g', 'r', 'ai'], swatch: '#808080' },
   // س١-٦ الأعداد سمعاً — كميةٌ تُعَدّ لا رقمٌ يُقرأ
-  { w: 'one', field: 'numbers', at: 's1-6', count: 1 },
-  { w: 'two', field: 'numbers', at: 's1-6', count: 2 },
-  { w: 'three', field: 'numbers', at: 's1-6', count: 3 },
-  { w: 'four', field: 'numbers', at: 's1-6', count: 4 },
-  { w: 'five', field: 'numbers', at: 's1-6', count: 5 },
-  { w: 'six', field: 'numbers', at: 's1-6', count: 6 },
-  { w: 'seven', field: 'numbers', at: 's1-6', count: 7 },
-  { w: 'eight', field: 'numbers', at: 's1-6', count: 8 },
-  { w: 'nine', field: 'numbers', at: 's1-6', count: 9 },
-  { w: 'ten', field: 'numbers', at: 's1-6', count: 10 },
+  { w: 'one', field: 'numbers', at: 's1-6', sounds: ['w', 'u', 'n'], count: 1 },
+  { w: 'two', field: 'numbers', at: 's1-6', sounds: ['t', 'oo'], count: 2 },
+  { w: 'three', field: 'numbers', at: 's1-6', sounds: ['th', 'r', 'ee'], count: 3 },
+  { w: 'four', field: 'numbers', at: 's1-6', sounds: ['f', 'or'], count: 4 },
+  { w: 'five', field: 'numbers', at: 's1-6', sounds: ['f', 'igh', 'v'], count: 5 },
+  { w: 'six', field: 'numbers', at: 's1-6', sounds: ['s', 'i', 'ks'], count: 6 },
+  { w: 'seven', field: 'numbers', at: 's1-6', soundless: 'شوا قبل النون (/ˈsɛvən/)', count: 7 },
+  { w: 'eight', field: 'numbers', at: 's1-6', sounds: ['ai', 't'], count: 8 },
+  { w: 'nine', field: 'numbers', at: 's1-6', sounds: ['n', 'igh', 'n'], count: 9 },
+  { w: 'ten', field: 'numbers', at: 's1-6', sounds: ['t', 'e', 'n'], count: 10 },
   // س٢-٢ أوامرُ الوضع المكاني — حروفُ الجرّ مشهدٌ لا رمز
   { w: 'in', field: 'places', at: 's2-2', pictured: 'scene' },
   { w: 'on', field: 'places', at: 's2-2', pictured: 'scene' },
   { w: 'under', field: 'places', at: 's2-2', pictured: 'scene' },
-  { w: 'behind', field: 'places', at: 's2-2', pictured: 'scene' },
+  { w: 'behind', field: 'places', at: 's2-2', sounds: ['b', 'i', 'h', 'igh', 'n', 'd'], pictured: 'scene' },
   // س٢-٣ أفعالُ الحركة — حركةٌ تُفعَل لا صورةٌ تُرى
   { w: 'jump', field: 'verbs', at: 's2-3', pictured: 'act' },
   { w: 'clap', field: 'verbs', at: 's2-3', pictured: 'act' },
   { w: 'run', field: 'verbs', at: 's2-3', pictured: 'act' },
-  { w: 'walk', field: 'verbs', at: 's2-3', pictured: 'act' },
+  { w: 'walk', field: 'verbs', at: 's2-3', sounds: ['w', 'or', 'k'], pictured: 'act' },
   { w: 'sit', field: 'verbs', at: 's2-3', pictured: 'act' },
   { w: 'stand', field: 'verbs', at: 's2-3', pictured: 'act' },
   // **وثلاثٌ نزلت من `RAISED` إلى الفعل** (حكمُ المدير ١٣ أغسطس — `METHOD.md §٤`):
@@ -305,9 +305,9 @@ export const WORDS = [
   // ونسبُها محفوظٌ في `RESOLVED` أدناه.
   // و`order` أمرُها المنطوق حيث يفارق قالبَ محطته (أدناه): الفعلُ يُؤمَر به مجرَّداً
   // («jump»)، وعضوُ الجسد يُؤمَر بلمسه («touch your arm») — والابتسامةُ فعلٌ فتُجرَّد.
-  { w: 'arm', field: 'body', at: 's2-3', pictured: 'act', order: 'point to your arm' },
-  { w: 'face', field: 'body', at: 's2-3', pictured: 'act', order: 'point to your face' },
-  { w: 'smile', field: 'body', at: 's2-3', pictured: 'act' },
+  { w: 'arm', field: 'body', at: 's2-3', sounds: ['ar', 'm'], pictured: 'act', order: 'point to your arm' },
+  { w: 'face', field: 'body', at: 's2-3', sounds: ['f', 'ai', 's'], pictured: 'act', order: 'point to your face' },
+  { w: 'smile', field: 'body', at: 's2-3', sounds: ['s', 'm', 'igh', 'l'], pictured: 'act' },
   // س٢-٤ الأمرُ المركّب — الصفةُ تُميَّز في مشهدٍ من شيئين
   { w: 'big', field: 'school', at: 's2-4', pictured: 'scene' },
   { w: 'small', field: 'school', at: 's2-4', pictured: 'scene' },
@@ -315,39 +315,39 @@ export const WORDS = [
   { w: 'hat', field: 'clothes', at: 's5-1', face: '🎩' },
   { w: 'shoe', field: 'clothes', at: 's5-1', face: '👟' },
   { w: 'sock', field: 'clothes', at: 's5-1', face: '🧦' },
-  { w: 'dress', field: 'clothes', at: 's5-1', face: '👗' },
-  { w: 'T-shirt', field: 'clothes', at: 's5-1', face: '👕' },
-  { w: 'jacket', field: 'clothes', at: 's5-1', face: '🧥' },
-  { w: 'jeans', field: 'clothes', at: 's5-1', face: '👖' },
-  { w: 'boots', field: 'clothes', at: 's5-1', face: '🥾' },
-  { w: 'glasses', field: 'clothes', at: 's5-1', face: '👓' },
+  { w: 'dress', field: 'clothes', at: 's5-1', sounds: ['d', 'r', 'e', 's'], face: '👗' },
+  { w: 'T-shirt', field: 'clothes', at: 's5-1', sounds: ['t', 'ee', 'sh', 'ur', 't'], face: '👕' },
+  { w: 'jacket', field: 'clothes', at: 's5-1', sounds: ['j', 'a', 'k', 'i', 't'], face: '🧥' },
+  { w: 'jeans', field: 'clothes', at: 's5-1', sounds: ['j', 'ee', 'n', 'z'], face: '👖' },
+  { w: 'boots', field: 'clothes', at: 's5-1', sounds: ['b', 'oo', 't', 's'], face: '🥾' },
+  { w: 'glasses', field: 'clothes', at: 's5-1', sounds: ['g', 'l', 'a', 's', 'i', 'z'], face: '👓' },
   // س٥-٢ المدرسة واللعب
   { w: 'book', field: 'school', at: 's5-2', face: '📚' },
   { w: 'pen', field: 'school', at: 's5-2', face: '🖊️' },
-  { w: 'pencil', field: 'school', at: 's5-2', face: '✏️' },
-  { w: 'ruler', field: 'school', at: 's5-2', face: '📏' },
+  { w: 'pencil', field: 'school', at: 's5-2', sounds: ['p', 'e', 'n', 's', 'i', 'l'], face: '✏️' },
+  { w: 'ruler', field: 'school', at: 's5-2', sounds: ['r', 'oo', 'l', 'er'], face: '📏' },
   { w: 'school', field: 'school', at: 's5-2', face: '🏫' },
-  { w: 'ball', field: 'school', at: 's5-2', face: '⚽' },
+  { w: 'ball', field: 'school', at: 's5-2', sounds: ['b', 'or', 'l'], face: '⚽' },
   { w: 'kite', field: 'school', at: 's5-2', face: '🪁' },
-  { w: 'guitar', field: 'school', at: 's5-2', face: '🎸' },
-  { w: 'teddy', field: 'school', at: 's5-2', face: '🧸' },
-  { w: 'robot', field: 'school', at: 's5-2', face: '🤖' },
+  { w: 'guitar', field: 'school', at: 's5-2', sounds: ['g', 'i', 't', 'ar'], face: '🎸' },
+  { w: 'teddy', field: 'school', at: 's5-2', sounds: ['t', 'e', 'd', 'ee'], face: '🧸' },
+  { w: 'robot', field: 'school', at: 's5-2', sounds: ['r', 'oa', 'b', 'o', 't'], face: '🤖' },
   { w: 'car', field: 'school', at: 's5-2', face: '🚗' },
-  { w: 'train', field: 'school', at: 's5-2', face: '🚆' },
+  { w: 'train', field: 'school', at: 's5-2', sounds: ['t', 'r', 'ai', 'n'], face: '🚆' },
   { w: 'plane', field: 'school', at: 's5-2', face: '✈️' },
-  { w: 'boat', field: 'school', at: 's5-2', face: '⛵' },
+  { w: 'boat', field: 'school', at: 's5-2', sounds: ['b', 'oa', 't'], face: '⛵' },
   { w: 'bike', field: 'school', at: 's5-2', face: '🚲' },
   { w: 'ship', field: 'school', at: 's5-2', face: '🚢' },
   // س٥-٣ البيت أغراضاً
   { w: 'bed', field: 'home', at: 's5-3', face: '🛏️' },
   { w: 'chair', field: 'home', at: 's5-3', face: '🪑' },
-  { w: 'door', field: 'home', at: 's5-3', face: '🚪' },
-  { w: 'window', field: 'home', at: 's5-3', face: '🪟' },
-  { w: 'clock', field: 'home', at: 's5-3', face: '🕰️' },
-  { w: 'lamp', field: 'home', at: 's5-3', face: '💡' },
-  { w: 'mirror', field: 'home', at: 's5-3', face: '🪞' },
-  { w: 'sofa', field: 'home', at: 's5-3', face: '🛋️' },
-  { w: 'bath', field: 'home', at: 's5-3', face: '🛁' },
+  { w: 'door', field: 'home', at: 's5-3', sounds: ['d', 'or'], face: '🚪' },
+  { w: 'window', field: 'home', at: 's5-3', sounds: ['w', 'i', 'n', 'd', 'oa'], face: '🪟' },
+  { w: 'clock', field: 'home', at: 's5-3', sounds: ['k', 'l', 'o', 'k'], face: '🕰️' },
+  { w: 'lamp', field: 'home', at: 's5-3', sounds: ['l', 'a', 'm', 'p'], face: '💡' },
+  { w: 'mirror', field: 'home', at: 's5-3', sounds: ['m', 'i', 'r', 'er'], face: '🪞' },
+  { w: 'sofa', field: 'home', at: 's5-3', soundless: 'شوا في مقطعها الأخير (/ˈsoʊfə/)', face: '🛋️' },
+  { w: 'bath', field: 'home', at: 's5-3', sounds: ['b', 'a', 'th'], face: '🛁' },
   { w: 'box', field: 'home', at: 's5-3', face: '📦' },
   { w: 'phone', field: 'home', at: 's5-3', face: '📱' },
   // س٥-٤ الأماكن والطبيعة
@@ -355,17 +355,17 @@ export const WORDS = [
   { w: 'flower', field: 'places', at: 's5-4', face: '🌸' },
   { w: 'sun', field: 'places', at: 's5-4', face: '☀️' },
   { w: 'sea', field: 'places', at: 's5-4', face: '🌊' },
-  { w: 'beach', field: 'places', at: 's5-4', face: '🏖️' },
+  { w: 'beach', field: 'places', at: 's5-4', sounds: ['b', 'ee', 'ch'], face: '🏖️' },
   { w: 'shell', field: 'places', at: 's5-4', face: '🐚' },
-  { w: 'street', field: 'places', at: 's5-4', face: '🛣️' },
-  { w: 'house', field: 'places', at: 's5-4', face: '🏠' },
+  { w: 'street', field: 'places', at: 's5-4', sounds: ['s', 't', 'r', 'ee', 't'], face: '🛣️' },
+  { w: 'house', field: 'places', at: 's5-4', sounds: ['h', 'ow', 's'], face: '🏠' },
   { w: 'stop', field: 'places', at: 's5-4', face: '🛑' },
   // س٥-٥ أفعالُ اليوم
   { w: 'eat', field: 'verbs', at: 's5-5', face: '🍽️' },
-  { w: 'drink', field: 'verbs', at: 's5-5', face: '🥤' },
+  { w: 'drink', field: 'verbs', at: 's5-5', sounds: ['d', 'r', 'i', 'ng', 'k'], face: '🥤' },
   { w: 'sleep', field: 'verbs', at: 's5-5', face: '😴' },
   { w: 'read', field: 'verbs', at: 's5-5', face: '📖' },
-  { w: 'write', field: 'verbs', at: 's5-5', face: '✍️' },
+  { w: 'write', field: 'verbs', at: 's5-5', sounds: ['r', 'igh', 't'], face: '✍️' },
   { w: 'swim', field: 'verbs', at: 's5-5', face: '🏊' },
 ];
 
@@ -727,13 +727,65 @@ export const GRADES = [
  * **ولكلٍّ سياقٌ مسموعٌ مألوف** (`say` — نصُّ `METHOD.md §٦`: «وتُدرَّس داخل سياقٍ
  * مسموعٍ مألوف (‏the cat…) لا معزولةً»): كلماتُه كلُّها مداخلُ Starters يجردها
  * `check_range` كما يجرد الأمرَ المنطوق، فلا يدخل أذنَ الطفل ما ليس من قائمته.
+ *
+ * ————— **والشائكاتُ درجتان لا استثناءٌ واحد** (حكمُ المدير · `METHOD.md §٦`) —————
+ *
+ * «الشائكةُ **ذاتُ المدخل في الرصيد السمعي** (he · she · we · you…) يسري عليها القيدُ
+ * كسائر الكلمات — فمعناها يُتقَن سمعاً قبل أن تُقرأ؛ والمستثنى **كلماتُ الوظيفة
+ * الصرفة بلا مدخلٍ سمعيّ** (the · to · was · are…) بميزانيتها المعدودة وعلّتها
+ * المعلنة». فلكلِّ شائكةٍ **أحدُ الحقلين لا كلاهما ولا واحدَ منهما**:
+ *   • `listen` — مفتاحُها السمعيّ، **بشكل مفاتيح الرصيد نفسِه** (`word|he|listen-pick`):
+ *     معناها يُقاس سمعاً ثم تُقرأ، فيحكمها `readableTrickyAt` كما يحكم `readableAt`
+ *     كلماتِ القراءة.
+ *   • `why` — علّةُ استثنائها مكتوبةً: كلمةُ وظيفةٍ لا معنى مصوَّرَ لها ولا يُقاس
+ *     فهمُها بصورةٍ تُلمَس، فتُدرَّس **داخل سياقٍ مسموع** (`say`) بميزانيةٍ معدودة.
+ * ويحرس `check_range` تمامَ الإعلان، و`check_coupling` أثرَه (سالباً بدسّة).
+ *
+ * **وموضعُ الشوكة قد يكون موضعين** (`was`: ‏`a` تقول /o/ و`s` تقول /z/): فـ`heart`
+ * رقمٌ أو قائمةُ أرقام — والوسمُ يتبعه، ولا تُدفَن شوكةٌ ثانية بسكوتٍ عنها.
  */
 export const HEART_WORDS = {
-  the: { parts: ['th', 'e'], heart: 1, say: 'the cat' },
-  to: { parts: ['t', 'o'], heart: 1, say: 'go to bed' },
-  no: { parts: ['n', 'o'], heart: 1, say: 'no, it is not a dog' },
-  go: { parts: ['g', 'o'], heart: 1, say: 'go to the door' },
-  I: { parts: ['I'], heart: 0, say: 'I can run' },
+  // ————— العهدُ الأول (ح٣–ح٥) — كلماتُ وظيفةٍ صرفة كلُّها —————
+  the: { parts: ['th', 'e'], heart: 1, say: 'the cat',
+    why: 'أداةُ تعريفٍ لا معنى مصوَّرَ لها — تُسمَع في كل جملةٍ توجَّه إلى الطفل' },
+  to: { parts: ['t', 'o'], heart: 1, say: 'go to bed',
+    why: 'حرفٌ لا مدخلَ سمعياً مستقلاً له — معناه في الجملة لا في صورة' },
+  no: { parts: ['n', 'o'], heart: 1, say: 'no, it is not a dog',
+    why: 'أداةُ نفيٍ — لا صورةَ تُلمَس لها، وتُفهَم في سياق الجواب' },
+  go: { parts: ['g', 'o'], heart: 1, say: 'go to the door',
+    why: 'فعلُ ذهابٍ لا وضعَ مرسومَ له في س٢-٣ (وليس من أفعال حقلها)' },
+  I: { parts: ['I'], heart: 0, say: 'I can run',
+    why: 'ضميرُ المتكلم — مرجعُه المتكلمُ نفسُه، فلا صورةَ له تُلمَس ولا محطةَ تقيسه' },
+  // ————— العهدُ الثاني (ح٦–ح١٢) — ثنتا عشرةَ شائكة (← ١٧) —————
+  //
+  // **وثمانٍ منها ضمائرُ ذاتُ مدخلٍ في Starters** (he · she · we · me · you · they ·
+  // her · my): مرجعُها **يُرى ويُسمّى** (هو · هي · نحن…)، فمعناها يُقاس سمعاً —
+  // ويسري عليها القيدُ. **وأربعٌ وظيفةٌ صرفة**: صيغُ الكون الثلاث و`all`.
+  he: { parts: ['h', 'e'], heart: 1, say: 'he is my friend',
+    listen: 'word|he|listen-pick' },
+  she: { parts: ['sh', 'e'], heart: 1, say: 'she is happy',
+    listen: 'word|she|listen-pick' },
+  we: { parts: ['w', 'e'], heart: 1, say: 'we can jump',
+    listen: 'word|we|listen-pick' },
+  me: { parts: ['m', 'e'], heart: 1, say: 'look at me',
+    listen: 'word|me|listen-pick' },
+  be: { parts: ['b', 'e'], heart: 1, say: 'be happy',
+    why: 'صيغةُ كونٍ (be · was · are): وظيفةٌ صرفة لا معنى مصوَّرَ لها — ونصُّ §٦ '
+      + 'يسمّي `was` و`are` مستثنيتين، و`be` أصلُهما' },
+  was: { parts: ['w', 'a', 's'], heart: [1, 2], say: 'it was in the box',
+    why: 'صيغةُ كونٍ ماضية — استثناها نصُّ §٦ باسمها' },
+  my: { parts: ['m', 'y'], heart: 1, say: 'my ball is red',
+    listen: 'word|my|listen-pick' },
+  you: { parts: ['y', 'ou'], heart: 1, say: 'you are my friend',
+    listen: 'word|you|listen-pick' },
+  they: { parts: ['th', 'ey'], heart: 1, say: 'they are happy',
+    listen: 'word|they|listen-pick' },
+  her: { parts: ['h', 'er'], heart: 1, say: 'her hat is big',
+    listen: 'word|her|listen-pick' },
+  all: { parts: ['a', 'll'], heart: 0, say: 'we are all here',
+    why: 'مُحدِّدُ كمٍّ — وليس من مداخل Starters ‏2025 أصلاً، فلا مفتاحَ سمعياً له' },
+  are: { parts: ['ar', 'e'], heart: 1, say: 'we are happy',
+    why: 'صيغةُ كونٍ — استثناها نصُّ §٦ باسمها' },
 };
 
 /**
@@ -855,15 +907,24 @@ export const isVowelSound = (id) =>
 /** كلمةُ القراءة ← مقاطعُها (تُبنى مرّةً — وهي الطريقُ الوحيد إلى أصوات الكلمة). */
 const GPC_OF_WORD = new Map(GRADES.flatMap((g) => g.words.map((w) => [w.w, w.gpc])));
 
+/** كلمةٌ مصوَّرة ← أصواتُها المعلَنة (توسعةُ الجلسة ٥ — رأسُ `WORDS`). */
+const SOUNDS_OF_WORD = new Map(WORDS.filter((w) => w.sounds).map((w) => [w.w, w.sounds]));
+
 /**
- * **أصواتُ كلمةٍ** بمعرّفاتها، أو `null` لكلمةٍ لا مقاطعَ لها في السلّم.
+ * **أصواتُ كلمةٍ** بمعرّفاتها، أو `null` لكلمةٍ لم يُعلَن لها صوتٌ ولا مقاطع.
  *
- * **ومقاطعُ الرسم مادّةُ صوتٍ هنا لا مادّةَ قراءة**: س٤ سمعيةٌ خالصة ولا يُعرَض فيها
- * رسمٌ (`METHOD.md §٤`) — وإنّما تُقرأ من `gpc` **بنيةُ الكلمة الصوتية** وحدَها،
- * فلا يعرف الطفلُ أنّ ثَمَّ رسماً أصلاً. وهي الوصلةُ التي تجعل «أوّلَ الصوت» دقيقاً:
- * `cat` و`kite` صوتُهما الأولُ واحد وإن اختلف رسمُهما.
+ * **ومصدران لا يتزاحمان** (يحرس تفرّقَهما `check_range`):
+ *   • **كلمةُ السلّم** تُقرأ أصواتُها من `gpc` — رسمُها هو نفسُه بنيتُها الصوتية.
+ *     **ومقاطعُ الرسم مادّةُ صوتٍ هنا لا مادّةَ قراءة**: س٤ سمعيةٌ خالصة ولا يُعرَض
+ *     فيها رسمٌ (`METHOD.md §٤`)، فلا يعرف الطفلُ أنّ ثَمَّ رسماً أصلاً. وهي الوصلةُ
+ *     التي تجعل «أوّلَ الصوت» دقيقاً: `cat` و`kite` صوتُهما الأولُ واحد وإن اختلف رسمُهما.
+ *   • **وكلمةُ الرصيد المصوَّر** تُعلن أصواتَها (`sounds`) — لا رسمَ لها في السلّم
+ *     أصلاً (‏`banana` ليست كلمةَ قراءة)، وإنّما تُسمَع وتُصوَّر. وهذا هو الفرقُ الذي
+ *     أوجب حقلاً ثانياً: لو كُتبت `sounds` رسوماً لَادّعينا لها مقاطعَ قراءةٍ ليست لها.
  */
 export function soundsOf(word) {
+  const declared = SOUNDS_OF_WORD.get(String(word));
+  if (declared) return declared;
   const gpc = GPC_OF_WORD.get(String(word));
   if (!gpc) return null;
   const sounds = gpc.map(phonemeOf);
@@ -929,12 +990,40 @@ export function readableAt(gradeId, isMastered) {
 }
 
 /**
- * **والشائكاتُ لا يحكمها قيدُ الاقتران، بعلّةٍ لا بإهمال**: هي كلماتُ وظيفةٍ عاليةُ
- * التواتر (`the` · `was` · `they`) لا معنى مصوَّرَ لها ولا محطةَ سمعية — يسمعها
- * الطفلُ في كل جملةٍ توجَّه إليه، وحدُّها **ميزانيةٌ معدودة** لا صندوقُ إتقان
- * (`METHOD.md §١٢-١`). ونصُّ §٦ نفسُه يحصر القيد في `decode/build/text`.
+ * **الشائكاتُ المفتوحةُ عند درجةٍ ما** — حوضُ ما يُعرَض منها (هدفاً كان أو مشتّتاً).
+ * وهي كلُّها معلَنةٌ بميزانيتها (`METHOD.md §١٢-١`)، وما يُسأل عنه منها يمرّ بعدُ
+ * من `readableTrickyAt` أدناه.
  */
 export const trickyAt = (gradeId) => trickyUpTo(gradeId);
+
+/** مفتاحُ شائكةٍ السمعيّ، أو `null` إن كانت من كلمات الوظيفة المستثناة بعلّتها. */
+export const trickyListen = (word) => HEART_WORDS[word]?.listen || null;
+
+/**
+ * ————— **قيدُ الاقتران على الشائكات — بابُها الثاني** (`METHOD.md §٦`) —————
+ *
+ * حكمُ المدير (١٣ أغسطس ٢٠٢٦): الشائكاتُ **درجتان لا استثناءٌ واحد**. فما أعلن
+ * مفتاحاً سمعياً (`HEART_WORDS[w].listen` — الضمائرُ ذواتُ المرجع المرئيّ) **يسري
+ * عليه القيدُ كسائر الكلمات**: لا يُسأل عنه في `tricky|…|read` حتى يبلغ مفتاحُه
+ * صندوقَ الإتقان. وما أعلن `why` (وظيفةٌ صرفة: `the` · `was` · `are`…) يمضي
+ * بميزانيته المعدودة **داخل سياقٍ مسموع** — استثناءٌ بعلّةٍ مكتوبة لا بإهمال.
+ *
+ * **وهي بابٌ يأبى أن يُستدعى بلا سؤال ليتنر** كأختها `readableAt` تماماً: القاعدةُ
+ * التي تُذكَر تُنسى، والبنيةُ لا تُنسى.
+ *
+ * @param {string} gradeId درجةُ المحطة (`h06`)
+ * @param {(key: string) => boolean} isMastered `progress.isMastered` أو نظيرتُها
+ */
+export function readableTrickyAt(gradeId, isMastered) {
+  if (typeof isMastered !== 'function') {
+    throw new TypeError('readableTrickyAt: قيدُ الاقتران يحتاج دالّةَ الإتقان '
+      + '(`progress.isMastered`) — ولا شائكةَ ذاتُ مدخلٍ تُقرأ بلا سؤال ليتنر');
+  }
+  return trickyUpTo(gradeId).filter((word) => {
+    const key = trickyListen(word);
+    return !key || isMastered(key);
+  });
+}
 
 /**
  * **شائكةٌ موسومةٌ بدرجتها**: مقاطعُ رسمها ولكلٍّ وسمُه —
@@ -947,12 +1036,15 @@ export function markedTricky(word, gradeId) {
   const shape = HEART_WORDS[word];
   if (!shape) return null;
   const open = new Set(symbolsUpTo(gradeId));
+  // **والشوكةُ قد تكون شوكتين** (`was`: ‏`a` تقول /o/ و`s` تقول /z/) — فتُقرأ قائمةً
+  // في الحالين، ولا يُدفَن الموضعُ الثاني بسكوتٍ عنه.
+  const hearts = new Set([shape.heart].flat());
   return {
     w: word,
     say: shape.say,
     parts: shape.parts.map((g, at) => ({
       g,
-      mark: at === shape.heart ? 'heart' : open.has(g) ? 'dot' : '',
+      mark: hearts.has(at) ? 'heart' : open.has(g) ? 'dot' : '',
     })),
   };
 }
@@ -965,6 +1057,26 @@ export function markedTricky(word, gradeId) {
  * **مسارا الرحلة** (`METHOD.md §١`) — جبهتان مستقلتان في ليتنر، يربطهما قيدُ
  * الاقتران كلمةً كلمة. وترتيبُهما على الخريطة يفرضه `sections()`.
  */
+/**
+ * ————— **توازنُ المراجعة اليومية: نسبةٌ في البيانات بسببها** (`METHOD.md §٧`) —————
+ *
+ * «والمراجعةُ اليومية تسحب من الجبهتين معاً» — واليومَ صارت الجبهتان قائمتين
+ * (بندُ الجلسة ٥)، فوجب أن يُكتب **بأيّ ميزانٍ** تُخلَطان في **حوض التنويع**.
+ *
+ * وثلاثةُ أحكامٍ في هذا الرقم:
+ *   ١) **المستحقُّ أولاً بلا فرزٍ ولا حصّة**: صدرُ الجلسة الأضعفُ من الجبهتين
+ *      مخلوطاً كما هو (`dueSkills`) — فالنسبةُ **للتنويع** لا للمستحقّ، وإلّا
+ *      صارت حصّةٌ تزاحم ضعفَ الطفل حيث هو.
+ *   ٢) **والنصفُ بالنصف** لأنّ المرشَّح ب مساران **مقترنان لا متعاقبان**: جبهةٌ
+ *      تبتلع التنويعَ تجعل الأخرى تُنسى بين محطتين، وهو عينُ ما وُجدت المراجعةُ له.
+ *   ٣) **ولا تُهدَر حصّةٌ لا مادّةَ لها**: طفلٌ لم يفتح مسارَ الحرف بعدُ (قبل 🚪١)
+ *      جبهتُه واحدة، فتأخذ حصّتَه كلَّها — الميزانُ قسمةُ ما وُجد لا وعدٌ بما لم يوجد.
+ */
+export const REVIEW_MIX = [
+  { track: 'listen', share: 1 },
+  { track: 'letter', share: 1 },
+];
+
 export const TRACKS = [
   {
     id: 'listen',

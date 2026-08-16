@@ -2630,6 +2630,16 @@
     "doneAt": null
   },
   {
+    "text": "be happy",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "go to bed",
     "lang": "en",
     "voice": "",
@@ -2650,11 +2660,61 @@
     "doneAt": null
   },
   {
+    "text": "he is my friend",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "her hat is big",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "I can run",
     "lang": "en",
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-4",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "it was in the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "look at me",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "my ball is red",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -2870,6 +2930,16 @@
     "doneAt": null
   },
   {
+    "text": "she is happy",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "the big blue ball",
     "lang": "en",
     "voice": "",
@@ -2951,6 +3021,56 @@
   },
   {
     "text": "the small yellow ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "they are happy",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we are all here",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we are happy",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we can jump",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "you are my friend",
     "lang": "en",
     "voice": "",
     "category": "sentence",

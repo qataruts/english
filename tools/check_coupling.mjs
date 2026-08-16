@@ -204,6 +204,104 @@ ok(tricky.length > 0 && tricky.every((w) => typeof w === 'string'),
 ok(!tricky.some((w) => c.WORDS.some((x) => x.w === w)),
   'ولا شائكةَ منها في الرصيد المصوَّر (فلا يُظنّ أنّ لها مفتاحاً سمعياً سقط)');
 
+// ————— ٥) **الشائكاتُ درجتان** (حكمُ المدير · `METHOD.md §٦`) —————
+//
+// «الشائكةُ **ذاتُ المدخل في الرصيد السمعي** يسري عليها القيدُ كسائر الكلمات،
+// والمستثنى **كلماتُ الوظيفة الصرفة بلا مدخلٍ سمعيّ** بعلّتها المعلنة». فالبابُ
+// يفحص الإعلانَ (لكلٍّ **أحدُ** الحقلين لا كلاهما ولا واحدَ منهما)، وشكلَ المفتاح
+// ومدَاه، **ثم أثرَه في المولّد نفسِه سالباً**: شائكةٌ ذاتُ مدخلٍ لم ينضج مفتاحُها
+// لا يخرج لها `tricky|…|read` في جولةٍ واحدة، وتخرج ما إن ينضج.
+
+console.log('\n٥. الشائكاتُ درجتان: ذاتُ المدخل تحت القيد، والوظيفةُ بعلّتها');
+
+const hearts = Object.entries(c.HEART_WORDS);
+const allTricky = c.GRADES.flatMap((g) => g.tricky);
+
+const undeclared = hearts.filter(([, s]) => !s.listen === !s.why);
+ok(undeclared.length === 0,
+  `كلُّ شائكةٍ تعلن **أحدَ** الحقلين: مفتاحاً سمعياً أو علّةَ استثناء (${hearts.length} شائكة)`
+  + (undeclared.length ? ` — معطوبة: ${undeclared.map(([w]) => w).join('، ')}` : ''));
+
+const coupled = hearts.filter(([, s]) => s.listen);
+const exempt = hearts.filter(([, s]) => s.why);
+ok(coupled.length > 0 && exempt.length > 0,
+  `والصنفان قائمان: ${coupled.length} ذاتُ مدخلٍ سمعيّ (${coupled.map(([w]) => w).join('، ')})`
+  + ` · ${exempt.length} وظيفةٌ صرفة (${exempt.map(([w]) => w).join('، ')})`);
+
+const badKey = coupled.filter(([w, s]) => s.listen.split('|').length !== 3
+  || s.listen.split('|')[1] !== w);
+ok(badKey.length === 0,
+  'ومفتاحُها ثلاثيٌّ ومدَاه الكلمةُ نفسُها — كمفاتيح كلمات القراءة سواءً'
+  + (badKey.length ? ` — معطوب: ${badKey.map(([w, s]) => `${w} → ${s.listen}`).join('، ')}` : ''));
+
+// **ومحطتُها السمعية**: ما وُجدت منها يُطالَب بالترتيب (سمعٌ قبل حرف)، وما لم توجد
+// **ينام بعلّته المكتوبة** ويستيقظ يومَ تُكتب — فلا رايةَ تُضبط بيد ولا وعدٌ يُنسى.
+const homeless = coupled.filter(([, s]) => !heard.has(s.listen));
+if (homeless.length) {
+  dormant(`و${homeless.length} شائكةً مفتاحُها معلَنٌ ولا محطةَ سمعيةَ له بعد `
+    + `(${homeless.map(([w]) => w).join('، ')}) — بيتُها جملُ س٥-٦ (الجلسة ٧)، `
+    + 'وحتى ذلك اليوم يمنعها القيدُ من القراءة (بندٌ يُرفَع)');
+}
+const lateTricky = coupled.filter(([w, s]) => {
+  const source = stationOfSkill.get(s.listen);
+  if (source === undefined) return false;                 // نائمةٌ في بابها أعلاه
+  const grade = c.GRADES.find((g) => g.tricky.includes(w));
+  return order.get(source) >= order.get(gradeStation.get(grade?.id));
+});
+ok(lateTricky.length === 0,
+  'ومحطةُ ما وُجد منها تسبق درجةَ شائكتها على الخريطة'
+  + (lateTricky.length ? ` — متأخّرة: ${lateTricky.map(([w]) => w).join('، ')}` : ''));
+
+let threwTricky = false;
+try {
+  c.readableTrickyAt('h06');
+} catch {
+  threwTricky = true;
+}
+ok(threwTricky, 'و`readableTrickyAt` بلا دالّةِ إتقانٍ ترمي خطأً — بابٌ كأخيه لا يُلتَفّ عليه');
+
+// **والدسّةُ في المولّد لا في الدالّة وحدَها**: تُصنَع حالُ طفلٍ نضجت فيها شائكةٌ
+// ذاتُ مدخلٍ وبقيت أختُها دونها، وتُجرَد **كلُّ جولةٍ يمكن أن تقع** في درجتها.
+const grade = await import(new URL('grade.js', APP));
+const withTricky = c.GRADES.find((g) => g.tricky.some((w) => c.HEART_WORDS[w]?.listen));
+const [heldTricky, ...ripeTricky] = withTricky.tricky.filter((w) => c.HEART_WORDS[w]?.listen);
+
+/** ما يُسأل عنه من شائكاتٍ في درجةٍ بحالِ ليتنر مصنوعة (جولاتُ خمسين بذرة). */
+const askedIn = (gradeId, isMastered) => {
+  const asked = new Set();
+  for (let seed = 1; seed <= 50; seed++) {
+    const plan = grade.buildStation(`grade:${gradeId}`, seed, isMastered);
+    for (const round of plan ? [plan.model, ...plan.guided, ...plan.solo] : []) {
+      if (round.kind === 'read') asked.add(round.range);
+    }
+  }
+  return asked;
+};
+
+const ripenAll = (except) => (key) => {
+  const word = String(key).split('|')[1];
+  return word !== except;
+};
+
+const guarded = askedIn(withTricky.id, ripenAll(heldTricky));
+ok(!guarded.has(heldTricky),
+  `**والمدسوسةُ «${heldTricky}» لم يُسأل عنها في خمسين بذرة** — مفتاحُها `
+  + `«${c.HEART_WORDS[heldTricky].listen}» دون صندوق الإتقان (${withTricky.id})`);
+ok(ripeTricky.some((w) => guarded.has(w)),
+  `وأختُها الناضجةُ سُئل عنها فعلاً (${[...guarded].join('، ') || 'لا شيء'}) — `
+  + 'فالغيابُ يُقاس على مولّدٍ يولّد');
+ok(askedIn(withTricky.id, () => true).has(heldTricky),
+  `وتدخل ما إن ينضج مفتاحُها — بابٌ لا جدار (${withTricky.id})`);
+
+// **والوظيفةُ الصرفة تمضي بلا سؤال ليتنر**: حالٌ فارغةٌ تماماً، فتخرج شائكاتُ
+// العهد الأول كلُّها (‏`the` · `to`…) ولا تخرج ذواتُ المدخل — درجتان في جردٍ واحد.
+progress.reset();
+const empty = c.readableTrickyAt(withTricky.id, progress.isMastered);
+ok(empty.length > 0 && empty.every((w) => !c.HEART_WORDS[w]?.listen),
+  `وعلى حالٍ فارغةٍ تمضي الوظيفةُ الصرفة وحدَها (${empty.length}: ${empty.join('، ')})`);
+ok(allTricky.filter((w) => c.HEART_WORDS[w]?.listen).every((w) => !empty.includes(w)),
+  'ولا شائكةَ ذاتُ مدخلٍ تمرّ بلا إتقانٍ سمعيّ — وهذا هو الحكمُ نصّاً');
+
 console.log(fails
   ? `\n${fails} فشل`
   : `\nقيدُ الاقتران محروسٌ من الجهتين${asleep ? ` (و${asleep} نائم بقيدٍ في docs/SEED.md)` : ''}`);

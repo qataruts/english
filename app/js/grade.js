@@ -31,7 +31,7 @@
 import * as progress from './progress.js';
 import { registerScreen } from './registry.js';
 import {
-  stations, readableAt, trickyAt, markedTricky, symbolById, isTouchable,
+  stations, readableAt, trickyAt, readableTrickyAt, markedTricky, symbolById, isTouchable,
   phonemeOf, phonemeSay, HEART_WORDS, WORDS,
 } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
@@ -276,8 +276,14 @@ function trickyRound(station, rnd, { range = null, isMastered } = {}) {
   // **وتُدرَّس شائكاتُ الدرجة وحدَها، وتُشاركها المفتوحةُ قبلها مشتّتاتٍ فقط**: مفاتيحُ
   // المحطة مفاتيحُها هي (`tricky|I|read` عند ح٥)، وما فُتح قبلها يُراجَع في محطته
   // ويُعاد في المراجعة اليومية — فلو سُئل عنه هنا لَكُتب قياسُه بمفتاحٍ لا تملكه.
-  const mine = rangesOf(station, 'read');
-  const open = trickyAt(station.part);
+  //
+  // **وقيدُ الاقتران يحكمها كما يحكم كلماتِ القراءة** (`METHOD.md §٦` — حكمُ المدير):
+  // الشائكةُ ذاتُ المدخل السمعيّ (`he` · `she`…) لا تُسأل حتى ينضج مفتاحُها، وما هي
+  // وظيفةٌ صرفة (`the` · `was`) تمضي بعلّتها — والبابُ `readableTrickyAt` وحدَه،
+  // ومنه تُنتقى **وتُشتقّ مشتّتاتُها** فلا تدخلها من النافذة ما مُنعت من الباب.
+  const readable = new Set(readableTrickyAt(station.part, isMastered));
+  const mine = rangesOf(station, 'read').filter((w) => readable.has(w));
+  const open = trickyAt(station.part).filter((w) => readable.has(w));
   const word = range && mine.includes(range) ? range : pick(mine, rnd);
   const skill = word && skillOf(station, word, 'read');
   const marked = word && markedTricky(word, station.part);
@@ -303,8 +309,11 @@ function trickyRound(station, rnd, { range = null, isMastered } = {}) {
     figures: specs,
     // **وما يُنطَق منها يُجرَد `said` لا `saying`**: الشائكةُ كلمةُ وظيفةٍ لا مدخلَ
     // لها في الرصيد المصوَّر (`METHOD.md §١٢-١`)، فتُقابَل بمداخل Starters كما يُقابَل
-    // الأمرُ المنطوق في س٢ — وسياقُها يحمل الكلمةَ نفسَها فيُجرَد الاثنان معاً.
-    said: String(marked.say).split(/\s+/),
+    // الأمرُ المنطوق في س٢.
+    // **والشائكةُ نفسُها تُجرَد شائكةً بميزانيتها لا كلمةً بالرصيد** (صنفُ `tricky`
+    // في `usedOf`): هي الخرقُ المعلَن الوحيد، ومنها ما ليس من مداخل Starters أصلاً
+    // (`all`) — فلو جُرِدت في سياقها كلمةً لَحُوكمت بقائمةٍ استُثنيت منها بحكمٍ.
+    said: String(marked.say).split(/\s+/).filter((w) => w !== word),
     sig: `${station.id}|${word}|${next()}`,
   };
 }
@@ -322,7 +331,11 @@ const SHAPES = {
 const kindsOf = (station, isMastered) => [
   ...new Set((station.skills || []).map((key) => key.split('|')[2])),
 ].filter((kind) => SHAPES[kind]
-  && (!['build', 'decode'].includes(kind) || taughtIn(station, isMastered).length));
+  && (!['build', 'decode'].includes(kind) || taughtIn(station, isMastered).length)
+  // **والشائكةُ كذلك**: درجةٌ شائكاتُها كلُّها ذاتُ مدخلٍ لم ينضج بعدُ تمضي برموزها
+  // وكلماتها ولا شكلَ شائكةٍ فيها — كما تمضي بلا دمجٍ حتى تنضج كلماتُها.
+  && (kind !== 'read' || readableTrickyAt(station.part, isMastered)
+    .some((word) => rangesOf(station, 'read').includes(word))));
 
 /**
  * **خطةُ المحطة**: نمذجةٌ ثم جولتان بعونٍ ثم خمسٌ «وحدك» — من بذرةٍ واحدة.

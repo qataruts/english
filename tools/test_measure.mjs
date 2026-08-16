@@ -256,12 +256,19 @@ if (!types.length) {
        القيدُ نفسُه فأحمرَّ على صواب. فتُصنَع **حالةُ الطفل الذي بلغ تلك المحطة**:
        كلماتُ القراءة ناضجةٌ سمعاً — ثم يُطالَب بالمادّة. وهو يشدّ الحارسَ لا يرخيه:
        صار يشهد أنّ كلَّ مفتاح قراءةٍ **يُنتج تمرينَه يومَ يُفتَح**. */
+    const ripen = (key) => {
+      const [unit, range, at] = String(key).split('|');
+      for (let i = 0; i < p.MASTERED_BOX; i++) p.recordAttempt(unit, range, at, true);
+    };
     for (const station of curriculum.stations()) {
-      for (const word of station.words || []) {
-        if (!word.listen) continue;
-        const [unit, range, at] = word.listen.split('|');
-        for (let i = 0; i < p.MASTERED_BOX; i++) p.recordAttempt(unit, range, at, true);
-      }
+      for (const word of station.words || []) if (word.listen) ripen(word.listen);
+    }
+    // **والشائكاتُ ذواتُ المدخل كذلك** (زيادةُ الجلسة ٥ · حكمُ المدير في `METHOD.md §٦`):
+    // صارت `tricky|he|read` تحت القيد كمفاتيح القراءة، فلو سُئل الحارسُ والسجلُّ فارغ
+    // لَطالب بما يمنعه القيدُ نفسُه. فتُستوفى الحالُ ثم يُسأل — والقيدُ محروسٌ في بابه
+    // (`check_coupling` الخامس، مُجرَّباً سالباً).
+    for (const shape of Object.values(curriculum.HEART_WORDS)) {
+      if (shape.listen) ripen(shape.listen);
     }
 
     for (const kind of kinds) {
