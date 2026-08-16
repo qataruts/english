@@ -252,12 +252,19 @@ def device_main(args) -> int:
             row = results[0]
             over = row.get("overflow", -1)
             vw, _vh = (int(x) for x in size.split(","))
-            good = over <= 0 and row.get("width") == vw
+            # **وهدفُ اللمس يُحاسَب كالفائض**: كلاهما عيبُ جهازٍ لا يُرى في شجرة.
+            taps = row.get("taps") or []
+            floor = row.get("floor", 44)
+            good = over <= 0 and row.get("width") == vw and not taps
             fails += not good
             print(("  ✓ " if good else "  ✗ ")
                   + f"{name} ({size}): منظورٌ {row.get('width')}×{row.get('height')}"
                   + f" · فائضٌ أفقيّ {over}px"
+                  + (f" · أهدافُ لمسٍ دون {floor}px: {len(taps)}" if taps
+                     else f" · لا هدفَ لمسٍ دون {floor}px")
                   + ("" if row.get("width") == vw else " — عايِر VIEWPORT_PAD"))
+            for t in taps:
+                print(f"      ↳ {t.get('side')}px — {t.get('what')}   ({t.get('at')})")
     finally:
         server.shutdown()
         for p in profiles:

@@ -1876,6 +1876,74 @@
       + `و${liveUnits.size} وحدةً في السجلّ)`);
   }
 
+  // ————— ٢١. 🎨 **لا قاعدةَ تسقط صامتةً** (عيبُ الجلسة ١٠ المقيس) —————
+  //
+  // **العيبُ الذي وُلد منه هذا الباب**: حرفُ نقطةٍ واحدٌ سبق تعليقاً قبل
+  // `.btn--primary` (‏`./* … */`)، فقرأ المتصفّحُ المقدّمةَ `. .btn--primary`
+  // **فأسقط القاعدةَ كلَّها بصمت**. ونتيجتُه على الجهاز: **الزرُّ الرئيس يُرسَم
+  // زرّاً عادياً** — «تَابِعْ» في المحطة، وأزرارُ البوابات الثلاث، **وزرُّ التثبيت
+  // على الشاشة الرئيسة** — بلا التوتيّ ولا ثِقَل حرفه، فلا يقول للطفل «أنا ما يُكبَس».
+  //
+  // **ولم يمسكه حارس** لأنّ الحرّاسَ يسألون عن وجود عناصرَ وسلوكِها، **ولا يسأل
+  // أحدٌ هل بلغتِ الأنماطُ ما كُتبت له**. والمقياسُ هنا **المتصفّحُ نفسُه**: تُقطَّع
+  // ورقةُ الأنماط قواعدَ عليا، وتُعرَض كلُّ قاعدةٍ وحدَها على محلّلٍ نظيف — فما ردّ
+  // صفراً **قاعدةٌ ساقطة** يُسمّى موضعُها. ولا ظنَّ في الحكم: هو الحكمُ الذي يقع
+  // على الطفل حرفاً بحرف.
+  {
+    const css = await (await fetch('/css/app.css')).text();
+
+    /** تقطيعُ الورقة قواعدَ عليا: يتخطّى التعليقاتِ والنصوصَ ويعدّ الأقواس. */
+    const topRules = (text) => {
+      const rules = [];
+      let depth = 0, start = 0, i = 0;
+      while (i < text.length) {
+        const two = text.slice(i, i + 2);
+        if (two === '/*') { const end = text.indexOf('*/', i + 2); i = end < 0 ? text.length : end + 2; continue; }
+        const ch = text[i];
+        if (ch === '"' || ch === "'") {
+          i++;
+          while (i < text.length && text[i] !== ch) i += (text[i] === '\\' ? 2 : 1);
+          i++; continue;
+        }
+        if (ch === '{') depth++;
+        else if (ch === '}') {
+          depth--;
+          if (depth === 0) { rules.push(text.slice(start, i + 1)); start = i + 1; }
+        }
+        i++;
+      }
+      return rules;
+    };
+
+    const dropped = [];
+    for (const rule of topRules(css)) {
+      const sheet = new CSSStyleSheet();
+      try { sheet.replaceSync(rule); } catch { /* لا يرمي المحلّل — يُسقط بصمت */ }
+      if (sheet.cssRules.length === 0) {
+        const head = rule.slice(0, rule.indexOf('{')).trim().replace(/\s+/g, ' ');
+        dropped.push(head.slice(0, 60) || rule.slice(0, 40));
+      }
+    }
+    ok(dropped.length === 0,
+      `🎨 **ولا قاعدةَ في ورقة الأنماط تسقط صامتةً** — كلُّ ما كُتب يبلغ الطفل`
+      + (dropped.length ? ` (ساقطٌ: ${dropped.join(' · ')})` : ''));
+
+    // **وبرهانُ الزرّ الرئيس بعينه**: القاعدةُ الساقطة كانت قاعدتَه، فيُقاس أثرُها
+    // حيث يقع — لونٌ وثِقَلٌ يفترقان عن الزرّ العادي. (باباً يبقى ولو تبدّل اللون.)
+    const doc2 = appDoc(), win2 = doc2.defaultView;
+    const probe = doc2.createElement('div');
+    probe.innerHTML = '<button class="btn btn--primary"></button><button class="btn"></button>';
+    doc2.body.appendChild(probe);
+    const [primary, plain] = probe.querySelectorAll('button');
+    const bgP = win2.getComputedStyle(primary).backgroundColor;
+    const bgN = win2.getComputedStyle(plain).backgroundColor;
+    const wP = win2.getComputedStyle(primary).fontWeight;
+    probe.remove();
+    ok(bgP !== bgN && Number(wP) >= 600,
+      `🎨 **والفعلُ الرئيس يُرى رئيساً** — أرضيتُه غيرُ أرضية العادي وحرفُه ثقيل `
+      + `(${bgP} مقابل ${bgN} · ثِقَل ${wP})`);
+  }
+
   ok(appErrors.length === 0,
     `ولم يقع في التطبيق خطأٌ ولا وعدٌ مرفوض طوالَ المساق (${appErrors.length})`
     + (appErrors.length ? ` — ${appErrors.slice(0, 3).join(' · ')}` : ''));

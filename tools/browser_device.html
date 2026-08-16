@@ -28,7 +28,39 @@
     '/?preview=1&v=5#/ear/s4-3',          // التقطيعُ الشفهيّ بأزراره (الجلسة ٣)
   ];
 
+  /* ————— **وهدفُ اللمس تحت إصبع طفل** (الجلسة ١٠) —————
+     مقاسُ الشاشة يُقاس في المحاكاة، **وإصبعُ الطفل لا يُحاكى** — لكنّ أرضيّةَ
+     الهدف تُقاس: ٤٤ بكسلاً حدُّ المنصّة الأدنى، **وسنّةُ العائلة أخذت به**
+     (احسب م٦: «لهدف اللمس أرضيّةٌ ٤٤بك لا ينزل عنها»)، ورمزُنا `--tap` فوقه
+     (‏٣٫٧٥ ريم ≈ ٦٠). فما نزل عن الأرضية يُسمّى بموضعه لا يُوصَف.
+     **ويُقاس على المقاس الأصغر كما على الأكبر**: صندوقٌ يضيق بضيق المنظور. */
+  const TAP_FLOOR = 44;
+  const CLICKABLE = 'button, a[href], [role="button"], input, select, summary,'
+                  + ' [tabindex]:not([tabindex="-1"])';
+
+  /** اسمُ العنصر كما يُعرَف في الشيفرة — صنفُه وأوّلُ كلامه، ليُقصد بالإصلاح. */
+  const nameOf = (el) => {
+    const cls = (el.getAttribute('class') || '').trim().split(/\s+/)[0] || '';
+    const text = (el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 18);
+    const aria = (el.getAttribute('aria-label') || '').trim().slice(0, 18);
+    return `${el.tagName.toLowerCase()}${cls ? '.' + cls : ''}`
+         + (text || aria ? ` «${text || aria}»` : '');
+  };
+
+  /** كلُّ هدفِ لمسٍ **مرسومٍ** نزل ضلعُه الأصغر عن الأرضية. */
+  const tapsUnder = (doc) => {
+    const out = [];
+    for (const el of doc.querySelectorAll(CLICKABLE)) {
+      const r = el.getBoundingClientRect();
+      if (r.width < 1 || r.height < 1) continue;      // غيرُ مرسومٍ الآن — لا يُحاسَب
+      const side = Math.min(r.width, r.height);
+      if (side < TAP_FLOOR) out.push({ side: Math.round(side * 10) / 10, what: nameOf(el) });
+    }
+    return out;
+  };
+
   let worst = { overflow: -1e9 };
+  const small = new Map();          // اسمُ الهدف → أصغرُ ما قِيس له (لا يتكرّر بتكرّر الشاشات)
   for (const src of SCREENS) {
     frame.src = src;
     await new Promise((r) => frame.addEventListener('load', r, { once: true }));
@@ -41,8 +73,15 @@
       height: win.innerHeight,
       at: src,
     };
+    for (const t of tapsUnder(doc)) {
+      const seen = small.get(t.what);
+      if (!seen || t.side < seen.side) small.set(t.what, { ...t, at: src });
+    }
     if (row.overflow > worst.overflow) worst = row;
   }
+
+  worst.floor = TAP_FLOOR;
+  worst.taps = [...small.values()].sort((a, b) => a.side - b.side);
 
   await fetch('/result', { method: 'POST', body: JSON.stringify({ from: 'english', rows: [worst] }) });
 </script>
