@@ -51,6 +51,14 @@ def rows(since: float = 0.0) -> list:
     cats = {**done, **pending}
     queue = {e["text"]: e for e in gen.load_queue()}
     verdicts = gen.load_verdicts()
+    # **وبصمةُ البايتات تدخل هُويّةَ الصفّ** (إصلاحُ ١٧ أغسطس): الحكمُ كان يُحفَظ
+    # بمفتاح الملفّ وحدَه، **والمفتاحُ من النصّ لا من الصوت** — فملفٌّ رُدَّ ثم أُعيدت
+    # رميتُه يعود إلى اللوحة **موسوماً بالردّ** وهو صوتٌ جديد لم يُسمَع بعد؛ وأخطرُ
+    # منه عكسُه: مقبولٌ قديم يُبقي قبولَه على بديلٍ لم تسمعه أذن. فصار الحكمُ
+    # معلَّقاً بـ«مفتاح:بصمة» — يسقط من تلقائه متى تبدّل الصوت، ويبقى ما لم يتبدّل.
+    versions_path = gen.OUT_DIR / "versions.json"
+    versions = json.loads(versions_path.read_text(encoding="utf-8")) \
+        if versions_path.exists() else {}
 
     out = []
     for key, text in man.items():
@@ -65,6 +73,7 @@ def rows(since: float = 0.0) -> list:
         say = gen.speech_form(text, cat)
         out.append({
             "key": key,
+            "v": versions.get(key, ""),
             "text": text,
             "say": "" if say == text else say,      # ما أُرسل فعلاً إن خالف المكتوب
             "cat": cat,
@@ -172,34 +181,36 @@ const good = new Set(JSON.parse(localStorage.getItem(KEY_GOOD) || '[]'));
 const bad = new Set(JSON.parse(localStorage.getItem(KEY_BAD) || '[]'));
 let cat = DATA.length ? DATA[0].cat : '', auto = false, cur = null, curRow = null;
 
+/** هُويّةُ الحكم — **مفتاحٌ وبصمةُ صوته**: يسقط الحكمُ متى تبدّل الصوت. */
+const idOf = (r) => `${r.key}:${r.v}`;
 const $ = (s) => document.querySelector(s);
 const save = () => {
   localStorage.setItem(KEY_GOOD, JSON.stringify([...good]));
   localStorage.setItem(KEY_BAD, JSON.stringify([...bad]));
 };
-const judged = (k) => good.has(k) || bad.has(k);
+const judged = (id) => good.has(id) || bad.has(id);
 
 function visible() {
   const q = $('#q').value.trim();
   return DATA.filter((r) => r.cat === cat
     && (!q || r.text.includes(q))
-    && !($('#hideJudged').checked && judged(r.key)));
+    && !($('#hideJudged').checked && judged(idOf(r))));
 }
 
 function render() {
   const items = visible();
   $('#list').innerHTML = items.map((r) => `
-    <div class="row ${good.has(r.key) ? 'good' : ''} ${bad.has(r.key) ? 'bad' : ''}" data-key="${r.key}">
+    <div class="row ${good.has(idOf(r)) ? 'good' : ''} ${bad.has(idOf(r)) ? 'bad' : ''}" data-key="${r.key}">
       <button class="play" data-key="${r.key}">▶</button>
       <div class="t" dir="${r.lang === 'en' ? 'ltr' : 'rtl'}">${r.text}${
         r.say ? `<span class="say">أُرسل: ${r.say}</span>` : ''}</div>
       <div class="meta">${r.sec}ث</div>
       <div class="meta">${r.voice} · ${r.model || '—'}${
         r.verdict ? `<br>حُكم: ${r.verdict}` : ''}</div>
-      <button class="ok ${good.has(r.key) ? 'on' : ''}" data-ok="${r.key}">✓ قُبِل</button>
-      <button class="flag ${bad.has(r.key) ? 'on' : ''}" data-flag="${r.key}">⚑ رُدَّ</button>
+      <button class="ok ${good.has(idOf(r)) ? 'on' : ''}" data-ok="${idOf(r)}">✓ قُبِل</button>
+      <button class="flag ${bad.has(idOf(r)) ? 'on' : ''}" data-flag="${idOf(r)}">⚑ رُدَّ</button>
     </div>`).join('');
-  const done = items.filter((r) => judged(r.key)).length;
+  const done = items.filter((r) => judged(idOf(r))).length;
   $('#stat').textContent = `${done}/${items.length} حُكم فيه هنا · ${good.size} قُبِل و${bad.size} رُدَّ من ${DATA.length}`;
   $('#tally').textContent = (good.size || bad.size)
     ? `${good.size} مقبولاً · ${bad.size} مردوداً · ${DATA.length - good.size - bad.size} معلَّقاً`
@@ -230,8 +241,8 @@ function playFrom(i) {
 /** الأحكامُ أوامرَ جاهزة — المقبولُ يُقيَّد بياناً، والمردودُ يعود إلى الانتظار. */
 function commands() {
   const esc = (s) => s.replace(/"/g, '\\\\"');
-  const okTexts = DATA.filter((r) => good.has(r.key));
-  const badTexts = DATA.filter((r) => bad.has(r.key));
+  const okTexts = DATA.filter((r) => good.has(idOf(r)));
+  const badTexts = DATA.filter((r) => bad.has(idOf(r)));
   const lines = ['# ——— حكمُ الأذن (يُنفَّذ من جذر المستودع) ———'];
   if (okTexts.length) {
     lines.push('', `# قُبِل ${okTexts.length}:`);
@@ -272,7 +283,7 @@ document.addEventListener('click', (e) => {
     t.textContent = auto ? '⏸ أوقف' : '▶ شغّل بالتتابع';
     if (auto) {
       const items = visible();
-      const start = items.findIndex((r) => !judged(r.key));
+      const start = items.findIndex((r) => !judged(idOf(r)));
       playFrom(start < 0 ? 0 : start);
     } else if (cur) cur.pause();
     return;
@@ -301,12 +312,12 @@ document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT') return;
   if (e.code === 'Space' && curRow) { e.preventDefault(); play(curRow.dataset.key); }
   if ((e.key === 'c' || e.key === 'a') && curRow) {
-    const k = curRow.dataset.key;
+    const k = idOf(DATA.find((x) => x.key === curRow.dataset.key));
     if (good.has(k)) good.delete(k); else { good.add(k); bad.delete(k); }
     save(); render();
   }
   if (e.key === 'x' && curRow) {
-    const k = curRow.dataset.key;
+    const k = idOf(DATA.find((x) => x.key === curRow.dataset.key));
     if (bad.has(k)) bad.delete(k); else { bad.add(k); good.delete(k); }
     save(); render();
   }

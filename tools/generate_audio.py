@@ -267,10 +267,21 @@ def speech_form(text: str, category: str = "") -> str:
 
 
 def style_for(entry: dict) -> str:
-    """تعليمةُ الأداء: توجيهُ المدخل إن أعلنه، وإلّا تعليمةُ فئته."""
+    """تعليمةُ الأداء: توجيهُ المدخل إن أعلنه، وإلّا تعليمةُ فئته.
+
+    **وتوجيهُ المدخل يُلحَق بهُويّة القناة ولا يمحوها** (إصلاحُ ١٧ أغسطس ٢٠٢٦): كان
+    يحلّ محلَّ التعليمة كلِّها — **فيسقط معها `EN_PERSONA`** التي هي اللكنةُ المُقَرّة
+    بأذن المالك، فيخرج الملفُّ المُصلَح بلكنةٍ أخرى غير التي أُقِرّت. وهو عيبٌ لا
+    يُمسَك بحارس: العلاجُ نفسُه يصير خرقاً. فصار التوجيهُ **زيادةً على الهُويّة**:
+    اللكنةُ باقيةٌ كما أُقِرّت، والتوجيهُ يعالج ما سمعته الأذن وحدَه.
+
+    **ولا يمسّ ذلك إقرارَ التعليمات**: التوجيهُ حقلٌ في **مدخلٍ بعينه** لا صياغةَ
+    فئة، فبصمةُ `EN_PERSONA` وأخواتها لا تتبدّل — والبنكُ لا يُعاد.
+    """
     hint = (entry.get("style_hint") or "").strip()
     if hint:
-        return hint.rstrip(":：").rstrip() + ": "
+        head = EN_PERSONA if CATEGORY_LANG.get(entry.get("category")) == "en" else ""
+        return head + hint.rstrip(":：").rstrip() + ": "
     cat = entry.get("category", "instruction")
     if cat == "phoneme":
         text = entry.get("text", "")
@@ -1384,8 +1395,13 @@ def self_test() -> int:
        "وتعليمةُ الفونيم تحمل مثالَه من جدول المنهج (‏/s/ ← sun)")
     ok("letter name" in PHONEME_STYLE and "vowel" in PHONEME_STYLE,
        "وتنهى عن اسم الحرف وعن الحركة الدخيلة (نقاءُ الصوت المعزول)")
-    ok(style_for({"category": "word", "style_hint": "Whisper it"}) == "Whisper it: ",
-       "وتوجيهُ المدخل يعلو على تعليمة الفئة")
+    ok(style_for({"category": "word", "style_hint": "Whisper it"})
+       == EN_PERSONA + "Whisper it: ",
+       "وتوجيهُ المدخل يعلو على تعليمة الفئة — **وتبقى معه اللكنةُ المُقَرّة**")
+    ok(style_for({"category": "instruction", "style_hint": "همساً"}) == "همساً: ",
+       "والعربيةُ بلا لكنةٍ ملحَقة (هُويّتُها في صوتها لا في تعليمتها)")
+    ok(style_hash("en") == load_approval().get("en", {}).get("styleHash", style_hash("en")),
+       "**وتوجيهُ مدخلٍ لا يُبطل إقرارَ الفئة** — البصمةُ من صياغة الفئة لا من المداخل")
 
     print("\n— الموجِّه: النموذجُ بفئة النصّ لا بأولويته —")
     ok(model_for({"category": "sentence"}) == MODEL_SENTENCE

@@ -555,9 +555,18 @@
     "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
-    "priority": 40,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -566,9 +575,18 @@
     "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
-    "priority": 40,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -610,9 +628,18 @@
     "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
-    "priority": 40,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -621,9 +648,18 @@
     "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
-    "priority": 40,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -665,10 +701,27 @@
     "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
-    "priority": 40,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
-    "model": "gemini-3.1-flash-tts-preview"
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      },
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-17",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview",
+    "style_hint": "Say only the pure isolated consonant sound /m/ — a short closed-lip nasal hum, 'mmm', about half a second. There must be NO vowel at all: not 'em', not 'am', not 'muh'. Begin with the lips already closed. The sound"
   },
   {
     "text": "/n/",
@@ -676,9 +729,25 @@
     "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
-    "priority": 40,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      },
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-17",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -687,9 +756,18 @@
     "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
-    "priority": 40,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -764,9 +842,18 @@
     "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
-    "priority": 40,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -828,9 +915,18 @@
     "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
-    "priority": 40,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -1169,9 +1265,18 @@
     "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
-    "priority": 60,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -2027,9 +2132,18 @@
     "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
-    "priority": 60,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -3061,9 +3175,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -3072,9 +3195,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-4",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -3215,9 +3347,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -3336,9 +3477,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -3369,9 +3519,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -3413,9 +3572,25 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      },
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-17",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -3600,9 +3775,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -3776,9 +3960,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -3919,9 +4112,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -4161,9 +4363,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -4392,9 +4603,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -4425,9 +4645,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -4469,9 +4698,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -4513,9 +4751,18 @@
     "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
-    "priority": 70,
+    "priority": 10,
     "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
