@@ -1007,6 +1007,61 @@ button {
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 22%, transparent);
 }
 
+/* ————— الجلسة ٦: ثلاثةُ أشكالٍ جديدة —————
+
+   **١) الصائتُ الأوسط** (`vowel|…|mid-pick`): إطارُ الكلمة بلا صائتها (`b_x`)،
+   والفراغُ **خطٌّ يُرى** لا فجوةٌ تُخمَّن — فيعرف الطفلُ أين يقع الجواب. */
+
+.glyph--gap .glyph-g {
+  color: color-mix(in srgb, var(--accent) 45%, var(--mix));
+  border-bottom: 4px solid color-mix(in srgb, var(--accent) 55%, var(--mix));
+  line-height: .82;                /* الخطُّ تحت موضع الحرف لا تحت السطر كلِّه */
+}
+
+/* **٢) الفكُّ في مشهد**: الكلمةُ مقروءةً فوق، والمشهدُ تحتها — والكرتان تختلفان
+   حجماً لا لوناً (السؤالُ عن الحجم، فلو تلوّنتا لَصار للسؤال جوابان). */
+
+.q-model-scene { display: grid; justify-items: center; gap: .5rem; }
+.q-choices--scene .qcard { width: 7.5rem; height: 7.5rem; }
+.q-choices--scene .fig--ball { font-size: 3.6rem; }
+
+/* **٣) سطرُ القصة**: كلماتٌ متتابعةٌ `ltr` بفراغِ كلمةٍ بينها (لا فراغَ حرفٍ)،
+   ومعه **مؤشّرُ بدء السطر** — النقطةُ الخضراءُ نفسُها التي في صفَّي الدمج والتقطيع
+   (`METHOD.md §٩·٣`): علاجُ انقلاب المسح **تدريساً لا افتراضاً**. */
+
+.q-line {
+  direction: ltr;
+  display: flex;
+  flex-wrap: wrap;
+  /* **ورؤوسُ الحروف على سطرٍ واحد** (`flex-start`): كلمةٌ فيها شائكةٌ موسومةٌ بقلب
+     أطولُ من أختها، فلو حُوذيت **الأسفلُ** لَارتفعت حروفُها عن السطر — سطرٌ يتموّج
+     في عين طفلٍ يقرأ أوّلَ نصٍّ في حياته. والوسمُ يتدلّى تحت السطر حيث موضعُه. */
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: .1rem .7rem;                /* فراغُ الكلمة أوسعُ من فراغ المقطع بمراحل */
+  min-height: 4.5rem;
+  padding-inline-start: 1.6rem;
+  position: relative;
+}
+
+.q-line::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: .35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: .7rem;
+  height: .7rem;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 22%, transparent);
+}
+
+.q-line .fig--letter { font-size: 2.4rem; }
+.q-page { display: grid; justify-items: center; gap: .6rem; }
+.q-stage--read { display: grid; justify-items: center; }
+.q-choices--page .qcard { width: 7rem; height: 7rem; }
+
 .q-thing { display: inline-grid; place-items: center; touch-action: none; cursor: grab; }
 .q-thing .fig { font-size: 2.8rem; }
 .q-thing.is-dragging { cursor: grabbing; opacity: .85; transform-origin: center; }

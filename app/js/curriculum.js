@@ -786,6 +786,45 @@ export const HEART_WORDS = {
     why: 'مُحدِّدُ كمٍّ — وليس من مداخل Starters ‏2025 أصلاً، فلا مفتاحَ سمعياً له' },
   are: { parts: ['ar', 'e'], heart: 1, say: 'we are happy',
     why: 'صيغةُ كونٍ — استثناها نصُّ §٦ باسمها' },
+  // ————— العهدُ الثالث (ح١٣) — أربعَ عشرةَ شائكة (← ٣١) —————
+  //
+  // **وواحدةٌ منها ذاتُ مدخلٍ ومحطتُها قائمةٌ اليوم**: `one` عددٌ يُعَدّ في س١-٦
+  // (‏`word|one|listen-pick` — مفتاحٌ حيٌّ لا نائم)، فيسري عليها القيدُ **ويعمل من
+  // يومه**. وسائرُها كلماتُ وظيفةٍ ونحوٍ لا مدخلَ مصوَّرَ لها، أو ليست من مداخل
+  // Starters ‏2025 أصلاً — ولكلٍّ علّتُها مكتوبة (معيارُ التصنيف المُقَرّ، قبولُ
+  // الجلسة ٥ البند ٢).
+  //
+  // **ومقاطعُ الرسم تُكتب كما تُنطَق لا كما تُهجّى**: `there` مقطعان (‏/ð/ و/air/)
+  // لا أربعة، و`little` آخرُها `le` يقول /l/ — والوسمُ يتبع الرسمَ الحقيقيّ.
+  said: { parts: ['s', 'ai', 'd'], heart: 1, say: 'she said no',
+    why: 'فعلُ قولٍ ماضٍ لا صورةَ له تُلمَس، وليس من مداخل Starters ‏2025' },
+  so: { parts: ['s', 'o'], heart: 1, say: 'it is so big',
+    why: 'أداةُ توكيدٍ ودرجة — معناها في الجملة لا في صورة' },
+  have: { parts: ['h', 'a', 'v', 'e'], heart: 3, say: 'we have a cat',
+    why: 'فعلُ ملكيةٍ ومساعد — لا وضعَ مرسومَ له ولا صورة' },
+  like: { parts: ['l', 'i', 'k', 'e'], heart: [1, 3], say: 'we like milk',
+    why: 'فعلُ ميلٍ — شعورٌ لا يُصوَّر، ولا يُقاس فهمُه بصورةٍ تُلمَس' },
+  some: { parts: ['s', 'o', 'm', 'e'], heart: [1, 3], say: 'we have some milk',
+    why: 'مُحدِّدُ كمٍّ كـ`all` — لا صورةَ له تُلمَس' },
+  come: { parts: ['c', 'o', 'm', 'e'], heart: [1, 3], say: 'come to me',
+    why: 'فعلُ إقبالٍ لا وضعَ مرسومَ له في س٢-٣ (وليس من أفعال حقلها)' },
+  were: { parts: ['w', 'er', 'e'], heart: 2, say: 'we were happy',
+    why: 'صيغةُ كونٍ ماضية (be · was · are · were) — أسرةٌ استثناها نصُّ §٦' },
+  there: { parts: ['th', 'ere'], heart: 1, say: 'the cat is there',
+    why: 'ظرفُ إشارةٍ ووجود — معناه علاقةٌ لا شيءٌ يُصوَّر' },
+  little: { parts: ['l', 'i', 'tt', 'le'], heart: [2, 3], say: 'a little dog',
+    why: 'صفةُ حجمٍ ليست من مداخل Starters ‏2025 (وفيها `small`)، فلا مفتاحَ سمعياً '
+      + 'لها — ولو دخلت القائمةَ يوماً سرى عليها القيد' },
+  one: { parts: ['o', 'n', 'e'], heart: [0, 2], say: 'we have one ball',
+    listen: 'word|one|listen-pick' },
+  do: { parts: ['d', 'o'], heart: 1, say: 'what do you see',
+    why: 'فعلٌ مساعد في السؤال — لا معنى مصوَّرَ له' },
+  when: { parts: ['wh', 'e', 'n'], heart: 0, say: 'when do we play',
+    why: 'أداةُ سؤالٍ عن الزمن — لا صورةَ لها، وليست من مداخل Starters ‏2025' },
+  out: { parts: ['ou', 't'], heart: 0, say: 'the cat is out',
+    why: 'ظرفُ مكانٍ ليس من مداخل Starters ‏2025 (وفيها `in` و`on` و`under`)' },
+  what: { parts: ['wh', 'a', 't'], heart: [0, 1], say: 'what is it',
+    why: 'أداةُ سؤالٍ — لا معنى مصوَّرَ لها، وتُسمَع في كل جملةٍ تُوجَّه إلى الطفل' },
 };
 
 /**
@@ -815,6 +854,45 @@ export const VOWEL_SYMBOLS = new Set([
  * الموضعين لصار للحقيقة مصدران يفترقان بلا حارس.
  */
 export const CLUSTER_GRADE = 'h13';
+
+/**
+ * ————— **القصصُ شبهُ المفكوكة** (`METHOD.md §٥` و§٧) —————
+ *
+ * «نصٌّ قصير مصوَّر كلُّه من رموز الدرجات المفتوحة + شائكاتها — يفحصه `check_range`
+ * ككل تمرين»، ومفتاحُه `text|<درجة>|read`. **وهذه الجلسةُ (٦) تكتب أوّلَها** (ح٦)،
+ * ورصيدُ بقيةِ الدرجات بندُ الجلسة ٧.
+ *
+ * ولكلِّ صفحةٍ سطرُها وصورتُها: `text` ما يُقرأ، و`pick` الكلمةُ التي **تُلمَس صورتُها
+ * بعد قراءته** — ومن كلماته هو (فلا يُسأل الطفلُ عمّا لم يقرأ)، ولها صورةٌ مفردة.
+ *
+ * ————— وأربعةُ قيودٍ في نصّها، كلُّها من قيودنا القائمة —————
+ *
+ * ١) **لا كلمةَ إلا كلمةُ قراءةٍ مفتوحةٌ أو شائكةٌ مفتوحة** — نصُّ §٥ حرفاً، ويحرسه
+ *    `check_range` (بابُ القصة والأبوابُ الثلاثة معاً، مُجرَّباً سالباً).
+ * ٢) **وقيدُ الاقتران يحكمها ككلِّ تمرين قراءة** (`METHOD.md §٦` يسمّي `text` معه):
+ *    فالقصةُ **لا تُعرَض** حتى تنضج كلماتُها كلُّها سمعاً — لا تُنقَص كلمةٌ منها ولا
+ *    تُبدَّل، فهي نصٌّ لا حوضُ توليد (`story.js`).
+ * ٣) **حروفُها صغيرةٌ كلُّها إلا `I`**: الحرفُ الكبير **رسمٌ لم يُدرَّس في السلّم**،
+ *    و`T` ليست `t` في عين طفلٍ يفكّ أوّلَ سنته — و`I` شائكةٌ رسمُها هو نفسُه
+ *    (`HEART_WORDS.I`: الكلمةُ كلُّها شوكة). (بندٌ يُرفَع.)
+ * ٤) **ولا علاماتِ وقف**: `METHOD.md §٨` تستثنيها من التأسيس نصّاً («المستبعَد …
+ *    وعلاماتُ الوقف») — فلا يُعرَض على الطفل ما لم يُدرَّس.
+ */
+export const STORIES = {
+  // ح٦ — كلماتُها من ح٢–ح٦ (run · box · sit · in · big · dog · mum · bed)
+  // وشائكاتُها من ح٣–ح٥ (the · to · I · go): **وظيفةٌ صرفة كلُّها**، فلا تنتظر
+  // القصةُ محطةَ he/she السمعية النائمة (حكمُ قبول الجلسة ٥ البند ١).
+  h06: {
+    title: 'الصندوقُ والكلب',
+    pages: [
+      { text: 'I run to the box', pick: 'box' },
+      { text: 'I sit in the box', pick: 'sit' },
+      { text: 'the big dog', pick: 'dog' },
+      { text: 'I run to mum', pick: 'mum' },
+      { text: 'I go to bed', pick: 'bed' },
+    ],
+  },
+};
 
 // ————————————————————————————————————————————————————————————————————————
 // ٤ب) أصواتُ اللغة — **الرمزُ رسمٌ والصوتُ مهارة** (مادّةُ س٣ وس٤)
@@ -1420,17 +1498,40 @@ const gradeType = (grade) => (grade.clusters ? 'cluster' : 'grade');
  * **فتُلمَس صورتُها**» (بندُ الجلسة ٤). وهو **حكمٌ بالبيانات لا بيد**، بقاعدة `specOf`
  * عينِها في `figures.js`: وجهٌ أو كمّيةٌ أو بقعةُ لونٍ أو وضعٌ مرسوم.
  *
- * **وثلاثُ كلماتٍ اليومَ خارجه بعلّةٍ واحدة**: `in` و`on` و`big` مادّتُها **مشهدٌ**
- * (`pictured: 'scene'`) — لا صورةَ مفردةَ لها تُلمَس، فمعناها إنّما يُرى في مشهد س٢
- * (تفاحةٌ **في** الصندوق · الكرةُ **الكبيرة**). فلا مفتاحَ فكٍّ لها، **ولها مفتاحُ
- * دمجٍ كسائرها** (الدمجُ يُسمَع فيُبنى، ولا يحتاج صورة) — فتُدرَّس ولا يسقط منها شيء.
- * (بندٌ يُرفَع: شكلُ فكٍّ في مشهدٍ بابٌ مفتوح لجلسةٍ تالية إن رآه المدير.)
+ * **وخمسُ كلماتٍ خارجه بعلّةٍ واحدة**: `in` و`on` و`under` و`big` و`small` مادّتُها
+ * **مشهدٌ** (`pictured: 'scene'`) — لا صورةَ مفردةَ لها تُلمَس، فمعناها إنّما يُرى في
+ * مشهد س٢ (تفاحةٌ **في** الصندوق · الكرةُ **الكبيرة**). **ولها اليومَ بابُها**:
+ * `hasScene` أدناه وشكلُ «فكٍّ في مشهد» (حكمُ قبول الجلسة ٤ البند ١: «مُقَرّ مبدأً
+ * ويُجدوَل بنداً في الجلسة ٦ — وقراءةُ حرف الجرّ بلمس موضعه أصدقُ فكٍّ لها»).
+ *
+ * **والفرقُ بين البابين لازم**: هذه تجيب «أللكلمة صورةٌ مفردة؟» — وبها تُنتقى
+ * **مشتّتاتُ** الفكّ، فلو دخلتها كلمةُ مشهدٍ لَرُسمت بطاقةٌ فارغة (`specOf` لا صورةَ
+ * لها).
  */
 export const isTouchable = (word) => {
   const entry = WORD_INDEX.get(word);
   return Boolean(entry
     && (entry.face || entry.count || entry.swatch || entry.pictured === 'act'));
 };
+
+/** أللكلمة **مشهدٌ** يُرى فيه مصداقُها؟ (`pictured: 'scene'` — موضعٌ أو حجم). */
+export const hasScene = (word) => WORD_INDEX.get(word)?.pictured === 'scene';
+
+/**
+ * **مشهدُ كلمةٍ تُفكّ** — أدواتُه **من محطتها السمعية نفسِها** (`props`)، فما يراه
+ * الطفلُ يومَ يفكّ `in` هو المشهدُ الذي تعلّم فيه معناها (تفاحةٌ وصندوق) لا مشهدٌ
+ * يُخترَع له. و`null` لكلمةٍ لا مشهدَ لها.
+ *
+ * **وأيُّ مشهدٍ يُرسَم بيانُ رسمٍ لا بيانُ منهج** (نظيرُ `ZONES` في `tpr.js`): هذه
+ * تقول «من أين أدواتُه»، والشاشةُ تقول «كيف يُرسَم» — ومَن لا تعرف الشاشةُ رسمَ
+ * مشهده لا يُولَّد له تمرين، ويمسك مفتاحَه العاطلَ بابُ «لكلِّ مفتاحٍ مادّة».
+ */
+export function sceneOf(word) {
+  const entry = WORD_INDEX.get(word);
+  if (!entry || entry.pictured !== 'scene') return null;
+  const home = stations().find((s) => s.part === entry.at);
+  return { at: entry.at, props: home?.props || [] };
+}
 
 /** مفاتيحُ درجةٍ: رموزُها صوتاً↔رسماً · كلماتُها دمجاً وفكّاً · شائكاتُها. */
 function gradeSkills(grade) {
@@ -1442,8 +1543,10 @@ function gradeSkills(grade) {
     keys.push(`gpc|${symbol.id}|letter-pick`);
   }
   for (const word of grade.words) keys.push(`word|${word.w}|build`);
+  // **والفكُّ مصداقُه صورةٌ مفردة أو مشهد** (بندُ الجلسة ٦ · حكمُ قبول الجلسة ٤):
+  // فكلمةُ الموضع والحجم تدخل الفكَّ بمفتاحها، ويُلمَس مصداقُها في مشهدٍ مرسوم.
   for (const word of grade.words) {
-    if (isTouchable(word.w)) keys.push(`word|${word.w}|decode`);
+    if (isTouchable(word.w) || hasScene(word.w)) keys.push(`word|${word.w}|decode`);
   }
   for (const word of grade.tricky) keys.push(`tricky|${word}|read`);
   for (const pair of grade.vowelPairs || []) keys.push(`vowel|${pair}|mid-pick`);
@@ -1475,35 +1578,56 @@ function gradeStations() {
 }
 
 /**
- * **القصصُ شبهُ المفكوكة** (`METHOD.md §٥`): «من بعد 🚪٢، كتابٌ لكل درجةٍ فصاعداً» —
- * فالبوابةُ الثانية بعد ح٥، والقصصُ من ح٦ إلى ح١٦.
- *
- * و`text` نصُّ القصة — **تكتبه الجلستان ٦ و٧** (بندُهما في `SESSIONS.md`)، وحتى
- * ذلك اليوم `null`: و`check_range` **ينام على غيابه نوماً ذاتياً** ويستيقظ يومَ
- * يُكتب أولُ نصّ، فلا يملك أحدٌ أن ينسى فحصَه.
+ * **أوّلُ درجةٍ تُكتب لها قصة** (`METHOD.md §٥`): «من بعد 🚪٢، كتابٌ لكل درجةٍ
+ * فصاعداً» — فالبوابةُ الثانية بعد ح٥، ولا قصةَ قبل ح٦ (يحرسه `check_range`).
  */
-const STORY_FROM = 'h06';
+export const STORY_FROM = 'h06';
 
+/**
+ * **القصةُ محطةٌ لِما كُتب نصُّه لا لِما وُعد به** (تصحيحُ الجلسة ٦).
+ *
+ * كانت المحطاتُ تُنشأ للدرجات كلِّها بنصٍّ `null` تكتبه الجلستان ٦ و٧ — **وذلك ثقبٌ
+ * في القفل التسلسليّ**: عقدةٌ بلا شاشةٍ لا تُكتب لها نجمة، والجبهةُ تقف عندها فلا
+ * يُفتَح بعدها شيءٌ ما حيي الجهاز (وهو عينُ العيب الذي وُلد منه `test_nodes.mjs`).
+ * فصارت القصةُ تدخل الرحلةَ **يومَ يُكتب نصُّها**، والجلسةُ ٧ تُدخل بقيّتَها بكتابتها
+ * لا بسطرٍ يُعدَّل هنا.
+ */
 function storyStations() {
-  const start = GRADES.findIndex((g) => g.id === STORY_FROM);
-  return GRADES.slice(start).map((grade) => ({
-    id: `story:${grade.id}`,
-    type: 'story',
-    part: grade.id,
-    track: 'letter',
-    stage: grade.era,
-    title: `قصةُ ${grade.ar}`,
-    face: '📖',
-    pictures: 'text',
-    words: [],
-    text: null,
-    frontier: {
-      fields: [],
-      symbols: symbolsUpTo(grade.id),
-      tricky: trickyUpTo(grade.id),
-    },
-    skills: [`text|${grade.id}|read`],
-  }));
+  return GRADES.filter((grade) => STORIES[grade.id]).map((grade) => {
+    const story = STORIES[grade.id];
+    return {
+      id: `story:${grade.id}`,
+      type: 'story',
+      part: grade.id,
+      track: 'letter',
+      stage: grade.era,
+      title: `قصةُ ${grade.ar} — ${story.title}`,
+      face: '📖',
+      pictures: 'text',
+      words: [],
+      pages: story.pages,
+      // **ونصُّها مسرودٌ في حقلٍ واحد** يجرده `check_range` كلمةً كلمة (بابُ القصة)
+      text: story.pages.map((page) => page.text).join(' '),
+      frontier: {
+        fields: [],
+        symbols: symbolsUpTo(grade.id),
+        tricky: trickyUpTo(grade.id),
+      },
+      skills: [`text|${grade.id}|read`],
+    };
+  });
+}
+
+/**
+ * **مسارُ الحرف: كلُّ درجةٍ ثم قصّتُها** — «كتابٌ لكل درجةٍ فصاعداً» (`METHOD.md §٥`)
+ * في موضعه من الرحلة: يقرأ الطفلُ قصةَ الدرجة بعد درجتها لا بعد العهد كلِّه.
+ * (وهو ما تركه بندُ الجلسة ٤ المرفوع الثاني لهذه الجلسة بحكم المدير: «قصةُ كل درجةٍ
+ * شأنُ بندَي ٦/٧» — وموضعُ شطر العهد يتبدّل معه آلياً بلا سطرٍ يُعدَّل.)
+ */
+function letterStations() {
+  const stories = new Map(storyStations().map((station) => [station.part, station]));
+  return gradeStations().flatMap((station) =>
+    [station, ...(stories.has(station.part) ? [stories.get(station.part)] : [])]);
 }
 
 /**
@@ -1512,7 +1636,7 @@ function storyStations() {
  * `check_range.py` جبهةً جبهة.
  */
 export function stations() {
-  return [...listenStations(), ...gradeStations(), ...storyStations()];
+  return [...listenStations(), ...letterStations()];
 }
 
 const stationsAt = (stageId) => stations().filter((s) => s.stage === stageId);

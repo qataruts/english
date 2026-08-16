@@ -199,7 +199,9 @@ const markEl = (kind) => {
 function letterEl(spec) {
   const box = h('span', { class: 'fig-letters' });
   for (const part of spec.parts || []) {
-    box.append(h('span', { class: 'glyph' },
+    // **والفراغُ مقطعٌ مُعلَن لا حرفٌ ناقص** (`gap` — شكلُ الصائت الأوسط): يُرى خطّاً
+    // في موضع الصائت، فيعرف الطفلُ **أين** يقع ما يُسأل عنه من الكلمة.
+    box.append(h('span', { class: `glyph${part.gap ? ' glyph--gap' : ''}` },
       enEl(part.g, 'en glyph-g'),
       markEl(part.mark)));
   }

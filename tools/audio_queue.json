@@ -90,6 +90,16 @@
     "doneAt": null
   },
   {
+    "text": "اسْمَعِ الْكَلِمَةَ وَالْمَسِ الصَّوْتَ النَّاقِصَ فِي وَسَطِهَا",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-6",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "اسْمَعْ وَالْمَسْ",
     "lang": "ar",
     "voice": "",
@@ -130,6 +140,16 @@
     "doneAt": null
   },
   {
+    "text": "اقْرَأِ السَّطْرَ وَالْمَسْ صُورَةَ مَا قَرَأْت",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-6",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "انْظُرْ إِلَى الرَّسْمِ وَالْمَسْ صَوْتَهُ",
     "lang": "ar",
     "voice": "",
@@ -145,6 +165,16 @@
     "voice": "",
     "category": "instruction",
     "requestedBy": "session-4",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "انْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقْرَأُ مِنْ حَيْثُ تَبْدَأُ النُّقْطَة",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-6",
     "priority": 10,
     "status": "pending",
     "doneAt": null
@@ -205,6 +235,16 @@
     "voice": "",
     "category": "instruction",
     "requestedBy": "session-4",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "فُكَّ الْكَلِمَةَ وَالْمَسْ مَا تَقُولُهُ فِي الصُّورَة",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-6",
     "priority": 10,
     "status": "pending",
     "doneAt": null
@@ -2630,11 +2670,31 @@
     "doneAt": null
   },
   {
+    "text": "a little dog",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "be happy",
     "lang": "en",
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "come to me",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -2685,6 +2745,56 @@
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-4",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I go to bed",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I run to mum",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I run to the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I sit in the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "it is so big",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -2940,11 +3050,31 @@
     "doneAt": null
   },
   {
+    "text": "she said no",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "the big blue ball",
     "lang": "en",
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the big dog",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -2985,6 +3115,26 @@
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-4",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the cat is out",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the cat is there",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -3065,6 +3215,86 @@
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we have a cat",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we have one ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we have some milk",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we like milk",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we were happy",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "what do you see",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "what is it",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "when do we play",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-6",
     "priority": 70,
     "status": "pending",
     "doneAt": null

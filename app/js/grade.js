@@ -1,4 +1,12 @@
-// **مسارُ الحرف — درجاتُ العهد الأول ح١–ح٥** (`METHOD.md §٥`).
+// **مسارُ الحرف — درجاتُ الرموز** (`METHOD.md §٥`)، **وعدّةُ المسار كلِّه**.
+//
+// ————— وحدةٌ تملك درجاتِها وتُعير أشكالَها —————
+//
+// درجاتُ الحرف كلُّها من صنفٍ واحد إلا **درجةَ العناقيد** (ح١٣): لا رمزَ جديدَ فيها
+// ومعها شكلٌ ليس هنا (`vowel|…|mid-pick`)، فشاشتُها ملفُّها (`cluster.js` — وعلّةُ
+// الفصل مكتوبةٌ في `test_measure.mjs`: لو جُمعتا لبقي نوعُ `grade` أحمرَ جلستين بلا
+// ذنب). **فما يشترك فيه المساران يُصدَّر من هنا** (الأشكالُ ومُصيِّراتُها وخطةُ
+// المحطة وبانِي المراجعة) ولا يُنسَخ هناك: نسختان من شكلٍ واحد تفترقان بلا حارس.
 //
 // ————— أوّلُ شاشةٍ يُرسَم فيها حرفٌ إنكليزيّ، وحدُّها معلَن —————
 //
@@ -14,7 +22,8 @@
 //                        شكلُ س٤-٣ نفسُه، فما تعلّمه الطفلُ من أزرارٍ عمياء يخدمه هنا).
 //   `word|sat|build`     **الدمجُ بالرموز**: تُسمَع الكلمةُ فتُركَّب لبناتُها بترتيبها،
 //                        وكلُّ لبنةٍ تُسمِع صوتَها حين توضع، ثم تُسمَع الكلمةُ كاملة.
-//   `word|sat|decode`    **الفكّ**: كلمةٌ مكتوبة تُفكّ فتُلمَس صورتُها.
+//   `word|sat|decode`    **الفكّ**: كلمةٌ مكتوبة تُفكّ فتُلمَس صورتُها — **أو يُلمَس
+//                        مصداقُها في مشهد** إن كانت كلمةَ موضعٍ أو حجم (`in` · `big`).
 //   `tricky|the|read`    **الشائكةُ بطريقة heart words**: تُفكّ مقاطعُها المنتظمة
 //                        (نقطةٌ تحتها) ويُوسَم موضعُ الشوكة بقلب — **علامةٌ لا نصّ**.
 //
@@ -32,7 +41,7 @@ import * as progress from './progress.js';
 import { registerScreen } from './registry.js';
 import {
   stations, readableAt, trickyAt, readableTrickyAt, markedTricky, symbolById, isTouchable,
-  phonemeOf, phonemeSay, HEART_WORDS, WORDS,
+  sceneOf, phonemeOf, phonemeSay, HEART_WORDS, WORDS,
 } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
 import {
@@ -49,18 +58,21 @@ const SOLO = 5;
 const OPTIONS = 3;
 const MODEL_ITEMS = 2;
 /** سقفُ الدمج في جلسة المراجعة: تمرينٌ من ثلاث لمساتٍ يطول على طفلٍ إن تكرّر (نظيرُ س٤-٣). */
-const BUILD_MAX = 2;
+export const BUILD_MAX = 2;
 
 // ————— التعليماتُ المنطوقة (عربيةٌ كلُّها — `METHOD.md §٩·١`) —————
 //
 // **وهمزةُ الوصل عاريةٌ فيها** (قاعدةُ العائلة — بابُ `queue_texts.mjs`): هذه نصوصٌ
 // تُسمَع ولا تُعرَض للقراءة، والشكلُ عليها يُملي على المولّد كسرةً في الوصل.
 
-const ASK = {
+export const ASK = {
   sound: 'اسْمَعِ الصَّوْتَ وَالْمَسْ رَسْمَهُ',
   letter: 'انْظُرْ إِلَى الرَّسْمِ وَالْمَسْ صَوْتَهُ',
   build: 'اسْمَعِ الْكَلِمَةَ ثُمَّ رَكِّبْ لَبِنَاتِهَا بِتَرْتِيبِهَا',
   decode: 'فُكَّ الْكَلِمَةَ وَالْمَسْ صُورَتَهَا',
+  // **وفكُّ ما لا صورةَ مفردةَ له**: يُقرأ الموضعُ أو الحجمُ فيُلمَس **مصداقُه** في
+  // المشهد — «يقرأ `in` فيلمس التفاحةَ التي في الصندوق» (حكمُ قبول الجلسة ٤).
+  scene: 'فُكَّ الْكَلِمَةَ وَالْمَسْ مَا تَقُولُهُ فِي الصُّورَة',
   tricky: 'هَذِهِ كَلِمَةٌ نَحْفَظُهَا — اسْمَعْهَا وَالْمَسْهَا',
   model: 'انْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقْرَأُ وَأَنْتَ تَنْظُرْ',
 };
@@ -106,7 +118,7 @@ export const CONSUMES = {
 // من الوصف نفسِه لا من نيّة المولّد.
 
 /** وصفُ رمزٍ يُلمَس أو لبنةٍ تُركَّب: مقطعٌ واحد بلا وسم. */
-const glyphSpec = (id) => ({
+export const glyphSpec = (id) => ({
   kind: 'letter',
   unit: 'gpc',
   word: id,
@@ -114,17 +126,17 @@ const glyphSpec = (id) => ({
 });
 
 /** وصفُ كلمةٍ مكتوبة بمقاطعها: نقطةٌ تحت كلٍّ — «أزرارُ الصوت» تحت الرسم كما في L&S. */
-const spelledSpec = (name, gpc) => ({
+export const spelledSpec = (name, gpc) => ({
   kind: 'letter',
   unit: 'word',
   word: name,
   parts: gpc.map((id) => ({ id, g: symbolById(id)?.g || id, mark: 'dot' })),
 });
 
-const wordSpec = (word) => spelledSpec(word.w, word.gpc);
+export const wordSpec = (word) => spelledSpec(word.w, word.gpc);
 
 /** وصفُ شائكةٍ: مقاطعُها موسومةً بدرجتها (نقطةٌ لمفكوكٍ وقلبٌ للشوكة). */
-const trickySpec = (marked) => ({
+export const trickySpec = (marked) => ({
   kind: 'letter',
   unit: 'tricky',
   word: marked.w,
@@ -145,13 +157,13 @@ const pictureSpec = (name) => specOf(PICTURED.get(name) || { w: name });
 const readableIn = (station, isMastered) => readableAt(station.part, isMastered);
 
 /** كلماتُ **هذه الدرجة** التي نضجت سمعاً — وهي التي تُقاس فيها (مفاتيحُها مفاتيحُها). */
-const taughtIn = (station, isMastered) => {
+export const taughtIn = (station, isMastered) => {
   const ready = new Set(readableIn(station, isMastered).map((word) => word.w));
   return (station.words || []).filter((word) => ready.has(word.w));
 };
 
 /** مديات نوعٍ من مفاتيح المحطة (الحقلُ الثاني) — فلا تعرف الشاشةُ مدىً لم يُعلَن. */
-const rangesOf = (station, kind) => (station.skills || [])
+export const rangesOf = (station, kind) => (station.skills || [])
   .filter((key) => key.endsWith(`|${kind}`)).map((key) => key.split('|')[1]);
 
 /** مشتّتاتُ رمزٍ: رسومٌ مفتوحةٌ **لا تشارك هدفَه صوتَه** — وإلّا صار للسؤال جوابان. */
@@ -241,13 +253,29 @@ function buildRound(station, rnd, { word = null, isMastered } = {}) {
   };
 }
 
-/** ح: كلمةٌ مكتوبة تُفكّ فتُلمَس صورتُها. */
+/**
+ * ح: كلمةٌ مكتوبة تُفكّ فيُلمَس مصداقُها — **صورةً أو مشهداً**.
+ *
+ * والفرقُ من الكلمة لا من الشاشة: ما له صورةٌ مفردة (`cat`) تُلمَس بطاقتُه، وما
+ * مادّتُه **مشهد** (`in` · `big`) يُلمَس موضعُه من المشهد. ومفتاحُ ليتنر واحد
+ * (`word|…|decode`): المهارةُ واحدة — فكُّ الرسم وربطُه بمعناه.
+ */
 function decodeRound(station, rnd, { word = null, isMastered } = {}) {
   const ranges = new Set(rangesOf(station, 'decode'));
   const pool = taughtIn(station, isMastered).filter((w) => ranges.has(w.w));
   const target = word && pool.some((w) => w.w === word.w) ? word : pick(pool, rnd);
   const skill = target && skillOf(station, target.w, 'decode');
   if (!skill) return null;
+  const next = seeder(rnd);
+  const head = {
+    kind: 'decode',
+    unit: skill.unit,
+    range: skill.range,
+    target: target.w,
+    picture: wordSpec(target),
+    sig: `${station.id}|${target.w}|${next()}`,
+  };
+  if (!isTouchable(target.w)) return sceneRound(head, target, rnd);
   // **والمشتّتاتُ صورُ ما نضج سمعاً**: صورةٌ لم يلقَها الطفلُ تجعل السؤالَ حزراً
   const others = shuffle(readableIn(station, isMastered)
     .filter((w) => w.w !== target.w && isTouchable(w.w)), rnd)
@@ -255,19 +283,73 @@ function decodeRound(station, rnd, { word = null, isMastered } = {}) {
     .map((w) => w.w);
   if (!others.length) return null;
   const specs = shuffle([target.w, ...others], rnd).map(pictureSpec);
-  const next = seeder(rnd);
   return {
-    kind: 'decode',
+    ...head,
     shape: 'decode',
-    unit: skill.unit,
-    range: skill.range,
     ask: ASK.decode,
-    target: target.w,
-    picture: wordSpec(target),
     options: specs,
     figures: [wordSpec(target), ...specs],
     saying: [target.w, ...others],
-    sig: `${station.id}|${target.w}|${next()}`,
+  };
+}
+
+// ————— **فكٌّ في مشهد** (بندُ الجلسة ٦ · حكمُ قبول الجلسة ٤ البند ١) —————
+//
+// «كلمةُ موضعٍ أو صفةٍ تُقرأ فيُلمَس مصداقُها في مشهدٍ مرسوم». وكانت هذه الكلماتُ
+// خارج الفكّ بالبيان (`isTouchable`) لأنّ شكلَ الفكّ يشترط **صورةً مفردة** تُلمَس —
+// ولا صورةَ لـ`in`. والمشهدُ يحلّها: المعنى **علاقةٌ تُرى** لا شيءٌ يُصوَّر.
+//
+// **وأيُّ مشهدٍ يُرسَم بيانُ رسمٍ لا بيانُ منهج** (نظيرُ `ZONES` في `tpr.js`): المنهجُ
+// يقول «مادّةُ هذه الكلمة مشهد» ويعطي أدواتِه من محطتها السمعية (`sceneOf`)، وهذه
+// تقول **كيف يُرسَم** — ومَن لا رسمَ لمشهده لا يُولَّد له تمرين، ويمسك مفتاحَه
+// العاطلَ بابُ «لكلِّ مفتاحٍ مادّةٌ تُنتجه بمداه» في `test_measure.mjs`.
+
+/** مواضعُ مشهد الصندوق التي تُرسَم — وهي مواضعُ س٢-٢ التي تعلّم فيها معناها. */
+const ZONES = ['in', 'on', 'under'];
+/** صفتا الحجم في مشهد الكرتين. */
+const SIZES = ['big', 'small'];
+
+/**
+ * **ولونُ الكرتين لونُ الواجهة لا لونٌ من المنهج**: السؤالُ عن الحجم وحدَه، فلو
+ * تلوّنتا بلونين لَصار للسؤال جوابان (وهو عينُ درسِ مشتّتات الأمر المركّب في س٢-٤).
+ */
+const BALL_COLOUR = 'var(--accent)';
+
+function sceneRound(head, target, rnd) {
+  const scene = sceneOf(target.w);
+  if (!scene) return null;
+  if (ZONES.includes(target.w)) {
+    const [thing, holder] = scene.props;
+    if (!thing || !holder) return null;
+    // **والمواضعُ كلُّها معروضةٌ في كل جولة** (قاعدةُ س٢-٢ نفسُها): الاختيارُ بين
+    // ثلاثةٍ ثابتة يجعل الفرقَ **مكانياً** لا عددياً، ولو نقصت لَصار الجوابُ باستبعاد.
+    const zones = ZONES.map((word) => ({ kind: 'zone', word }));
+    return {
+      ...head,
+      shape: 'scene',
+      scene: 'zone',
+      ask: ASK.scene,
+      thing: specOf(thing),
+      holder: specOf(holder),
+      zones,
+      figures: [head.picture, specOf(thing), specOf(holder), ...zones],
+      saying: [target.w],
+    };
+  }
+  if (!SIZES.includes(target.w)) return null;
+  const [thing] = scene.props;
+  if (!thing) return null;
+  const options = shuffle(SIZES.map((size) => ({
+    kind: 'ball', word: thing.w, size, name: size, colour: BALL_COLOUR,
+  })), rnd);
+  return {
+    ...head,
+    shape: 'scene',
+    scene: 'size',
+    ask: ASK.scene,
+    options,
+    figures: [head.picture, ...options],
+    saying: [target.w],
   };
 }
 
@@ -318,8 +400,8 @@ function trickyRound(station, rnd, { range = null, isMastered } = {}) {
   };
 }
 
-/** أشكالُ الدرجة الخمسة، ولكلٍّ بانيه. */
-const SHAPES = {
+/** أشكالُ الدرجة الخمسة، ولكلٍّ بانيه — **وتستعيرها درجةُ العناقيد وتزيد شكلَها**. */
+export const SHAPES = {
   'sound-pick': soundRound,
   'letter-pick': letterRound,
   build: buildRound,
@@ -328,9 +410,9 @@ const SHAPES = {
 };
 
 /** أنواعُ التمارين التي تُنتجها هذه المحطةُ اليوم — بحسب ما نضج من كلماتها. */
-const kindsOf = (station, isMastered) => [
+const kindsOf = (station, isMastered, shapes) => [
   ...new Set((station.skills || []).map((key) => key.split('|')[2])),
-].filter((kind) => SHAPES[kind]
+].filter((kind) => shapes[kind]
   && (!['build', 'decode'].includes(kind) || taughtIn(station, isMastered).length)
   // **والشائكةُ كذلك**: درجةٌ شائكاتُها كلُّها ذاتُ مدخلٍ لم ينضج بعدُ تمضي برموزها
   // وكلماتها ولا شكلَ شائكةٍ فيها — كما تمضي بلا دمجٍ حتى تنضج كلماتُها.
@@ -338,16 +420,22 @@ const kindsOf = (station, isMastered) => [
     .some((word) => rangesOf(station, 'read').includes(word))));
 
 /**
- * **خطةُ المحطة**: نمذجةٌ ثم جولتان بعونٍ ثم خمسٌ «وحدك» — من بذرةٍ واحدة.
+ * **خطةُ محطةٍ من مسار الحرف**: نمذجةٌ ثم جولتان بعونٍ ثم خمسٌ «وحدك» — من بذرةٍ واحدة.
  *
- * **وتُمرَّر دالّةُ ليتنر ولا تُفترَض** (قيدُ الاقتران): الشاشةُ تمرّر
+ * **وتُمرَّر سلّةُ الأشكال ولا تُفترَض**: درجةُ العناقيد تمرّر سلّتَها هي (بلا رمزٍ
+ * جديد ومعها الصائتُ الأوسط)، فلا تُنسَخ الخطةُ في ملفين.
+ *
+ * **وتُمرَّر دالّةُ ليتنر ولا تُفترَض** كذلك (قيدُ الاقتران): الشاشةُ تمرّر
  * `progress.isMastered`، والجردُ يمرّر ما يعلنه (انظر `probeRounds`).
  */
-export function buildStation(stationId, seed, isMastered = progress.isMastered) {
-  const station = stationById(stationId);
-  if (!station || !TYPES.has(station.type)) return null;
+export function planOf(station, seed, isMastered, shapes = SHAPES, kit = {}) {
+  // **ونمذجةُ شكلٍ لا تعرفه هذه الوحدةُ تأتي مع شكله**: صاحبُ الشكل يعرف كيف يُري
+  // مادّتَه وكيف تُنطَق، ولو تُرك للنمذجة العامّة لَنطقت هيَ ما لا تعرف (وقد وقع:
+  // جولةُ الصائت الأوسط هدفُها **رسمٌ**، فقالت النمذجةُ اسمَ الحرف مكانَ صوته).
+  const drawModel = kit.el || modelEl;
+  const speakModel = kit.say || sayModel;
   const rnd = seeded(seed >>> 0);
-  const kinds = kindsOf(station, isMastered);
+  const kinds = kindsOf(station, isMastered, shapes);
   if (!kinds.length) return null;
 
   /* **وسلّةُ الأشكال تُستنفَد ولا تُهدَر جولة**: شكلٌ قد لا يجد مادّتَه في لحظته
@@ -357,7 +445,7 @@ export function buildStation(stationId, seed, isMastered = progress.isMastered) 
   const nextRound = () => {
     for (let tries = 0; tries < kinds.length * 2; tries++) {
       if (!bag.length) bag = shuffle(kinds, rnd);
-      const round = SHAPES[bag.pop()](station, rnd, { isMastered });
+      const round = shapes[bag.pop()](station, rnd, { isMastered });
       if (round) return round;
     }
     return null;
@@ -373,8 +461,8 @@ export function buildStation(stationId, seed, isMastered = progress.isMastered) 
       //  فيتولّاها `after` بالقناة نفسِها — ولا يُصَفّ في قائمة الصوت نصٌّ مركَّب.)
       items: shown.map((round) => ({
         en: '',
-        el: () => modelEl(round),
-        after: (box, api) => sayModel(round, api),
+        el: () => drawModel(round),
+        after: (box, api) => speakModel(round, api),
       })),
       figures: shown.flatMap((round) => round.figures || []),
       saying: [...new Set(shown.flatMap((round) => round.saying || []))],
@@ -384,6 +472,13 @@ export function buildStation(stationId, seed, isMastered = progress.isMastered) 
     guided: Array.from({ length: GUIDED }, nextRound).filter(Boolean),
     solo: Array.from({ length: SOLO }, nextRound).filter(Boolean),
   };
+}
+
+/** خطةُ درجةٍ من درجات الرموز (ح١–ح١٢ · ح١٤–ح١٦). */
+export function buildStation(stationId, seed, isMastered = progress.isMastered) {
+  const station = stationById(stationId);
+  if (!station || !TYPES.has(station.type)) return null;
+  return planOf(station, seed, isMastered);
 }
 
 /**
@@ -431,7 +526,7 @@ const score = (round, correct, recordAttempt = progress.recordAttempt) => {
 // ————— الشاشات —————
 
 /** زرُّ إعادة السماع — **أذنٌ لا كلمة** (قاعدةُ اللاقراءة بلغتين). */
-const hearBtn = (onHear) => h('button', {
+export const hearBtn = (onHear) => h('button', {
   class: 'btn btn--hear',
   'aria-label': 'اسمع مرّةً أخرى',
   onclick: onHear,
@@ -475,19 +570,26 @@ const spokenOf = (round, name) =>
  * **ما يُري المعلّمُ في النمذجة**: الرسمُ المسؤولُ عنه في الجولة —
  * وفي الدمج **الكلمةُ مبنيّةً** (لبناتُها بترتيبها): المعلّمُ يُري ما سيبنيه الطفلُ
  * بيده، وهي عينُ لبنات الجولة لا رسمٌ سواها.
+ *
+ * **وفي المشهد الكلمةُ ومصداقُها معاً**: يُعرَض المشهدُ وقد وقع الجوابُ في موضعه
+ * (تفاحةٌ **في** الصندوق · الكرةُ الكبيرة مُضاءة) — فالمعنى يُرى مع رسمه.
  */
-const modelEl = (round) => h('div', { class: 'q-shown-one' },
-  figureEl(round.shape === 'build' ? spelledSpec(round.target, round.order)
-    : round.picture
-      || (round.options || []).find((option) => option.word === round.target)
-      || (round.options || [])[0]
-      || round.figures[0]));
+export const modelEl = (round) => (round.shape === 'scene'
+  ? h('div', { class: 'q-model-scene' },
+    h('div', { class: 'q-shown-one' }, figureEl(round.picture)),
+    sceneEl(round, { answer: round.target }))
+  : h('div', { class: 'q-shown-one' },
+    figureEl(round.shape === 'build' ? spelledSpec(round.target, round.order)
+      : round.picture
+        || (round.options || []).find((option) => option.word === round.target)
+        || (round.options || [])[0]
+        || round.figures[0])));
 
 /**
  * نمذجةٌ منطوقة — **الرسمُ ثم صوتُه**: يرى الطفلُ الوصلةَ التي سيُطالَب بها
  * (رسمٌ بصوته · كلمةٌ بأصواتها ثم كاملةً · شائكةٌ في سياقها).
  */
-async function sayModel(round, api) {
+export async function sayModel(round, api) {
   if (round.shape === 'sound' || round.shape === 'letter') {
     await sayEn(round.shape === 'sound' ? round.sounds[0] : round.target);
     return;
@@ -556,6 +658,77 @@ function pickView(round, hooks) {
   })();
 
   return h('div', {}, h('p', { class: 'hint' }, round.ask), stage, choices);
+}
+
+// ————— شاشةُ الفكّ في مشهد: كلمةٌ تُقرأ ويُلمَس مصداقُها —————
+
+/**
+ * **المشهدُ نفسُه في النمذجة وفي السؤال** — دالّةٌ واحدة: يُرسَم الصندوقُ ومواضعُه
+ * الثلاثة (وفي كلٍّ تفاحة)، أو الكرتان الكبيرةُ والصغيرة. و`answer` يُضيء موضعَ
+ * الصواب في النمذجة، و`onPick` يجعل المواضعَ أزراراً في السؤال.
+ *
+ * **ولا زرَّ أذنٍ في هذه الشاشة** كأختها `decode`: لو نُطقت الكلمةُ المكتوبة لَصار
+ * الجوابُ سمعاً وسقط الفكُّ كلُّه.
+ */
+function sceneEl(round, { answer = null, onPick = null } = {}) {
+  if (round.scene === 'zone') {
+    const box = h('div', { class: `q-box${onPick ? '' : ' q-box--model'}` },
+      h('span', { class: 'q-holder' }, figureEl(round.holder)));
+    for (const zone of round.zones) {
+      const shown = !onPick ? zone.word === answer : true;
+      const el = h(onPick ? 'button' : 'span', {
+        class: `q-zone q-zone--${zone.word}${shown ? ' q-zone--full' : ''}`,
+        ...(onPick ? { 'aria-label': 'هُنَا' } : {}),
+      }, shown && h('span', { class: 'q-thing' }, figureEl(round.thing)));
+      el.dataset.word = zone.word;
+      if (onPick) el.addEventListener('click', () => onPick(zone.word, el));
+      box.append(el);
+    }
+    return box;
+  }
+  const row = h('div', { class: 'q-choices q-choices--scene' });
+  for (const spec of round.options) {
+    const lit = !onPick && spec.name === answer;
+    const el = h(onPick ? 'button' : 'span', {
+      class: `qcard qcard--scene${lit ? ' good' : ''}`,
+      ...(onPick ? { 'aria-label': 'هَذِهِ' } : {}),
+    }, figureEl(spec));
+    if (onPick) el.addEventListener('click', () => onPick(spec.name, el));
+    row.append(el);
+  }
+  return row;
+}
+
+function sceneView(round, hooks) {
+  const stage = h('div', { class: 'q-stage q-stage--ask' });
+  stage.dataset.ask = round.target;
+  stage.append(h('span', { class: 'q-shown-one' }, figureEl(round.picture)));
+
+  let locked = false;
+  const scene = sceneEl(round, {
+    onPick: async (chosen, el) => {
+      if (locked) return;
+      locked = true;
+      const correct = chosen === round.target;
+      hooks.attempt(round, correct);
+      if (correct) {
+        el.classList.add('good');
+        pop(el);
+        await praiseThen(hooks, round.target);
+        return;
+      }
+      const targetEl = [...scene.children]
+        .find((node) => node.dataset && node.dataset.word === round.target)
+        || [...scene.children].find((node) => node.querySelector?.('.fig')?.dataset.name
+          === round.target);
+      await missedThen(hooks, {
+        chosen, target: round.target, chosenEl: el, targetEl,
+      });
+    },
+  });
+
+  say(round.ask);
+  return h('div', {}, h('p', { class: 'hint' }, round.ask), stage, scene);
 }
 
 // ————— شاشةُ الرسم ← صوته (letter-pick): أزرارٌ صوتيةٌ تُعرَّف بإسماعها —————
@@ -716,9 +889,10 @@ function buildView(round, hooks) {
   return h('div', {}, h('p', { class: 'hint' }, round.ask), stage, tray, bank);
 }
 
-const viewOf = (round, hooks) => {
+export const viewOf = (round, hooks) => {
   if (round.shape === 'build') return buildView(round, hooks);
   if (round.shape === 'letter') return letterView(round, hooks);
+  if (round.shape === 'scene') return sceneView(round, hooks);
   return pickView(round, hooks);
 };
 
@@ -745,9 +919,9 @@ registerScreen('grade', (part) => {
  * البانِي يمرّ من `readableAt` نفسِها، فمهارةُ قراءةٍ سقطت كلمتُها سمعاً **لا تُنتج
  * تمريناً** وتُملأ الجلسةُ بغيرها.
  */
-const single = (kind) => (skill, rnd) => {
+export const singleIn = (types, kind, shapes = SHAPES) => (skill, rnd) => {
   const station = stationForSkill(skill);
-  if (!station || !TYPES.has(station.type)) return null;
+  if (!station || !types.has(station.type)) return null;
   const opts = { isMastered: progress.isMastered };
   // **ومدىً لا تعرفه المحطةُ يُبنى بمداها هي**: سجلٌّ قديم قد يحمل مفتاحاً لمدىً
   // تحرّك في المنهج، فتجيب المراجعةُ بتمرينٍ من نوعه بدل أن تصمت (عقدُ `stationForSkill`).
@@ -757,8 +931,10 @@ const single = (kind) => (skill, rnd) => {
     const ranges = rangesOf(station, kind);
     opts.range = ranges.includes(String(skill.range)) ? String(skill.range) : null;
   }
-  return SHAPES[kind](station, rnd, opts);
+  return shapes[kind](station, rnd, opts);
 };
+
+const single = (kind) => singleIn(TYPES, kind);
 
 registerExercise('sound-pick', { build: single('sound-pick'), view: viewOf, score });
 registerExercise('letter-pick', { build: single('letter-pick'), view: viewOf, score });

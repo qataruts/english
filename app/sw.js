@@ -35,7 +35,7 @@
 // عند تغيير أي ملف من ملفات الهيكل: ارفع VERSION فيُمحى مخزون **القشرة** القديم.
 // ويحرس `tools/test_pwa.mjs` أن قائمة SHELL لا تنسى ملفاً موجوداً في `app/` ولا
 // تَعِد بملفٍ غير موجود.
-const VERSION = 'v4';
+const VERSION = 'v5';
 const SHELL_CACHE = `english-shell-${VERSION}`;
 const AUDIO_CACHE = 'english-audio';      // ثابتٌ عمداً — لا يحمل VERSION
 const KEEP = [SHELL_CACHE, AUDIO_CACHE];
@@ -51,6 +51,7 @@ const SHELL = [
   'fonts/BalooBhaijaan2-latin.woff2',
   'fonts/Marhey-arabic.woff2',
   'js/audio.js',
+  'js/cluster.js',
   'js/contrast.js',
   'js/curriculum.js',
   'js/ear.js',
@@ -64,6 +65,7 @@ const SHELL = [
   'js/registry.js',
   'js/review.js',
   'js/station.js',
+  'js/story.js',
   'js/tpr.js',
   'js/ui.js',
   // فهرسُ الرموز في القشرة، و**ملفاتُها من فهرسها** (`precacheEmoji` أدناه): كُتب

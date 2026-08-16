@@ -898,9 +898,14 @@
   for (const word of gradeWords) grown[word.listen] = ripe(4);
   // **والمدسوسةُ قِيست ولم تبلغ**: الصندوقُ ٢ دون عتبة الإتقان (٣) — لا صفرٌ يُظنّ غياباً
   grown[held.listen] = ripe(2);
+  /* **وما يُقاد لا يُفتَح بيد**: مسارُ السمع كلُّه يُملأ نجوماً ليصير مسارُ الحرف على
+     الجبهة، **وعقدُ مسار الحرف كلُّها تُقاد كما يقودها طفل** — درجاتُه وبواباتُه
+     **وقصّتُه ودرجةُ عناقيده** (الجلسة ٦): فلو مُلئت نجوماً لَما شهد الفحصُ أنّ
+     القفل التسلسليّ يمرّ بها، وهي أوّلُ عقدةِ قصةٍ في الرحلة. */
+  const DRIVEN = new Set(['grade', 'gate', 'cluster', 'story']);
   const openStars = { ...(before.stars || {}) };
   for (const node of curriculum.sections().flatMap((s) => s.nodes)) {
-    if (node.type !== 'grade' && node.type !== 'gate') openStars[node.id] = 3;
+    if (!DRIVEN.has(node.type)) openStars[node.id] = 3;
   }
   win.localStorage.setItem('english.progress.v1',
     JSON.stringify({ ...before, skills: grown, stars: openStars }));
@@ -1001,19 +1006,38 @@
   ok(decodeStars['gate:decode'] > 0, 'ونجمةُ البوابة مكتوبةٌ بمعرّفها هو');
 
 
-  // ————— ١٨ج. **والعهدُ الثاني بعدها**: سبعُ درجاتٍ برموزها وعللها —————
+  // ————— ١٨ج. **والعهدُ الثاني بعدها**: سبعُ درجاتٍ برموزها وعللها، وقصّتُها في موضعها —————
+
+  const measureTray = (d) => {
+    const set = [...d.querySelectorAll('.q-tray--letters .qcard--letter')];
+    if (set.length < 2) return;
+    const box = set.map((el) => el.getBoundingClientRect());
+    letterRows.push({
+      row: box.every((b) => Math.abs(b.top - box[0].top) < 4),
+      ltr: box.every((b, i) => i === 0 || b.left > box[i - 1].left),
+      small: box.filter((b) => b.width < 64 || b.height < 64).length,
+    });
+  };
+
+  /* **وسطرُ القصة يُقاس هندسةً كما يُقاس صفُّ الدمج** (`METHOD.md §٩·٣`): سطرٌ واحد
+     يتقدّم **من اليسار** ومعه مؤشّرُ بدء السطر — والدرسُ دُفع ثمنُه مرّتين قبله. */
+  const lineRows = [];
+  const measureLine = (d) => {
+    const line = d.querySelector('.station-body .q-line');
+    const set = line ? [...line.querySelectorAll('.fig--letter')] : [];
+    if (set.length < 2) return;
+    const box = set.map((el) => el.getBoundingClientRect());
+    const dot = line.ownerDocument.defaultView.getComputedStyle(line, '::before');
+    lineRows.push({
+      row: box.every((b) => Math.abs(b.top - box[0].top) < 6),
+      ltr: box.every((b, i) => i === 0 || b.left > box[i - 1].left),
+      start: box[0].left > line.getBoundingClientRect().left,
+      dot: dot.content !== 'none' && parseFloat(dot.width) > 0,
+    });
+  };
 
   for (const part of GRADE_PARTS.slice(ERA_ONE)) {
-    const seen = await driveStation(`#/grade/${part}`, (d) => {
-      const set = [...d.querySelectorAll('.q-tray--letters .qcard--letter')];
-      if (set.length < 2) return;
-      const box = set.map((el) => el.getBoundingClientRect());
-      letterRows.push({
-        row: box.every((b) => Math.abs(b.top - box[0].top) < 4),
-        ltr: box.every((b, i) => i === 0 || b.left > box[i - 1].left),
-        small: box.filter((b) => b.width < 64 || b.height < 64).length,
-      });
-    }, (d) => {
+    const seen = await driveStation(`#/grade/${part}`, measureTray, (d) => {
       watchLetters(d);
       pendingSeen += d.querySelectorAll('.station-body .fig-letters[data-pending]').length;
     });
@@ -1022,7 +1046,83 @@
     ok(seen.loose === 0 && seen.bare === 0 && seen.small === 0,
       `  **ولا حرفٍ لاتينيٍّ خارج \`.en\` المعزول**، ولا زرٍّ نصّيّ، وهدفُ اللمس ≥٦٤بك`
       + ` (${seen.loose}/${seen.bare}/${seen.small})`);
+
+    // ————— ١٨ح. 📖 **القصةُ شبهُ المفكوكة في موضعها من الرحلة** (بندُ الجلسة ٦) —————
+    //
+    // «كتابٌ لكل درجةٍ فصاعداً» — فقصةُ ح٦ تلي درجةَ ح٦ **على الخريطة**، ويقودها
+    // الطفلُ بالقفل التسلسليّ نفسِه (لا نجمةَ مُلئت لها بيد). ومادّتُها نصٌّ يُقرأ
+    // بالعين: **لا زرَّ أذنٍ في صفحاتها** إلا في نمذجة المعلّم.
+    const story = curriculum.stations().find((s) => s.type === 'story' && s.part === part);
+    if (!story) continue;
+    const pages = new Set();
+    const storySeen = await driveStation(`#/story/${part}`, null, (d) => {
+      measureLine(d);
+      const line = d.querySelector('.station-body .q-line');
+      if (line) {
+        pages.add([...line.querySelectorAll('.fig[data-word]')]
+          .map((f) => f.dataset.word).join(' '));
+      }
+    });
+    ok(storySeen.done && storySeen.rounds >= 3 && storySeen.stars === 3,
+      `📖 **وقصةُ ${part} تُقاد صفحةً صفحة إلى ثلاث نجوم** (${storySeen.rounds} صفحةً `
+      + `مقروءة · ${storySeen.stars} نجوم) — وهي أوّلُ نصٍّ متّصل يقع تحت عين الطفل`);
+    ok(storySeen.loose === 0 && storySeen.bare === 0 && storySeen.small === 0,
+      `  ولا حرفٍ لاتينيٍّ خارج \`.en\`، ولا زرٍّ نصّيّ، وهدفُ اللمس ≥٦٤بك`
+      + ` (${storySeen.loose}/${storySeen.bare}/${storySeen.small})`);
+    const storyWords = new Set([...pages].flatMap((line) => line.split(' ')).filter(Boolean));
+    const openWords = new Set([
+      ...curriculum.wordsUpTo(part).map((w) => w.w),
+      ...curriculum.trickyAt(part),
+    ]);
+    ok(storyWords.size > 0 && [...storyWords].every((w) => openWords.has(w)),
+      `  **وكلُّ كلمةٍ رُسمت في صفحاتها من المفتوح عند ${part}** (${storyWords.size} كلمةً`
+      + `: ${[...storyWords].join(' ')}) — وهو ما يفحصه \`check_range\` في النصّ نفسِه`);
   }
+
+  ok(lineRows.length > 0 && lineRows.every((r) => r.row && r.ltr && r.start && r.dot),
+    `**وسطرُ القصة سطرٌ واحد يتقدّم من اليسار ومعه مؤشّرُ بدء السطر** `
+    + `(${lineRows.length} قياساً · \`METHOD.md §٩·٣\`)`
+    + (lineRows.some((r) => !r.row) ? ' — **يتراصّ عموداً**' : '')
+    + (lineRows.some((r) => !r.ltr) ? ' — **يتقدّم من اليمين**' : '')
+    + (lineRows.some((r) => !r.dot) ? ' — **بلا نقطةِ انطلاق**' : ''));
+
+  // ————— ١٨خ. 🧩 **درجةُ العناقيد ح١٣ والصائتُ الأوسط** (بندُ الجلسة ٦) —————
+  //
+  // «CVCC/CCVC بلا رموزٍ جديدة» — فلا `sound-pick` فيها ولا `letter-pick`، وأشكالُها
+  // دمجٌ وفكٌّ **وصائتٌ أوسط**: تُسمَع الكلمةُ ويُرى إطارُها بلا صائتها فيُختار من رسمين.
+  //
+  // **وسلّةُ الأشكال تجعل وقوعَه يقيناً لا حظّاً** (درسُ الفحص المتقلقل، الجلسة ٥):
+  // تُستنفَد السلّةُ شكلاً شكلاً، فكلُّ ثلاث جولاتٍ تحمل الأشكالَ الثلاثة كلَّها —
+  // والجولاتُ الخمسُ الأخيرة («وحدك») تحمل بالضرورة جولةَ صائتٍ أوسط مقيسة.
+
+  const midSeen = { gaps: 0, framed: new Set(), hearts: new Set() };
+  const clusterSeen = await driveStation('#/cluster/h13', measureTray, (d) => {
+    watchLetters(d);
+    // **وشائكاتُ الدرجة الأربعَ عشرةَ تُوسَم بقلوبها** (الميزانيةُ ٣١): علامةٌ لا نصّ
+    for (const mark of d.querySelectorAll('.station-body .glyph-mark--heart')) {
+      const word = mark.closest('.fig')?.dataset.word;
+      if (word) midSeen.hearts.add(word);
+    }
+    const gap = d.querySelector('.station-body .glyph--gap');
+    if (!gap) return;
+    midSeen.gaps++;
+    const frame = gap.closest('.fig-letters');
+    if (frame) midSeen.framed.add([...frame.querySelectorAll('.glyph')].length);
+  });
+  ok(clusterSeen.done && clusterSeen.rounds >= 7 && clusterSeen.stars === 3,
+    `🧩 **ودرجةُ العناقيد ح١٣ تُقاد إلى ثلاث نجوم** (${clusterSeen.rounds} جولة · `
+    + `${clusterSeen.stars} نجوم) — بلا رمزٍ جديد، وكلماتُها CVCC/CCVC`);
+  ok(clusterSeen.loose === 0 && clusterSeen.bare === 0 && clusterSeen.small === 0,
+    `  ولا حرفٍ لاتينيٍّ خارج \`.en\`، ولا زرٍّ نصّيّ، وهدفُ اللمس ≥٦٤بك`
+    + ` (${clusterSeen.loose}/${clusterSeen.bare}/${clusterSeen.small})`);
+  ok(midSeen.gaps > 0 && [...midSeen.framed].every((n) => n >= 3),
+    `  **والصائتُ الأوسط يُسأل عنه في إطارٍ يُرى** (${midSeen.gaps} جولةً، وإطارُها `
+    + `${[...midSeen.framed].join('/') || '—'} مقاطع) — فيعرف الطفلُ أين يقع الناقص`);
+  const era3Tricky = new Set(curriculum.GRADES.find((g) => g.id === 'h13').tricky);
+  ok(midSeen.hearts.size > 0 && [...midSeen.hearts].every((w) => curriculum.HEART_WORDS[w]),
+    `  **وشائكاتُ العهد الثالث تُوسَم بقلوبها** (${[...midSeen.hearts].join('، ')}`
+    + `${[...midSeen.hearts].some((w) => era3Tricky.has(w)) ? ' — ومنها شائكةُ ح١٣ نفسِها'
+      : ''}) — علامةٌ لا نصٌّ شارح`);
 
   ok(pendingSeen > 0,
     '**وخطُّ المادّة نائبٌ يُعلن نيابتَه في DOM** (`data-pending` — ق٥)، '
@@ -1037,17 +1137,21 @@
   // ————— ١٨د. قياسُ مسار الحرف بمفاتيح المنهج، وأنواعُه الخمسة كلُّها —————
 
   const letterState = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  // **ومسارُ الحرف اليومَ ثلاثةُ أنواع**: الدرجاتُ والعناقيدُ والقصص — فمفاتيحُه
+  // تُقابَل بمفاتيح **المسار** لا بمفاتيح نوعٍ واحد منه.
   const letterWanted = new Set(curriculum.stations()
-    .filter((s) => s.type === 'grade').flatMap((s) => s.skills));
+    .filter((s) => s.track === 'letter').flatMap((s) => s.skills));
   const letterKeys = Object.keys(letterState.skills || {})
-    .filter((k) => /\|(sound-pick|letter-pick|build|decode|read)$/.test(k));
+    .filter((k) => /\|(sound-pick|letter-pick|build|decode|read|mid-pick)$/.test(k));
   ok(letterKeys.length > 0 && letterKeys.every((k) => letterWanted.has(k)),
     `وقياسُ مسار الحرف مكتوبٌ بمفاتيح المنهج (${letterKeys.length} مفتاحاً)`);
-  ok(['sound-pick', 'letter-pick', 'build', 'decode', 'read']
+  ok(['sound-pick', 'letter-pick', 'build', 'decode', 'read', 'mid-pick']
     .every((kind) => letterKeys.some((k) => k.endsWith(`|${kind}`))),
-    'وأشكالُه الخمسة كلُّها مقيسة (رسمُ الصوت · صوتُ الرسم · الدمجُ · الفكُّ · الشائكة)');
-  ok(['gpc|', 'word|', 'tricky|'].every((unit) => letterKeys.some((k) => k.startsWith(unit))),
-    'ووحداتُه الثلاث (`gpc` · `word` · `tricky`) كلُّها في ليتنر');
+    'وأشكالُه الستة كلُّها مقيسة (رسمُ الصوت · صوتُ الرسم · الدمجُ · الفكُّ · الشائكة '
+    + '· **الصائتُ الأوسط**)');
+  ok(['gpc|', 'word|', 'tricky|', 'vowel|', 'text|']
+    .every((unit) => letterKeys.some((k) => k.startsWith(unit))),
+    'ووحداتُه الخمس (`gpc` · `word` · `tricky` · **`vowel`** · **`text`**) كلُّها في ليتنر');
 
   // ————— ١٨هـ. 🔒 **قيدُ الاقتران مشهودٌ عاملاً في الشجرة الحية** —————
   //
@@ -1251,6 +1355,69 @@
     + 'فما أُتقن سمعاً لا يهبط بتعثّرٍ في رسم');
 
 
+  // ————— ١٨س. 🔒 **الفكُّ في مشهد**: كلمةٌ تُقرأ فيُلمَس مصداقُها (بندُ الجلسة ٦) —————
+  //
+  // «كلمةُ موضعٍ أو صفةٍ تُقرأ فيُلمَس مصداقُها في مشهدٍ مرسوم» (حكمُ قبول الجلسة ٤):
+  // كانت `in` و`on` و`big` خارج الفكّ بالبيان لأنّ لا صورةَ مفردةَ لها، فصار لها
+  // اليومَ بابُها — **ومفتاحُ فكٍّ في ليتنر** لم يكن لها.
+  //
+  // **والحالُ مصنوعةٌ بحيث لا يكون للحظّ فيها نصيب** (درسُ الفحص المتقلقل): يُنضَج
+  // في الدرجة **كلمةُ المشهد وحدَها**، فكلُّ جولة فكٍّ فيها مشهدٌ لا محالة — ويُقاد
+  // المشهدان كلاهما: الموضعُ (`in` في صندوق) والحجمُ (`big` بين كرتين).
+
+  /* **والمحطتان مختارتان بحسابٍ لا بذوق**: سلّةُ الأشكال تُستنفَد شكلاً شكلاً، فمحطةٌ
+     أشكالُها أربعةٌ (ح٢: رمزان ودمجٌ وفكّ) وأخرى ثلاثةٌ عاملة (ح١٣: دمجٌ وفكٌّ وصائتٌ
+     أوسط) **تقعُ فيهما جولةُ الفكّ في «وحدك» يقيناً** — لا بحظّ بذرة. */
+  const sceneCases = [
+    { part: 'h02', hash: '#/grade/h02', word: 'in', kind: 'zone',
+      ar: 'الموضعُ في مشهد الصندوق' },
+    { part: 'h13', hash: '#/cluster/h13', word: 'small', kind: 'size',
+      ar: 'الحجمُ بين كرتين' },
+  ];
+  const sceneState = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
+  const sceneSkills = { ...(sceneState.skills || {}) };
+  for (const row of sceneCases) {
+    const grade = curriculum.GRADES.find((g) => g.id === row.part);
+    for (const word of grade.words) {
+      if (word.w === row.word) sceneSkills[word.listen] = ripe(4);
+      else delete sceneSkills[word.listen];
+    }
+  }
+  win.localStorage.setItem('english.progress.v1',
+    JSON.stringify({ ...sceneState, skills: sceneSkills }));
+  await reopen();
+
+  for (const row of sceneCases) {
+    const seen = { rounds: 0, zones: new Set(), sizes: new Set(), words: new Set() };
+    const driven = await driveStation(row.hash, null, (d) => {
+      const stage = d.querySelector('.station-body .q-stage[data-ask]');
+      const box = d.querySelector('.station-body .q-box');
+      const balls = [...d.querySelectorAll('.station-body .q-choices--scene .fig--ball')];
+      if (!stage || (!box && !balls.length)) return;
+      seen.rounds++;
+      seen.words.add(stage.dataset.ask);
+      for (const zone of d.querySelectorAll('.station-body .q-zone')) {
+        seen.zones.add(zone.dataset.word);
+      }
+      for (const ball of balls) seen.sizes.add(ball.dataset.name);
+    });
+    const shown = row.kind === 'zone' ? seen.zones : seen.sizes;
+    ok(driven.done && driven.stars === 3 && seen.rounds > 0,
+      `🔒 **و«${row.word}» تُفكّ ويُلمَس مصداقُها** (${row.ar} — ${seen.rounds} جولةً في `
+      + `${row.part}، والمحطةُ إلى ${driven.stars} نجوم)`);
+    ok(seen.words.size === 1 && seen.words.has(row.word),
+      `  والمسؤولُ عنه كلمةُ المشهد وحدَها (${[...seen.words].join('، ') || 'لا شيء'})`);
+    ok(shown.size >= 2 && [...shown].every(Boolean),
+      `  ومصاديقُها معروضةٌ كلُّها في كل جولة (${[...shown].join(' · ')}) — `
+      + 'فالفرقُ مكانيٌّ أو حجميّ لا استبعاد');
+    const decodeKey = Object.keys(JSON.parse(
+      win.localStorage.getItem('english.progress.v1') || '{}').skills || {})
+      .filter((k) => k === `word|${row.word}|decode`);
+    ok(decodeKey.length === 1,
+      `  **ومفتاحُ فكِّها مكتوبٌ في ليتنر** (\`word|${row.word}|decode\`) — وهو المفتاحُ `
+      + 'الذي لم يكن لها قبل اليوم');
+  }
+
   // ————— ١٩. **لا نصَّ يُنطَق خارج قائمة الصوت** (`AUDIO_QUEUE.md §٣`) —————
   //
   // النصُّ يُركَّب في زمن التشغيل («point to the big red ball»)، فلا يراه جردُ شجرةٍ
@@ -1262,10 +1429,18 @@
   const inQueue = new Set(queued.map((text) => audio.keyFor(text)));
   const heard = [...new Set(timeline.filter((r) => r.t0 >= startedAt).map((r) => r.key))];
   const strays = heard.filter((key) => !inQueue.has(key));
+  /* **والشاردُ يُسمّى لا يُعَدّ** (درسُ التقرير الذي يَعُدّ ولا يُسمّي، الجلسة ٥):
+     مفتاحُ الملفّ **بصمةُ نصّه**، فلا يُقرأ منه النصّ. فيُطلَب من **جهتين**: نصُّه إن
+     مرّ بمسار الاحتياط الآليّ، **وبصمتُه على كل حال** — فيُبحَث عنها في الشجرة.
+     (وقد أمسك هذا البابُ عيباً حقيقياً في هذه الجلسة: نمذجةُ الصائت الأوسط كانت
+     تنطق **اسمَ الحرف** لأنّ هدفَ جولتها رسمٌ لا كلمة.) */
+  const strayText = [...new Set(spoken.map((row) => row.text))]
+    .filter((text) => strays.includes(audio.keyFor(text)));
   ok(heard.length > 0 && strays.length === 0,
     `وكلُّ ما نطقته المحطةُ مصفوفٌ في قائمة الصوت (${heard.length} نصاً`
     + `، و${queued.length} في القائمة)`
-    + (strays.length ? ` — خارجها: ${strays.length}` : ''));
+    + (strays.length ? ` — خارجها ${strays.length}: «${strayText.join('» · «') || '؟'}»`
+      + ` (بصماتُها: ${strays.join('، ')})` : ''));
 
   // ————— ٢٠. **نسخةُ القشرة تُرى** (`METHOD.md §١٢-١٠` — أمرُ المالك) —————
   //

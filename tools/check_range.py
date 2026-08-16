@@ -80,6 +80,10 @@ def load_curriculum() -> dict:
       eras: m.ERAS, grades: m.GRADES,
       phonemes: m.PHONEMES,
       vowels: [...m.VOWEL_SYMBOLS], clusterGrade: m.CLUSTER_GRADE,
+      storyFrom: m.STORY_FROM,
+      // **وأيُّ كلمةٍ لها صورةٌ مفردة تُلمَس يجيب عنه المنهجُ نفسُه** (`isTouchable`)
+      // — فلا تُكتب القاعدةُ هنا ثانيةً فتفترق عن الشاشة يومَ تتحرّك.
+      touchable: m.WORDS.filter((w) => m.isTouchable(w.w)).map((w) => w.w),
       units: m.UNIT_UNITS, unitSections: m.UNIT_SECTIONS,
       gates: m.GATES, tracks: m.TRACKS,
       hearts: m.HEART_WORDS, sectionCap: m.SECTION_CAP,
@@ -109,7 +113,15 @@ def label_of(station: dict) -> str:
 # `probeRounds` هناك — ويُحكَم على الجردين **بالدالّة نفسِها** (`usage_errors`). فلا
 # يفترق حكمُ البيانات عن حكم الشاشة، وهو عينُ ما يُنسى حين يُكتب لكلٍّ حارسُه.
 
-def used_of(station: dict) -> dict:
+def story_index(data: dict) -> dict:
+    """كلمةُ قراءةٍ ← مقاطعُها، وأسماءُ الشائكات — بهما يُجرَد سطرُ القصة صنفاً صنفاً."""
+    return {
+        "gpc": {w["w"]: w["gpc"] for g in data["grades"] for w in g["words"]},
+        "tricky": {t for g in data["grades"] for t in g["tricky"]},
+    }
+
+
+def used_of(station: dict, index: dict | None = None) -> dict:
     """ما تستهلكه محطةٌ من أصنافٍ ثلاثة: كلماتٌ · رموزٌ · شائكات."""
     # **وأدواتُ المشهد تُجرَد ككلمات التمرين** (`props` — الجلسة ٢): التفاحةُ والصندوق
     # والكرةُ يراها الطفلُ ويسمع اسمَها، فحكمُها حكمُ ما يُقاس وإن لم تُقَس. ولولا
@@ -126,10 +138,22 @@ def used_of(station: dict) -> dict:
         words += sentence["uses"]
     if station["type"] in ("grade", "cluster"):
         tricky += station["frontier"]["tricky"]
-    # **القصةُ تُجرَد ككلِّ تمرين** (`METHOD.md §٥`) — ونصُّها تكتبه الجلستان ٦ و٧،
-    # فحتى ذلك اليوم لا مادّةَ تُجرَد (ونومُه معلَنٌ في بابه أدناه).
-    for line in (station.get("text") or "").split():
-        words.append(re.sub(r"[^A-Za-z'’-]", "", line))
+    # ————— **القصةُ تُجرَد ككلِّ تمرين** (`METHOD.md §٥`) —————
+    #
+    # ونصُّها **صنفان لا صنف**: كلمةُ قراءةٍ تُحاكَم بمقاطعها على السلّم (فكلمةٌ فوق
+    # درجة القصة تُرفَض برمزها)، وشائكةٌ تُحاكَم بميزانية درجتها — وهي الخرقُ المعلَن
+    # الوحيد، فلو جُرِدت كلمةً لَطولبت بمدخلٍ في الرصيد المصوَّر ليس لها. وما ليس من
+    # الصنفين يبقى كلمةً فيسمّيه البابُ الثاني، ويسمّيه بابُ القصة بعلّته.
+    for token in (station.get("text") or "").split():
+        word = re.sub(r"[^A-Za-z'’-]", "", token)
+        if not word:
+            continue
+        if index and word in index["tricky"]:
+            tricky.append(word)
+            continue
+        if index:
+            gpcs += index["gpc"].get(word, [])
+        words.append(word)
     # **والصوتُ المعزول صنفٌ خامس** (س٣ وس٤): ليس كلمةً فلا يُقابَل بالرصيد، وليس
     # رسماً فلا يُقابَل بالسلّم — يُقابَل بجدول أصوات المنهج (`PHONEMES`).
     sounds = list(station.get("sounds") or [])
@@ -277,6 +301,62 @@ def frontier_errors(stations: list, bank: dict) -> list:
                      if not w.get("face") and not w.get("swatch")]
             if blind:
                 errors.append(f"{label}: كلماتٌ بلا صورةٍ ولا بقعةِ لون: {'، '.join(blind)}")
+    return errors
+
+
+def story_errors(data: dict, index: dict, bank: dict) -> list:
+    """**القصةُ شبهُ المفكوكة** (`METHOD.md §٥`): «نصٌّ قصير مصوَّر **كلُّه** من رموز
+    الدرجات المفتوحة + شائكاتها — يفحصه `check_range` ككل تمرين».
+
+    والأبوابُ الثلاثة تكفي كلمةً **عرفها المنهج**: رمزُها يُقابَل بالسلّم وشائكتُها
+    بالميزانية. وهذا البابُ لِما لا تراه تلك: **كلمةٌ لا هي كلمةُ قراءةٍ ولا شائكة**
+    (‏`banana` مثلاً: في الرصيد المصوَّر ولا مقاطعَ لها، فتمرّ على البابين صامتةً وهي
+    غيرُ مفكوكة)، وشكلُ النصّ الذي لم يُدرَّس (حرفٌ كبير · علامةُ وقف)، وصفحةٌ تسأل
+    عن صورةِ ما لم يُقرأ فيها.
+    """
+    errors = []
+    order = [g["id"] for g in data["grades"]]
+    start = data.get("storyFrom")
+    first = order.index(start) if start in order else 0
+    for station in [s for s in data["stations"] if s["type"] == "story"]:
+        label = label_of(station)
+        at = order.index(station["part"]) if station["part"] in order else -1
+        if at < first:
+            errors.append(f"{label}: قصةٌ قبل 🚪٢ — «كتابٌ لكل درجةٍ **من بعد** البوابة "
+                          f"الثانية» (`METHOD.md §٥`: أوّلُها «{start}»)")
+        pages = station.get("pages") or []
+        # ثلاثٌ حدُّها الأدنى: صفحةٌ يقرؤها المعلّم، وصفحةٌ بعون، وواحدةٌ «وحدك» فأكثر
+        if len(pages) < 3:
+            errors.append(f"{label}: {len(pages)} صفحة — والقصةُ ثلاثُ صفحاتٍ فأكثر "
+                          "(نمذجةٌ ثم عونٌ ثم «وحدك»، وإلّا فلا مقيسَ فيها)")
+        for page in pages:
+            tokens = str(page.get("text") or "").split()
+            words = [re.sub(r"[^A-Za-z'’-]", "", t) for t in tokens]
+            for raw, word in zip(tokens, words):
+                if not word:
+                    errors.append(f"{label}: «{raw}» ليست كلمة")
+                    continue
+                if raw != word:
+                    errors.append(f"{label}: «{raw}» فيها علامةُ وقفٍ — و`METHOD.md §٨` "
+                                  "تستثنيها من التأسيس نصّاً، فلا تُعرَض قبل أن تُدرَّس")
+                # **والحرفُ الكبير رسمٌ لم يُدرَّس** (ولا يُستثنى إلا شائكةٌ رسمُها هو
+                # كما أُعلن: `I` كلُّها شوكة) — فيُسمّى بعلّته لا يُخلَط بالمجهولة.
+                if word in index["tricky"] or word in index["gpc"]:
+                    continue
+                low = word.lower()
+                if low in index["tricky"] or low in index["gpc"]:
+                    errors.append(f"{label}: «{word}» بحرفٍ كبير — والكبيرُ رسمٌ لم يُدرَّس "
+                                  "في السلّم (ولا يُستثنى إلا شائكةٌ رسمُها هو)")
+                else:
+                    errors.append(f"{label}: «{word}» في سطرٍ وليست كلمةَ قراءةٍ ولا شائكة "
+                                  "— ونصُّ القصة رموزُ الدرجات المفتوحة وشائكاتُها لا غير")
+            pick = page.get("pick")
+            if pick not in words:
+                errors.append(f"{label}: صفحةٌ تسأل عن صورة «{pick}» وليست من كلمات سطرها "
+                              "— ولا يُسأل الطفلُ عمّا لم يقرأ")
+            elif pick not in bank["touchable"]:
+                errors.append(f"{label}: «{pick}» لا صورةَ مفردةَ لها تُلمَس — وصفحةُ "
+                              "القصة تُقاس بلمس صورة ما قُرئ")
     return errors
 
 
@@ -498,6 +578,7 @@ def heart_errors(data: dict) -> list:
 def bank_of(data: dict) -> dict:
     return {
         "words": {w["w"] for w in data["words"]},
+        "touchable": set(data.get("touchable") or []),
         "forms": set(data["forms"]),
         "raised": {r["w"]: r["why"] for r in data["raised"]},
         "fields": {f["id"] for f in data["fields"]},
@@ -761,11 +842,12 @@ def check(data: dict) -> int:
          f"{len(pairs)} زوجاً، منها {sum(1 for p in pairs if p['mode'] == 'word')} مصوَّرٌ "
          f"و{sum(1 for p in pairs if p['mode'] == 'sound')} صوتيٌّ خالص بعلّته")
 
+    index = story_index(data)
     triple = []
     for station in stations:
-        triple += usage_errors(label_of(station), used_of(station),
+        triple += usage_errors(label_of(station), used_of(station, index),
                                station["frontier"], bank)
-    words_used = sum(len(used_of(s)["words"]) for s in stations)
+    words_used = sum(len(used_of(s, index)["words"]) for s in stations)
     door("الأبوابُ الثلاثة على المنهج الحيّ: رمزٌ · كلمةٌ · شائكة", triple,
          f"{words_used} كلمةً في {len(stations)} محطةً، كلُّها تحت جبهاتها")
 
@@ -780,14 +862,16 @@ def check(data: dict) -> int:
          f"{len(data.get('hearts') or {})} شائكةً معلَنةَ الرسم، ولكلٍّ موضعُ شوكةٍ "
          "يُوسَم وسياقٌ مسموع")
 
-    print("\n— القصصُ شبهُ المفكوكة: نصُّها يُفحَص ككل تمرين —")
     stories = [s for s in stations if s["type"] == "story"]
-    written = [s for s in stories if s.get("text")]
-    if not written:
-        dormant(f"{len(stories)} قصةً في الرحلة ولم يُكتب نصُّ واحدةٍ بعد "
-                "(الجلستان ٦ و٧ تكتبانها)")
+    pages = sum(len(s.get("pages") or []) for s in stories)
+    if not stories:
+        print("\n— القصصُ شبهُ المفكوكة: نصُّها يُفحَص ككل تمرين —")
+        dormant("لا قصةَ في الرحلة بعد — والقصةُ تدخلها يومَ يُكتب نصُّها (`STORIES`)")
     else:
-        print("  ✓", f"{len(written)} نصاً مفحوصاً في البابين الأولين")
+        door("القصصُ شبهُ المفكوكة: نصُّها يُفحَص ككل تمرين",
+             story_errors(data, index, bank),
+             f"{len(stories)} قصةً و{pages} صفحةً، كلُّ كلمةٍ فيها مفكوكةٌ أو شائكةٌ "
+             "مفتوحة، ولكلِّ صفحةٍ صورةُ ما قُرئ فيها")
 
     print("\n— المولّدات: ما تستهلكه ⊆ جبهةُ محطتها —")
     modules = generator_modules()
@@ -849,17 +933,25 @@ def self_test(data: dict) -> int:
     def find(rows, needle):
         return any(needle in row for row in rows)
 
+    index = story_index(data)
+
     def dosed(mutate, station_id=None):
         """نسخةٌ من المنهج الحيّ دُسّ فيها — وتُعاد أخطاءُ الأبواب الثلاثة عليها."""
         clone = copy.deepcopy(stations)
         target = next(s for s in clone if s["id"] == station_id) if station_id else clone[0]
         mutate(target)
-        return usage_errors(label_of(target), used_of(target), target["frontier"], bank)
+        return usage_errors(label_of(target), used_of(target, index), target["frontier"], bank)
+
+    def dosed_story(mutate):
+        """نسخةٌ دُسّ فيها **بابُ القصة** وحدَه (شكلُ النصّ وصفحاتُه)."""
+        clone = copy.deepcopy(data)
+        mutate(next(s for s in clone["stations"] if s["type"] == "story"))
+        return story_errors(clone, index, bank)
 
     print("\n— المنهج الحيّ يمرّ نظيفاً —")
     live = []
     for station in stations:
-        live += usage_errors(label_of(station), used_of(station), station["frontier"], bank)
+        live += usage_errors(label_of(station), used_of(station, index), station["frontier"], bank)
     for name, rows in (
         ("مصدرُ الرصيد", source_errors(data)),
         ("بنيةُ الجبهة", frontier_errors(stations, bank)),
@@ -872,6 +964,7 @@ def self_test(data: dict) -> int:
         ("عقدُ الرحلة", journey_errors(data)),
         ("حدُّ المجموعة", group_errors(data)),
         ("الشائكاتُ heart words", heart_errors(data)),
+        ("القصصُ شبهُ المفكوكة", story_errors(data, index, bank)),
     ):
         ok(not rows, f"{name}: نظيف" + ("" if not rows else f" — {rows[0]}"))
 
@@ -1199,6 +1292,51 @@ def self_test(data: dict) -> int:
        "  والجمعُ بين المفتاح والعلّة يُمسَك كذلك — أحدُهما لا كلاهما")
     ok(not find(hearted(lambda d: d), "لا تعلن درجتَها"),
        "  والقائمُ اليومَ سليمٌ: لكلِّ شائكةٍ أحدُ الحقلين")
+
+    print("\n— القصةُ تُفحَص ككل تمرين (معيارُ قبول الجلسة ٦) —")
+    #
+    # **والدسّةُ صفحةٌ تُعدَّل ثم يُعاد اشتقاقُ النصّ** كما يشتقّه المنهج — فيمرّ
+    # المدسوسُ على البابين معاً: الأبوابُ الثلاثة على نصّها، وبابُ القصة على شكلها.
+
+    def dosed_page(mutate):
+        clone = copy.deepcopy(data)
+        station = next(s for s in clone["stations"] if s["type"] == "story")
+        mutate(station)
+        station["text"] = " ".join(p["text"] for p in station["pages"])
+        return (usage_errors(label_of(station), used_of(station, index),
+                             station["frontier"], bank)
+                + story_errors(clone, index, bank))
+
+    def line_plus(word):
+        return lambda s: s["pages"][0].__setitem__("text", f"{s['pages'][0]['text']} {word}")
+
+    ok(find(dosed_page(line_plus("green")), "فوق درجة محطته"),
+       "🔒 **كلمةٌ فوق الدرجة تُدسّ في قصةٍ فتُرفَض** — «green» رسمُها `ee` من ح٩ "
+       "وقصّتُنا ح٦ (معيارُ القبول نصّاً)")
+    ok(find(dosed_page(line_plus("was")), "فوق شائكات درجته"),
+       "🔒 **وشائكةٌ فوق الميزانية تُرفَض** — «was» شائكةُ ح٨ في قصة ح٦")
+    ok(find(dosed_page(line_plus("banana")), "وليست كلمةَ قراءةٍ ولا شائكة"),
+       "**وكلمةٌ من الرصيد المصوَّر ليست كلمةَ قراءةٍ تُرفَض** — «banana» تمرّ على "
+       "البابين الأوّلين صامتةً (لا مقاطعَ لها تُقابَل بالسلّم) ولا تُفكّ")
+    ok(find(dosed_page(line_plus("The")), "بحرفٍ كبير"),
+       "**وحرفٌ كبير يُرفَض** — رسمٌ لم يُدرَّس في السلّم، و«T» ليست «t» في عين طفل")
+    ok(find(dosed_page(lambda s: s["pages"][0].__setitem__(
+        "text", f"{s['pages'][0]['text']}.")), "علامةُ وقف"),
+       "وعلامةُ وقفٍ تُرفَض (`METHOD.md §٨` تستثنيها من التأسيس نصّاً)")
+    ok(find(dosed_page(lambda s: s["pages"][0].__setitem__("pick", "cat")),
+            "وليست من كلمات سطرها"),
+       "**وصفحةٌ تسأل عن صورةِ ما لم يُقرأ فيها تُرفَض** — «cat» ليست في سطرها")
+    ok(find(dosed_page(lambda s: s["pages"][1].__setitem__("pick", "in")),
+            "لا صورةَ مفردةَ لها تُلمَس"),
+       "وكلمةُ مشهدٍ جواباً لصفحةٍ تُرفَض («in» تُفكّ في مشهدٍ ولا تُلمَس صورتُها)")
+    ok(find(dosed_page(lambda s: s.__setitem__("pages", s["pages"][:2])),
+            "ثلاثُ صفحاتٍ فأكثر"),
+       "وقصةٌ بصفحتين تُرفَض (لا نمذجةٌ وعونٌ و«وحدك» فيها)")
+    ok(find(dosed_page(lambda s: s.__setitem__("part", "h05")), "قبل 🚪٢"),
+       "**وقصةٌ قبل بوابة الفكّ تُرفَض** — «كتابٌ لكل درجةٍ **من بعد** 🚪٢»")
+    ok(not story_errors(data, index, bank),
+       f"والقائمُ اليومَ سليم: {sum(len(s.get('pages') or []) for s in stations if s['type'] == 'story')} "
+       "صفحةً كلُّ كلمةٍ فيها مفكوكةٌ أو شائكةٌ مفتوحة")
 
     print("\n— حكمُ الاستهلاك دالّةٌ خالصة: يُجرَّب بلا مولّدٍ ولا متصفّح —")
     letters = next(s for s in stations if s["id"] == "grade:h05")["frontier"]
