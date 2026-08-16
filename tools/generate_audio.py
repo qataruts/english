@@ -92,7 +92,25 @@ VOICES = {"ar": "Sulafat", "en": "Leda"}
 # ————————————— النماذجُ وحصصُها (المفرق ٤) —————————————
 MODEL_CORE = "gemini-3.1-flash-tts-preview"      # القصير: عربيّةُ التوجيه كلُّها + فونيم/دمج/كلمة
 MODEL_SENTENCE = "gemini-2.5-pro-preview-tts"    # الجملُ الإنكليزية وحدَها
-DAILY_CAPS = {MODEL_CORE: 100, MODEL_SENTENCE: 50}   # سقفُنا الذاتيّ لكل (مفتاح × نموذج)
+DAILY_CAPS = {MODEL_CORE: 100, MODEL_SENTENCE: 50}   # حصةُ **المفتاح المجانيّ** لكل نموذج
+
+# ————— رافدٌ مفوتَر: حزامُه مالٌ لا عددُ طلبات (سنّةُ اقرأ في رافد Vertex) —————
+#
+# **وقد صُحِّح هذا بالقياس** (١٦ أغسطس ٢٠٢٦): ظُنّ أنّ `GEMINI_API_KEY_PRO` بلا حصةٍ
+# يومية، **فبلغ المئةَ ووقف كأخيه المجانيّ سواءً** — فرُدَّ إلى حصة الطلبات، ولم يبقَ
+# مفوتَراً بحقٍّ إلا **رافدُ Vertex**: بابٌ آخر إلى النماذج نفسِها بفوترةٍ لا عدّ.
+# فحزامُه مالٌ: سقفٌ يوميٌّ بالدولار نحاسب به أنفسنا (لا الخادمَ)، وبلوغُه يوقف
+# التصريف — وهو أصدقُ ميزانٍ: ما يُخشى في المفوتَر إنفاقٌ لا عدد.
+VERTEX_KEY = "VERTEX"
+PAID_KEYS = {VERTEX_KEY}
+PAID_DAILY_USD = 1.00            # ≈ خمسةُ أضعاف كلفة البنك كلِّه — حزامٌ لا خنق
+# **وإيقاعُ كلِّ رافدٍ من جنسه**: AI Studio محدودٌ بعشرةٍ في الدقيقة فنبقى دونه،
+# وVertex لا حدَّ دقيقيّ له بل فوترة — فخنقُه بإيقاع الآخر يضيّع أهمَّ ما جاء به.
+RPM_BY_KEY = {VERTEX_KEY: 60.0}
+# مقيسٌ من اقرأ: ٢٥ رمزَ صوتٍ لكل ثانية، والسعرُ (إدخالٌ، خرجٌ صوتيّ) بالدولار/مليون
+PRICE_PER_M = {MODEL_CORE: (0.50, 10.0), MODEL_SENTENCE: (1.00, 20.0)}
+AUDIO_TOKENS_PER_SEC = 25
+USD_KEY = "USD"                  # مفتاحُ الإنفاق في سجلّ اليوم
 SENTENCE_CATEGORIES = ("sentence",)              # ما يذهب إلى نموذج الجمل
 URGENT_PRIORITY = 10                             # إصلاحُ عيبٍ مسموع يتقدّم الصفَّ
 EMPTY_STREAK_LIMIT = 3                           # استجاباتٌ متتابعة بلا صوت ← تنحيةُ الجولة
@@ -317,6 +335,8 @@ def style_hash(which: str) -> str:
     وهو الفرقُ بين «أُقِرّت» و«أُقِرّ نصُّها»: لو بدّلنا صياغةً بعد أن سمعت الأذنُ،
     لَبقيت الرايةُ خضراءَ على صوتٍ لم يُسمَع. فالإقرارُ معلَّقٌ ببصمة نصِّه.
     """
+    if which == VERTEX_KEY.lower():
+        return ""            # إذنُ رافدٍ لا نصُّ أداء — فلا بصمةَ نصٍّ تُعلَّق به
     if which == "ar":
         blob = "".join(STYLE_AR[c] for c in sorted(STYLE_AR))
     elif which == "en":
@@ -340,7 +360,7 @@ def unapproved_langs() -> list:
 #
 # **ومفتاحُنا من بيئة اقرأ**: لا نسخةَ في هذا المستودع ولا في `.env` عندنا (بندُ
 # الجلسة). فيُقرأ من `read/.env` إن لم يكن في البيئة — ولا يُطبع أبداً بحال.
-KEY_NAMES = ("GEMINI_API_KEY", "GEMINI_API_KEY_PRO")
+KEY_NAMES = ("GEMINI_API_KEY", "GEMINI_API_KEY_PRO", "GEMINI_API_KEY_3")
 SIBLING_ENV = ROOT.parent / "read" / ".env"
 
 
@@ -364,9 +384,46 @@ def read_env_key(name: str) -> str | None:
     return None
 
 
+class VertexRafid:
+    """مغلِّفُ رافد Vertex بواجهة `synth` — يُحمَّل كسولاً ولا يُطبع توثيقُه."""
+
+    def __init__(self):
+        sys.path.insert(0, str(ROOT / "tools"))
+        import vertex_tts as vx  # noqa: PLC0415
+        self._vx = vx
+        self._auth = vx.VertexAuth()
+
+    def synth(self, text: str, style: str, model: str, voice: str):
+        return self._vx.synth(self._auth, text, style,
+                              self._vx.VERTEX_NAMES.get(model, model), voice)
+
+
+def vertex_enabled() -> bool:
+    """مُفعَّلٌ متى وُجد حسابُ الخدمة **وأُقِرّ الرافد** — إذنُ المالك ١٦ أغسطس ٢٠٢٦.
+
+    **والإذنُ شرطٌ لا زينة**: Vertex مشروعُ سحابةٍ مفوتَرٌ باسم المالك لا مفتاحٌ
+    مجانيّ، فتشغيلُه بلا إذنٍ إنفاقُ مالِ غيرِك. (سنّةُ اقرأ: `is_approved("vertex")`.)
+    """
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        import vertex_tts as vx  # noqa: PLC0415
+        return bool(vx.sa_path()) and bool(load_approval().get("vertex", {}).get("approved"))
+    except Exception:  # noqa: BLE001
+        return False
+
+
 def read_keys() -> list:
-    """[(اسمُ المفتاح، قيمتُه)] بالترتيب — والقيمُ لا تُطبع في أيّ مخرَجٍ أبداً."""
+    """[(اسمُ الرافد، قيمتُه)] بالترتيب — والقيمُ لا تُطبع في أيّ مخرَجٍ أبداً.
+
+    **وVertex أوّلُ الصفّ متى أُقِرّ**: بلا حصّةٍ يومية وبإيقاعٍ أسرع، فيُستبقى
+    المجانيُّ لما بعده. والقيمةُ فيه **كائنٌ لا سلسلة** (`VertexRafid`).
+    """
     out = []
+    if vertex_enabled():
+        try:
+            out.append((VERTEX_KEY, VertexRafid()))
+        except Exception as e:  # noqa: BLE001
+            print(f"  ! تعذّر رافدُ Vertex: {str(e)[:80]}", file=sys.stderr)
     for name in KEY_NAMES:
         val = read_env_key(name)
         if val and all(val != v for _n, v in out):     # مفتاحٌ مكرَّر لا يفيد
@@ -404,9 +461,15 @@ def set_rpm(rpm: float) -> None:
 
 
 def _pace(pace_key: str) -> None:
-    """مَخنَقُ كلّ طلب: يباعد بالإيقاع **ويقيّد الإنفاق** — فلا طلبَ بلا عدّ."""
-    if _MIN_INTERVAL:
-        wait = _LAST_REQUEST.get(pace_key, 0.0) + _MIN_INTERVAL - time.monotonic()
+    """مَخنَقُ كلّ طلب: يباعد بالإيقاع **ويقيّد الإنفاق** — فلا طلبَ بلا عدّ.
+
+    **والإيقاعُ من جنس الرافد** (`RPM_BY_KEY`): مفتاحٌ اسمُه في الجدول يمضي بإيقاعه،
+    وما سواه بالإيقاع العامّ الذي يضبطه `--rpm`.
+    """
+    rpm = RPM_BY_KEY.get(pace_key.split(":")[0])
+    interval = 60.0 / rpm if rpm else _MIN_INTERVAL
+    if interval:
+        wait = _LAST_REQUEST.get(pace_key, 0.0) + interval - time.monotonic()
         if wait > 0:
             time.sleep(wait)
     _LAST_REQUEST[pace_key] = time.monotonic()
@@ -469,8 +532,51 @@ def bump_spend(pace_key: str) -> None:
     os.replace(tmp, SPEND_FILE)
 
 
+def usd_spent() -> float:
+    """ما أُنفق اليومَ على المفاتيح المفوترة (بالدولار)."""
+    return float(load_spend().get(USD_KEY, 0.0))
+
+
+def usd_left() -> float:
+    return max(0.0, PAID_DAILY_USD - usd_spent())
+
+
+def usd_of(model: str, audio_sec: float, chars: int) -> float:
+    """كلفةُ طلبٍ واحد — تُحسَب من مدّة صوته المقيسة لا من تخمين."""
+    price_in, price_out = PRICE_PER_M.get(model, (0.5, 10.0))
+    return (chars / 4) / 1e6 * price_in + audio_sec * AUDIO_TOKENS_PER_SEC / 1e6 * price_out
+
+
+def bump_usd(model: str, audio_sec: float, chars: int) -> float:
+    """يقيّد كلفةَ ما وُلِّد على مفتاحٍ مفوتَر — بعد أن يصل الصوتُ وتُقاس مدّتُه."""
+    usd = usd_of(model, audio_sec, chars)
+    SPEND_FILE.parent.mkdir(parents=True, exist_ok=True)
+    data = {}
+    if SPEND_FILE.exists():
+        try:
+            data = json.loads(SPEND_FILE.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            data = {}
+    day = data.setdefault(TODAY, {})
+    day[USD_KEY] = round(day.get(USD_KEY, 0.0) + usd, 6)
+    tmp = SPEND_FILE.with_suffix(f".{os.getpid()}.tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    os.replace(tmp, SPEND_FILE)
+    return usd
+
+
 def spend_left(key_name: str, model: str) -> int:
-    """ما بقي اليومَ لهذا (المفتاح × النموذج) — حصّةٌ مستقلّة لكلٍّ."""
+    """ما بقي اليومَ لهذا (المفتاح × النموذج) — حصّةٌ مستقلّة لكلٍّ.
+
+    **والمفوتَرُ يُحاسَب بالمال**: يبقى مفتوحاً ما بقي من سقف الدولار، فيُترجَم
+    الباقي إلى عددِ طلباتٍ **بكلفة أغلى نموذجٍ عندنا** — تقديرٌ متحفّظ يقف قبل
+    السقف لا بعده.
+    """
+    if key_name in PAID_KEYS:
+        if usd_left() <= 0:
+            return 0
+        worst = usd_of(MODEL_SENTENCE, 3.0, 300)      # جملةٌ طويلة على أغلى نموذج
+        return max(1, int(usd_left() / worst))
     return max(0, DAILY_CAPS.get(model, 0) - load_spend().get(f"{key_name}:{model}", 0))
 
 
@@ -506,15 +612,22 @@ class KeyPool:
         for name, value in self.available(model):
             pace_key = f"{name}:{model}"
             try:
-                pcm, rate = gemini_pcm(text, style, value, model, voice, pace_key=pace_key)
+                if hasattr(value, "synth"):     # رافدٌ بواجهته (Vertex) لا مفتاحُ ترويسة
+                    _pace(pace_key)             # الإيقاعُ والعدُّ هنا، فلا طلبَ بلا عدّ
+                    pcm, rate = value.synth(text, style, model, voice)
+                else:
+                    pcm, rate = gemini_pcm(text, style, value, model, voice, pace_key=pace_key)
                 self.used[name] += 1
                 return pcm, rate, name
             except QuotaExhausted as e:
                 self.exhausted[pace_key] = e.seconds
                 print(f"  ⏸ {name} × {short_model(model)}: {e}", file=sys.stderr)
         if self.capped(model):
+            paid = [n for n in self.capped(model) if n in PAID_KEYS]
             print(f"  🛑 بلغ سقفُنا الذاتيّ اليوميّ لـ{short_model(model)} "
-                  f"({DAILY_CAPS.get(model)} لكل مفتاح) — يتوقّف حزامَ أمان", file=sys.stderr)
+                  + (f"(المفوتَرُ عند ${PAID_DAILY_USD:.2f}: أُنفق ${usd_spent():.4f})"
+                     if paid else f"({DAILY_CAPS.get(model)} لكل مفتاح مجانيّ)")
+                  + " — يتوقّف حزامَ أمان", file=sys.stderr)
         raise QuotaExhausted(self.retry_seconds())
 
 
@@ -963,6 +1076,16 @@ DURATION_RATIO = 1.7        # مدةٌ تتجاوز هذا × وسيطَ فئت�
 DURATION_SHORT = 0.55       # ومدةٌ دونه × الوسيط = مبتورة (نطقٌ ناقص أو قصٌّ زائد)
 DURATION_FLOOR = 4          # فئةٌ دون هذا العدد لا وسيطَ لها يُعتدّ به
 
+# ————— فئةٌ لا يحكم فيها الوسيط: **الصوتُ المعزول** —————
+#
+# **قِيس فلم يُظَنّ** (بنكُ الأربعة والأربعين، ١٦ أغسطس ٢٠٢٦): مدى المدد ٠٫٢٩–٢٫٨١ث،
+# وطرفاه ليسا عيبَين بل **صنفَين صوتيَّين**: الانفجاريُّ (‏`/t/ /d/ /k/ /p/ /b/`) نقرةٌ
+# لا تُمَدّ بطبعها، والاحتكاكيُّ والأنفيُّ (‏`/f/ /s/ /th/ /ng/`) يُمَدّان بطبعهما. فوسيطٌ
+# واحدٌ يجمعهما يُبلّغ عن **تسعةٍ من أربعةٍ وأربعين** وكلُّها سليمة — وحارسٌ يصرخ في
+# السليم يُعلَّم أن يُتجاهَل، فيُدفَن معه الصياحُ الصادق. **والأذنُ هي الفيصل هنا**
+# (وقد حكمت فعلاً: «فقط س طويلة»). فالمددُ تُعرَض خبراً بمداها ولا يُحكَم بها.
+DURATION_BLIND = ("phoneme",)
+
 
 def duration_outliers(texts: dict) -> list:
     """شواذُّ المدة داخل كلِّ فئة — كاشفٌ رخيص يُشغَّل مع كل تحقّق.
@@ -977,7 +1100,7 @@ def duration_outliers(texts: dict) -> list:
             by_cat.setdefault(cat, []).append((text, mp3_duration(p)))
     out = []
     for cat, items in by_cat.items():
-        if len(items) < DURATION_FLOOR:
+        if len(items) < DURATION_FLOOR or cat in DURATION_BLIND:
             continue
         med = statistics.median(s for _t, s in items)
         if not med:
@@ -1016,6 +1139,19 @@ def verify(texts: dict, pending: dict | None = None, min_bytes: int = 1500) -> i
         print(f"  ⚠ شذوذ مدة ({CATEGORY_AR.get(cat, cat)}): «{text}» {sec:.2f}ث "
               f"= {sec / med:.1f}× وسيطَ فئته ({med:.2f}ث) — {kind} من نظائره، "
               f"يُسمَع لاحتمال {why}")
+    # **والفئةُ العمياءُ عن الوسيط تُعرَض خبراً بمداها** — لا تُطوى ولا يُصاح فيها
+    for cat in DURATION_BLIND:
+        spans = sorted(((s, t) for t, c in texts.items() if c == cat
+                        and (OUT_DIR / f"{key_for(t)}.mp3").exists()
+                        for s in [mp3_duration(OUT_DIR / f"{key_for(t)}.mp3")]), reverse=True)
+        if len(spans) < DURATION_FLOOR:
+            continue
+        longest = "، ".join(f"{t} {s:.2f}ث" for s, t in spans[:3])
+        shortest = "، ".join(f"{t} {s:.2f}ث" for s, t in spans[-3:])
+        print(f"  ℹ مددُ «{CATEGORY_AR.get(cat, cat)}» لا يحكم فيها وسيطٌ "
+              f"({len(spans)} صوتاً، {spans[-1][0]:.2f}–{spans[0][0]:.2f}ث): "
+              f"الممدودُ صنفٌ والانفجاريُّ صنف — الأطولُ {longest}؛ والأقصرُ {shortest}. "
+              f"**والأذنُ هي الفيصل**.")
     if pending:
         print(f"  ⏳ {len(pending)} نصاً في القائمة لم يُصرَّف بعد (غيابُها متوقَّع).")
     for p in problems:
@@ -1075,12 +1211,19 @@ def calibration_plan(queue: list) -> list:
 # ————————————————————— التصريف —————————————————————
 
 def drain_queue(pool: KeyPool, dry_run: bool = False, limit: int = 0,
-                plan: list | None = None) -> int:
-    """تصريفُ القائمة بالأولوية فالأقدمية — والفهرسُ يُكتب بعد كل ملف."""
+                plan: list | None = None, only: tuple = ()) -> int:
+    """تصريفُ القائمة بالأولوية فالأقدمية — والفهرسُ يُكتب بعد كل ملف.
+
+    **و`only` دفعةٌ بفئةٍ مكتملة**: البنكُ يُبنى مرحلةً مرحلة (`METHOD.md §١٠`)
+    والأذنُ تراجعه كذلك — فتُصرَّف الفئةُ كلُّها ثم تُعرَض، ولا تُخلَط الفئاتُ في
+    دفعةٍ نصفِها معروضٌ ونصفُها لا. (وبلا `only` تمضي أولويةُ القائمة كما هي.)
+    """
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     queue = load_queue()
     if plan is None:
         plan = queue_pending(queue)
+    if only:
+        plan = [(i, e) for i, e in plan if e.get("category") in only]
     if limit:
         plan = plan[:limit]
     if not plan:
@@ -1128,8 +1271,14 @@ def drain_queue(pool: KeyPool, dry_run: bool = False, limit: int = 0,
             write_manifest(manifest_map())      # فهرسٌ صادقٌ ولو توقّف التصريفُ الآن
             made += 1
             empty_streak = 0
+            secs = mp3_duration(path)
+            # **والمفوتَرُ يُقيَّد إنفاقُه بعد أن يصل الصوت** — من مدّته المقيسة لا تخميناً
+            paid_note = ""
+            if used_key in PAID_KEYS:
+                bump_usd(model, secs, len(style_for(entry)) + len(text))
+                paid_note = f" · ${usd_spent():.4f}/{PAID_DAILY_USD:.2f}"
             print(f"  ✓ {label} → {path.name} {path.stat().st_size // 1024}KB "
-                  f"· {mp3_duration(path):.2f}ث · {used_key}")
+                  f"· {secs:.2f}ث · {used_key}{paid_note}")
         except QuotaExhausted as e:
             print(f"\n  ⏸ {e}  (توقّف عند {n}/{len(plan)} بلا إحراق محاولات)", file=sys.stderr)
             print(f"RETRY_AFTER_SECONDS={e.seconds}")
@@ -1311,6 +1460,24 @@ def self_test() -> int:
        f"مفتاحٌ لم يُستعمل يملك حصتَه كاملة ({DAILY_CAPS[MODEL_CORE]})")
     ok(spend_left("مفتاحٌ لا وجودَ له", MODEL_SENTENCE) == DAILY_CAPS[MODEL_SENTENCE],
        "وحصةُ نموذج الجمل مستقلّةٌ عنها — نفادُ إحداهما لا يوقف الأخرى")
+
+    print("\n— والمفوتَرُ يُحاسَب بالمال لا بعدد الطلبات —")
+    ok(PAID_KEYS == {VERTEX_KEY} and "GEMINI_API_KEY_3" in KEY_NAMES,
+       f"المفوتَرُ رافدُ {VERTEX_KEY} وحدَه، والمفاتيحُ المجرودة {len(KEY_NAMES)}")
+    # **وقد صُحِّح بالقياس**: `_PRO` ظُنّ مفوتَراً فبلغ المئةَ ووقف كالمجانيّ سواءً
+    ok("GEMINI_API_KEY_PRO" not in PAID_KEYS
+       and spend_left("GEMINI_API_KEY_PRO", MODEL_CORE) <= DAILY_CAPS[MODEL_CORE],
+       "و«PRO» عاد إلى حصة الطلبات — بلغ المئةَ ووقف كالمجانيّ (قياسُ ١٦ أغسطس)")
+    ok(RPM_BY_KEY.get(VERTEX_KEY, 0) > 10,
+       f"وإيقاعُ الرافد من جنسه ({RPM_BY_KEY[VERTEX_KEY]:g}/دقيقة لا إيقاعُ AI Studio)")
+    # كلفةٌ محسوبةٌ لا مخمَّنة: جملةُ ثانيتين على نموذج الجمل = ٥٠ رمزَ صوت
+    cost = usd_of(MODEL_SENTENCE, 2.0, 200)
+    ok(abs(cost - (50 / 1e6 * 20.0 + 50 / 1e6 * 1.0)) < 1e-9,
+       f"وكلفةُ الطلب من مدّته المقيسة (جملةُ ٢ث = ${cost:.6f})")
+    ok(usd_of(MODEL_CORE, 2.0, 200) < cost,
+       "ونموذجُ النواة أرخصُ من نموذج الجمل للمدّة نفسِها")
+    ok(usd_left() <= PAID_DAILY_USD and usd_spent() >= 0,
+       f"والباقي اليومَ ${usd_left():.4f} من ${PAID_DAILY_USD:.2f}")
     day, per = False, False
     for body, want_day, want_sec in (
         ('{"error":{"details":[{"violations":[{"quotaId":"GenerateRequestsPerDayPerProject"}]}]}}', True, 0),
@@ -1378,6 +1545,8 @@ def main() -> int:
                     help="عيّنةُ المعايرة وحدَها — تُعرَض على الأذن قبل أن يُبنى بنك")
     ap.add_argument("--dry-run", action="store_true", help="عرضُ ما سيُصرَّف بلا أيّ طلب")
     ap.add_argument("--limit", type=int, default=0, help="حدُّ عددِ ما يُصرَّف في هذه الجولة")
+    ap.add_argument("--only", default="",
+                    help="دفعةٌ بفئاتٍ بعينها (phoneme,word,…) — البنكُ مرحلةً مرحلة")
     ap.add_argument("--rpm", type=float, default=8.0,
                     help="سقفُ الطلبات في الدقيقة لكل (مفتاح × نموذج) — افتراضي ٨")
     ap.add_argument("--queue-status", action="store_true", help="حالةُ القائمة (بلا شبكة)")
@@ -1402,8 +1571,8 @@ def main() -> int:
 
     if args.approve_style or args.reject_style:
         which = args.approve_style or args.reject_style
-        if which not in APPROVAL_KEYS:
-            sys.exit(f"الإقرارُ على واحدٍ من: {'، '.join(APPROVAL_KEYS)}")
+        if which not in APPROVAL_KEYS + ("vertex",):
+            sys.exit(f"الإقرارُ على واحدٍ من: {'، '.join(APPROVAL_KEYS)}، vertex")
         set_approval(which, bool(args.approve_style), args.note)
         return 0
 
@@ -1478,8 +1647,13 @@ def main() -> int:
     print(f"{'معايرةٌ' if args.calibrate else 'تصريفُ القائمة'} · النواة "
           f"{short_model(MODEL_CORE)} والجملُ {short_model(MODEL_SENTENCE)} · الأصوات "
           f"{VOICES['ar']}/{VOICES['en']} · المرمِّز {encoder or 'لا شيء'} "
-          f"· ≤{args.rpm:g} طلب/دقيقة · مفاتيح: {'، '.join(n for n, _v in keys) or 'لا شيء'}")
-    failed = drain_queue(KeyPool(keys), args.dry_run, args.limit, plan)
+          f"· ≤{args.rpm:g} طلب/دقيقة (و{RPM_BY_KEY.get(VERTEX_KEY):g} لـ{VERTEX_KEY}) "
+          f"· روافد: {'، '.join(n for n, _v in keys) or 'لا شيء'}")
+    only = tuple(c.strip() for c in args.only.split(",") if c.strip())
+    for cat in only:
+        if cat not in CATEGORY_LANG:
+            sys.exit(f"فئةٌ لا نعرفها «{cat}» — السبع: {'، '.join(CATEGORY_LANG)}")
+    failed = drain_queue(KeyPool(keys), args.dry_run, args.limit, plan, only)
     if args.dry_run:
         return 0
     done, pending = expected_texts()

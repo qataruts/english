@@ -13,102 +13,112 @@
   {
     "text": "اسْمَعِ الْأَمْرَ وَاخْتَرْ مَنْ يَفْعَلُهُ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعِ الْأَمْرَ وَالْمَسْ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعِ الْأَمْرَ وَضَعِ التُّفَّاحَة",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعِ الْجُمْلَةَ وَالْمَسْ صُورَتَهَا",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-2",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعِ الصَّوْتَ وَالْمَسْ رَسْمَهُ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعِ الصَّوْتَ وَالْمَسْ مَا يَبْدَأُ بِهِ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعِ الصَّوْتَيْنِ: أَهُمَا سَوَاءٌ أَمْ مُخْتَلِفَانِ؟",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعِ الْكَلِمَةَ ثُمَّ الْمَسْ أَصْوَاتَهَا بِتَرْتِيبِهَا",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعِ الْكَلِمَةَ ثُمَّ رَكِّبْ لَبِنَاتِهَا بِتَرْتِيبِهَا",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعِ الْكَلِمَةَ وَالْمَسِ الصَّوْتَ النَّاقِصَ فِي وَسَطِهَا",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-6",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعْ وَالْمَسْ",
@@ -124,142 +134,156 @@
   {
     "text": "اسْمَعْ وَالْمَسِ الصُّورَةَ الَّتِي سَمِعْتَ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اسْمَعْ وَالْمَسْ مَا يُشْبِهُ آخِرَهُ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "افْعَلْهَا مَعَهُ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "اقْرَأِ السَّطْرَ وَالْمَسْ صُورَةَ مَا قَرَأْت",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-6",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "انْظُرْ إِلَى الرَّسْمِ وَالْمَسْ صَوْتَهُ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "انْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يُسْمِعُ الْأَصْوَات",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "انْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقْرَأُ مِنْ حَيْثُ تَبْدَأُ النُّقْطَة",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-6",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "انْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقْرَأُ وَأَنْتَ تَنْظُرْ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "انْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقُولُ وَأَنْتَ تَسْمَعْ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "انْظُرْ وَاسْمَعْ — صَوْتَانِ مُتَقَارِبَانِ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "انْظُرْ: الْمُعَلِّمُ يَأْمُرُ وَيَفْعَل",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "سَوَاء",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-3",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "فُكَّ الْكَلِمَةَ وَالْمَسْ صُورَتَهَا",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "فُكَّ الْكَلِمَةَ وَالْمَسْ مَا تَقُولُهُ فِي الصُّورَة",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-6",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "قُلْهَا مَعِي",
@@ -275,62 +299,68 @@
   {
     "text": "لَمَسْتَ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-2",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "مُخْتَلِفَان",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-3",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "هَذَا الصَّوْتُ تَعْرِفُهُ — وَالْمَسْ رَسْمَهُ الْآخَرَ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-2",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "هَذَا الْمَوْضِعُ فِي الْكَلِمَةِ — أَيَّ صَوْتٍ يَقُولُ هُنَا؟",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-2",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "هَذِهِ كَلِمَةٌ نَحْفَظُهَا — اسْمَعْهَا وَالْمَسْهَا",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-4",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "وَهَذِهِ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "instruction",
     "requestedBy": "session-2",
     "priority": 10,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "الْآنَ جَرِّبْ مَعِي",
@@ -346,22 +376,24 @@
   {
     "text": "انْظُرْ وَاسْمَعْ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "modeling",
     "requestedBy": "session-4",
     "priority": 20,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "وَالْآنَ وَحْدَكْ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "modeling",
     "requestedBy": "session-2",
     "priority": 20,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "أَحْسَنْتْ",
@@ -388,12 +420,13 @@
   {
     "text": "رَائِعْ",
     "lang": "ar",
-    "voice": "",
+    "voice": "Sulafat",
     "category": "celebration",
     "requestedBy": "session-2",
     "priority": 30,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/a/",
@@ -409,142 +442,156 @@
   {
     "text": "/ai/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/air/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ar/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/b/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ch/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/d/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/e/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ear/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ee/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/er/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/f/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/g/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/h/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/i/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/igh/",
@@ -560,52 +607,57 @@
   {
     "text": "/j/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/k/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ks/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/kw/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/l/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/m/",
@@ -621,12 +673,13 @@
   {
     "text": "/n/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ng/",
@@ -642,82 +695,90 @@
   {
     "text": "/o/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/oa/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/oi/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/oo/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/or/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ow/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/p/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/r/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/s/",
@@ -764,42 +825,46 @@
   {
     "text": "/th/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/u/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ur/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ure/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/ʊ/",
@@ -815,72 +880,79 @@
   {
     "text": "/v/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/w/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/y/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "/z/",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-4",
     "priority": 40,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "again",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "all",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "any",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "apple",
@@ -896,262 +968,288 @@
   {
     "text": "are",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "arm",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "asked",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "baby",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "banana",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "bath",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "be",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "beach",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "bear",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "because",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "bed",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "bee",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "behind",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "big",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "bike",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "bird",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "black",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "blue",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "boat",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "book",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "boots",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "boy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "bread",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "brown",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "Bye bye!",
@@ -1167,42 +1265,46 @@
   {
     "text": "cake",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "called",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "car",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "carrot",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "cat",
@@ -1218,442 +1320,486 @@
   {
     "text": "chair",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "clap",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "clock",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "come",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "cow",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "dad",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "different",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "do",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "dog",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "door",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "dress",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "drink",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "duck",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "ear",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "eat",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "egg",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "eight",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "elephant",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "eye",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "eyes",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "face",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "family",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "fish",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "five",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "flower",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "foot",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "four",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "friend",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "friends",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "frog",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "girl",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "glasses",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "go",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "goat",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "grandma",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "grandpa",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "grape",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "green",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "grey",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "guitar",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "hand",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "hat",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "have",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "he",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "Hello!",
@@ -1669,942 +1815,1036 @@
   {
     "text": "her",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "horse",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "house",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "I",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "ice cream",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "in",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "jacket",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "jeans",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "jump",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "kite",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "lamp",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "laughed",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "leg",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "like",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "little",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "looked",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "many",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "me",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "milk",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "mirror",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "monkey",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "mouse",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "mouth",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "Mr",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "Mrs",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "mum",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "my",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "nine",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "no",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "nose",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "oh",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "on",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "once",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "one",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "orange",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "out",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "pear",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "pen",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "pencil",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "people",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "phone",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "pink",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "plane",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "please",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "purple",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "read",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "red",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "rice",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "robot",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "ruler",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "run",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "said",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "school",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "sea",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "seven",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "she",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "sheep",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "shell",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "ship",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "shoe",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "sit",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "six",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "sleep",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "small",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "smile",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "snake",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "so",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "sock",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "sofa",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "some",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "spider",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "stand",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "stop",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "street",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "sun",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "swim",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "T-shirt",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "teddy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "ten",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "the",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "their",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "there",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "they",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "thought",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "three",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "through",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "tiger",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "to",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "train",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "tree",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "two",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "under",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "walk",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "was",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "water",
@@ -2620,142 +2860,156 @@
   {
     "text": "we",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "were",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "what",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "when",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "where",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "white",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "who",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "window",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "work",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "write",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "yellow",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-2",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "you",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-4",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "a little dog",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "be happy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "come here please",
@@ -2771,62 +3025,68 @@
   {
     "text": "come to me",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "do it again",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "do it once",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "do you have any milk",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "go to bed",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-4",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "go to the door",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-4",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "he is happy",
@@ -2842,72 +3102,79 @@
   {
     "text": "he is my friend",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "her book was red",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "her chair was red",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "her hat is big",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I am happy because I can play",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I asked my friend",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I can run",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-4",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I can see the water",
@@ -2923,1231 +3190,1354 @@
   {
     "text": "I eat the bread",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I go to bed",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I go to dad",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I have one frog",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I read the book again",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I run to mum",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I run to the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I run to the cow",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I run to the fish",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I run to the goat",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I run to the sun",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I sit in the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I sit on the chair",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "I thought so",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "it is so big",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "it was in the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "look at me",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "many people are happy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "Mr Green is my friend",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "Mrs Green is here",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "mum called me",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "my ball is different",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "my ball is red",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "my eyes are big",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "my hat is big",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-8",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "my mum can work",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "no, it is not a dog",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-4",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "oh, the dog is big",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the big blue ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the big green ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the big red ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the big yellow ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the bird",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the cat",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the dog",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the duck",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the fish",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the frog",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the small blue ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the small green ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the small red ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to the small yellow ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to your arm",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "point to your face",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "put the apple behind the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "put the apple in the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "put the apple on the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "put the apple under the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "she is happy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "she looked at me",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "she said no",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the ball is under the bed",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the bee on the sheep",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the big blue ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the big cow",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the big dog",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the big green ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the big red ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the big yellow ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the bird is in the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the bird on the sea",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the blue sea",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the book in the car",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the boy asked mum",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the boy looked again",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the cat",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-4",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the cat is on the bed",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the cat is out",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the cat is there",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the cat on the car",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the cat on the chair",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the cow in the car",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the cow on the bed",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the cow on the chair",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the dog is under the chair",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the duck on the bed",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the family called the girl",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the family in the car",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the fish in the ship",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the fish is in the water",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the frog on the tree",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the frog said no",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the girl called the bird",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the goat was on the bed",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the green tree",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the mouse is in the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the people are happy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the plane on the sea",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the red sock in the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the sheep in the sun",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the shell in the box",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the ship was big",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the small blue ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the small green ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the small red ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the small yellow ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the spider was there",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the water on the shoe",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the white kite",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "the yellow school",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "their ball is red",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "their bird was blue",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "they are happy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "they go to school",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "they go to the car",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we are all here",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we are friends",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we are happy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we can jump",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we go through the door",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we have a cat",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we have one ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we have some milk",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we laughed at the dog",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we like milk",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "we were happy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "what do you see",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "what is it",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "when do we play",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-6",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "where is my ball",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "who is happy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "you are happy",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-8",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   },
   {
     "text": "you are my friend",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "sentence",
     "requestedBy": "session-2",
     "priority": 70,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "model": "gemini-2.5-pro-preview-tts"
   }
 ]
