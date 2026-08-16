@@ -40,10 +40,15 @@
      وعشرُ قصصٍ وستُّ محطاتِ توسعةٍ وبوابةٌ ثالثة مرّتين — **خمسون مساقاً لا سبعةٌ
      وعشرون**، فرُفعت إلى ١٥٦٠ ومعها مهلةُ الأداة إلى ١٨٠٠ (وتبقى المهلةُ الأولى
      **دونها** كي يصل التقريرُ الناقصُ بدل أن يُقتَل المتصفّح صامتاً).
+     **والجلسةُ ٨ تزيد مساقين وإعادتين**: محطةَ المتكلم والمخاطَب (س٥-٧) وشاهدَ
+     الشائكة الثاني على درجة الضمائر التي أيقظتها، **ولشاهدَي الشائكة إعادةٌ عند
+     تخلّف القرعة** (حدُّها ثلاثٌ لكلٍّ) — **اثنان وخمسون مساقاً لا خمسون، وأربعةٌ
+     محتملةٌ فوقها**، فرُفعت إلى ١٦٤٠ ومعها مهلةُ الأداة إلى ١٩٠٠ (والأولى دون
+     الثانية كما هي).
      **قرارٌ معلَن لا صمت** (قاعدةُ بلاغ الجهاز المزدحم). */
   const watchdog = setTimeout(() => {
     report([...out, { ok: false, msg: 'تعلّقت صفحةُ الفحص قبل تمامها (انتظارٌ لم ينتهِ)' }]);
-  }, 1560000);
+  }, 1640000);
 
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
   const frame = document.getElementById('app');
@@ -249,6 +254,30 @@
     'وحدُّ النطاق معلَنٌ فيها (تدريسٌ وقياسٌ لا تشخيص — `METHOD.md §١٣`)');
   ok(/الوحدة × المدى × نوع التمرين/.test(doc.body.textContent),
     'ومفتاحُ القياس معلَنٌ للوالد بنصّ `METHOD.md §٧`');
+
+  /* ————— ٩ب. **أقسامُ اللوحة الثلاثة وإعلاناتُها** (بندُ الجلسة ٨) —————
+
+     ما يقرؤه الوالدُ في اللوحة **شرطُ قبولٍ لا زينة**: قسما المهارة (سمعٌ وحرف)
+     **وقيدُ الاقتران مرئياً بعدّاده**، وسقفُ اليوم، والترديدُ يُدعى ولا يُقاس،
+     وحدودُ النطاق. ويُقاس هنا **ما رُسم** لا ما كُتب في الشيفرة. */
+
+  const panelHas = (re) => re.test(doc.body.textContent);
+  const couplingPills = [...doc.querySelectorAll('.audit .coupling .pill')];
+  ok(couplingPills.length === 3 && couplingPills.every((p) => !/[0-9]/.test(p.textContent)),
+    `🔗 **وقيدُ الاقتران مرئيٌّ بعدّاده** (${couplingPills.map((p) => p.textContent.trim())
+      .join(' · ') || 'لا عدّاد'}) — بأرقامٍ مشرقية`);
+  ok(panelHas(/يقرأ ما أتقن سمعَه/), 'ونصُّ القيد معلَنٌ للوالد («يقرأ ما أتقن سمعَه»)');
+  ok(panelHas(/سقفُ اليوم/) && panelHas(/١٥ دقيقة/),
+    'وسقفُ اليوم خمسَ عشرةَ دقيقة معلَنٌ دائماً (`METHOD.md §١٢-٨`)');
+  ok(panelHas(/الترديدُ يُدعى ولا يُقاس/),
+    'و«الترديدُ يُدعى ولا يُقاس» معلَنٌ نصّاً (§١٢-٥ — لا قياسَ نطق)');
+  ok(!!doc.querySelector('.audit .backup-save') && !!doc.querySelector('.audit .file-label'),
+    'والنسخُ الاحتياطي والاستعادةُ في اللوحة بزرَّيهما');
+  /* **ولا نجمتَي Markdown في نصٍّ يُعرَض** (عيبٌ أُمسك في الجلسة ٨ بأوّل عرضٍ للوحة
+     على عينٍ بشرية): نصوصُ اللوحة تُبنى عُقَداً نصّية لا Markdown، فالتوكيدُ بـ`<b>`
+     لا بنجمتين — وكانت `**سمعٌ وصور لا حروف**` تُقرأ بنجومها في توصية اليوم. */
+  ok(!/\*\*/.test(doc.querySelector('.audit')?.textContent || ''),
+    'ولا نجمتَي توكيدٍ تُقرأ في نصّها (اللوحةُ نصٌّ مبنيّ لا Markdown)');
 
   // ————— ١٠. **حارسُ التعاقب على القناة المنسوخة** (معيارُ قبول الجلسة ٠) —————
   //
@@ -1337,14 +1366,24 @@
   // سلّةُ الأشكال تُنفِق أشكالَها في أوّل جولاتٍ خمس، فجولةُ الشائكة واقعةٌ لا محالة،
   // ومادّتُها الناضجةُ واحدةٌ لا غير.
 
-  const trickyGrade = curriculum.GRADES.find((g) =>
-    g.tricky.filter((w) => curriculum.HEART_WORDS[w]?.listen).length >= 2);
-  const [heldTricky, freeTricky] = trickyGrade.tricky
-    .filter((w) => curriculum.HEART_WORDS[w]?.listen);
+  /* **ويُشهَد على درجتين لا درجة** (زيادةُ الجلسة ٨): الشاهدُ الأول درجةُ ح٦
+     (`he`/`she` — ضمائرُ الجلسة ٥)، **والثاني درجةُ الضمائر التي أيقظها مشهدُ
+     المتكلم والمخاطَب** (`we`/`me` — بندُ هذه الجلسة). فما استيقظ اليومَ يُشهَد
+     **سالباً** كما شُهد عليه أمس: لا يكفي أن يُقاس مفتاحُه السمعيّ، بل يجب أن يبقى
+     القيدُ حاكماً عليه في شاشةٍ حيّة. **والدرجتان تُقرآن من المنهج لا تُكتبان هنا**. */
+  const listenedTricky = (g) => g.tricky.filter((w) => curriculum.HEART_WORDS[w]?.listen);
+  const deixisMeasured = new Set(curriculum.stations()
+    .flatMap((t) => ((t.owners || []).some((o) => o.pose) ? t.sentences || [] : []))
+    .map((s) => s.measures).filter(Boolean));
+  const trickyCases = [...new Set([
+    curriculum.GRADES.find((g) => listenedTricky(g).length >= 2),
+    curriculum.GRADES.find((g) => listenedTricky(g).length >= 2
+      && g.tricky.some((w) => deixisMeasured.has(w))),
+  ].filter(Boolean))];
 
-  const drawnTricky = async () => {
+  const drawnTricky = async (gradeId) => {
     const seen = new Set();
-    await driveStation(`#/grade/${trickyGrade.id}`, null, (d) => {
+    await driveStation(`#/grade/${gradeId}`, null, (d) => {
       for (const fig of d.querySelectorAll('.station-body .fig[data-word]')) {
         if (fig.dataset.word) seen.add(fig.dataset.word);
       }
@@ -1354,30 +1393,44 @@
     return seen;
   };
 
-  const heldState = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
-  const trickySkills = { ...(heldState.skills || {}) };
-  trickySkills[curriculum.HEART_WORDS[freeTricky].listen] = ripe(4);
-  delete trickySkills[curriculum.HEART_WORDS[heldTricky].listen];
-  /* **وتُمحى سابقتُها من السجلّ كذلك** (زيادةُ الجلسة ٧): صارت مفاتيحُ الشائكات
-     ذواتِ المدخل تنضج في صدر المساق (لأنّ قصص ح١٠+ تحتاجها)، فسُئل عن `he` في ح٦
-     **بحقّ** وكُتب مفتاحُ قراءتها. والحالُ المصنوعةُ ههنا حالُ طفلٍ **لم يتقنها
-     سمعاً قطّ** — ومثلُه لا سجلَّ قراءةٍ له فيها، فيُمحى ليصدُق الشاهدُ على ما يصنع. */
-  delete trickySkills[`tricky|${heldTricky}|read`];
-  win.localStorage.setItem('listen.progress.v1',
-    JSON.stringify({ ...heldState, skills: trickySkills }));
-  await reopen();
-  const trickyDrawn = await drawnTricky();
-  ok(trickyDrawn.has(freeTricky),
-    `**والشائكةُ الناضجةُ سمعاً تُسأل** («${freeTricky}» بمفتاح `
-    + `«${curriculum.HEART_WORDS[freeTricky].listen}» في الصندوق ٤ — ${trickyGrade.id})`);
-  ok(!trickyDrawn.has(heldTricky),
-    `**وأختُها التي لم تنضج لم تُرسَم ولم يُسأل عنها** («${heldTricky}» بلا سجلٍّ سمعيّ) `
-    + '— فقيدُ الاقتران يحكم الشائكةَ كما يحكم الكلمة');
-  const heldTrickyKeys = Object.keys(JSON.parse(
-    win.localStorage.getItem('listen.progress.v1') || '{}').skills || {})
-    .filter((k) => k === `tricky|${heldTricky}|read`);
-  ok(heldTrickyKeys.length === 0,
-    `ولا مفتاحَ قراءةٍ كُتب لها في ليتنر (${heldTrickyKeys.join('، ') || 'لا شيء'})`);
+  for (const trickyGrade of trickyCases) {
+    const [heldTricky, freeTricky] = listenedTricky(trickyGrade);
+    const woke = deixisMeasured.has(heldTricky) || deixisMeasured.has(freeTricky);
+    const tag = woke ? '🙋 (وقد أيقظها مشهدُ المتكلم والمخاطَب) ' : '';
+    const heldState = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
+    const trickySkills = { ...(heldState.skills || {}) };
+    trickySkills[curriculum.HEART_WORDS[freeTricky].listen] = ripe(4);
+    delete trickySkills[curriculum.HEART_WORDS[heldTricky].listen];
+    /* **وتُمحى سابقتُها من السجلّ كذلك** (زيادةُ الجلسة ٧): صارت مفاتيحُ الشائكات
+       ذواتِ المدخل تنضج في صدر المساق (لأنّ قصص ح١٠+ تحتاجها)، فسُئل عن `he` في ح٦
+       **بحقّ** وكُتب مفتاحُ قراءتها. والحالُ المصنوعةُ ههنا حالُ طفلٍ **لم يتقنها
+       سمعاً قطّ** — ومثلُه لا سجلَّ قراءةٍ له فيها، فيُمحى ليصدُق الشاهدُ على ما يصنع. */
+    delete trickySkills[`tricky|${heldTricky}|read`];
+    win.localStorage.setItem('listen.progress.v1',
+      JSON.stringify({ ...heldState, skills: trickySkills }));
+    await reopen();
+    /* **وتُقاد الدرجةُ حتى تقع جولةُ الشائكة، بحدٍّ معلَن** (تصحيحُ الجلسة ٨):
+       سلّةُ الأشكال تُنفِق أشكالَها في الجولات السبع، **لكنّ الشائكةَ الناضجة قد تكون
+       ثنتين** حين تحمل الدرجةُ شائكةَ وظيفةٍ صرفة لا مفتاحَ سمعيّ لها (ح٧ فيها `be`
+       مع `me`) — فتقع القرعةُ على أختها ويُقرأ ذلك حمرةً في شاهدٍ سليم (وقع في
+       تشغيلٍ وخضِر في آخر: قرينةُ قرعةٍ لا عيبِ محتوى). فتُعاد القيادةُ ثلاثاً على
+       الأكثر، **والشاهدُ السالب يُجمَع من الجولات كلِّها** فيشتدّ بالإعادة لا يخفّ. */
+    const trickyDrawn = new Set();
+    for (let go = 0; go < 3 && !trickyDrawn.has(freeTricky); go++) {
+      for (const word of await drawnTricky(trickyGrade.id)) trickyDrawn.add(word);
+    }
+    ok(trickyDrawn.has(freeTricky),
+      `${tag}**والشائكةُ الناضجةُ سمعاً تُسأل** («${freeTricky}» بمفتاح `
+      + `«${curriculum.HEART_WORDS[freeTricky].listen}» في الصندوق ٤ — ${trickyGrade.id})`);
+    ok(!trickyDrawn.has(heldTricky),
+      `  **وأختُها التي لم تنضج لم تُرسَم ولم يُسأل عنها** («${heldTricky}» بلا سجلٍّ `
+      + 'سمعيّ) — فقيدُ الاقتران يحكم الشائكةَ كما يحكم الكلمة');
+    const heldTrickyKeys = Object.keys(JSON.parse(
+      win.localStorage.getItem('listen.progress.v1') || '{}').skills || {})
+      .filter((k) => k === `tricky|${heldTricky}|read`);
+    ok(heldTrickyKeys.length === 0,
+      `  ولا مفتاحَ قراءةٍ كُتب لها في ليتنر (${heldTrickyKeys.join('، ') || 'لا شيء'})`);
+  }
 
   // **والمراجعةُ اليومية تسحب من الجبهتين بميزانها المعلَن** (`REVIEW_MIX`):
   // تُفتَح جلسةٌ ويُقرأ **ما كتبته في ليتنر** — فإن جاءت من جبهةٍ واحدة فالتوازي
@@ -1459,7 +1512,11 @@
 
   const beforeFall = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}');
   const listenBefore = boxesOf(beforeFall, isListenKey);
-  win.location.hash = `#/grade/${trickyGrade.id}`;
+  // **ودرجةُ السقوط أوّلُ درجةِ الشاهد** (`trickyCases[0]` — كانت `trickyGrade` قبل أن
+  // يصير الشاهدُ درجتين في الجلسة ٨): تُقاد إلى الخطأ عمداً، فتهبط مفاتيحُ الحرف
+  // وحدَها ولا تُخدَش مفاتيحُ السمع.
+  const fallGrade = trickyCases[0];
+  win.location.hash = `#/grade/${fallGrade.id}`;
   await waitFor(() => appDoc()?.querySelector('.station-body .next'), 30000);
   appDoc().querySelector('.station-body .next')?.click();
   let fallen = 0;
@@ -1561,8 +1618,16 @@
 
   const listen5 = curriculum.stations().filter((t) => t.stage === 'listen5');
   const beforeFive = stamp();
+  // **وما رُسم من المراجع الضميرية يُجمَع وهي تُقاد** (بندُ الجلسة ٨): المتكلمُ
+  // والمخاطَبُ **يُرسَمان** ولا يُصوَّران، فالشاهدُ أن تقع بطاقاتُهما تحت بصر الطفل
+  // في مساقٍ حقيقيّ — لا أن يُعلنا في بيانات.
+  const drawnDeixis = new Set();
   for (const part of listen5) {
-    const seen = await driveStation(`#/quiz/${part.part}`);
+    const seen = await driveStation(`#/quiz/${part.part}`, null, (d) => {
+      for (const fig of d.querySelectorAll('.station-body .fig--deixis[data-word]')) {
+        drawnDeixis.add(fig.dataset.word);
+      }
+    });
     ok(seen.done && seen.rounds >= 5 && seen.stars === 3,
       `🧺 ومحطةُ ${part.part} («${part.title}») تُقاد إلى ثلاث نجوم `
       + `(${seen.rounds} جولة · ${seen.stars} نجوم)`);
@@ -1582,6 +1647,36 @@
     `🔓 **وضميرُ الجملة يُقاس بمفتاح الرصيد نفسِه** `
     + `(${pronouns.filter((k) => fiveKeys.includes(k)).join('، ')}) — `
     + 'وهو المفتاحُ الذي انتظرته شائكاتُ ح٦ نائمةً منذ الجلسة ٥');
+
+  // ————— ١٨ط. 🙋 **مشهدُ المتكلم والمخاطَب** (بندُ الجلسة ٨ — البديل أ) —————
+  //
+  // «شكلُ مشهدٍ بمتكلّمٍ ومخاطَب (وضعان يُدرَّسان في النمذجة) يفتح الضمائرَ الأربع
+  // النائمة (‏we · me · my · you)». **والشاهدُ في مساقٍ حيّ**: بطاقاتُهما تُرسَم فعلاً،
+  // ومفاتيحُ الأربع تُكتب في ليتنر — ولا يُقبَل إعلانُ بيانات مكان ذلك.
+
+  const deixisStation = listen5.find((t) => (t.owners || []).some((o) => o.pose));
+  const deixisNames = new Set(curriculum.DEIXIS.map((one) => one.w));
+  ok(!!deixisStation,
+    `🙋 **ومحطةُ «${deixisStation?.title ?? '؟'}» في الرحلة** — أصحابُ مشهدها فيهم `
+    + `المتكلمُ والمخاطَب مرسومَين (${curriculum.DEIXIS.map((o) => o.w).join('، ')})`);
+  ok(drawnDeixis.size === deixisNames.size
+    && [...deixisNames].every((one) => drawnDeixis.has(one)),
+    `  وبطاقاتُهم رُسمت تحت بصر الطفل في المساق (${[...drawnDeixis].join('، ') || 'لا شيء'})`);
+  /* **والمقيسُ ما وقع في مساقٍ حيّ، لا ما يُشترَط وقوعُه كلُّه في جلسةٍ واحدة**:
+     جلسةُ المحطة خمسُ جولاتٍ مقيسة على أربع جملٍ **وقبلها جولتا عونٍ غيرُ مقيستين
+     تأكلان من السلّة** — فقد تتخلّف جملةٌ عن جلسةٍ بعينها بالقرعة، ولا عيبَ في ذلك
+     (وهو حالُ س٥-٦ نفسِها). **وتمامُ قياس الأربع في عمر الجهاز يحرسه حارسُ الوعد**
+     (`test_promise` — كلُّ مفتاحٍ يُقاس)، **ومادّةُ كلِّ مفتاحٍ بمداه** يحرسها
+     `test_measure`. فالمقيسُ ههنا ثلاثةٌ: الأربعةُ مُعلَنةٌ في المحطة، وقد استيقظ
+     منها في هذا المساق ما استيقظ فعلاً، **وما كُتب فمن الأربع لا من غيرها**. */
+  const woken = (deixisStation?.skills || []);
+  const wokenNow = woken.filter((k) => fiveKeys.includes(k));
+  const strayHere = fiveKeys.filter((k) => /\|(me|we|my|you)\|/.test(k) && !woken.includes(k));
+  ok(woken.length === 4 && wokenNow.length > 0 && strayHere.length === 0,
+    `🔓 **والضمائرُ الأربع النائمة استيقظت بمفاتيحها** (المحطةُ تعلن ${woken.length}`
+    + `، وكُتب في هذا المساق ${wokenNow.length}: ${wokenNow.join('، ')}) — `
+    + 'وكانت معلنةً بلا محطةٍ تقيسها منذ الجلسة ٥'
+    + (strayHere.length ? ` — ومن خارجها: ${strayHere.join('، ')}` : ''));
 
   // ————— ١٨ص. 🚪 **بوابةُ الختام: من أضعف الرحلة كلِّها** (بندُ الجلسة ٧) —————
   //
@@ -1684,6 +1779,41 @@
     }, 8000);
     ok(!!shown && shown.textContent.trim() === String(version?.version),
       `ولوحةُ الوالد تعرض **نسخةَ ما يعمل** لا رقماً مكتوباً («${shown?.textContent.trim() ?? '—'}»)`);
+
+    /* ————— ٢٠ب. 🔗 **كلُّ معروضٍ في اللوحة مقروءٌ من القياس** (معيارُ الجلسة ٨) —————
+
+       اللوحةُ الآن **بعد الرحلة كلِّها** لا قبلها: فيها سجلٌّ حقيقيّ كتبه مساقٌ حيّ.
+       فيُقابَل ما رُسم فيها **بحسابٍ مستقلّ** من سجلّ ليتنر في التخزين وحوضِ المنهج —
+       لا برقمٍ يُكتب هنا ولا بنداء الدالّة التي رسمته. فلو حُسب في اللوحة بيدٍ أو
+       قُرئ من غير القياس لَافترق العددان. */
+
+    const panel = appDoc();
+    // **وأوّلُ عددٍ في البطاقة هو المقصود** («٣٢ من ٥٦»): جمعُ محارف البطاقة كلِّها
+    // يلصق العددين فيصير رقماً لا وجودَ له — عيبٌ يُقرأ حمرةً كاذبة على لوحةٍ سليمة.
+    const arRead = (text) => Number([...(String(text).match(/[٠-٩]+/) || ['٠'])[0]]
+      .map((ch) => AR.indexOf(ch)).join(''));
+    const live = JSON.parse(win.localStorage.getItem('listen.progress.v1') || '{}').skills || {};
+    const { MASTERED_BOX } = await import('/js/progress.js');
+    const bank = curriculum.coupledWords();
+    const heardWords = bank.filter((w) => (live[w.listen]?.box ?? -1) >= MASTERED_BOX);
+    const readWords = heardWords.filter((w) => w.read.some((key) => live[key]));
+    const cells = [...panel.querySelectorAll('.audit .coupling .pill b')].map((b) => arRead(b.textContent));
+    ok(cells.length === 3 && cells[0] === heardWords.length && cells[1] === readWords.length
+      && cells[2] === heardWords.length - readWords.length,
+      `🔗 **وعدّادُ الاقتران عينُ ما في سجلّ ليتنر** (اللوحة: ${cells.join('/')} — `
+      + `والحسابُ المستقلّ: ${heardWords.length}/${readWords.length}/`
+      + `${heardWords.length - readWords.length} من ${bank.length} كلمة)`);
+
+    const drawnGroups = [...panel.querySelectorAll('.audit .unit-group h4')]
+      .map((head) => head.textContent);
+    ok(drawnGroups.length === curriculum.UNIT_SECTIONS.length
+      && curriculum.UNIT_SECTIONS.every((s) => drawnGroups.includes(s.title)),
+      `وأقسامُ المهارة قسمان كما أعلن المنهج (${drawnGroups.join(' · ') || 'لا قسم'})`);
+    const drawnUnits = [...panel.querySelectorAll('.audit .unit')].length;
+    const liveUnits = new Set(Object.keys(live).map((key) => key.split('|')[0]));
+    ok(drawnUnits === liveUnits.size,
+      `وكلُّ وحدةٍ قِيست لها سطرُها ولا سطرَ لغيرها (${drawnUnits} سطراً `
+      + `و${liveUnits.size} وحدةً في السجلّ)`);
   }
 
   ok(appErrors.length === 0,

@@ -1283,6 +1283,46 @@ export function readableTrickyAt(gradeId, isMastered) {
 }
 
 /**
+ * ————— **حوضُ قيد الاقتران كما تراه لوحةُ الوالد** (بندُ الجلسة ٨) —————
+ *
+ * «وقيدُ الاقتران مرئياً: **يقرأ ما أتقن سمعَه** بعدّاده الحي (كم كلمةً أتقن سمعاً،
+ * وكم منها صارت مقروءة)». والعدّادُ **يُقرأ من القياس** (`parent.js` — `couplingCount`)،
+ * وهذه تعطيه **الحوضَ ومفاتيحَه**: مَن يملك الكلمةَ يعلن مفتاحَها السمعيَّ ومفاتيحَ
+ * قراءتها — فلا تخمّن اللوحةُ مفتاحاً ولا تبني اسمَه بيدها.
+ *
+ * وحوضُه **كلماتُ القراءة وحدَها**: كلماتُ الدرجات (`build` و`decode`) والشائكاتُ
+ * **ذواتُ المدخل السمعي** (`tricky|…|read` — يسري عليها القيدُ كسائرها، `METHOD.md §٦`)؛
+ * ولا تدخله كلماتُ الوظيفة الصرفة (`the` · `was`…) لأنّها **المستثنى بعلّته المكتوبة**،
+ * فلو عُدّت في «ما ينتظر» لَكذب العدّادُ على الوالد بانتظارٍ لا يقع أبداً.
+ *
+ * **ومفاتيحُ القراءة هي هي التي تُعلنها المحطات** (`gradeSkills` أعلاه): يُبنيان من
+ * قاعدةٍ واحدة (`isTouchable || hasScene` للفكّ)، فلا يفترق ما تعدّه اللوحةُ عمّا
+ * يقيسه الطفل.
+ * @returns {Array<{w: string, grade: string, listen: string, read: string[]}>}
+ */
+export function coupledWords() {
+  const out = new Map();
+  for (const grade of GRADES) {
+    for (const word of grade.words) {
+      if (out.has(word.w)) continue;          // درجتُها أوّلُ درجةٍ تحملها
+      out.set(word.w, {
+        w: word.w,
+        grade: grade.id,
+        listen: word.listen,
+        read: [`word|${word.w}|build`,
+          ...(isTouchable(word.w) || hasScene(word.w) ? [`word|${word.w}|decode`] : [])],
+      });
+    }
+    for (const word of grade.tricky) {
+      const listen = trickyListen(word);
+      if (!listen || out.has(word)) continue;  // وظيفةٌ صرفة: لا مفتاحَ سمعياً لها
+      out.set(word, { w: word, grade: grade.id, listen, read: [`tricky|${word}|read`] });
+    }
+  }
+  return [...out.values()];
+}
+
+/**
  * **شائكةٌ موسومةٌ بدرجتها**: مقاطعُ رسمها ولكلٍّ وسمُه —
  * `heart` موضعُ الشوكة · `dot` مقطعٌ رمزُه مفتوحٌ عند هذه الدرجة فيُفكّ · `''` سواهما.
  *
@@ -1349,6 +1389,26 @@ export const TRACKS = [
     accent: 'var(--accent-letter)',
     stages: ['letter1', 'letter2', 'letter3', 'letter4'],
   },
+];
+
+/**
+ * ————— **المتكلمُ والمخاطَب: مرجعٌ يُرسَم لا كلمةٌ في الرصيد** (بندُ الجلسة ٨) —————
+ *
+ * حكمُ قبول الجلسة ٧ (البند ١ — البديل أ): «شكلُ مشهدٍ بمتكلّمٍ ومخاطَب (وضعان
+ * يُدرَّسان في النمذجة) يفتح الضمائرَ الأربع النائمة (‏we · me · my · you)».
+ *
+ * **وهي ليست من الرصيد المصوَّر ولا تدخله**: `WORDS` كلماتٌ **لها صورةٌ صادقة**،
+ * ومرجعُ الضمير **موقعٌ في الكلام** لا شيءٌ يُصوَّر — فلو دُسّت فيه لَطولبت بمدخل
+ * Starters مصوَّرٍ ليس لها، ولَخلطت جردَ الكلمات بجردِ ما لا يُصوَّر. فصنفٌ ثالث
+ * بجدولٍ صغير: اسمُه، ووضعُه المرسوم (`figures.js`)، وعبارتُه للوالد.
+ *
+ * **ولا يدخل الجدولَ إلا مَن يُرسَم**: `my` تُقاس بمشهد `me` نفسِه (المِلكُ لمتكلّمٍ
+ * مرسوم)، فلا وضعَ لها ولا سطرَ هنا — والمقيسُ يُعلَن في الجملة (`measures`).
+ */
+export const DEIXIS = [
+  { w: 'me', pose: 'speaker', ar: 'المتكلم — «انظر إليّ»' },
+  { w: 'we', pose: 'speakers', ar: 'المتكلم ومَن معه — «نحن»' },
+  { w: 'you', pose: 'listener', ar: 'المخاطَب — «أنت»' },
 ];
 
 /** مراحلُ مسار السمع الخمس (`METHOD.md §٤`) — ولكلٍّ محطاتُها بحقلها ومفاتيحها.
@@ -1493,6 +1553,33 @@ const LISTEN_STAGES = [
           { id: 'their-ball', text: 'their ball is red', group: 'own', measures: 'their',
             scene: { own: 'family', thing: 'ball' }, uses: ['family', 'ball'] },
         ] },
+      // ————— **س٥-٧: مَن يتكلّم ومَن يُخاطَب** (بندُ الجلسة ٨ — البديل أ) —————
+      //
+      // **وهي أختُ س٥-٦ لا شكلٌ ثالث**: الإطارُ إطارُها (جملةٌ تُسمَع ومشهدٌ يُلمَس،
+      // والمشتّتُ من مجموعتها، والمقيسُ ما يفرّق بين الخيارات) — والمبدَّلُ **أصحابُ
+      // المشهد**: يدخلهم المتكلمُ والمخاطَب مرسومَين (`DEIXIS`). فما جديدُها إلا
+      // مرجعٌ يُرسَم، وبه تُقاس الأربعُ النائمة بمفاتيح الرصيد نفسِها فيستيقظ
+      // `readableTrickyAt` من تلقائه (‏we · me · my · you شائكاتُ ح٧–ح٩).
+      //
+      // **وموضعُها من الخريطة محسوبٌ لا مكتوب** (`firstGradeNeeding`): مفاتيحُها
+      // مفاتيحُ شائكات ح٧، فتقع قبلها — كما وقعت س٥-٦ قبل ح٦ بـ`he` و`she`.
+      //
+      // **والمِلكُ يُقاس بالمتكلم نفسِه**: «my hat is big» مشهدُها `me` وقبعتُه،
+      // ومشتّتاتُها أصحابٌ آخرون بالقبعة نفسِها — فالفارقُ **صاحبُ المِلك** وحدَه،
+      // وهو عينُ ما يفرّق `my` عن `her` (وأختُها «her hat is big» في س٥-٦ قبلها).
+      { part: 's5-7', title: 'أنا وأنت', field: 'sentences', face: '🙋',
+        pictures: 'scene',
+        owners: ['me', 'we', 'you', 'boy', 'girl', 'family'],
+        sentences: [
+          { id: 'look-at-me', text: 'look at me', group: 'who', measures: 'me',
+            scene: { one: 'me' }, uses: [] },
+          { id: 'we-happy', text: 'we are happy', group: 'who', measures: 'we',
+            scene: { one: 'we' }, uses: [] },
+          { id: 'you-happy', text: 'you are happy', group: 'who', measures: 'you',
+            scene: { one: 'you' }, uses: [] },
+          { id: 'my-hat', text: 'my hat is big', group: 'own', measures: 'my',
+            scene: { own: 'me', thing: 'hat' }, uses: ['hat'] },
+        ] },
     ],
   },
 ];
@@ -1513,6 +1600,14 @@ const unitOfWord = (word) => (word.field === 'verbs' ? 'verb' : 'word');
  */
 const WORD_INDEX = new Map(WORDS.map((word) => [word.w, word]));
 const wordNamed = (name) => WORD_INDEX.get(name);
+
+/**
+ * **شكلٌ باسمه في مشهد**: كلمةٌ من الرصيد المصوَّر، أو **مرجعٌ ضميريٌّ مرسوم**
+ * (`DEIXIS`) — أو `undefined`. وبها وحدَها تعرف الشاشةُ ما ترسم لاسمٍ في مشهد،
+ * فلا يُخترَع شكلٌ لاسمٍ لم يُعلَن (`figureEl` يردّ صورةً فارغة لمن لا إعلانَ له).
+ */
+const DEIXIS_INDEX = new Map(DEIXIS.map((one) => [one.w, one]));
+export const figureNamed = (name) => WORD_INDEX.get(name) || DEIXIS_INDEX.get(name);
 
 /**
  * **أمصوَّرٌ هذا الزوج؟ — حكمٌ بالبيانات لا بيد** (`METHOD.md §٤`: «بالصور **حيث**
@@ -1711,7 +1806,10 @@ function listenStations() {
     // ما تنطقه معزولاً من أصوات المنهج
     sounds: listenSounds(part),
     sentences: part.sentences || [],
-    owners: (part.owners || []).map(wordNamed).filter(Boolean),
+    // **وأصحابُ المشهد صنفان**: كلماتٌ مصوَّرة (‏boy · girl · family) **ومراجعُ
+    // ضميريةٌ مرسومة** (المتكلمُ والمخاطَب — س٥-٧)، فتُقرأ بـ`figureNamed` لا
+    // بـ`wordNamed` وإلّا سقط المرجعُ صامتاً وانقلب السؤالُ بلا مشتّت.
+    owners: (part.owners || []).map(figureNamed).filter(Boolean),
     frontier: listenFrontier(part),
     skills: listenSkills(part),
   })));
@@ -2235,27 +2333,38 @@ export const UNIT_SECTIONS = [
  */
 export const UNIT_UNITS = [
   { id: 'word', section: 'listen', title: 'كلماتٌ يعرفها سمعاً',
-    does: 'يعرف {ما} سمعاً', needs: 'يحتاج تثبيتَ {ما}' },
+    does: 'يعرف {ما} سمعاً', needs: 'يحتاج تثبيتَ {ما}',
+    count: ['كلمةً واحدة', 'كلمتين', 'كلمات', 'كلمة'] },
   { id: 'verb', section: 'listen', title: 'أفعالٌ يفهمها وينفّذها',
-    does: 'ينفّذ {ما} حين يسمعها', needs: 'يحتاج تثبيتَ {ما}' },
+    does: 'ينفّذ {ما} حين يسمعها', needs: 'يحتاج تثبيتَ {ما}',
+    count: ['فعلاً واحداً', 'فعلين', 'أفعال', 'فعلاً'] },
   { id: 'pair', section: 'listen', title: 'أصواتٌ متقاربة يميّزها',
-    does: 'يميّز {ما} سمعاً', needs: 'يخلط {ما}' },
+    does: 'يميّز {ما} سمعاً', needs: 'يخلط {ما}',
+    count: ['زوجاً واحداً', 'زوجين', 'أزواج', 'زوجاً'] },
   { id: 'phon', section: 'listen', title: 'أولُ الصوت في الكلمة',
-    does: 'يعرف أوّلَ الصوت في {ما}', needs: 'يحتاج تمييزَ أوّل الصوت في {ما}' },
+    does: 'يعرف أوّلَ الصوت في {ما}', needs: 'يحتاج تمييزَ أوّل الصوت في {ما}',
+    count: ['صوتاً واحداً', 'صوتين', 'أصوات', 'صوتاً'] },
   { id: 'oral', section: 'listen', title: 'دمجُ الأصوات وتقطيعُها سمعاً',
-    does: 'يدمج ويقطّع {ما} سمعاً', needs: 'يحتاج تدريباً على {ما}' },
+    does: 'يدمج ويقطّع {ما} سمعاً', needs: 'يحتاج تدريباً على {ما}',
+    count: ['كلمةً واحدة', 'كلمتين', 'كلمات', 'كلمة'] },
   { id: 'rhyme', section: 'listen', title: 'القافية',
-    does: 'يسمع قافيةَ {ما}', needs: 'يحتاج سماعَ قافية {ما}' },
+    does: 'يسمع قافيةَ {ما}', needs: 'يحتاج سماعَ قافية {ما}',
+    count: ['قافيةً واحدة', 'قافيتين', 'قوافٍ', 'قافية'] },
   { id: 'sentence', section: 'listen', title: 'جملٌ يفهمها مصوَّرة',
-    does: 'يفهم {ما} مسموعةً', needs: 'يحتاج تكرارَ {ما}' },
+    does: 'يفهم {ما} مسموعةً', needs: 'يحتاج تكرارَ {ما}',
+    count: ['جملةً واحدة', 'جملتين', 'جمل', 'جملة'] },
   { id: 'gpc', section: 'letter', title: 'رموزٌ يعرف أصواتها',
-    does: 'يعرف صوتَ {ما} ورسمَه', needs: 'يحتاج تثبيتَ {ما}' },
+    does: 'يعرف صوتَ {ما} ورسمَه', needs: 'يحتاج تثبيتَ {ما}',
+    count: ['رمزاً واحداً', 'رمزين', 'رموز', 'رمزاً'] },
   { id: 'vowel', section: 'letter', title: 'الصائتُ الأوسط',
-    does: 'يسمع الصائتَ الأوسط في {ما}', needs: 'يخلط {ما}' },
+    does: 'يسمع الصائتَ الأوسط في {ما}', needs: 'يخلط {ما}',
+    count: ['زوجاً واحداً', 'زوجين', 'أزواج', 'زوجاً'] },
   { id: 'tricky', section: 'letter', title: 'كلماتٌ شائكة',
-    does: 'يقرأ {ما}', needs: 'يحتاج تكرارَ {ما}' },
+    does: 'يقرأ {ما}', needs: 'يحتاج تكرارَ {ما}',
+    count: ['كلمةً واحدة', 'كلمتين', 'كلمات', 'كلمة'] },
   { id: 'text', section: 'letter', title: 'قصصٌ يقرؤها',
-    does: 'يقرأ {ما}', needs: 'يحتاج إعادةَ {ما}' },
+    does: 'يقرأ {ما}', needs: 'يحتاج إعادةَ {ما}',
+    count: ['قصةً واحدة', 'قصتين', 'قصص', 'قصة'] },
 ];
 
 /**
@@ -2305,6 +2414,42 @@ export function rangeText(range, unit = '') {
     .flatMap((p) => p.sentences || []).find((s) => s.id === text);
   if (sentence) return `«${sentence.text}»`;
   return text;
+}
+
+/**
+ * ————— **حقولُ السمع بمفاتيحها** (بندُ الجلسة ٨: «قسمُ السمع **بالحقول والمهارات**») —————
+ *
+ * **العلّة**: سطرُ الوحدة يعدّ ما أتقن كلمةً كلمة، ومسارُ السمع خمسُ مئةِ مدخل — فيصير
+ * السطرُ جدارَ كلماتٍ لاتينية لا يقرؤه والد. **والوالدُ لا يسأل «أيَّ كلمةٍ يعرف؟» بل
+ * «ماذا صار يفهم؟»** — والجوابُ **حقلٌ حقل** (الحيواناتُ · الطعامُ · الألوان…) كما
+ * رتّبها المنهجُ بترتيب الأثر.
+ *
+ * وهي **مبنيّةٌ من مفاتيح مسار السمع نفسِها لا من قائمةٍ ثانية**: فحقلٌ لا محطةَ له
+ * لا يظهر، وكلمةٌ تنتقل حقلاً تنتقل معها بلا سطرٍ يُعدَّل.
+ *
+ * **والوحدةُ فيها كلمةٌ لا مفتاح**: الكلمةُ الواحدة تُسأل في محطاتٍ عدّة (تُلمَس صورتُها
+ * · يُنفَّذ أمرُها · تُدمَج أصواتُها)، فعدُّ المفاتيح يقول للوالد «٣٩ في الحيوانات»
+ * وحيواناتُ الرصيد أقلُّ من ذلك — رقمٌ لا يعرفه. فتُجمَع مفاتيحُ الكلمة تحت اسمها،
+ * **وتُعَدّ متقنةً إذا أتقن كلَّ ما سُئل عنه فيها** (لا بعضَه).
+ * @returns {Array<{id: string, title: string, words: Array<{w: string, keys: string[]}>}>}
+ */
+export function listenFields() {
+  const byField = new Map();
+  for (const station of listenStations()) {
+    for (const key of station.skills || []) {
+      const name = key.split('|')[1];
+      const word = WORD_INDEX.get(name);
+      if (!word?.field) continue;
+      const words = byField.get(word.field) || new Map();
+      words.set(name, [...new Set([...(words.get(name) || []), key])]);
+      byField.set(word.field, words);
+    }
+  }
+  return FIELDS.filter((field) => byField.has(field.id)).map((field) => ({
+    id: field.id,
+    title: field.ar,
+    words: [...byField.get(field.id)].map(([w, keys]) => ({ w, keys })),
+  }));
 }
 
 /**

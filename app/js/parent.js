@@ -17,7 +17,9 @@
 // مفردات التنسيق القائمة (pill · note · chip) وتُلوَّن بمتغيّر `--accent`.
 
 import * as progress from './progress.js';
-import { UNIT_SECTIONS, unitOf, rangeText, journeyUnits } from './curriculum.js';
+import {
+  UNIT_SECTIONS, unitOf, rangeText, journeyUnits, coupledWords, listenFields,
+} from './curriculum.js';
 import { h, go, toast, arNum, arCount, topbar, shake, BRAND, PAUSE_ACCENT } from './ui.js';
 
 const ACCENT = PAUSE_ACCENT;
@@ -38,6 +40,15 @@ const ENOUGH_MINUTES = 15;
  * فيه، ولا تُخبَّأ عن والدٍ طال تعثّرُ طفله.
  */
 const STUCK_DAYS = 21;
+
+/**
+ * **كم مهارةً تُسمّى بأسمائها قبل أن تُعَدّ عدّاً** (تصحيحُ الجلسة ٨).
+ *
+ * أسماءُ ستٍّ يقرؤها الوالدُ في سطرٍ واحد فينتفع بها («يعرف cat وdog وbird»)، وسردُ
+ * ثمانين اسماً لاتينياً في لوحةٍ عربية جدارٌ لا يُقرأ — فما جاوزها يُعَدّ عدّاً
+ * (وتفصيلُه في صفّ الحقول: «الحيوانات ٩ من ١١»).
+ */
+const NAME_LIMIT = 6;
 
 let unlocked = false;        // البوابة تُفتح لهذه الجلسة فقط (لا تُحفظ في التخزين)
 
@@ -71,7 +82,7 @@ export function recommend({
     return {
       title: 'ابدآ الرحلة معاً',
       body: 'أول محطة في مسار السمع — اجلس معه في أول محطتين حتى تتضح له اللعبة.'
-        + ' وأوّلُ الرحلة **سمعٌ وصور لا حروف**، فلا يحتاج قراءةً بالعربية ولا بالإنكليزية.',
+        + ' وأوّلُ الرحلة سمعٌ وصورٌ لا حروف، فلا يحتاج قراءةً بالعربية ولا بالإنكليزية.',
       action: { label: 'افتح الخريطة', hash: '#/' },
     };
   }
@@ -435,7 +446,7 @@ function journeySection(rerender) {
         question: `تفتح الطريق إلى «${node.title || node.id}»؟`,
         body: `${nodesText(count)} قبلها ستُعدّ منجَزةً بنجمةٍ واحدة — تبقى مفتوحةً`
           + ' يلعبها متى شاء، ولا تُنقَص نجمةٌ كسبها. والقياس لا يتغيّر: لم يُمتحن فيها'
-          + ' بعد — **وقيدُ الاقتران قائم**: لا يقرأ كلمةً لم يتقنها سمعاً ولو فُتح طريقُها.',
+          + ' بعد — وقيدُ الاقتران قائم: لا يقرأ كلمةً لم يتقنها سمعاً ولو فُتح طريقُها.',
         yes: 'افتح الطريق',
         onYes: () => {
           toast(`فُتحت ${nodesText(progress.unlockUpTo(node.id))}`);
@@ -507,8 +518,29 @@ export function unitLine(stat, today = progress.dayNumber()) {
   if (!spec) return null;
   const parts = stat.parts || [];
   const weakest = parts[0];                       // `unitStats` رتّبها بالضعف
-  const done = parts.filter((s) => s.box >= progress.MASTERED_BOX);
-  const reached = done.map((s) => rangeText(s.range, stat.unit)).filter(Boolean).join('، ');
+  /**
+   * ————— **المعدودُ مدىً لا مفتاح، والمتقَنُ ما أُتقن كلُّه** (تصحيحُ الجلسة ٨) —————
+   *
+   * المدى الواحد (`cat`) يُسأل بمفاتيحَ عدّة (تُلمَس صورتُه · يُنفَّذ أمرُه · تُدمَج
+   * أصواتُه)، فعدُّ المفاتيح **يكرّر الاسمَ في السطر** («يعرف cat، cat سمعاً» — رآه
+   * أوّلُ عرضٍ للوحة على عينٍ بشرية) ويضخّم العددَ على الوالد. فتُجمَع مفاتيحُ المدى
+   * تحته، **ولا يُعَدّ متقَناً إلا بإتقانها كلِّها** — وهي قاعدةُ صفّ الحقول عينُها
+   * (`listenFields`)، فلا يقرأ الوالدُ في لوحةٍ واحدة رقمين بقاعدتين.
+   */
+  const byRange = new Map();
+  for (const part of parts) byRange.set(part.range, [...(byRange.get(part.range) || []), part]);
+  const done = [...byRange]
+    .filter(([, keys]) => keys.every((s) => s.box >= progress.MASTERED_BOX))
+    .map(([range]) => range);
+  /**
+   * **وما جاوز العدَّ يُعَدّ لا يُسرَد**: مسارُ السمع خمسُ مئةِ مدخل، فسردُ ما أتقن
+   * مدىً مدىً يصير **جدارَ كلماتٍ لاتينية** في لوحةٍ عربية لا يقرؤه والدٌ ولا ينتفع
+   * به. فالقليلُ يُسمّى بأسمائه (ينتفع بها: «يعرف cat وdog»)، والكثيرُ يُعَدّ عدّاً —
+   * **وتفصيلُه في صفّ الحقول** (`fieldsSection`)، وهو نصُّ البند: «بالحقول والمهارات».
+   */
+  const reached = done.length > NAME_LIMIT && spec.count
+    ? arCount(done.length, spec.count)
+    : done.map((range) => rangeText(range, stat.unit)).filter(Boolean).join('، ');
   const fill = (text, what) => String(text || '').replace('{ما}', what);
 
   // ثلاثُ حالات: أتقن كلَّ تمارينه · تعثّر · بينهما — ولكلٍّ عبارتُها من بيانات المنهج
@@ -548,6 +580,41 @@ export function unitLines(stats = progress.unitStats(), today = progress.dayNumb
       || flow.indexOf(a.unit) - flow.indexOf(b.unit));
 }
 
+/**
+ * ————— **قسمُ السمع بالحقول** (بندُ الجلسة ٨: «بالحقول والمهارات لا بالدرجات») —————
+ *
+ * الوالدُ لا يسأل «أيَّ كلمةٍ يعرف؟» بل «**ماذا صار يفهم؟**» — فيُعرَض حقلٌ حقل
+ * بترتيب الأثر الذي رتّبه المنهج (الأهلُ ثم الجسدُ ثم الحيوانات…)، ولكلٍّ **كم أتقن
+ * من كم**. والحقولُ ومفاتيحُها من `curriculum.js`، والإتقانُ من ليتنر — دالّةٌ خالصة.
+ */
+export function fieldLines(fields = listenFields(), mastered = progress.isMastered) {
+  return fields.map((field) => ({
+    id: field.id,
+    title: field.title,
+    // **والكلمةُ متقنةٌ سمعاً إذا أتقن كلَّ ما سُئل عنه فيها** (لا بعضَه): تُلمَس
+    // صورتُها وينفَّذ أمرُها وتُدمَج أصواتُها — فمن أتقن اللمسَ وحدَه لم يتقنها بعد.
+    done: field.words.filter((word) => word.keys.every(mastered)).length,
+    all: field.words.length,
+  })).filter((row) => row.all > 0);
+}
+
+function fieldsSection(rows = fieldLines()) {
+  const touched = rows.filter((row) => row.done > 0);
+  return h('div', {},
+    h('p', { class: 'hint' },
+      touched.length
+        ? 'وهذه حقولُ ما يسمعه — كم كلمةً أتقن من كلٍّ. والكلمةُ تُعَدّ متقنةً إذا'
+          + ' أصاب فيها كلَّ ما سُئل عنه (صورتُها وأمرُها وأصواتُها) مرّاتٍ متباعدة،'
+          + ' لا مرّةً واحدة.'
+        : 'تظهر هنا حقولُ ما يسمعه (الأهلُ والحيواناتُ والطعام…) وكم أتقن من كلٍّ —'
+          + ' حين يتقن أوّلَها.'),
+    h('div', { class: 'audit-row fields' }, rows.map((row) => h('span', {
+      class: `pill field${row.done === row.all ? ' field--done' : ''}`,
+      css: row.done ? {} : { opacity: '.55' },
+    }, `${row.title}: `, h('b', {}, `${arNum(row.done)} من ${arNum(row.all)}`)))),
+  );
+}
+
 function unitsSection(lines) {
   if (!lines.length) {
     return h('p', { class: 'hint' },
@@ -573,6 +640,57 @@ function unitsSection(lines) {
         // **وقسمٌ لم يبلغه بعدُ يقول ذلك** ولا يُخفى: الوالدُ يرى الرحلةَ كلَّها
         : h('p', { class: 'hint' }, 'لم يبلغ هذا القسم بعد.'));
   }));
+}
+
+// ————— **قيدُ الاقتران مرئياً: «يقرأ ما أتقن سمعَه»** (`METHOD.md §٦` · بندُ الجلسة ٨) —————
+//
+// **العهدُ الذي يميّز هذا التطبيق يُرى في لوحة والده**: مساران مقترنان لا متعاقبان،
+// فلا كلمةَ تُعرَض مكتوبةً قبل أن تثبت في أذنه. وهو قيدٌ **بنيويّ** يفرضه `readableAt`
+// ويجرده `check_coupling` — ولكنّ الوالدَ لا يرى بنيةً، فيراه **عدّاداً حيّاً**.
+//
+// **وكلُّ رقمٍ فيه مقروءٌ من سجلّ ليتنر**: لا عددَ مكتوبٌ بيد ولا نسبةَ تُقدَّر —
+// الحوضُ من المنهج (`coupledWords`)، والحالُ من القياس (`isMastered` · `getSkill`).
+
+/**
+ * عدّادُ الاقتران — دالّةٌ خالصة (تُختبَر بسجلٍّ مصنوع، وبها معيارُ القبول: كلمةٌ
+ * متقنةٌ سمعاً غيرُ مقروءةٍ **تظهر في عدّاده**).
+ *
+ * `heard` ما بلغ صندوقَ الإتقان في مفتاحه السمعي · `read` ما لقيه الطفلُ **مكتوباً
+ * فعلاً** (له قياسٌ في مفتاح قراءةٍ — `build`/`decode`/`tricky…read`) · `waiting` ما
+ * نضج سمعاً وينتظر درجةَ رمزه. **والفرقُ هو القيدُ نفسُه في رقم**.
+ *
+ * @param {object} deps حَقنُ الاعتماد للاختبار (الحوضُ ودالّتا القياس)
+ */
+export function couplingCount({
+  pool = coupledWords(),
+  mastered = progress.isMastered,
+  measured = progress.getSkill,
+} = {}) {
+  const heard = pool.filter((word) => mastered(word.listen));
+  const read = heard.filter((word) => word.read.some((key) => measured(key)));
+  return { pool: pool.length, heard: heard.length, read: read.length,
+    waiting: heard.length - read.length };
+}
+
+const wordsText = (n) => arCount(n, ['كلمةٌ واحدة', 'كلمتان', 'كلمات', 'كلمة']);
+
+function couplingSection(count = couplingCount()) {
+  return h('div', {},
+    h('div', { class: 'audit-row coupling' },
+      pill('أتقن سمعاً', `${arNum(count.heard)} من ${arNum(count.pool)}`),
+      pill('صارت مقروءةً عنده', arNum(count.read)),
+      pill('تنتظر درجةَ رمزها', arNum(count.waiting)),
+    ),
+    h('p', { class: 'hint' },
+      `من كلمات القراءة كلِّها (${arNum(count.pool)}) أتقن سمعاً ${wordsText(count.heard)}،`
+      + ` وقرأ منها مكتوبةً ${arNum(count.read)} — والباقيةُ (${arNum(count.waiting)}) نضجت في`
+      + ' أذنه وتنتظر أن تبلغ رحلتُه درجةَ رموزها.'),
+    h('p', { class: 'note' },
+      h('b', {}, 'يقرأ ما أتقن سمعَه. '),
+      'هذه قاعدةُ التطبيق لا خيارَ فيها: لا تدخل كلمةٌ تمرينَ قراءةٍ حتى يثبت معناها في'
+      + ' أذنه أوّلاً — كي لا يصير فكُّ الحروف نطقاً بلا معنى. فإن رأيتَ كلمةً يعرفها'
+      + ' سمعاً ولمّا يقرأها بعد، فذاك الترتيبُ يعمل لا تأخّرٌ فيه.'),
+  );
 }
 
 /**
@@ -629,9 +747,19 @@ function dashboard(rerender = () => {}) {
         h('b', {}, tip.title),
         h('p', { class: 'hint', css: { margin: '.25rem 0 0' } }, tip.body)),
       tip.action && h('div', { class: 'row', css: { 'justify-content': 'flex-start', 'margin-top': '.75rem' } },
-        h('button', { class: 'btn btn--primary', onclick: () => go(tip.action.hash) }, tip.action.label))),
+        h('button', { class: 'btn btn--primary', onclick: () => go(tip.action.hash) }, tip.action.label)),
+      // **وسقفُ اليوم معلَنٌ دائماً لا يومَ يُبلَغ** (`METHOD.md §١٢-٨`): الوالدُ يقرأ
+      // الحدَّ وعلّتَه قبل أن يصل إليه، فيعرف أنّ القِصَرَ منهجٌ لا نقصُ مادّة.
+      h('p', { class: 'note parent-cap' },
+        h('b', {}, `سقفُ اليوم: ${arNum(ENOUGH_MINUTES)} دقيقة. `),
+        `اليومَ ${minutesText(today)} منها. ولغةٌ ثانية تُبنى بالقليل المتّصل لا بالكثير`
+        + ' المتقطّع — وهذا الحدُّ قرارُ منهجٍ مكتوب، فبعده نوصي بالاستراحة ونعيده غداً.')),
 
     ...section('ما يعرفه طفلك', unitsSection(lines), stuckNote(lines)),
+
+    ...section('حقولُ ما يسمعه', fieldsSection()),
+
+    ...section('يقرأ ما أتقن سمعَه', couplingSection()),
 
     ...section('دقائق آخر سبعة أيام',
       h('div', { class: 'audit-row' }, week.map((day) => {
@@ -657,15 +785,27 @@ function dashboard(rerender = () => {}) {
 
     ...section('معاينةُ التطبيق كلِّه', previewSection()),
 
-    // **حدودُ النطاق معلَنةٌ في اللوحة نفسِها** (`METHOD.md §١٣`): تدريسٌ وقياسٌ لا
-    // تشخيص، و**لا قياسَ نطق** — الترديدُ يُدعى ولا يُقاس (§١٢-٥).
-    h('p', { class: 'note' },
-      'المهارة = الوحدة × المدى × نوع التمرين. الخطأ يعيدها إلى مراجعة الغد،'
-      + ' والإصابة تُباعد موعدها (١ ← ٢ ← ٤ ← ٨ ← ١٦ يوماً).'
-      + ' ويقرأ طفلك ما أتقن سمعَه وحدَه — لا كلمةَ تُعرَض مكتوبةً قبل أن تثبت في أذنه.'
-      + ' ونحن ندعوه إلى ترديد ما يسمع ولا نحكم على نطقه: تقييمُ النطق يحتاج أذناً'
-      + ' بشرية — أذنَك أنت. وهذا التطبيق **يدرّس ويقيس ولا يشخّص**: إن تكرّر تعثّرُ'
-      + ' طفلك في مهارةٍ واحدة أسابيع فراجِع مختصاً — هذه إشارةٌ لا حكم.'),
+    // **حدودُ النطاق معلَنةٌ في ذيل اللوحة نفسِها** (`METHOD.md §١٣` — بندُ الجلسة ٨):
+    // تدريسٌ وقياسٌ لا تشخيص، ولا قياسَ نطقٍ ولا كتابةَ يد، وفئةٌ لا تُمدَّد ضمنياً،
+    // ورحلةٌ لها آخِرٌ معلوم. **والترديدُ يُدعى ولا يُقاس** (§١٢-٥) — يُعلَن للوالد
+    // نصّاً لأنّه أوّلُ ما يسأل عنه: «لِمَ لا يصحّح له التطبيقُ نطقَه؟».
+    ...section('ما يفعله هذا التطبيق وما لا يفعله',
+      h('p', { class: 'note' },
+        'المهارة = الوحدة × المدى × نوع التمرين. الخطأ يعيدها إلى مراجعة الغد،'
+        + ' والإصابة تُباعد موعدها (١ ← ٢ ← ٤ ← ٨ ← ١٦ يوماً).'
+        + ' ويقرأ طفلك ما أتقن سمعَه وحدَه — لا كلمةَ تُعرَض مكتوبةً قبل أن تثبت في أذنه.'),
+      h('p', { class: 'note say-not-scored' },
+        h('b', {}, 'الترديدُ يُدعى ولا يُقاس. '),
+        'بعد كل إجابةٍ صحيحة يقول المعلّمُ الكلمةَ ويدعو طفلك أن يقولها معه — ولا يسجّل'
+        + ' صوتَه ولا يحكم على نطقه. تقييمُ النطق يحتاج أذناً بشرية أو خدمةً على'
+        + ' الإنترنت، والأولى عندك أنت والثانية خارج عهدنا (لا يخرج من هذا الجهاز شيء).'),
+      h('p', { class: 'note scope-note' },
+        h('b', {}, 'وحدودُ ما نعد به. '),
+        'نعلّم ونقيس فهماً مسموعاً وقراءةً — لا نطقاً ولا كتابةَ يد (تلك بابٌ آخر).'
+        + ' والفئةُ: السادسة ± سنة، خرّيجُ «اِقْرَأْ» أو في أثنائه.'
+        + ' والرحلةُ تنتهي عند تمام رصيد Starters سمعاً والمرحلة الخامسة من سلّم الفكّ'
+        + ' — وما بعدها أفقٌ لا وعد. وهذا التطبيق يدرّس ويقيس ولا يشخّص: إن تكرّر'
+        + ' تعثّرُ طفلك في مهارةٍ واحدة أسابيع فراجِع مختصاً — هذه إشارةٌ لا حكم.')),
 
     versionLine(),
   );

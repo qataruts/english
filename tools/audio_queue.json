@@ -3130,6 +3130,16 @@
     "doneAt": null
   },
   {
+    "text": "my hat is big",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-8",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "my mum can work",
     "lang": "en",
     "voice": "",
@@ -4085,6 +4095,16 @@
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "you are happy",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-8",
     "priority": 70,
     "status": "pending",
     "doneAt": null

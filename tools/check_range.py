@@ -36,6 +36,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 APP_JS = ROOT / "app" / "js"
 CURRICULUM = APP_JS / "curriculum.js"
+FIGURES = APP_JS / "figures.js"
 
 # وحداتُ البذرة ليست شاشاتِ تمارين — هي المنصةُ نفسُها (نظيرُ `SEED` في `test_nodes.mjs`)
 SEED_MODULES = {
@@ -73,6 +74,7 @@ PROBE_DECL = re.compile(r"export\s+(?:function|const)\s+probeRounds\b")
 def load_curriculum() -> dict:
     js = f"""
     const m = await import({json.dumps(CURRICULUM.as_uri())});
+    const figures = await import({json.dumps(FIGURES.as_uri())});
     console.log(JSON.stringify({{
       starters: m.STARTERS, forms: [...m.starterForms()],
       words: m.WORDS, raised: m.RAISED, resolved: m.RESOLVED, ritual: m.RITUAL,
@@ -87,6 +89,12 @@ def load_curriculum() -> dict:
       units: m.UNIT_UNITS, unitSections: m.UNIT_SECTIONS,
       gates: m.GATES, tracks: m.TRACKS,
       hearts: m.HEART_WORDS, sectionCap: m.SECTION_CAP,
+      // **والمراجعُ الضميريةُ المرسومة صنفٌ يُعلَن** (`DEIXIS` — س٥-٧): مَن يُرسَم
+      // متكلّماً أو مخاطَباً، فيُقابَل به ما رسمته الجولةُ ولا يمرّ مرجعٌ لا إعلانَ له.
+      deixis: m.DEIXIS,
+      // **ولكلِّ مرجعٍ رسمٌ مُصيَّر أو لا يُعلَن**: أسماءُ ما يرسمه `figures.js` فعلاً
+      // — فمرجعٌ بوضعٍ لا رسمَ له بطاقةٌ فارغة يُسأل عنها الطفل ولا يشتكي أحد.
+      deixisPoses: figures.DEIXIS_POSE_NAMES,
       stations: m.stations(),
       sections: m.sections().map((s) => ({{
         kind: s.kind, id: s.id, title: s.title, accent: s.accent,
@@ -214,6 +222,14 @@ def usage_errors(label: str, used: dict, frontier: dict, bank: dict) -> list:
         if sound not in bank["sounds"]:
             errors.append(f"{label}: الصوت «{sound}» ليس من أصوات المنهج "
                           f"({len(bank['sounds'])} صوتاً في `PHONEMES`)")
+
+    # **ومرجعٌ ضميريٌّ يُرسَم وليس في جدوله**: لا يُقابَل بالرصيد (لا صورةَ له) ولا
+    # بالسلّم (ليس رسماً) — فلولا هذا البابُ لَرُسمت للطفل بطاقةٌ فارغة يُسأل عنها،
+    # أو لَدخل المشهدَ مرجعٌ لم يُدرَّس في النمذجة (`DEIXIS` في `curriculum.js`).
+    for one in used.get("deixis", []):
+        if one not in bank["deixis"]:
+            errors.append(f"{label}: المرجع «{one}» يُرسَم في مشهدٍ وليس من المراجع "
+                          f"المعلَنة ({'، '.join(sorted(bank['deixis'])) or 'لا مرجع'})")
 
     open_fields = set(frontier.get("fields") or [])
     for field in used.get("fields", []):
@@ -575,6 +591,25 @@ def heart_errors(data: dict) -> list:
     return errors
 
 
+def deixis_errors(data: dict) -> list:
+    """**المراجعُ الضميريةُ المرسومة** (س٥-٧ — بندُ الجلسة ٨): لكلٍّ رسمُه وعبارتُه.
+
+    **العلّة**: مرجعُ الضمير (المتكلمُ والمخاطَب) **يُرسَم ولا يُصوَّر** — فليس له
+    مدخلٌ في الرصيد يحرسه بابُ الكلمة، ولا مقاطعُ رسمٍ يحرسها بابُ السلّم. فلو أُعلن
+    مرجعٌ بوضعٍ لا رسمَ له في `figures.js` لَخرجت بطاقةٌ **فارغة** يُسأل عنها الطفل،
+    ولا يشتكي أحد: الجولةُ تُبنى، والمفتاحُ يُقاس، والحرّاسُ خضر.
+    """
+    errors = []
+    drawn = set(data.get("deixisPoses") or [])
+    for one in data.get("deixis") or []:
+        if one.get("pose") not in drawn:
+            errors.append(f"المرجع «{one.get('w')}» يعلن وضعاً لا رسمَ له في "
+                          f"`figures.js` ({one.get('pose')}) — بطاقةٌ فارغة تُعرَض")
+        if not one.get("ar"):
+            errors.append(f"المرجع «{one.get('w')}» بلا عبارةٍ عربية تسمّيه")
+    return errors
+
+
 def bank_of(data: dict) -> dict:
     return {
         "words": {w["w"] for w in data["words"]},
@@ -584,6 +619,7 @@ def bank_of(data: dict) -> dict:
         "fields": {f["id"] for f in data["fields"]},
         "units": {u["id"] for u in data["units"]},
         "sounds": {p["say"] for p in data.get("phonemes") or []},
+        "deixis": {d["w"] for d in data.get("deixis") or []},
     }
 
 
@@ -838,6 +874,10 @@ def check(data: dict) -> int:
     door("أصواتُ المنهج: لا رمزَ بلا صوت ولا صوتان بنصٍّ واحد", sound_errors(data),
          f"{len(data.get('phonemes') or [])} صوتاً لـ{symbols} رمزاً، ولكلٍّ نصُّه المنطوق")
     pairs = [p for s in stations for p in (s.get("pairs") or [])]
+    door("المراجعُ الضميرية: لكلٍّ رسمٌ مُصيَّر وعبارةٌ تسمّيه",
+         deixis_errors(data),
+         f"{len(data.get('deixis') or [])} مرجعاً مرسوماً "
+         f"({'، '.join(one['w'] for one in data.get('deixis') or [])})")
     door("أزواجُ التمييز: شكلُها محسوبٌ من صورة حاملَيها", pair_errors(data),
          f"{len(pairs)} زوجاً، منها {sum(1 for p in pairs if p['mode'] == 'word')} مصوَّرٌ "
          f"و{sum(1 for p in pairs if p['mode'] == 'sound')} صوتيٌّ خالص بعلّته")

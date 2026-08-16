@@ -160,11 +160,18 @@ export const usedOf = (round) => {
   const drawn = (unit) => letters.filter((f) => f.unit === unit);
   return {
     words: [...new Set([
-      ...(round.figures || []).filter((f) => f.kind !== 'letter').map((f) => f.word),
+      ...(round.figures || []).filter((f) => f.kind !== 'letter' && f.kind !== 'deixis')
+        .map((f) => f.word),
       ...drawn('word').map((f) => f.word),
       ...(round.saying || []),
     ])].filter(Boolean),
     fields: [...new Set((round.fields || []).filter(Boolean))],
+    // **والمرجعُ الضميريُّ المرسوم صنفٌ سابع** (س٥-٧): ليس كلمةً من الرصيد المصوَّر
+    // (لا صورةَ للمتكلم ولا للمخاطَب) ولا رسماً على السلّم — فيُقابَل بجدوله المعلَن
+    // (`DEIXIS` في `curriculum.js`)، ولولا بابُه لَدخل المشهدَ مرجعٌ لا رسمَ له
+    // فرُسمت بطاقةٌ فارغة، أو لَطولب المتكلمُ بمدخلٍ في Starters ليس له.
+    deixis: [...new Set((round.figures || []).filter((f) => f.kind === 'deixis')
+      .map((f) => f.word))].filter(Boolean),
   // **وكلماتُ الأمر المنطوق صنفٌ رابع**: `point to the cat` ليس فيها ما يُصوَّر إلا
   // `cat`، وسائرُها كلماتُ وظيفةٍ لا مدخلَ لها في الرصيد المصوَّر — **ولها مدخلٌ في
   // Starters**، وهو ما يفرضه `METHOD.md §٣` («ولا كلمةَ في تمرينٍ خارجه»). فتُجرَد

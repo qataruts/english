@@ -22,7 +22,7 @@
 
 import * as progress from './progress.js';
 import { registerScreen } from './registry.js';
-import { stations, WORDS } from './curriculum.js';
+import { stations, WORDS, DEIXIS } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
 import {
   say, sayEn, praiseThen, missedThen, seeder, skillOf, stationById, stationForSkill,
@@ -83,8 +83,13 @@ export const CONSUMES = {
   quiz: { words: [], fields: [], gpcs: [], tricky: [] },
 };
 
-/** كلمةٌ من الرصيد المصوَّر باسمها — لصورة المشهد وحقلِها (فهرسٌ يُبنى مرّة). */
-const WORD_OF = new Map(WORDS.map((word) => [word.w, word]));
+/**
+ * كلمةٌ من الرصيد المصوَّر باسمها — لصورة المشهد وحقلِها (فهرسٌ يُبنى مرّة).
+ * **ومعها المراجعُ الضميريةُ المرسومة** (`DEIXIS` — س٥-٧): أصحابُ مشهدٍ كسائرهم في
+ * الرسم، **وليسوا من الرصيد** فلا حقلَ لهم ولا مدخلَ في Starters — ويُجرَدون صنفاً
+ * على حدة (`usedOf` في `station.js`).
+ */
+const WORD_OF = new Map([...WORDS, ...DEIXIS].map((word) => [word.w, word]));
 
 // ————— بناءُ الجولات (حتميٌّ ببذرة) —————
 

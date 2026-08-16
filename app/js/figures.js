@@ -76,6 +76,53 @@ const POSES = {
     + '<path d="M32 42 26 57M32 42l6 15"/>',
 };
 
+// ————————————————————————————————————————————————————————————————————————
+// ١ب) المتكلمُ والمخاطَب — **مرجعٌ يُرسَم لا شيءَ يُصوَّر** (بندُ الجلسة ٨)
+// ————————————————————————————————————————————————————————————————————————
+//
+// **العلّة** (حكمُ قبول الجلسة ٧ البند ١ — البديل أ): أربعةُ ضمائرَ ذواتِ مدخلٍ في
+// الرصيد (‏we · me · my · you) **مرجعُها المتكلمُ والمخاطَب** لا شخصٌ في المشهد — فلا
+// تُميَّز بصورةٍ كما يُميَّز `he` بصبيّ و`she` ببنت. فبقيت مفاتيحُها معلنةً وبابُها
+// نائماً («لا مشهدَ صادقَ لها اليوم» — `curriculum.js`).
+//
+// وحلُّها **وضعان يُدرَّسان في النمذجة** كما تُدرَّس علامةُ الشوكة وشكلا «سواء»:
+//   `speaker`  كفٌّ على صدر نفسِه — «انظر إليّ»: هذا **أنا** المتكلم.
+//   `listener` كفٌّ ممدودةٌ نحو الناظر — «أنت»: هذا **أنتَ** المخاطَب (وهو الطفلُ نفسُه).
+//   `speakers` المتكلمُ ومعه غيرُه — «نحن»: هي الأولى مضمومةً إلى واقفٍ ساكن.
+//
+// **والفارقُ بين الثلاثة يُرى من بعيد** (قاعدةُ الأوضاع نفسُها): كفٌّ صغيرةٌ داخلةٌ
+// على الصدر · كفٌّ كبيرةٌ مواجِهةٌ خارجة · شخصان لا شخص. **ولا حرفَ فيها ولا سهمَ**
+// يُقرأ: يتعلّمها الطفلُ في «شاهِدْ» بالنمذجة، ثم يُسأل عنها.
+
+/** المتكلم: ذراعٌ تعود إلى الصدر وكفُّها نقطةٌ عليه. */
+const speaker = `${head()}<path d="${trunk}"/><path d="M32 29 42 39"/>`
+  + '<path d="M32 29 21 34l7 2"/>'
+  + '<circle cx="29.6" cy="36.4" r="4" fill="currentColor" stroke="none"/>'
+  + '<path d="M32 42 26 57M32 42l6 15"/>';
+
+const DEIXIS_POSES = {
+  speaker,
+  // المخاطَب: ذراعٌ نحو الناظر مقصورةٌ منظوراً، وكفٌّ كبيرةٌ مواجِهةٌ في طرفها
+  listener: `${head()}<path d="${trunk}"/><path d="M32 29 22 39"/>`
+    + '<path d="M32 29l7 1.5"/>'
+    + '<circle cx="45" cy="31" r="5.6"/>'
+    + '<circle cx="45" cy="31" r="2" fill="currentColor" stroke="none"/>'
+    + '<path d="M32 42 26 57M32 42l6 15"/>',
+  // نحن: المتكلمُ ومعه واقفٌ — والاثنان أصغرُ ليسعهما الإطارُ نفسُه
+  speakers: `<g transform="translate(-2 9) scale(.7)">${speaker}</g>`
+    + `<g transform="translate(20 9) scale(.7)">${POSES.stand}</g>`,
+};
+
+/** أسماءُ المراجع الضميرية المرسومة — يقابلها `DEIXIS` في `curriculum.js`. */
+export const DEIXIS_POSE_NAMES = Object.keys(DEIXIS_POSES);
+
+function deixisEl(pose) {
+  const el = h('span', { class: 'fig-pose fig-deixis', 'aria-hidden': 'true' });
+  el.innerHTML = `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor"
+    stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${DEIXIS_POSES[pose] || ''}</svg>`;
+  return el;
+}
+
 /**
  * أسماءُ الأوضاع المرسومة — للعدّة والتشخيص.
  *
@@ -226,6 +273,7 @@ function letterEl(spec) {
  *   `swatch` بقعةُ لونٍ بقيمتها المعلَنة (حكمُ المدير — `METHOD.md §٤`)
  *   `ball`   كرةٌ ملوّنة بحجمين — مادّةُ الأمر المركّب (`صفةٌ وصفةٌ ومسمّى`)
  *   `pose`   وضعٌ مرسوم لفعلٍ لا رمزَ ساكناً له
+ *   `deixis` المتكلمُ أو المخاطَب أو «نحن» — مرجعٌ يُرسَم لا شيءٌ يُصوَّر (س٥-٧)
  *   `tokens` شكلا «سواء / مختلفان» — جوابُ التمييز الصوتيّ الخالص (س٣)
  *   `sound`  زرُّ صوتٍ يُرتَّب — أعمى قصداً (س٤-٣)
  *   `letter` رسمٌ إنكليزيٌّ بمقاطعه ووسومها — **مادّةُ فكٍّ** (مسارُ الحرف)
@@ -243,7 +291,8 @@ export function figureEl(spec) {
           css: { '--swatch': spec.colour },
         })
         : spec.kind === 'pose' ? poseEl(spec.word)
-          : spec.kind === 'tokens' ? tokensEl(spec.tokens)
+          : spec.kind === 'deixis' ? deixisEl(spec.pose)
+            : spec.kind === 'tokens' ? tokensEl(spec.tokens)
             : spec.kind === 'sound' ? soundEl()
               : emojiImg(spec.face);
   const el = h('span', { class: `fig fig--${spec.kind}` }, inner);
@@ -262,6 +311,10 @@ export function figureEl(spec) {
  * نفسِها (`face` · `count` · `swatch`)، فلا تختار شاشةٌ لكلمةٍ صورةً غيرَ صورتها.
  */
 export function specOf(word, extra = {}) {
+  // **والمرجعُ الضميريُّ أوّلُ ما يُسأل**: هو **ليس** من الرصيد المصوَّر (لا صورةَ
+  // للمتكلم ولا للمخاطَب)، فيُعرَف بإعلانه هو (`DEIXIS` في `curriculum.js`) — وبه
+  // يخرج من جرد الكلمات إلى جرده هو (`usedOf` في `station.js`).
+  if (word.pose) return { kind: 'deixis', word: word.w, pose: word.pose, ...extra };
   if (word.count) return { kind: 'count', word: word.w, n: word.count, ...extra };
   // **والصورةُ قبل البقعة**: تسعةُ ألوانٍ لها مربّعٌ في يونيكود رآه الطفلُ في محطتها،
   // وبقعتُها قيمةٌ للأمر المركّب لا صورةٌ ثانية له (`curriculum.js` — الألوان).
