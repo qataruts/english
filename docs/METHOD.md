@@ -135,7 +135,7 @@ CVCC/CCVC (went, stand, frog, jumps) — علاجُ إقحام الحركة ال
 
 ## ٧. القياس — مفاتيح ليتنر `(الوحدة × المدى × نوع التمرين)`
 
-`word|cat|listen-pick` · `verb|jump|tpr-do` · `pair|p-b|pick` · `phon|initial-s|pick` · `oral|cat|blend-ear` · `oral|cat|segment-ear` · `rhyme|at|pick` · `gpc|s|sound-pick` (اسمع الصوتَ واختر رسمَه) · `gpc|s|letter-pick` (انظر الرسمَ واختر صوتَه) · `word|sat|build` · `word|sat|decode` · `vowel|bit-bet|mid-pick` (الصائتُ الأوسط — شكل `haraka`) · `word|big|tpr-two` (صفتا الأمر المركّب معاً) · `tricky|the|read` · `sentence|…|match` (جمل س٥-٦) · `text|h05|read`.
+`word|cat|listen-pick` · `verb|jump|tpr-do` · `pair|p-b|pick` · `phon|initial-s|pick` · `oral|cat|blend-ear` · `oral|cat|segment-ear` · `rhyme|at|pick` · `gpc|s|sound-pick` (اسمع الصوتَ واختر رسمَه) · `gpc|s|letter-pick` (انظر الرسمَ واختر صوتَه) · `word|sat|build` · `word|sat|decode` · `vowel|bit-bet|mid-pick` (الصائتُ الأوسط — شكل `haraka`) · `word|big|tpr-two` (صفتا الأمر المركّب معاً) · `gpc|ay|alt-pick` (البديلُ يُلمَس ورسمُه الأسبق معروضٌ — تنفيذُ §١٢-٦، حلَّ محلَّ `sound-pick` حيث لصوت الرمز رسمٌ أسبق — قبول الجلسة ٧) · `tricky|the|read` · `sentence|…|match` (جمل س٥-٦) · `text|h05|read`.
 سلّمُ الصناديق [0,1,2,4,8,16] يوماً (عقدُ `progress.js`)، والمراجعةُ اليومية تسحب من الجبهتين معاً، وكلُّ محطةٍ تكتب قياسَها (`test_measure` من أول محطة)، ولوحةُ الوالد تعرض بالمهارة لا بالدرجة.
 
 ## ٨. أنواع التمارين (كلُّها لمسٌ واختيار — لا كتابةَ ولا نطقَ مقيس)
@@ -163,7 +163,7 @@ CVCC/CCVC (went, stand, frog, jumps) — علاجُ إقحام الحركة ال
 
 ## ١١. الحرّاس من اليوم الأول (شرط قبول الجلسة ١ — التفصيل في `PLAN.md §٨`)
 
-`check_coupling` (سالباً) · `check_range` الثلاثي (رمز/رصيد/شائكة — كلٌّ سالباً) · `test_measure` · `test_nodes` · `test_selftests` · حارسُ التعاقب وموتِ الحلقة · حارسُ اللاقراءة (سالباً بزرٍّ مصنوع) · حارسُ الهوية (يومَ ق٣) · `check_live` من أول نشرة · عدّةُ المتصفح ومقاسات الآيباد و`--device`.
+`check_coupling` (سالباً) · `check_range` الثلاثي (رمز/رصيد/شائكة — كلٌّ سالباً) · **`test_promise` حارسُ الوعد يوماً بيوم** (قبول الجلسة ٧ — محاكاةُ طفلٍ بسقف اليوم ومواعيدِ ليتنر تثبت أن الوعدَ يقع في مجرى الأيام: لا قراءةَ قبل الإتقان فعلاً، وكلُّ مفتاحٍ يُقاس في عمر الجهاز، والرحلةُ تُبلَغ — ودسّتُه السالبة مع كل تشغيل) · `test_measure` · `test_nodes` · `test_selftests` · حارسُ التعاقب وموتِ الحلقة · حارسُ اللاقراءة (سالباً بزرٍّ مصنوع) · حارسُ الهوية (يومَ ق٣) · `check_live` من أول نشرة · عدّةُ المتصفح ومقاسات الآيباد و`--device`.
 
 ## ١٢. القرارات المنهجية المعلنة (تدخل صفحة الأسس نصاً بأسبابها)
 

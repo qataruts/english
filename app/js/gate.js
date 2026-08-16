@@ -85,6 +85,9 @@ export function renderGate(gateId) {
           h('h2', {}, 'فُتِحَتِ البَوَّابَة!'),
           starsRow(starsForReview(errors, items.length), 'big-stars'),
           score,
+          // **وما بعد البوابة يُذكَر إن أعلنته هي** (بوابةُ الختام وحدَها اليوم):
+          // ذكرٌ لا وعدٌ يُقاس — لا عقدةَ له في الخريطة ولا مفتاحَ في ليتنر.
+          gate.next && h('p', { class: 'rule' }, gate.next),
           h('div', { class: 'row foot' },
             h('button', { class: 'btn btn--primary', onclick: () => go('#/') },
               icon('map'), ' الخريطة')),

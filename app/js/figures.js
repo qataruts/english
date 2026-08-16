@@ -201,7 +201,11 @@ function letterEl(spec) {
   for (const part of spec.parts || []) {
     // **والفراغُ مقطعٌ مُعلَن لا حرفٌ ناقص** (`gap` — شكلُ الصائت الأوسط): يُرى خطّاً
     // في موضع الصائت، فيعرف الطفلُ **أين** يقع ما يُسأل عنه من الكلمة.
-    box.append(h('span', { class: `glyph${part.gap ? ' glyph--gap' : ''}` },
+    // **والموضعُ المُعلَّم إشارةٌ لا وسم** (`focus` — نطوقُ ح١٦ البديلة): يقول «عن
+    // هذا أسألك» ولا يقول شيئاً عن فكِّه، فلا يُخلَط بالنقطة ولا بالقلب.
+    box.append(h('span', {
+      class: `glyph${part.gap ? ' glyph--gap' : ''}${part.focus ? ' glyph--focus' : ''}`,
+    },
       enEl(part.g, 'en glyph-g'),
       markEl(part.mark)));
   }

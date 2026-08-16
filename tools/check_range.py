@@ -1277,11 +1277,30 @@ def self_test(data: dict) -> int:
     #  لم تُكتب — والدسّةُ تتبع الجبهةَ ولا تُثبَّت على كلمةٍ بعينها.)
     asleep_word = next((w for g in data["grades"] for w in g["tricky"]
                         if w not in data["hearts"]), None)
-    ok(asleep_word is not None and find(hearted(lambda d: d["hearts"].update(
-        **{asleep_word: {"parts": [asleep_word], "heart": 0, "say": asleep_word,
-                         "why": "دسّة"}})), "بلا رسمٍ معلَن"),
-       f"**وإعلانُ رسمٍ في درجةٍ يُوقظ أخواتِه فيها** — `{asleep_word}` وحدَها "
-       "تُطالِب بأخواتها في درجتها")
+    if asleep_word is not None:
+        ok(find(hearted(lambda d: d["hearts"].update(
+            **{asleep_word: {"parts": [asleep_word], "heart": 0, "say": asleep_word,
+                             "why": "دسّة"}})), "بلا رسمٍ معلَن"),
+           f"**وإعلانُ رسمٍ في درجةٍ يُوقظ أخواتِه فيها** — `{asleep_word}` وحدَها "
+           "تُطالِب بأخواتها في درجتها")
+    else:
+        # **ولمّا كُتبت الشائكاتُ كلُّها (الجلسة ٧) بلغت الجبهةُ آخرَ درجة، فانعكست
+        # الدسّة**: لا شائكةَ نائمةً تُوقَظ، فتُنزَع واحدةٌ من آخر درجةٍ فتُطالَب في
+        # الحال — والمقيسُ واحد: **المطلوبُ يتبع البياناتِ لا رايةً تُضبط بيد**.
+        last = data["grades"][-1]["tricky"][-1]
+        ok(find(hearted(lambda d: d["hearts"].pop(last)), "بلا رسمٍ معلَن"),
+           f"**ورسمٌ يُنزَع من درجةٍ معلَنةٍ يُمسَك** — `{last}` تُطالَب لأنّ أخواتِها "
+           "في درجتها معلَنة (والجبهةُ بلغت آخرَ الرحلة، فلا نائمَ يُوقَظ)")
+        era = data["grades"][-1]["tricky"]
+
+        def strip_last(d):
+            for word in era:
+                d["hearts"].pop(word, None)
+            return d
+
+        ok(not any(w in wanted_hearts(strip_last(copy.deepcopy(data))) for w in era),
+           "**والمطلوبُ يتبع آخرَ درجةٍ أُعلن فيها رسم**: تُنزَع شائكاتُ آخر درجةٍ "
+           "كلُّها فلا يبقى منها مطلوبٌ — نومٌ بالبيانات لا بيد")
     # **ودرجتُها من قيد الاقتران تُدسّ من الجهتين** (حكمُ المدير · `METHOD.md §٦`):
     # شائكةٌ بلا إعلانٍ أصلاً، وشائكةٌ تعلن الحقلين معاً — كلتاهما تُمسَك، فلا يمرّ
     # سكوتٌ عن سؤال «أتُقرأ قبل أن تُسمَع؟» ولا يمرّ جوابان متناقضان.
@@ -1334,6 +1353,36 @@ def self_test(data: dict) -> int:
        "وقصةٌ بصفحتين تُرفَض (لا نمذجةٌ وعونٌ و«وحدك» فيها)")
     ok(find(dosed_page(lambda s: s.__setitem__("part", "h05")), "قبل 🚪٢"),
        "**وقصةٌ قبل بوابة الفكّ تُرفَض** — «كتابٌ لكل درجةٍ **من بعد** 🚪٢»")
+    # ————— **والدسّةُ تتبع الرصيد الجديد** (الجلسة ٧: عشرُ قصصٍ دخلت) —————
+    #
+    # الدسّاتُ أعلاه على **أوّل** قصة (ح٦) بكلماتٍ مُسمّاة، فلو بقيت وحدَها لَشهد
+    # الحارسُ لقصةٍ واحدة والرصيدُ إحدى عشرة. فتُدسّ **قصةٌ من وسط الرحلة** بكلمةٍ
+    # وشائكةٍ **من درجةٍ بعدها** — والمدسوسُ يُحسَب من البيانات لا يُكتب بيد، فيتبع
+    # الرصيدَ يومَ يزيد.
+    order = [g["id"] for g in data["grades"]]
+    told = [st["part"] for st in data["stations"] if st["type"] == "story"]
+    if len(told) > 2:
+        mid = told[len(told) // 2]
+        after = [g for g in data["grades"] if order.index(g["id"]) > order.index(mid)]
+        late_word = next(w["w"] for g in after for w in g["words"])
+        late_tricky = next(w for g in after for w in g["tricky"])
+
+        def dosed_mid(word):
+            clone = copy.deepcopy(data)
+            station = next(st for st in clone["stations"]
+                           if st["type"] == "story" and st["part"] == mid)
+            station["pages"][0]["text"] += f" {word}"
+            station["text"] = " ".join(page["text"] for page in station["pages"])
+            return (usage_errors(label_of(station), used_of(station, index),
+                                 station["frontier"], bank)
+                    + story_errors(clone, index, bank))
+
+        ok(find(dosed_mid(late_word), "فوق درجة محطته"),
+           f"🔒 **وكلمةٌ من درجةٍ لاحقة تُدسّ في قصة {mid} فتُرفَض** («{late_word}») — "
+           "والدسّةُ تتبع الرصيدَ الجديد لا تقف على أوّل قصة")
+        ok(find(dosed_mid(late_tricky), "فوق شائكات درجته"),
+           f"  **وشائكةٌ من عهدٍ لاحق كذلك** («{late_tricky}» في قصة {mid})")
+
     ok(not story_errors(data, index, bank),
        f"والقائمُ اليومَ سليم: {sum(len(s.get('pages') or []) for s in stations if s['type'] == 'story')} "
        "صفحةً كلُّ كلمةٍ فيها مفكوكةٌ أو شائكةٌ مفتوحة")

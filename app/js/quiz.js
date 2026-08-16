@@ -22,7 +22,7 @@
 
 import * as progress from './progress.js';
 import { registerScreen } from './registry.js';
-import { stations } from './curriculum.js';
+import { stations, WORDS } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
 import {
   say, sayEn, praiseThen, missedThen, seeder, skillOf, stationById, stationForSkill,
@@ -46,10 +46,16 @@ const MODEL_ITEMS = 3;     // ما يعرضه المعلم في «شاهِدْ»
 const ASK = {
   listen: 'اسْمَعْ وَالْمَسْ',
   model: 'انْظُرْ وَاسْمَعْ — الْمُعَلِّمُ يَقُولُ وَأَنْتَ تَسْمَعْ',
+  // **وجملُ س٥-٦**: تُسمَع الجملةُ ويُلمَس **المشهدُ الذي تقوله** — لا كلمةَ تُعزَل
+  // منها، فالمعنى في تركيبها (`METHOD.md §٤`: «صورٌ تُطابَق»).
+  match: 'اسْمَعِ الْجُمْلَةَ وَالْمَسْ صُورَتَهَا',
 };
 
 /** محطاتُ هذه الوحدة من المنهج — ومنها تُجرَد مادّتُها المنطوقة. */
 const owned = () => stations().filter((s) => TYPES.has(s.type) && !s.sentences.length);
+
+/** محطاتُ الجمل (س٥-٦) — مادّتُها جملٌ تُسمَع لا كلماتٌ مفردة. */
+const sentenced = () => stations().filter((s) => TYPES.has(s.type) && s.sentences.length);
 
 /**
  * **كلُّ نصٍّ قد تنطقه هذه الوحدة** — إعلانٌ لا استنتاج (يجرده `tools/queue_texts.mjs`):
@@ -60,6 +66,10 @@ export const SPOKEN = [
   ...Object.values(ASK).map((text) => ({ text, lang: 'ar', category: 'instruction' })),
   ...[...new Set(owned().flatMap((s) => s.words.map((w) => w.w)))]
     .map((text) => ({ text, lang: 'en', category: 'word' })),
+  // **وجملُ س٥-٦ نصوصٌ تامّة** بفئة `sentence`: تُسمَع كما كُتبت ولا تُركَّب من
+  // كلماتها (وحدُ القناة الواحدة: نصٌّ واحد لملفٍّ واحد).
+  ...[...new Set(sentenced().flatMap((s) => s.sentences.map((one) => one.text)))]
+    .map((text) => ({ text, lang: 'en', category: 'sentence' })),
 ];
 
 // ————— ما تستهلكه هذه الوحدة (الباب الرابع في `check_range.py`) —————
@@ -72,6 +82,9 @@ export const SPOKEN = [
 export const CONSUMES = {
   quiz: { words: [], fields: [], gpcs: [], tricky: [] },
 };
+
+/** كلمةٌ من الرصيد المصوَّر باسمها — لصورة المشهد وحقلِها (فهرسٌ يُبنى مرّة). */
+const WORD_OF = new Map(WORDS.map((word) => [word.w, word]));
 
 // ————— بناءُ الجولات (حتميٌّ ببذرة) —————
 
@@ -115,6 +128,119 @@ function pickRound(station, rnd, { options = SOLO_OPTIONS, word = null } = {}) {
   };
 }
 
+// ————— **جملُ «الآن وهنا» (س٥-٦): مشهدٌ يُطابَق جملةً مسموعة** —————
+//
+// **وثلاثةُ أحكامٍ في مشهدها**، كلُّها من قيودنا القائمة:
+//
+// ١) **المشتّتُ من مجموعة الجملة وحدَها** (`group` في `curriculum.js`): مشهدُ موضعٍ
+//    يقابله مشهدُ موضع، ومشهدُ «مَن؟» لا يقابله إلا مشهدُ «مَن؟» بصاحبٍ آخر — فلا
+//    يفترق الخياران في شيئين فيُصاب الجوابُ بالاستبعاد.
+// ٢) **والمقيسُ ما يفرّق بين الخيارات**: خياراتٌ تختلف كلُّها ⇒ المقيسُ الجملةُ
+//    (`sentence|…|match`)، وخياراتٌ لا تفترق إلا في صاحب الفعل أو المِلك ⇒ المقيسُ
+//    **الضميرُ** (`word|he|listen-pick`) — والمفتاحُ يُقرأ من المنهج لا يُبنى هنا.
+// ٣) **ولا حرفَ في مشهدها**: أشياءُ الرصيد المصوَّر بصورها، والعلاقةُ **موضعٌ يُرى**
+//    (شيءٌ في/على/تحت شيء · صاحبٌ إلى جانب ما يملك) — قاعدةُ اللاقراءة بلغتين.
+
+/** أشياءُ مشهدٍ كما تُرسَم: `[{ spec, at }]` — و`at` موضعُه من الحامل أو لا شيء. */
+const sceneParts = (scene) => {
+  const one = (name) => specOf(WORD_OF.get(name) || { w: name });
+  if (scene.zone) {
+    return { holder: one(scene.holder), things: [{ spec: one(scene.thing), at: scene.zone }] };
+  }
+  if (scene.own) return { pair: [one(scene.own), one(scene.thing)] };
+  return { pair: [one(scene.one)] };
+};
+
+/** خياراتُ جملةٍ: مشاهدُ مجموعتها — والصوابُ مشهدُها هي. */
+function sentenceOptions(station, sentence, rnd, count) {
+  const mine = sentence.scene;
+  // مشهدُ «مَن؟» و«لِمَن؟»: الشيءُ واحد ويتبدّل **صاحبُه** — فالفارقُ الضميرُ وحدَه
+  if (mine.one || mine.own) {
+    const at = mine.one ? 'one' : 'own';
+    const others = shuffle((station.owners || [])
+      .filter((owner) => owner.w !== mine[at]), rnd).slice(0, count - 1);
+    return [{ id: mine[at], scene: mine },
+      ...others.map((owner) => ({ id: owner.w, scene: { ...mine, [at]: owner.w } }))];
+  }
+  const others = shuffle(station.sentences
+    .filter((one) => one.group === sentence.group && one.id !== sentence.id), rnd)
+    .slice(0, count - 1);
+  return [{ id: sentence.id, scene: mine },
+    ...others.map((one) => ({ id: one.id, scene: one.scene }))];
+}
+
+/** جولةُ «اسمع الجملة والمس صورتها». */
+function sentenceRound(station, rnd, { options = SOLO_OPTIONS, sentence = null } = {}) {
+  const target = sentence || pick(station.sentences, rnd);
+  if (!target) return null;
+  // **والمفتاحُ من المنهج**: ضميرٌ يُقاس بمفتاح الرصيد، وجملةٌ تُقاس بمفتاحها
+  const skill = target.measures
+    ? skillOf(station, target.measures, 'listen-pick')
+    : skillOf(station, target.id, 'match');
+  if (!skill) return null;
+  // **ومعرّفُ الصواب معرّفُ مشهده**: صاحبُ الجملة في مجموعتَي «مَن؟» و«لِمَن؟»،
+  // ومعرّفُ الجملة فيما سواهما — وبه تُعرَف البطاقةُ الملموسة (`data-name`).
+  const answer = target.scene.one || target.scene.own || target.id;
+  const chosen = shuffle(sentenceOptions(station, target, rnd, options), rnd);
+  if (chosen.length < Math.min(2, options) || !chosen.some((one) => one.id === answer)) {
+    return null;
+  }
+  const drawn = chosen.map((option) => ({ ...option, parts: sceneParts(option.scene) }));
+  const figures = drawn.flatMap((option) => [
+    ...(option.parts.holder ? [option.parts.holder] : []),
+    ...(option.parts.things || []).map((thing) => thing.spec),
+    ...(option.parts.pair || []),
+  ]);
+  const next = seeder(rnd);
+  return {
+    kind: target.measures ? 'listen-pick' : 'match',
+    shape: 'sentence',
+    unit: skill.unit,
+    range: skill.range,
+    ask: ASK.match,
+    // **المقصودُ معرّفُ المشهد لا كلمةٌ**: الجملةُ تُطابَق مشهداً، والمشهدُ يُعرَف بمعرّفه
+    target: answer,
+    text: target.text,
+    options: drawn,
+    figures,
+    fields: [...new Set(figures.map((spec) => WORD_OF.get(spec.word)?.field).filter(Boolean))],
+    // **والجملةُ تُجرَد بكلماتها على مداخل Starters** كالأمر المنطوق في س٢: ما يدخل
+    // أذنَ الطفل محسوبٌ كلُّه، وإن لم يكن له صورةٌ تُلمَس.
+    said: target.text.split(/\s+/).filter(Boolean),
+    sig: `${station.id}|${target.id}|${next()}`,
+  };
+}
+
+/** خطةُ محطة الجمل: نمذجةٌ ثم عونٌ ثم «وحدك» — بجملةٍ لا تتكرّر ما بقي غيرُها. */
+function sentencePlan(station, seed) {
+  const rnd = seeded(seed >>> 0);
+  let bag = [];
+  const nextSentence = () => {
+    if (!bag.length) bag = shuffle(station.sentences, rnd);
+    return bag.pop();
+  };
+  const shown = shuffle(station.sentences, rnd).slice(0, MODEL_ITEMS)
+    .map((one) => sentenceRound(station, rnd, { options: 1, sentence: one }))
+    .filter(Boolean);
+  if (!shown.length) return null;
+  return {
+    model: {
+      title: 'المعلّمُ يعرض ويقول، وأنت تسمع',
+      hint: ASK.model,
+      items: shown.map((round) => ({ en: round.text, el: () => sceneEl(round.options[0]) })),
+      figures: shown.flatMap((round) => round.figures),
+      fields: [...new Set(shown.flatMap((round) => round.fields))],
+      said: [...new Set(shown.flatMap((round) => round.said))],
+    },
+    guided: Array.from({ length: GUIDED }, () =>
+      sentenceRound(station, rnd, { options: GUIDED_OPTIONS, sentence: nextSentence() }))
+      .filter(Boolean),
+    solo: Array.from({ length: SOLO }, () =>
+      sentenceRound(station, rnd, { options: SOLO_OPTIONS, sentence: nextSentence() }))
+      .filter(Boolean),
+  };
+}
+
 /**
  * **خطةُ المحطة**: نمذجةٌ ثم جولتان بعونٍ (خياران) ثم خمسٌ «وحدك» (ثلاثة خيارات).
  * **ولا تتكرّر كلمةٌ ما بقي في المحطة غيرُها**: القرعةُ على قائمةٍ مخلوطة تدور، فيلقى
@@ -122,9 +248,10 @@ function pickRound(station, rnd, { options = SOLO_OPTIONS, word = null } = {}) {
  */
 export function buildStation(stationId, seed) {
   const station = stationById(stationId);
-  // **وجملُ س٥-٦ ليست من هذه الوحدة**: مشهدُها شكلٌ آخر (الجلسة ٧)، فتُردّ صراحةً
-  // ولا تُبنى بشاشةٍ لا تصفها.
-  if (!station || !TYPES.has(station.type) || station.sentences.length) return null;
+  if (!station || !TYPES.has(station.type)) return null;
+  // **وجملُ س٥-٦ خطّتُها خطّتُها**: مادّتُها جملٌ ومشاهدُ لا كلماتٌ وصور — والشاشةُ
+  // واحدة لأنّ نوعَ المحطة واحد (`quiz`)، والفارقُ في البيانات لا في ملفٍّ ثانٍ.
+  if (station.sentences.length) return sentencePlan(station, seed);
   if (station.words.length < 2) return null;
   const rnd = seeded(seed >>> 0);
 
@@ -170,8 +297,15 @@ export function probeRounds(stationId, seed) {
 
 // (واسمُ المُعامَل `recordAttempt` عمداً: هو دالّةُ `progress` نفسُها في المحطة،
 //  ونظيرتُها في المراجعة — وباسمها يقرأ الحارسُ **موضعَ الكتابة** لا نيّتَها.)
-const score = (round, correct, recordAttempt = progress.recordAttempt) =>
+const score = (round, correct, recordAttempt = progress.recordAttempt) => {
+  // **والجملةُ تُقاس `match`** (`METHOD.md §٧`: `sentence|…|match`)، وضميرُها يُقاس
+  // `listen-pick` بمفتاح الرصيد نفسِه — فما يُكتب في ليتنر هو ما أعلنه المنهج.
+  if (round.kind === 'match') {
+    recordAttempt(round.unit, round.range, 'match', correct);
+    return;
+  }
   recordAttempt(round.unit, round.range, 'listen-pick', correct);
+};
 
 // ————— الشاشة —————
 
@@ -239,6 +373,79 @@ function pickView(round, hooks) {
   );
 }
 
+// ————— شاشةُ الجملة: مشهدٌ يُطابَق ما سُمع —————
+
+/**
+ * **مشهدُ خيارٍ واحد** — بطاقةٌ صغيرة: حاملٌ وشيءٌ في موضعه، أو صاحبٌ وما يملك،
+ * أو صاحبٌ وحدَه. **ولا حرفَ فيها** (قاعدةُ اللاقراءة)، والموضعُ يُرى بموضعه لا
+ * بكلمةٍ تصفه.
+ */
+function sceneEl(option) {
+  const parts = option.parts || sceneParts(option.scene);
+  if (parts.pair) {
+    return h('span', { class: 's-card s-pair' }, ...parts.pair.map(figureEl));
+  }
+  const box = h('span', { class: 's-card' },
+    h('span', { class: 's-holder' }, figureEl(parts.holder)));
+  for (const thing of parts.things) {
+    box.append(h('span', { class: `s-thing s-thing--${thing.at}` }, figureEl(thing.spec)));
+  }
+  return box;
+}
+
+/**
+ * جولةُ «اسمع الجملة والمس صورتها»: الجملةُ تُسمَع تامّةً (لا كلمةَ تُعزَل منها)،
+ * والمشاهدُ تُلمَس — وزرُّ الإعادة أذنٌ يعيد **الجملة**.
+ */
+function sentenceView(round, hooks) {
+  const stage = h('div', { class: 'q-stage q-stage--ask' });
+  stage.dataset.ask = round.target;
+  // **ونصُّ الجملة سِمةٌ للفاحص لا نصٌّ يُقرأ**: يقيس بها المتصفّحُ ما سُئل عنه
+  stage.dataset.sentence = round.text;
+  stage.append(h('button', {
+    class: 'btn btn--hear',
+    'aria-label': 'اسمع الجملة مرّةً أخرى',
+    onclick: () => sayEn(round.text),
+  }, icon('ear')));
+
+  const choices = h('div', { class: 'q-choices q-choices--sentence' });
+  let locked = false;
+  for (const option of round.options) {
+    const btn = h('button', { class: 'qcard qcard--scene', 'aria-label': 'هَذِهِ' },
+      sceneEl(option));
+    btn.dataset.name = option.id;
+    btn.addEventListener('click', async () => {
+      if (locked) return;
+      locked = true;
+      const correct = option.id === round.target;
+      hooks.attempt(round, correct);
+      if (correct) {
+        btn.classList.add('good');
+        pop(btn);
+        await praiseThen(hooks, round.text);
+        return;
+      }
+      const targetEl = [...choices.children].find((el) => el.dataset.name === round.target);
+      // **والتصحيحُ يُعيد الجملةَ ولا يسمّي المشهد**: المقيسُ فهمُ الجملة كلِّها
+      await missedThen(hooks, {
+        chosen: '', target: round.text, chosenEl: btn, targetEl,
+      });
+    });
+    choices.append(btn);
+  }
+
+  (async () => {
+    await say(round.ask);
+    if (hooks.alive()) await sayEn(round.text);
+  })();
+
+  return h('div', {}, h('p', { class: 'hint' }, round.ask), stage, choices);
+}
+
+/** شاشةُ الجولة بحسب شكلها — كلمةٌ تُلمَس أو مشهدٌ يُطابَق. */
+const viewOf = (round, hooks) => (round.shape === 'sentence'
+  ? sentenceView(round, hooks) : pickView(round, hooks));
+
 // ————— التسجيل في الموجِّه وفي المراجعة —————
 //
 // **الشاشةُ تسجّل نفسَها**: لا يعرف `main.js` اسمَ شاشةٍ هنا، ولا تدخل محطةٌ جديدة من
@@ -252,7 +459,7 @@ registerScreen('quiz', (part) => {
     title: station.title,
     accent: LISTEN_ACCENT,
     make: () => buildStation(station.id, (Date.now() >>> 0) ^ 0x9e3779b9),
-    view: pickView,
+    view: viewOf,
     score,
     save: (stars) => progress.setStars(station.id, stars),
   });
@@ -262,10 +469,32 @@ registerScreen('quiz', (part) => {
 registerExercise('listen-pick', {
   build: (skill, rnd) => {
     const station = stationForSkill(skill);
-    if (!station || !TYPES.has(station.type) || station.sentences.length) return null;
+    if (!station || !TYPES.has(station.type)) return null;
+    // **وضميرُ الجملة يُراجَع بجملته**: مفتاحُه مفتاحُ رصيدٍ ومادّتُه مشهدٌ لا صورةٌ
+    // مفردة — فيُبنى من محطته هي، ولا يُطلَب له صورةٌ ليست له.
+    if (station.sentences.length) {
+      // **ومدىً لا تعرفه المحطةُ يُبنى بمداها هي** (عقدُ `stationForSkill`): جولةٌ من
+      // نوعه بجملةٍ من جملها خيرٌ من صمتٍ يُقرأ «لا تمرينَ لهذا النوع».
+      const sentence = station.sentences.find((one) => one.measures === skill.range)
+        || pick(station.sentences.filter((one) => one.measures), rnd);
+      return sentence ? sentenceRound(station, rnd, { sentence }) : null;
+    }
     const word = station.words.find((w) => w.w === skill.range);
     return pickRound(station, rnd, { word });
   },
-  view: pickView,
+  view: viewOf,
+  score,
+});
+
+/** جملةُ س٥-٦ في المراجعة — مقيسُها الجملةُ نفسُها (`sentence|…|match`). */
+registerExercise('match', {
+  build: (skill, rnd) => {
+    const station = stationForSkill(skill);
+    if (!station || !TYPES.has(station.type) || !station.sentences.length) return null;
+    const sentence = station.sentences.find((one) => one.id === String(skill.range))
+      || pick(station.sentences.filter((one) => !one.measures), rnd);
+    return sentence ? sentenceRound(station, rnd, { sentence }) : null;
+  },
+  view: viewOf,
   score,
 });

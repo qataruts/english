@@ -40,6 +40,16 @@
     "doneAt": null
   },
   {
+    "text": "اسْمَعِ الْجُمْلَةَ وَالْمَسْ صُورَتَهَا",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "اسْمَعِ الصَّوْتَ وَالْمَسْ رَسْمَهُ",
     "lang": "ar",
     "voice": "",
@@ -275,6 +285,26 @@
     "voice": "",
     "category": "instruction",
     "requestedBy": "session-3",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "هَذَا الصَّوْتُ تَعْرِفُهُ — وَالْمَسْ رَسْمَهُ الْآخَرَ",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "هَذَا الْمَوْضِعُ فِي الْكَلِمَةِ — أَيَّ صَوْتٍ يَقُولُ هُنَا؟",
+    "lang": "ar",
+    "voice": "",
+    "category": "instruction",
+    "requestedBy": "session-2",
     "priority": 10,
     "status": "pending",
     "doneAt": null
@@ -2690,11 +2720,51 @@
     "doneAt": null
   },
   {
+    "text": "come here please",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "come to me",
     "lang": "en",
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "do it again",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "do it once",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "do you have any milk",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -2720,7 +2790,37 @@
     "doneAt": null
   },
   {
+    "text": "he is happy",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "he is my friend",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "her book was red",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "her chair was red",
     "lang": "en",
     "voice": "",
     "category": "sentence",
@@ -2740,6 +2840,26 @@
     "doneAt": null
   },
   {
+    "text": "I am happy because I can play",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I asked my friend",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "I can run",
     "lang": "en",
     "voice": "",
@@ -2750,11 +2870,61 @@
     "doneAt": null
   },
   {
+    "text": "I can see the water",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I eat the bread",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "I go to bed",
     "lang": "en",
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I go to dad",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I have one frog",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I read the book again",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -2780,11 +2950,71 @@
     "doneAt": null
   },
   {
+    "text": "I run to the cow",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I run to the fish",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I run to the goat",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I run to the sun",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "I sit in the box",
     "lang": "en",
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I sit on the chair",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "I thought so",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -2820,7 +3050,77 @@
     "doneAt": null
   },
   {
+    "text": "many people are happy",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "Mr Green is my friend",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "Mrs Green is here",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "mum called me",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "my ball is different",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "my ball is red",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "my eyes are big",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "my mum can work",
     "lang": "en",
     "voice": "",
     "category": "sentence",
@@ -2835,6 +3135,16 @@
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-4",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "oh, the dog is big",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -3050,6 +3360,16 @@
     "doneAt": null
   },
   {
+    "text": "she looked at me",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "she said no",
     "lang": "en",
     "voice": "",
@@ -3060,7 +3380,37 @@
     "doneAt": null
   },
   {
+    "text": "the ball is under the bed",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the bee on the sheep",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "the big blue ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the big cow",
     "lang": "en",
     "voice": "",
     "category": "sentence",
@@ -3110,11 +3460,81 @@
     "doneAt": null
   },
   {
+    "text": "the bird is in the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the bird on the sea",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the blue sea",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the book in the car",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the boy asked mum",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the boy looked again",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "the cat",
     "lang": "en",
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-4",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the cat is on the bed",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -3135,6 +3555,236 @@
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the cat on the car",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the cat on the chair",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the cow in the car",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the cow on the bed",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the cow on the chair",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the dog is under the chair",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the duck on the bed",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the family called the girl",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the family in the car",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the fish in the ship",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the fish is in the water",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the frog on the tree",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the frog said no",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the girl called the bird",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the goat was on the bed",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the green tree",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the mouse is in the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the people are happy",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the plane on the sea",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the red sock in the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the sheep in the sun",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the shell in the box",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the ship was big",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -3180,6 +3830,66 @@
     "doneAt": null
   },
   {
+    "text": "the spider was there",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the water on the shoe",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the white kite",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "the yellow school",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "their ball is red",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "their bird was blue",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "they are happy",
     "lang": "en",
     "voice": "",
@@ -3190,7 +3900,37 @@
     "doneAt": null
   },
   {
+    "text": "they go to school",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "they go to the car",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "we are all here",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we are friends",
     "lang": "en",
     "voice": "",
     "category": "sentence",
@@ -3211,6 +3951,16 @@
   },
   {
     "text": "we can jump",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we go through the door",
     "lang": "en",
     "voice": "",
     "category": "sentence",
@@ -3245,6 +3995,16 @@
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "we laughed at the dog",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
     "priority": 70,
     "status": "pending",
     "doneAt": null
@@ -3295,6 +4055,26 @@
     "voice": "",
     "category": "sentence",
     "requestedBy": "session-6",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "where is my ball",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 70,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
+    "text": "who is happy",
+    "lang": "en",
+    "voice": "",
+    "category": "sentence",
+    "requestedBy": "session-2",
     "priority": 70,
     "status": "pending",
     "doneAt": null

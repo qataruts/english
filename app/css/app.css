@@ -928,8 +928,10 @@ button {
 .glyph-mark--heart { width: .34em; height: .34em; color: var(--err); }
 
 /* بطاقاتُ الرسم: الرمزُ يُلمَس وحدَه، والكلمةُ تُعرَض في الساحة لا في بطاقة */
-.q-choices--sound .qcard { width: 6.5rem; height: 6.5rem; }
+.q-choices--sound .qcard,
+.q-choices--alt .qcard { width: 6.5rem; height: 6.5rem; }
 .q-choices--sound .fig--letter,
+.q-choices--alt .fig--letter,
 .q-choices--tricky .fig--letter { font-size: 3.4rem; }
 .q-choices--tricky .qcard { min-width: 7.5rem; height: 6.5rem; }
 .q-stage .fig--letter { font-size: 4rem; }
@@ -1012,6 +1014,14 @@ button {
    **١) الصائتُ الأوسط** (`vowel|…|mid-pick`): إطارُ الكلمة بلا صائتها (`b_x`)،
    والفراغُ **خطٌّ يُرى** لا فجوةٌ تُخمَّن — فيعرف الطفلُ أين يقع الجواب. */
 
+/* **الموضعُ المُعلَّم** (نطوقُ ح١٦): إطارٌ حول المقطع المسؤول عنه — إشارةُ سؤالٍ لا
+   وسمُ فكّ، فلونُه لونُ الوقف لا لونُ النقطة. */
+.glyph--focus .glyph-g {
+  background: color-mix(in srgb, var(--accent) 16%, var(--mix));
+  border-radius: .12em;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 42%, var(--mix));
+}
+
 .glyph--gap .glyph-g {
   color: color-mix(in srgb, var(--accent) 45%, var(--mix));
   border-bottom: 4px solid color-mix(in srgb, var(--accent) 55%, var(--mix));
@@ -1021,7 +1031,24 @@ button {
 /* **٢) الفكُّ في مشهد**: الكلمةُ مقروءةً فوق، والمشهدُ تحتها — والكرتان تختلفان
    حجماً لا لوناً (السؤالُ عن الحجم، فلو تلوّنتا لَصار للسؤال جوابان). */
 
+/* **مشهدُ جملةٍ تُسمَع** (س٥-٦): بطاقةٌ صغيرة فيها حاملٌ وشيءٌ في موضعه، أو صاحبٌ
+   وما يملك — والموضعُ يُرى بموضعه لا بكلمةٍ تصفه (قاعدةُ اللاقراءة بلغتين). */
+.q-choices--sentence .qcard { width: 8.5rem; height: 8.5rem; padding: .3rem; }
+.s-card { position: relative; display: inline-grid; place-items: center; width: 7rem; height: 7rem; }
+.s-card .fig { font-size: 2.2rem; }
+.s-holder { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.s-holder .fig { font-size: 3.6rem; }
+.s-thing { position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; }
+.s-thing--on { top: .1rem; }
+.s-thing--in { top: 50%; transform: translate(-50%, -50%); }
+.s-thing--under { bottom: .1rem; }
+/* والمِلكُ صاحبٌ وشيءٌ متجاوران — لا موضعَ بينهما يُسأل عنه */
+.s-pair { display: flex; align-items: center; justify-content: center; gap: .3rem; }
+.s-pair .fig { font-size: 2.8rem; }
+
 .q-model-scene { display: grid; justify-items: center; gap: .5rem; }
+/* نمذجةُ الرسم البديل: المرجعُ وأخوه صفّاً واحداً — «هذا وهذا يقولان صوتاً واحداً» */
+.q-model-alt { grid-auto-flow: column; align-items: center; gap: 1.2rem; }
 .q-choices--scene .qcard { width: 7.5rem; height: 7.5rem; }
 .q-choices--scene .fig--ball { font-size: 3.6rem; }
 

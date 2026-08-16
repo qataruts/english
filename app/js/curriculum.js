@@ -825,6 +825,76 @@ export const HEART_WORDS = {
     why: 'ظرفُ مكانٍ ليس من مداخل Starters ‏2025 (وفيها `in` و`on` و`under`)' },
   what: { parts: ['wh', 'a', 't'], heart: [0, 1], say: 'what is it',
     why: 'أداةُ سؤالٍ — لا معنى مصوَّرَ لها، وتُسمَع في كل جملةٍ تُوجَّه إلى الطفل' },
+  // ————— العهدُ الرابع (ح١٤–ح١٦) — خمسٌ وعشرون شائكة (← ٥٦) —————
+  //
+  // مصدرُها وثيقة L&S ص١٣٢–١٣٣ نصاً (`METHOD.md §١٢-١١`)، وهي **أثقلُ ميزانيةٍ في
+  // الرحلة**: أكثرُها صيغٌ صرفية (‏`-ed` تقول /t/ أو /d/) أو رسومٌ ماتت في الإنكليزية
+  // الحديثة (‏`ough` · `augh`) — فالشوكةُ فيها موضعٌ أو ثلاثة، والوسمُ يتبعها كلَّها.
+  //
+  // **وتصنيفُ الدرجتين مطبَّقٌ بالبيانات كما مضى**: تحت القيد ما لمعناه **مدخلٌ
+  // مصوَّرٌ صادق** في رصيدنا فيُقاس سمعُه (`water` — محطتُها س١-٤ حيّة؛ و`their`
+  // ملكيةٌ تُرى في مشهد س٥-٦ الذي بُني اليوم)، ومستثناةٌ **بعلّتها المكتوبة** كلمةُ
+  // الوظيفة والصيغةُ الصرفية وما لا صورةَ صادقة له (سابقةُ `body` المرفوعة) وما ليس
+  // من مداخل Starters ‏2025 أصلاً (سابقتا `all` و`little`). **وثلاثٌ من مداخل
+  // Starters لا مدخلَ مصوَّرَ لها في رصيدنا اليوم** (`people` · `mouse` · `please`)
+  // — علّتُها مكتوبة، ولو دخلت الرصيدَ يوماً سرى عليها القيد (بندٌ يُرفَع).
+  oh: { parts: ['o', 'h'], heart: [0, 1], say: 'oh, the dog is big',
+    why: 'صوتُ تعجُّبٍ لا معنى مصوَّرَ له يُلمَس' },
+  their: { parts: ['th', 'eir'], heart: 1, say: 'their ball is red',
+    listen: 'word|their|listen-pick' },
+  people: { parts: ['p', 'eo', 'p', 'le'], heart: [1, 3], say: 'the people are happy',
+    why: 'اسمُ جماعةٍ لا صورةَ صادقة له: كلُّ رمزٍ لجماعةٍ في رصيدنا أسرةٌ أو صديقان '
+      + 'باسمهما (سابقةُ `body` في `RAISED`) — فلا مفتاحَ سمعياً له اليوم' },
+  Mr: { parts: ['M', 'r'], heart: [0, 1], say: 'Mr Green is my friend',
+    why: 'اختصارُ لقبٍ لا كلمة — لا يُفكّ مقطعٌ منه ولا صورةَ له' },
+  Mrs: { parts: ['M', 'rs'], heart: [0, 1], say: 'Mrs Green is here',
+    why: 'كسابقه' },
+  looked: { parts: ['l', 'oo', 'k', 'ed'], heart: 3,
+    say: 'she looked at me',
+    why: 'صيغةُ ماضٍ (‏`-ed` تقول /t/) — الصيغةُ الصرفية لا مدخلَ مستقلاً لها في '
+      + 'الرصيد، وليست من مداخل Starters ‏2025' },
+  called: { parts: ['c', 'a', 'll', 'ed'], heart: [1, 3], say: 'mum called me',
+    why: 'كسابقتها، و`a` فيها تقول /or/' },
+  asked: { parts: ['a', 's', 'k', 'ed'], heart: 3, say: 'I asked my friend',
+    why: 'كسابقتها' },
+  water: { parts: ['w', 'a', 't', 'er'], heart: 1, say: 'I can see the water',
+    listen: 'word|water|listen-pick' },
+  where: { parts: ['wh', 'ere'], heart: 1, say: 'where is my ball',
+    why: 'أداةُ سؤالٍ عن المكان — لا صورةَ لها تُلمَس' },
+  who: { parts: ['wh', 'o'], heart: [0, 1], say: 'who is happy',
+    why: 'أداةُ سؤالٍ عن الشخص — لا صورةَ لها' },
+  again: { parts: ['a', 'g', 'ai', 'n'], heart: 0, say: 'do it again',
+    why: 'ظرفُ تكرارٍ — معناه في الفعل لا في صورة' },
+  thought: { parts: ['th', 'ough', 't'], heart: 1, say: 'I thought so',
+    why: 'فعلُ ظنٍّ ماضٍ لا يُصوَّر، وليس من مداخل Starters ‏2025' },
+  through: { parts: ['th', 'r', 'ough'], heart: 2, say: 'we go through the door',
+    why: 'حرفُ عبورٍ — علاقةٌ لا شيءٌ يُصوَّر، وليس من مداخل Starters ‏2025' },
+  work: { parts: ['w', 'or', 'k'], heart: 1, say: 'my mum can work',
+    why: 'فعلٌ عامّ لا وضعَ مرسومَ له في س٢-٣، وليس من مداخل Starters ‏2025' },
+  mouse: { parts: ['m', 'ou', 'se'], heart: 2, say: 'the mouse is in the box',
+    why: 'من مداخل Starters ولا مدخلَ لها في رصيدنا المصوَّر اليوم — فلا مفتاحَ '
+      + 'سمعياً لها (سابقةُ `little`)، ولو دخلته سرى عليها القيد' },
+  many: { parts: ['m', 'a', 'n', 'y'], heart: [1, 3], say: 'many people are happy',
+    why: 'مُحدِّدُ كمٍّ كـ`all` و`some` — لا صورةَ له تُلمَس' },
+  laughed: { parts: ['l', 'au', 'gh', 'ed'], heart: [1, 2, 3], say: 'we laughed at the dog',
+    why: 'صيغةُ ماضٍ برسمٍ ميّت (‏`augh`)، وليست من مداخل Starters ‏2025' },
+  because: { parts: ['b', 'e', 'c', 'au', 'se'], heart: [1, 4],
+    say: 'I am happy because I can play',
+    why: 'أداةُ تعليلٍ — علاقةٌ لا صورة، وليست من مداخل Starters ‏2025' },
+  different: { parts: ['d', 'i', 'ff', 'er', 'e', 'n', 't'], heart: 4,
+    say: 'my ball is different',
+    why: 'صفةُ مقارنةٍ لا تُصوَّر بصورةٍ واحدة، وليست من مداخل Starters ‏2025' },
+  any: { parts: ['a', 'n', 'y'], heart: [0, 2], say: 'do you have any milk',
+    why: 'مُحدِّدُ كمٍّ — لا صورةَ له، وليس من مداخل Starters ‏2025' },
+  eyes: { parts: ['eye', 's'], heart: 0, say: 'my eyes are big',
+    why: 'جمعُ `eye` — والمفتاحُ السمعيُّ مدَاه الكلمةُ نفسُها، ومدخلُ رصيدنا المفرد '
+      + '(سابقةُ `little`: الحاكمُ بياناتُ `curriculum.js`)' },
+  friends: { parts: ['f', 'r', 'ie', 'n', 'd', 's'], heart: 2, say: 'we are friends',
+    why: 'جمعُ `friend` — كسابقتها' },
+  once: { parts: ['o', 'n', 'ce'], heart: [0, 2], say: 'do it once',
+    why: 'ظرفُ مرّةٍ — لا صورةَ له، وليس من مداخل Starters ‏2025' },
+  please: { parts: ['p', 'l', 'ea', 'se'], heart: 3, say: 'come here please',
+    why: 'أداةُ طلبٍ مهذَّب — لا صورةَ لها تُلمَس ولا مدخلَ مصوَّراً في رصيدنا' },
 };
 
 /**
@@ -890,6 +960,110 @@ export const STORIES = {
       { text: 'the big dog', pick: 'dog' },
       { text: 'I run to mum', pick: 'mum' },
       { text: 'I go to bed', pick: 'bed' },
+    ],
+  },
+  // ————— **رصيدُ القصص: كتابٌ لكل درجةٍ** (الجلسة ٧ · `METHOD.md §٥`) —————
+  //
+  // ولكلِّ قصةٍ **حوضُها هو حوضُ درجتها**: كلماتُ القراءة المفتوحة عندها وشائكاتُها
+  // لا غير (يفحصه `check_range`)، فتنمو الجملةُ بنموّ السلّم — قصةُ ح٧ ثلاثُ كلماتٍ
+  // في السطر وقصةُ ح١٦ جملةٌ تامّة. **ولا فعلَ كونٍ فيها** (`is` · `a`): ليسا في
+  // السلّم، فلا يُعرَض ما لم يُدرَّس ولو كان أشيعَ حرفين في الإنكليزية.
+  //
+  // **وشائكاتُ الضمائر الأربعُ النائمة خارجها عمداً** (`we` · `me` · `my` · `you`):
+  // القصةُ نصٌّ **كلُّه أو لا شيء**، فكلمةٌ لا يمكن أن تنضج سمعاً اليومَ تحبس القصةَ
+  // كلَّها إلى الأبد — وهو عينُ ثقب القفل الذي سُدّ في الجلسة ٦.
+  h07: {
+    title: 'البطةُ والجورب',
+    pages: [
+      { text: 'the duck on the bed', pick: 'duck' },
+      { text: 'the red sock in the box', pick: 'sock' },
+      { text: 'I run to the sun', pick: 'sun' },
+      { text: 'I go to dad', pick: 'dad' },
+    ],
+  },
+  h08: {
+    title: 'السمكةُ والسفينة',
+    pages: [
+      { text: 'the fish in the ship', pick: 'fish' },
+      { text: 'the shell in the box', pick: 'shell' },
+      { text: 'the ship was big', pick: 'ship' },
+      { text: 'I run to the fish', pick: 'fish' },
+    ],
+  },
+  h09: {
+    title: 'الخروفُ والنحلة',
+    pages: [
+      { text: 'the sheep in the sun', pick: 'sheep' },
+      { text: 'the bee on the sheep', pick: 'bee' },
+      { text: 'the goat was on the bed', pick: 'goat' },
+      { text: 'I run to the goat', pick: 'goat' },
+    ],
+  },
+  h10: {
+    title: 'الكتابُ في السيارة',
+    pages: [
+      { text: 'the book in the car', pick: 'book' },
+      { text: 'her book was red', pick: 'book' },
+      { text: 'the cat on the car', pick: 'cat' },
+      { text: 'they go to the car', pick: 'car' },
+    ],
+  },
+  h11: {
+    title: 'البقرةُ الكبيرة',
+    pages: [
+      { text: 'the big cow', pick: 'cow' },
+      { text: 'the cow in the car', pick: 'car' },
+      { text: 'the cow on the bed', pick: 'bed' },
+      { text: 'I run to the cow', pick: 'cow' },
+    ],
+  },
+  h12: {
+    title: 'الكرسيُّ والبقرة',
+    pages: [
+      { text: 'the cat on the chair', pick: 'cat' },
+      { text: 'the cow on the chair', pick: 'cow' },
+      { text: 'her chair was red', pick: 'chair' },
+      { text: 'I sit on the chair', pick: 'chair' },
+    ],
+  },
+  h13: {
+    title: 'الضفدعُ والشجرة',
+    pages: [
+      { text: 'the frog on the tree', pick: 'frog' },
+      { text: 'the green tree', pick: 'tree' },
+      { text: 'the frog said no', pick: 'frog' },
+      { text: 'I have one frog', pick: 'frog' },
+      { text: 'the spider was there', pick: 'spider' },
+    ],
+  },
+  h14: {
+    title: 'الطائرُ والبحر',
+    pages: [
+      { text: 'the bird on the sea', pick: 'bird' },
+      { text: 'the blue sea', pick: 'sea' },
+      { text: 'the girl called the bird', pick: 'girl' },
+      { text: 'the boy asked mum', pick: 'boy' },
+      { text: 'their bird was blue', pick: 'bird' },
+    ],
+  },
+  h15: {
+    title: 'الطائرةُ والماء',
+    pages: [
+      { text: 'the plane on the sea', pick: 'plane' },
+      { text: 'the white kite', pick: 'kite' },
+      { text: 'the boy looked again', pick: 'boy' },
+      { text: 'the water on the shoe', pick: 'shoe' },
+      { text: 'I read the book again', pick: 'book' },
+    ],
+  },
+  h16: {
+    title: 'المدرسةُ الصفراء',
+    pages: [
+      { text: 'the yellow school', pick: 'school' },
+      { text: 'the family in the car', pick: 'family' },
+      { text: 'I eat the bread', pick: 'bread' },
+      { text: 'the family called the girl', pick: 'girl' },
+      { text: 'they go to school', pick: 'school' },
     ],
   },
 };
@@ -1264,13 +1438,52 @@ const LISTEN_STAGES = [
       { part: 's5-3', title: 'البيت أغراضاً', field: 'home', face: '🛏️' },
       { part: 's5-4', title: 'الأماكن والطبيعة', field: 'places', face: '🌳' },
       { part: 's5-5', title: 'أفعالُ اليوم', field: 'verbs', face: '🍽️' },
+      // ————— **جملُ «الآن وهنا»: صورةٌ تُطابَق جملةً مسموعة** (`METHOD.md §٤`) —————
+      //
+      // ثلاثُ مجموعاتٍ (`group`)، **والمشتّتاتُ من مجموعة الجملة وحدَها** — فلا يفترق
+      // الخياران في شيئين فيُجاب بالمصادفة: مشهدُ الموضع يفارق أخاه بموضعٍ أو بشيء،
+      // ومشهدُ «مَن؟» لا يفارق أخاه إلا **بالضمير نفسِه**.
+      //
+      // **والمقيسُ ما يفرّق بين الخيارات** (وبه صار للثمانِ ذواتِ المدخل بيتٌ —
+      // حكمُ قبول الجلسة ٥ البند ١): جملةٌ خياراتُها ثلاثةُ مشاهدَ تختلف كلَّها
+      // مقيسُها **الجملةُ** (`sentence|…|match`)، وجملةٌ خياراتُها لا تختلف إلا في
+      // صاحب الفعل أو المِلك مقيسُها **الضميرُ** (`word|he|listen-pick` — بشكل مفاتيح
+      // الرصيد نفسِه، فيستيقظ `readableTrickyAt` من تلقائه).
+      //
+      // **وأربعةٌ من الثمانِ لا مشهدَ صادقَ لها اليوم** (`we` · `me` · `my` · `you`):
+      // مرجعُها **المتكلمُ والمخاطَب** لا شخصٌ في الصورة، فلا تُميَّز بصورةٍ إلا برسم
+      // متكلّمٍ ومخاطَبٍ في المشهد — وهو شكلٌ جديد لم تقرّره الجلسةُ ذاتياً (بندٌ
+      // يُرفَع)، فتبقى مفاتيحُها معلنةً وبابُها نائماً كما كان.
       { part: 's5-6', title: 'جملُ الآن وهنا', field: 'sentences', face: '🖼️',
-        pictures: 'scene', sentences: [
-          { id: 'cat-on-bed', text: 'The cat is on the bed', uses: ['cat', 'on', 'bed'] },
-          { id: 'dog-under-chair', text: 'The dog is under the chair', uses: ['dog', 'under', 'chair'] },
-          { id: 'bird-in-box', text: 'The bird is in the box', uses: ['bird', 'in', 'box'] },
-          { id: 'fish-in-water', text: 'The fish is in the water', uses: ['fish', 'in', 'water'] },
-          { id: 'ball-under-bed', text: 'The ball is under the bed', uses: ['ball', 'under', 'bed'] },
+        pictures: 'scene',
+        // أصحابُ المشهد في مجموعتَي «مَن؟» و«لِمَن؟» — منهم تُشتقّ المشتّتات
+        owners: ['boy', 'girl', 'family'],
+        sentences: [
+          { id: 'cat-on-bed', text: 'the cat is on the bed', group: 'place',
+            scene: { thing: 'cat', zone: 'on', holder: 'bed' }, uses: ['cat', 'on', 'bed'] },
+          { id: 'dog-under-chair', text: 'the dog is under the chair', group: 'place',
+            scene: { thing: 'dog', zone: 'under', holder: 'chair' },
+            uses: ['dog', 'under', 'chair'] },
+          { id: 'bird-in-box', text: 'the bird is in the box', group: 'place',
+            scene: { thing: 'bird', zone: 'in', holder: 'box' }, uses: ['bird', 'in', 'box'] },
+          { id: 'fish-in-water', text: 'the fish is in the water', group: 'place',
+            scene: { thing: 'fish', zone: 'in', holder: 'water' },
+            uses: ['fish', 'in', 'water'] },
+          { id: 'ball-under-bed', text: 'the ball is under the bed', group: 'place',
+            scene: { thing: 'ball', zone: 'under', holder: 'bed' },
+            uses: ['ball', 'under', 'bed'] },
+          // مجموعةُ «مَن؟» — الإطارُ واحد والفارقُ الضمير
+          { id: 'he-happy', text: 'he is happy', group: 'who', measures: 'he',
+            scene: { one: 'boy' }, uses: ['boy'] },
+          { id: 'she-happy', text: 'she is happy', group: 'who', measures: 'she',
+            scene: { one: 'girl' }, uses: ['girl'] },
+          { id: 'they-happy', text: 'they are happy', group: 'who', measures: 'they',
+            scene: { one: 'family' }, uses: ['family'] },
+          // مجموعةُ «لِمَن؟» — الشيءُ واحد والفارقُ صاحبُه
+          { id: 'her-hat', text: 'her hat is big', group: 'own', measures: 'her',
+            scene: { own: 'girl', thing: 'hat' }, uses: ['girl', 'hat'] },
+          { id: 'their-ball', text: 'their ball is red', group: 'own', measures: 'their',
+            scene: { own: 'family', thing: 'ball' }, uses: ['family', 'ball'] },
         ] },
     ],
   },
@@ -1373,7 +1586,10 @@ function listenWords(part) {
     return byName(part.pairs.filter((p) => pairMode(p) === 'word')
       .flatMap((p) => p.words || []));
   }
-  if (part.sentences) return byName(part.sentences.flatMap((s) => s.uses));
+  // **وأصحابُ المشهد مادّةُ محطةٍ كما جملُها**: منهم تُشتقّ مشتّتاتُ «مَن؟» و«لِمَن؟»
+  if (part.sentences) {
+    return byName([...part.sentences.flatMap((s) => s.uses), ...(part.owners || [])]);
+  }
   const named = [...(part.from || []), ...(part.colours || [])];
   if (named.length) return byName(named);
   if (part.pool === 'met') {
@@ -1416,7 +1632,13 @@ const listenProps = (part) =>
 
 /** مفاتيحُ محطةٍ سمعية — تُشتقّ من موادّها، فلا مفتاحَ يُكتب مرّتين. */
 function listenSkills(part) {
-  if (part.sentences) return part.sentences.map((s) => `sentence|${s.id}|listen-pick`);
+  // **ومفتاحُ الجملة من مقيسها**: ما لا يفرّق خياراتِه إلا الضميرُ يُقاس ضميراً
+  // بمفتاح الرصيد نفسِه (`word|he|listen-pick`)، وما سواه يُقاس جملةً (`METHOD.md §٧`).
+  if (part.sentences) {
+    return part.sentences.map((s) => (s.measures
+      ? `word|${s.measures}|listen-pick`
+      : `sentence|${s.id}|match`));
+  }
   if (part.pairs) return part.pairs.map((p) => `pair|${p.key}|pick`);
   if (part.initials) return initialRanges(part).map((r) => `${part.unit}|${r}|${part.kind}`);
   if (part.rhymes) return rhymeRanges(part).map((r) => `${part.unit}|${r}|${part.kind}`);
@@ -1481,6 +1703,7 @@ function listenStations() {
     // ما تنطقه معزولاً من أصوات المنهج
     sounds: listenSounds(part),
     sentences: part.sentences || [],
+    owners: (part.owners || []).map(wordNamed).filter(Boolean),
     frontier: listenFrontier(part),
     skills: listenSkills(part),
   })));
@@ -1533,13 +1756,59 @@ export function sceneOf(word) {
   return { at: entry.at, props: home?.props || [] };
 }
 
+/**
+ * ————— **رسمٌ واحد أولاً ثم بدائلُه** (`METHOD.md §١٢-٦` — قاعدة Jolly) —————
+ *
+ * **الرمزُ السابقُ الذي يقول صوتَ هذا الرمز** — أو `null` إن كان هو أوّلَ رسمٍ لصوته.
+ * فـ`ay` (ح١٤) صوتُها `/ai/` ورسمُها الأولُ `ai` (ح٩)، و`a-e` (ح١٥) كذلك — **والأولُ
+ * هو المرجع**: يُعرَض معلوماً ويُعلَّم البديلُ عليه («هذا الصوتُ تعرفه — وهذا رسمٌ
+ * آخرُ يقوله»).
+ *
+ * **وبه يُحسَم لبسٌ في السؤال لا في التدريس وحدَه**: «اسمع الصوتَ والمس رسمَه» عند
+ * ح١٤ سؤالٌ **جوابُه رسمان** (‏/ai/ يكتبها `ai` و`ay` وكلاهما مفتوح)، فيتعلّم الطفلُ
+ * بالاستبعاد أنّ رسمَ /ai/ هو `ay` وهو كذبٌ عليه. فيُستبدَل بالشكل `alt-pick`: يُعرَض
+ * المرجعُ ويُسمَع صوتُه، ويُسأل عن **الرسم الآخر** الذي يقوله — جوابٌ واحد لا غير.
+ *
+ * والترتيبُ مقروءٌ من السلّم نفسِه (أوّلُ درجةٍ يظهر فيها رسمٌ لهذا الصوت)، فلا جدولَ
+ * ثانٍ يُكتب بيد ولا يفترق يومَ تتحرّك درجةُ رمزٍ.
+ */
+export function priorGrapheme(symbolId) {
+  const sound = phonemeOf(symbolId);
+  if (!sound) return null;
+  for (const grade of GRADES) {
+    for (const symbol of grade.symbols) {
+      if (symbol.id === symbolId) return null;
+      // **والنطقُ البديل ليس رسماً مرجعاً**: رسمُه رسمُ أخيه (`ow-alt` هي `ow`)،
+      // فلو اتُّخذ مرجعاً لَعُرض للطفل رسمان متطابقان في سؤالٍ واحد.
+      if (!symbol.alt && phonemeOf(symbol.id) === sound) return symbol.id;
+    }
+  }
+  return null;
+}
+
+/**
+ * **الرمزُ الذي يشاركه رسمَه ونطقُه الأول** (ح١٦) — أو `null`: `ow-alt` رسمُها `ow`
+ * ونطقُها الأولُ `/ow/` عند ح١١. وهو **المقابلُ في السؤال**: نطقان لرسمٍ واحد، وأحدُهما
+ * صوابٌ ههنا — فلا يُسأل عن النطق البديل إلا ومعه النطقُ المعلوم، وإلّا فأيُّ صوتٍ
+ * اختير كان «صحيحاً» في مكانٍ ما من اللغة.
+ */
+export function sameGrapheme(symbolId) {
+  const symbol = GRADES.flatMap((g) => g.symbols).find((s) => s.id === symbolId);
+  if (!symbol) return null;
+  return GRADES.flatMap((g) => g.symbols)
+    .find((s) => s.g === symbol.g && s.id !== symbolId && !s.alt)?.id || null;
+}
+
 /** مفاتيحُ درجةٍ: رموزُها صوتاً↔رسماً · كلماتُها دمجاً وفكّاً · شائكاتُها. */
 function gradeSkills(grade) {
   const keys = [];
   for (const symbol of grade.symbols) {
     // **ونطوقُ ح١٦ البديلة تُقاس بالرسم لا بالصوت**: السؤالُ فيها «هذا الرسمُ ما
     // صوتُه ههنا؟» — ولا معنى لسؤال «اسمع الصوتَ واختر رسمَه» ورسمُه هو الرسمُ نفسُه.
-    if (!symbol.alt) keys.push(`gpc|${symbol.id}|sound-pick`);
+    // **والرسمُ البديل يُقاس على مرجعه** (`alt-pick` — قاعدة Jolly أعلاه).
+    if (!symbol.alt) {
+      keys.push(`gpc|${symbol.id}|${priorGrapheme(symbol.id) ? 'alt-pick' : 'sound-pick'}`);
+    }
     keys.push(`gpc|${symbol.id}|letter-pick`);
   }
   for (const word of grade.words) keys.push(`word|${word.w}|build`);
@@ -1671,6 +1940,10 @@ export const GATES = [
     id: 'end', after: 'letter4', title: 'ختامُ التأسيس', face: '🎓',
     hint: 'أذنُك تفهم وعينُك تفكّ — تمّ التأسيس',
     again: 'بقيت خطوة: نشدّ ما تزعزع من السمع والحرف معاً ثم نختم',
+    // **وبابُ «المستوى الثاني» يُذكَر ذكراً لا وعداً يُقاس** (`METHOD.md §١٣`: «وما
+    // بعدُ … أفقٌ لا التزام»): جملةٌ في احتفال الختام تقول إنّ بعد التأسيس بابًا،
+    // ولا عقدةَ لها في الخريطة ولا مفتاحَ في ليتنر — فلا يُوعَد طفلٌ بما ليس عندنا.
+    next: 'وبعدَ التأسيس بابٌ آخر — المستوى الثاني',
     scope: skillsOfStages('listen1', 'listen2', 'listen3', 'listen4', 'listen5',
       'letter1', 'letter2', 'letter3', 'letter4'),
   },
@@ -1789,7 +2062,12 @@ const listen5Section = (stations) => {
  */
 function firstGradeNeeding(station) {
   const keys = new Set(station.skills);
-  return GRADES.find((g) => g.words.some((w) => keys.has(w.listen)))?.id || null;
+  // **والشائكةُ ذاتُ المدخل تحتاج محطتَها كما تحتاجها كلمةُ القراءة** (`METHOD.md §٦`
+  // — حكمُ الدرجتين): `he` شائكةُ ح٦ ومفتاحُها السمعيّ في س٥-٦، فلو تأخّرت محطتُها
+  // عن ح٦ لَبلغ الطفلُ درجةً شائكاتُها كلُّها محبوسةٌ عنه. والقاعدةُ واحدة والمصدرُ
+  // واحد: أوّلُ درجةٍ تحتاج **مادّةَ هذه المحطة** هي التي تسبقها تلك المحطة.
+  return GRADES.find((g) => g.words.some((w) => keys.has(w.listen))
+    || g.tricky.some((word) => keys.has(HEART_WORDS[word]?.listen)))?.id || null;
 }
 
 /**
@@ -1879,6 +2157,33 @@ export function sections() {
   }
   for (const section of letterSections()) emit(section);
   return out;
+}
+
+/**
+ * **ما تنتظره محطةٌ لتكتمل مادّتُها** — مفاتيحُ السمع التي يقف عليها قيدُ الاقتران
+ * في هذه المحطة (كلماتُ قراءتها وشائكاتُها ذواتُ المدخل).
+ *
+ * **وعلّتُه في مجرى الأيام لا في اللحظة** (أمسكها حارسُ الوعد، الجلسة ٧): القصةُ
+ * نصٌّ **كلُّه أو لا شيء**، فتقف عندها الجبهةُ حتى تنضج كلماتُها سمعاً — وجلسةُ
+ * المراجعة تسير بـ«الأضعف أولاً» فقد لا تمرّ على الكلمة التي تفتح البابَ أسابيع.
+ * فتُقدَّم مفاتيحُ **العقدة القائمة على الجبهة** في صدر الجلسة: لا تُخترَق ليتنر
+ * (المفتاحُ لا يُسأل عنه إلا مستحقّاً أو بِكراً، ولا يرتفع صندوقُه أكثرَ من مرّةٍ في
+ * اليوم)، وإنما يُصرَف **دورُ السؤال** إلى ما يفتح للطفل بابَه.
+ */
+export function pendingListenOf(stationId) {
+  const station = stations().find((s) => s.id === stationId);
+  if (!station) return [];
+  if (station.type === 'story') {
+    const words = new Set(String(station.text || '').split(/\s+/));
+    return [...new Set(GRADES.flatMap((g) => g.words)
+      .filter((word) => words.has(word.w)).map((word) => word.listen)
+      .concat([...words].map((word) => HEART_WORDS[word]?.listen)))].filter(Boolean);
+  }
+  if (station.type !== 'grade' && station.type !== 'cluster') return [];
+  return [...new Set([
+    ...(station.words || []).map((word) => word.listen),
+    ...(station.frontier.tricky || []).map((word) => HEART_WORDS[word]?.listen),
+  ])].filter(Boolean);
 }
 
 /** البوابةُ التي تقف قبل هذا الموضع، أو `null` — بيانٌ مُعلَن لا شرطٌ مضمر. */

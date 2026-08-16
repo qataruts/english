@@ -41,7 +41,7 @@ import * as progress from './progress.js';
 import { registerScreen } from './registry.js';
 import {
   stations, readableAt, trickyAt, readableTrickyAt, markedTricky, symbolById, isTouchable,
-  sceneOf, phonemeOf, phonemeSay, HEART_WORDS, WORDS,
+  sceneOf, phonemeOf, phonemeSay, priorGrapheme, sameGrapheme, HEART_WORDS, WORDS,
 } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
 import {
@@ -68,6 +68,12 @@ export const BUILD_MAX = 2;
 export const ASK = {
   sound: 'اسْمَعِ الصَّوْتَ وَالْمَسْ رَسْمَهُ',
   letter: 'انْظُرْ إِلَى الرَّسْمِ وَالْمَسْ صَوْتَهُ',
+  // **والبديلُ يُعلَّم على مرجعه** (`METHOD.md §١٢-٦` — قاعدة Jolly): الرسمُ المعلومُ
+  // معروضٌ وصوتُه مسموع، والسؤالُ عن **رسمٍ آخرَ يقوله** — فالجوابُ واحدٌ لا اثنان.
+  alt: 'هَذَا الصَّوْتُ تَعْرِفُهُ — وَالْمَسْ رَسْمَهُ الْآخَرَ',
+  // **والنطقُ البديل يُسأل عنه في كلمته لا معزولاً** (ح١٦): رسمُه رسمُ أخيه، فلا
+  // يُعرَف أيَّ صوتٍ يقول إلا في موضعه من كلمةٍ يفكّها الطفل.
+  inWord: 'هَذَا الْمَوْضِعُ فِي الْكَلِمَةِ — أَيَّ صَوْتٍ يَقُولُ هُنَا؟',
   build: 'اسْمَعِ الْكَلِمَةَ ثُمَّ رَكِّبْ لَبِنَاتِهَا بِتَرْتِيبِهَا',
   decode: 'فُكَّ الْكَلِمَةَ وَالْمَسْ صُورَتَهَا',
   // **وفكُّ ما لا صورةَ مفردةَ له**: يُقرأ الموضعُ أو الحجمُ فيُلمَس **مصداقُه** في
@@ -201,27 +207,89 @@ function soundRound(station, rnd, { range = null } = {}) {
   };
 }
 
-/** ح: يُرى الرسمُ فيُلمَس صوتُه (أزرارٌ عمياء تُعرَّف بإسماعها — شكلُ س٤-٣). */
-function letterRound(station, rnd, { range = null } = {}) {
+/**
+ * ح: **الرسمُ البديل يُعلَّم على مرجعه** (ح١٤–ح١٥ · قاعدة Jolly — `METHOD.md §١٢-٦`).
+ *
+ * يُعرَض الرسمُ المعلومُ (‏`ai` المُدرَّس في ح٩) ويُسمَع صوتُه، فيُلمَس **الرسمُ الآخر**
+ * الذي يقوله (‏`ay`). ومشتّتاتُه رسومٌ **لا تشارك ذلك الصوتَ** — ومنها المرجعُ نفسُه
+ * مستثنىً بذلك (يشاركه صوتَه)، فلا يقع في الخيارات جوابٌ ثانٍ صحيح.
+ */
+function altRound(station, rnd, { range = null } = {}) {
+  const ids = rangesOf(station, 'alt-pick');
+  const id = range && ids.includes(range) ? range : pick(ids, rnd);
+  const skill = id && skillOf(station, id, 'alt-pick');
+  const known = id && priorGrapheme(id);
+  const sound = id && phonemeSay(phonemeOf(id));
+  if (!skill || !known || !sound) return null;
+  const pool = otherGlyphs(station, rnd, id, OPTIONS - 1);
+  if (!pool.length) return null;
+  const specs = shuffle([id, ...pool], rnd).map(glyphSpec);
+  const next = seeder(rnd);
+  return {
+    kind: 'alt-pick',
+    shape: 'alt',
+    unit: skill.unit,
+    range: skill.range,
+    ask: ASK.alt,
+    target: id,
+    // **والمرجعُ يُرسَم في الساحة لا في الخيارات**: هو المعلومُ الذي يُقاس عليه
+    picture: glyphSpec(known),
+    known,
+    options: specs,
+    figures: [glyphSpec(known), ...specs],
+    sounds: [sound],
+    sig: `${station.id}|${id}|${next()}`,
+  };
+}
+
+/** كلماتُ الدرجة الناضجةُ التي يقع فيها هذا الرمز — حواملُ النطق البديل. */
+const carriersOf = (station, id, isMastered) =>
+  taughtIn(station, isMastered).filter((word) => (word.gpc || []).includes(id));
+
+/** وصفُ كلمةٍ ومعها **موضعٌ معلَّم**: مقاطعُها بنقاطها، والمسؤولُ عنه يُؤطَّر. */
+const focusSpec = (word, id) => ({
+  ...wordSpec(word),
+  parts: word.gpc.map((part) => ({
+    id: part, g: symbolById(part)?.g || part, mark: 'dot', focus: part === id,
+  })),
+});
+
+/**
+ * ح: يُرى الرسمُ فيُلمَس صوتُه (أزرارٌ عمياء تُعرَّف بإسماعها — شكلُ س٤-٣).
+ *
+ * **والنطقُ البديل (ح١٦) يُسأل عنه في كلمته**: رسمُه رسمُ أخيه (‏`ow` في yellow هي
+ * `ow` في cow)، فلو عُرض معزولاً لَكان لكلا الصوتين حقٌّ فيه. فيُعرَض **داخل كلمةٍ
+ * ناضجةٍ يفكّها الطفل** وموضعُه مؤطَّر، ومعه في الأزرار **نطقُه المعلوم** — فالسؤالُ
+ * «ما يقوله هنا» وجوابُه واحد. (وقيدُ الاقتران يحكم حاملَه ككلِّ كلمةٍ تُعرَض.)
+ */
+function letterRound(station, rnd, { range = null, isMastered } = {}) {
   const ids = rangesOf(station, 'letter-pick');
   const id = range && ids.includes(range) ? range : pick(ids, rnd);
   const skill = id && skillOf(station, id, 'letter-pick');
   const sound = id && phonemeSay(phonemeOf(id));
   if (!skill || !sound) return null;
-  const pool = otherGlyphs(station, rnd, id, OPTIONS - 1)
-    .map((other) => phonemeSay(phonemeOf(other)));
+  const alt = Boolean(symbolById(id)?.alt);
+  const carrier = alt ? pick(carriersOf(station, id, isMastered), rnd) : null;
+  if (alt && !carrier) return null;
+  // **ومقابلُ النطق البديل نطقُه المعلوم** (لا رسمٌ بعيد): التشويشُ الموثَّق بينهما
+  const twin = alt ? phonemeSay(phonemeOf(sameGrapheme(id))) : '';
+  const pool = [
+    ...(twin ? [twin] : []),
+    ...otherGlyphs(station, rnd, id, OPTIONS - 1).map((other) => phonemeSay(phonemeOf(other))),
+  ].filter((text) => text && text !== sound).slice(0, OPTIONS - 1);
   if (!pool.length) return null;
   const shown = shuffle([sound, ...pool], rnd);
+  const picture = carrier ? focusSpec(carrier, id) : glyphSpec(id);
   const next = seeder(rnd);
   return {
     kind: 'letter-pick',
     shape: 'letter',
     unit: skill.unit,
     range: skill.range,
-    ask: ASK.letter,
+    ask: alt ? ASK.inWord : ASK.letter,
     target: sound,
-    picture: glyphSpec(id),
-    figures: [glyphSpec(id)],
+    picture,
+    figures: [picture],
     shown,
     sounds: shown,
     sig: `${station.id}|${id}|${next()}`,
@@ -403,6 +471,7 @@ function trickyRound(station, rnd, { range = null, isMastered } = {}) {
 /** أشكالُ الدرجة الخمسة، ولكلٍّ بانيه — **وتستعيرها درجةُ العناقيد وتزيد شكلَها**. */
 export const SHAPES = {
   'sound-pick': soundRound,
+  'alt-pick': altRound,
   'letter-pick': letterRound,
   build: buildRound,
   decode: decodeRound,
@@ -508,6 +577,10 @@ const score = (round, correct, recordAttempt = progress.recordAttempt) => {
     recordAttempt(round.unit, round.range, 'sound-pick', correct);
     return;
   }
+  if (round.kind === 'alt-pick') {
+    recordAttempt(round.unit, round.range, 'alt-pick', correct);
+    return;
+  }
   if (round.kind === 'letter-pick') {
     recordAttempt(round.unit, round.range, 'letter-pick', correct);
     return;
@@ -547,7 +620,7 @@ async function sayEach(list, api) {
  * المكتوبة لَصار الجوابُ سمعاً وسقط الفكُّ كلُّه (ولذلك لا زرَّ أذنٍ في شاشته).
  */
 async function playAsk(round, api) {
-  if (round.shape === 'sound') return sayEn(round.sounds[0]);
+  if (round.shape === 'sound' || round.shape === 'alt') return sayEn(round.sounds[0]);
   if (round.shape === 'tricky') {
     // **السياقُ ثم الكلمة** (`METHOD.md §٦`): تُسمَع داخل جملةٍ مألوفة ثم وحدَها
     await sayEn(round.context);
@@ -562,7 +635,7 @@ async function playAsk(round, api) {
  * L&S أصواتٌ لا أسماء)، والكلمةُ والشائكةُ تُنطقان كما هما.
  */
 const spokenOf = (round, name) =>
-  (round.shape === 'sound' ? phonemeSay(phonemeOf(name)) || name : name);
+  (['sound', 'alt'].includes(round.shape) ? phonemeSay(phonemeOf(name)) || name : name);
 
 // ————— النمذجة —————
 
@@ -578,6 +651,11 @@ export const modelEl = (round) => (round.shape === 'scene'
   ? h('div', { class: 'q-model-scene' },
     h('div', { class: 'q-shown-one' }, figureEl(round.picture)),
     sceneEl(round, { answer: round.target }))
+  // **ونمذجةُ البديل رسمان معاً**: المعلومُ ثم أخوه — «هذا وهذا يقولان الصوتَ نفسَه»
+  : round.shape === 'alt'
+  ? h('div', { class: 'q-model-scene q-model-alt' },
+    h('div', { class: 'q-shown-one' }, figureEl(round.picture)),
+    h('div', { class: 'q-shown-one' }, figureEl(glyphSpec(round.target))))
   : h('div', { class: 'q-shown-one' },
     figureEl(round.shape === 'build' ? spelledSpec(round.target, round.order)
       : round.picture
@@ -590,8 +668,8 @@ export const modelEl = (round) => (round.shape === 'scene'
  * (رسمٌ بصوته · كلمةٌ بأصواتها ثم كاملةً · شائكةٌ في سياقها).
  */
 export async function sayModel(round, api) {
-  if (round.shape === 'sound' || round.shape === 'letter') {
-    await sayEn(round.shape === 'sound' ? round.sounds[0] : round.target);
+  if (round.shape === 'sound' || round.shape === 'letter' || round.shape === 'alt') {
+    await sayEn(round.shape === 'letter' ? round.target : round.sounds[0]);
     return;
   }
   if (round.shape === 'build') {
@@ -937,6 +1015,7 @@ export const singleIn = (types, kind, shapes = SHAPES) => (skill, rnd) => {
 const single = (kind) => singleIn(TYPES, kind);
 
 registerExercise('sound-pick', { build: single('sound-pick'), view: viewOf, score });
+registerExercise('alt-pick', { build: single('alt-pick'), view: viewOf, score });
 registerExercise('letter-pick', { build: single('letter-pick'), view: viewOf, score });
 registerExercise('build', { build: single('build'), view: viewOf, score, max: BUILD_MAX });
 registerExercise('decode', { build: single('decode'), view: viewOf, score });

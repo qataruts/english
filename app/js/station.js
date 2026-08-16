@@ -510,11 +510,26 @@ export function registerExercise(kind, spec) {
   if (spec.max) LONGS[kind] = Math.min(LONGS[kind] ?? spec.max, spec.max);
 }
 
-/** تمرينُ مهارةٍ مستحقّة — يقرؤه محرّكُ المراجعة والبوابات معاً. */
+/** أتسأل هذه الجولةُ عن هذا المدى؟ (وجولةُ الأمر المركّب تسأل عن مدَيين معاً). */
+const asks = (round, range) =>
+  (round.skills || [round]).some((s) => String(s.range) === String(range));
+
+/**
+ * تمرينُ مهارةٍ مستحقّة — يقرؤه محرّكُ المراجعة والبوابات معاً.
+ *
+ * **والبِكرُ لا يُقبَل له بديل** (`progress.freshSkills` — حارسُ الوعد، الجلسة ٧):
+ * مفتاحٌ لم يُقَس قطّ يُبنى **بمداه هو أو لا يُبنى**. وعلّتُه مقيسة: قاعدةُ «مدىً لا
+ * تعرفه المحطةُ يُبنى بمداها هي» (الجلسة ٥) وُضعت لسجلٍّ قديم يحمل مدىً تحرّك، فلمّا
+ * صار البِكرُ يدخل الجلسةَ ابتلعها البدلاء: مفتاحُ شائكةٍ محبوسٍ بقيد الاقتران يُبنى
+ * **بشائكةٍ أخرى**، فيُكتب قياسُها هي ويبقى هو بِكراً أبداً — قِيس ذلك: جلسةٌ كاملة
+ * من ستّة بدلاءَ فيها مكرَّران، ومئةُ مفتاحٍ بلا قياسٍ في تسعِ مئة يوم.
+ */
 function itemFor(skill, rnd = Math.random) {
   for (const [by, spec] of (EXERCISES.get(skill.kind) || []).entries()) {
     const round = spec.build(skill, rnd);
-    if (round) return { ...round, by, id: `${round.kind}|${round.sig}` };
+    if (!round) continue;
+    if (skill.fresh && !asks(round, skill.range)) continue;
+    return { ...round, by, id: `${round.kind}|${round.sig}` };
   }
   return null;
 }
@@ -590,6 +605,16 @@ function weave(byTrack, rnd) {
   }
   return out;
 }
+
+/**
+ * **كاتبُ مفاتيح جولةٍ من نوعها** — `(round, correct, record) => void` أو `null`.
+ *
+ * ومَن بنى الجولةَ هو الذي يكتب مفاتيحَها (جولةُ الأمر المركّب تكتب مفتاحين لا
+ * مفتاحاً — `METHOD.md §٤`)، فلا يُستنتَج المكتوبُ من حقلَي الجولة. يقرؤه محرّكُ
+ * المراجعة أدناه **وحارسُ الوعد** (`tools/test_promise.mjs`): يلعب الجولةَ كما
+ * يلعبها الطفلُ ويكتب ما تكتبه شاشتُها لا ما يظنّه هو.
+ */
+export const scoreOf = (kind, by = 0) => (EXERCISES.get(kind) || [])[by]?.score || null;
 
 /** مُصيِّرُ تمرين المراجعة — التمرينُ نفسُه الذي في المحطة، بعقد المحرّك. */
 function viewFor(item, api) {

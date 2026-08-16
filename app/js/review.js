@@ -300,7 +300,10 @@ export function sessionItems(due, size = SESSION_SIZE, rnd = Math.random) {
 }
 
 export function renderReview() {
-  const make = () => sessionItems(progress.dueSkills());
+  // **ومادّةُ اليوم مستحقٌّ وبِكر** (`progress.todaySkills` — حارسُ الوعد، الجلسة ٧):
+  // المستحقُّ الأضعفُ أولاً، ثم مفتاحٌ فُتحت محطتُه ولم يُقَس بعدُ (مفاتيحُ القراءة
+  // التي منعها قيدُ الاقتران يومَ محطتها) — فلا يبقى في المنهج مفتاحٌ لا يُسأل عنه.
+  const make = () => sessionItems(progress.todaySkills());
 
   return renderSession({
     make,

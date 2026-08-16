@@ -89,7 +89,10 @@ const STATIONS = {
   quiz: {
     title: 'افهم والمس · توسعةُ الرصيد (س١ · س٥)',
     file: 'quiz.js',
-    kinds: ['listen-pick'],
+    // `listen-pick` كلمةٌ تُسمَع وصورةٌ تُلمَس · **و`match` جملةٌ تُسمَع ومشهدٌ يُطابَق**
+    // (س٥-٦ — `METHOD.md §٧`: `sentence|…|match`). والضمائرُ في تلك الجمل تُقاس
+    // `listen-pick` بمفاتيح الرصيد نفسِها: مقيسُها الضميرُ لا الجملة.
+    kinds: ['listen-pick', 'match'],
   },
   tpr: {
     title: 'اسمع ونفّذ — TPR (س٢)',
@@ -117,7 +120,9 @@ const STATIONS = {
     file: 'grade.js',
     // `sound-pick` اسمع الصوتَ واختر رسمَه · `letter-pick` انظر الرسمَ واختر صوتَه
     // (§٧ نصاً) · `build` دمجٌ بالرموز · `decode` فكُّ الكلمة · `read` للشائكة.
-    kinds: ['sound-pick', 'letter-pick', 'build', 'decode', 'read'],
+    // **و`alt-pick` الرسمُ البديل على مرجعه** (ح١٤–ح١٥ · `METHOD.md §١٢-٦`): يحلّ
+    // محلَّ `sound-pick` حيث لصوت الرمز رسمٌ أسبقُ منه، وإلّا كان للسؤال جوابان.
+    kinds: ['sound-pick', 'letter-pick', 'build', 'decode', 'alt-pick', 'read'],
   },
   cluster: {
     title: 'العناقيد والصائتُ الأوسط (ح١٣)',

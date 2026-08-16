@@ -36,10 +36,14 @@
      التقريرُ الناقصُ بدل أن يُقتَل المتصفّح صامتاً.
      **والجلسةُ ٥ تسوق سبعَ درجاتٍ أخرى** (ح٦–ح١٢) وشاهدَي الشائكة والجبهتين
      ومراجعةً ثانية — سبعةٌ وعشرون مساقاً لا ثمانيةَ عشر، فرُفعت إلى ٩٦٠ ومعها
-     مهلةُ الأداة إلى ١١٤٠. **قرارٌ معلَن لا صمت** (قاعدةُ بلاغ الجهاز المزدحم). */
+     مهلةُ الأداة إلى ١١٤٠. **والجلسةُ ٧ تسوق الرحلةَ كلَّها**: ثلاثُ درجاتِ بدائل
+     وعشرُ قصصٍ وستُّ محطاتِ توسعةٍ وبوابةٌ ثالثة مرّتين — **خمسون مساقاً لا سبعةٌ
+     وعشرون**، فرُفعت إلى ١٥٦٠ ومعها مهلةُ الأداة إلى ١٨٠٠ (وتبقى المهلةُ الأولى
+     **دونها** كي يصل التقريرُ الناقصُ بدل أن يُقتَل المتصفّح صامتاً).
+     **قرارٌ معلَن لا صمت** (قاعدةُ بلاغ الجهاز المزدحم). */
   const watchdog = setTimeout(() => {
     report([...out, { ok: false, msg: 'تعلّقت صفحةُ الفحص قبل تمامها (انتظارٌ لم ينتهِ)' }]);
-  }, 960000);
+  }, 1560000);
 
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
   const frame = document.getElementById('app');
@@ -370,6 +374,9 @@
     if (!askEl) return null;
     const want = askEl.dataset.ask;
     const card = [...d.querySelectorAll('.q-choices .qcard')].find((el) => {
+      // **وبطاقةُ المشهد تُعرَف باسمها هي**: فيها صورتان (حاملٌ وشيء) لا صورةٌ واحدة،
+      // فاسمُ ما تقوله على البطاقة نفسِها (س٥-٦ — جملةٌ تُطابَق مشهداً).
+      if (el.dataset.name) return el.dataset.name === want;
       const fig = el.querySelector('.fig');
       // **وأزرارُ الصوت تُعرَف بصوتها**: جوابُ «الرسمُ ← صوتُه» زرٌّ أعمى لا اسمَ عليه
       return fig && (fig.dataset.name || fig.dataset.word || fig.dataset.sound) === want;
@@ -889,13 +896,20 @@
   const GRADE_PARTS = ['h01', 'h02', 'h03', 'h04', 'h05',
     'h06', 'h07', 'h08', 'h09', 'h10', 'h11', 'h12'];
   const ERA_ONE = 5;                       // ح١–ح٥ ثم 🚪٢ ثم ح٦–ح١٢ (ترتيبُ الرحلة)
-  const gradeWords = curriculum.GRADES.slice(0, GRADE_PARTS.length)
+  // **وكلماتُ الرحلة كلِّها تنضج** (الجلسة ٧: ح١٤–ح١٦ وقصصُها تُقاد كذلك)
+  const gradeWords = curriculum.GRADES
     .flatMap((g) => g.words.map((w) => ({ ...w, grade: g.id })));
   const held = gradeWords.find((w) => w.w === 'hat') || gradeWords.at(-1);
   const before = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
   const ripe = (box) => ({ right: box, wrong: 0, box, due: 0, seen: 0, since: 0 });
   const grown = { ...(before.skills || {}) };
   for (const word of gradeWords) grown[word.listen] = ripe(4);
+  /* **وشائكاتُ المدخل تنضج معها** (الجلسة ٧): صارت لها محطاتٌ سمعية (جملُ س٥-٦)،
+     فقصةُ ح١٠ فيها `her` و`they` وقصّةُ ح١٤ فيها `their` — وقيدُ الاقتران يحبس
+     القصةَ كلَّها حتى تنضج. (والشاهدُ السالب أدناه يحذف مفتاحَ شائكته بيده.) */
+  for (const shape of Object.values(curriculum.HEART_WORDS)) {
+    if (shape.listen) grown[shape.listen] = ripe(4);
+  }
   // **والمدسوسةُ قِيست ولم تبلغ**: الصندوقُ ٢ دون عتبة الإتقان (٣) — لا صفرٌ يُظنّ غياباً
   grown[held.listen] = ripe(2);
   /* **وما يُقاد لا يُفتَح بيد**: مسارُ السمع كلُّه يُملأ نجوماً ليصير مسارُ الحرف على
@@ -1134,6 +1148,87 @@
     + (letterRows.some((r) => !r.ltr) ? ' — **يتقدّم من اليمين**' : '')
     + (letterRows.some((r) => r.small) ? ' — **لبنةٌ انكمشت بانتقالها**' : ''));
 
+  // ————— ١٨ذ. **العهدُ الرابع: البدائلُ رسماً ونطقاً** (بندُ الجلسة ٧) —————
+  //
+  // «رسمٌ واحد للصوت أولاً ثم بدائلُه» (قاعدة Jolly · `METHOD.md §١٢-٦`) — وهي في
+  // يد الطفل شكلان:
+  //   • **الرسمُ البديل يُعلَّم على مرجعه** (ح١٤–ح١٥): يُعرَض المعلومُ (‏`ai` من ح٩)
+  //     ويُسمَع صوتُه، فيُلمَس **الرسمُ الآخر** الذي يقوله — لا «اسمع الصوتَ والمس
+  //     رسمَه» وجوابُه رسمان.
+  //   • **والنطقُ البديل يُسأل عنه في كلمته** (ح١٦): رسمُه رسمُ أخيه، فيُؤطَّر موضعُه
+  //     من كلمةٍ ناضجةٍ يفكّها الطفل ومعه في الأزرار نطقُه المعلوم.
+
+  /* **وقصةُ العناقيد تُقاد قبلها** (وإلّا وقف القفلُ التسلسليّ دونها): درجةُ ح١٣
+     سِيقت أعلاه، **وقصّتُها عقدةٌ بعدها** — فلو قُفز عنها لَبقيت ح١٤ مقفلةً وقرأ
+     الفاحصُ «صفرُ جولة» في درجةٍ سليمة. (وهو ما وقع في أوّل تشغيلٍ لهذا المساق،
+     وأمسكه التقريرُ المسمّي: ثلاثُ درجاتٍ وثلاثُ قصصٍ بصفر.) */
+  const ERA_FOUR = [curriculum.CLUSTER_GRADE, 'h14', 'h15', 'h16'];
+  const altSeen = { rounds: 0, anchors: new Set(), targets: new Set(), inWord: 0, focus: 0 };
+  for (const part of ERA_FOUR) {
+    // (ودرجةُ العناقيد سِيقت أعلاه بشاشتها هي — يُقاد ههنا نصُّ قصّتها وحدَه)
+    const seen = part === curriculum.CLUSTER_GRADE
+      ? { done: true, rounds: 7, stars: 3, loose: 0, bare: 0, small: 0 }
+      : await driveStation(`#/grade/${part}`, measureTray, (d) => {
+      watchLetters(d);
+      pendingSeen += d.querySelectorAll('.station-body .fig-letters[data-pending]').length;
+      const choices = d.querySelector('.q-choices--alt');
+      if (choices) {
+        altSeen.rounds++;
+        const anchor = d.querySelector('.q-stage .fig--letter[data-word]');
+        const want = d.querySelector('.q-stage[data-ask]')?.dataset.ask;
+        if (anchor) altSeen.anchors.add(anchor.dataset.word);
+        if (want) altSeen.targets.add(want);
+      }
+      // **ونطقُ ح١٦ يُسأل عنه في كلمةٍ بموضعٍ مؤطَّر** (لا رسماً معزولاً)
+      const focus = d.querySelector('.q-stage .glyph--focus');
+      if (focus) {
+        altSeen.focus++;
+        const word = focus.closest('.fig--letter')?.dataset.word || '';
+        if (word.length > 2) altSeen.inWord++;
+      }
+    });
+    ok(seen.done && seen.rounds >= 7 && seen.stars === 3,
+      `**ودرجةُ البدائل ${part} تُقاد إلى ثلاث نجوم** (${seen.rounds} جولة · `
+      + `${seen.stars} نجوم)`);
+    ok(seen.loose === 0 && seen.bare === 0 && seen.small === 0,
+      `  ولا حرفٍ لاتينيٍّ خارج \`.en\`، ولا زرٍّ نصّيّ، وهدفُ اللمس ≥٦٤بك`
+      + ` (${seen.loose}/${seen.bare}/${seen.small})`);
+
+    const story = curriculum.stations().find((t) => t.type === 'story' && t.part === part);
+    if (!story) continue;
+    const pages = new Set();
+    const storySeen = await driveStation(`#/story/${part}`, null, (d) => {
+      measureLine(d);
+      const line = d.querySelector('.station-body .q-line');
+      if (line) {
+        pages.add([...line.querySelectorAll('.fig[data-word]')]
+          .map((f) => f.dataset.word).join(' '));
+      }
+    });
+    ok(storySeen.done && storySeen.rounds >= 3 && storySeen.stars === 3,
+      `📖 وقصةُ ${part} تُقاد صفحةً صفحة إلى ثلاث نجوم (${storySeen.rounds} صفحةً · `
+      + `${storySeen.stars} نجوم)`);
+    const storyWords = new Set([...pages].flatMap((line) => line.split(' ')).filter(Boolean));
+    const openWords = new Set([
+      ...curriculum.wordsUpTo(part).map((w) => w.w),
+      ...curriculum.trickyAt(part),
+    ]);
+    ok(storyWords.size > 0 && [...storyWords].every((w) => openWords.has(w)),
+      `  وكلُّ كلمةٍ رُسمت في صفحاتها من المفتوح عند ${part} (${storyWords.size} كلمة)`);
+  }
+
+  const anchorSound = (id) => curriculum.phonemeOf(id);
+  ok(altSeen.rounds > 0 && [...altSeen.targets].every((id) => curriculum.priorGrapheme(id)),
+    `🔤 **والرسمُ البديل يُعلَّم على مرجعه** (${altSeen.rounds} جولةً: `
+    + `${[...altSeen.targets].join('، ')}) — ولكلٍّ رسمٌ أسبقُ منه لصوته`);
+  ok(altSeen.anchors.size > 0 && [...altSeen.anchors].every((known) =>
+    [...altSeen.targets].some((id) => anchorSound(id) === anchorSound(known))),
+    `  **والمرجعُ المعروضُ يقول صوتَ الجواب نفسَه** (${[...altSeen.anchors].join('، ')}) `
+    + '— فالسؤالُ «أيُّ رسمٍ آخرَ يقوله» لا «ما رسمُ هذا الصوت»');
+  ok(altSeen.focus > 0 && altSeen.inWord > 0,
+    `  **ونطقُ ح١٦ البديل يُسأل عنه في كلمةٍ بموضعٍ مؤطَّر** (${altSeen.focus} جولةً، `
+    + `منها ${altSeen.inWord} في كلمةٍ تُفكّ) — لا رسماً معزولاً جوابُه صوتان`);
+
   // ————— ١٨د. قياسُ مسار الحرف بمفاتيح المنهج، وأنواعُه الخمسة كلُّها —————
 
   const letterState = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
@@ -1142,13 +1237,13 @@
   const letterWanted = new Set(curriculum.stations()
     .filter((s) => s.track === 'letter').flatMap((s) => s.skills));
   const letterKeys = Object.keys(letterState.skills || {})
-    .filter((k) => /\|(sound-pick|letter-pick|build|decode|read|mid-pick)$/.test(k));
+    .filter((k) => /\|(sound-pick|alt-pick|letter-pick|build|decode|read|mid-pick)$/.test(k));
   ok(letterKeys.length > 0 && letterKeys.every((k) => letterWanted.has(k)),
     `وقياسُ مسار الحرف مكتوبٌ بمفاتيح المنهج (${letterKeys.length} مفتاحاً)`);
-  ok(['sound-pick', 'letter-pick', 'build', 'decode', 'read', 'mid-pick']
+  ok(['sound-pick', 'alt-pick', 'letter-pick', 'build', 'decode', 'read', 'mid-pick']
     .every((kind) => letterKeys.some((k) => k.endsWith(`|${kind}`))),
-    'وأشكالُه الستة كلُّها مقيسة (رسمُ الصوت · صوتُ الرسم · الدمجُ · الفكُّ · الشائكة '
-    + '· **الصائتُ الأوسط**)');
+    'وأشكالُه السبعة كلُّها مقيسة (رسمُ الصوت · **الرسمُ البديل** · صوتُ الرسم · الدمجُ '
+    + '· الفكُّ · الشائكة · الصائتُ الأوسط)');
   ok(['gpc|', 'word|', 'tricky|', 'vowel|', 'text|']
     .every((unit) => letterKeys.some((k) => k.startsWith(unit))),
     'ووحداتُه الخمس (`gpc` · `word` · `tricky` · **`vowel`** · **`text`**) كلُّها في ليتنر');
@@ -1239,6 +1334,11 @@
   const trickySkills = { ...(heldState.skills || {}) };
   trickySkills[curriculum.HEART_WORDS[freeTricky].listen] = ripe(4);
   delete trickySkills[curriculum.HEART_WORDS[heldTricky].listen];
+  /* **وتُمحى سابقتُها من السجلّ كذلك** (زيادةُ الجلسة ٧): صارت مفاتيحُ الشائكات
+     ذواتِ المدخل تنضج في صدر المساق (لأنّ قصص ح١٠+ تحتاجها)، فسُئل عن `he` في ح٦
+     **بحقّ** وكُتب مفتاحُ قراءتها. والحالُ المصنوعةُ ههنا حالُ طفلٍ **لم يتقنها
+     سمعاً قطّ** — ومثلُه لا سجلَّ قراءةٍ له فيها، فيُمحى ليصدُق الشاهدُ على ما يصنع. */
+  delete trickySkills[`tricky|${heldTricky}|read`];
   win.localStorage.setItem('english.progress.v1',
     JSON.stringify({ ...heldState, skills: trickySkills }));
   await reopen();
@@ -1263,7 +1363,7 @@
   // الفحصُ يستدلّ على جبهة التمرين بما رُسم (`.q-tray--letters` وأخواتها)، فتُحسَب
   // جولةُ **فكٍّ** أو **رسمٍ لصوت** سمعاً لأنّ صفَّ اللبنات لا يظهر فيهما — فشهد
   // بجبهةٍ واحدة والجلسةُ مخلوطة. والمفتاحُ لا يكذب: ما كُتب في ليتنر هو ما سُئل.
-  const isLetterKey = (k) => /\|(sound-pick|letter-pick|build|decode|read)$/.test(k);
+  const isLetterKey = (k) => /\|(sound-pick|alt-pick|letter-pick|build|decode|read)$/.test(k);
   const isListenKey = (k) => /\|(listen-pick|tpr-do|tpr-put|tpr-two|pick|blend-ear|segment-ear)$/
     .test(k);
   const stamp = () => Object.fromEntries(Object.entries(JSON.parse(
@@ -1277,8 +1377,18 @@
      على ميزانٍ لم يُسأل أصلاً (أمسكه التشغيلُ الثاني: «6 تمريناً كتبت 7 مفاتيح من
      listen»). فتُدفَع آجالُ المستحقّ إلى الغد، ويُسأل **حوضُ التنويع** وحدَه — وهو
      موضعُ الميزان المعلَن. */
+  /* **ويُصفَّى منها البِكرُ كذلك** (زيادةُ الجلسة ٧): صار المفتاحُ الذي فُتحت محطتُه
+     ولم يُقَس بعدُ يتصدّر جلسةَ اليوم (`progress.todaySkills` — بابُ الدخول إلى
+     ليتنر)، وهو **صوابٌ في يد الطفل** وابتلاعٌ لحوض التنويع في هذا الشاهد. فتُصنَع
+     حالُ طفلٍ **قِيس له كلُّ مفتاح**: لا مستحقَّ اليومَ ولا بِكرَ — فما يبقى هو
+     التنويعُ وحدَه، وهو موضعُ الميزان المعلَن. */
   const rested = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}');
-  for (const skill of Object.values(rested.skills || {})) {
+  rested.skills = rested.skills || {};
+  for (const key of new Set(curriculum.stations().flatMap((t) => t.skills || []))) {
+    rested.skills[key] = rested.skills[key]
+      || { right: 1, wrong: 0, box: 1, due: 0, seen: 0, since: 0 };
+  }
+  for (const skill of Object.values(rested.skills)) {
     skill.box = Math.max(1, skill.box || 0);
     skill.due = 99999;
   }
@@ -1417,6 +1527,77 @@
       `  **ومفتاحُ فكِّها مكتوبٌ في ليتنر** (\`word|${row.word}|decode\`) — وهو المفتاحُ `
       + 'الذي لم يكن لها قبل اليوم');
   }
+
+  // ————— ١٨ش. **توسعةُ الرصيد س٥ وجملُ «الآن وهنا»** (بندُ الجلسة ٧) —————
+  //
+  // خمسُ محطاتٍ بكلماتها (ملابسُ ومدرسةٌ وبيتٌ وأماكنُ وأفعال) تخدمها شاشةُ س١ بطبعها،
+  // **وسادستُها جملٌ تُطابَق مشاهدَ**: تُسمَع الجملةُ ويُلمَس المشهدُ الذي تقوله. وفيها
+  // بيتُ الضمائر الذي انتظرته الجلستان ٥ و٦: مقيسُ جملةٍ لا يفرّق خياراتِها إلا الضميرُ
+  // **هو الضميرُ نفسُه** (`word|he|listen-pick`) — وبه يستيقظ `readableTrickyAt`.
+
+  const listen5 = curriculum.stations().filter((t) => t.stage === 'listen5');
+  const beforeFive = stamp();
+  for (const part of listen5) {
+    const seen = await driveStation(`#/quiz/${part.part}`);
+    ok(seen.done && seen.rounds >= 5 && seen.stars === 3,
+      `🧺 ومحطةُ ${part.part} («${part.title}») تُقاد إلى ثلاث نجوم `
+      + `(${seen.rounds} جولة · ${seen.stars} نجوم)`);
+    ok(seen.loose === 0 && seen.bare === 0 && seen.small === 0,
+      `  ولا حرفٍ لاتينيّ في شاشتها، ولا زرٍّ نصّيّ، وهدفُ اللمس ≥٦٤بك`
+      + ` (${seen.loose}/${seen.bare}/${seen.small})`);
+  }
+  const fiveKeys = Object.keys(stamp()).filter((k) => beforeFive[k] !== stamp()[k]);
+  const sentenceStation = listen5.find((t) => t.sentences.length);
+  const matched = fiveKeys.filter((k) => k.endsWith('|match'));
+  const pronouns = (sentenceStation?.sentences || []).filter((one) => one.measures)
+    .map((one) => `word|${one.measures}|listen-pick`);
+  ok(matched.length > 0,
+    `**وجملُ س٥-٦ تُقاس \`sentence|…|match\`** (${matched.length} مفتاحاً: `
+    + `${matched.slice(0, 3).join('، ')}) — وحدةُ جملٍ لا وحدةُ قصص`);
+  ok(pronouns.length > 0 && pronouns.some((k) => fiveKeys.includes(k)),
+    `🔓 **وضميرُ الجملة يُقاس بمفتاح الرصيد نفسِه** `
+    + `(${pronouns.filter((k) => fiveKeys.includes(k)).join('، ')}) — `
+    + 'وهو المفتاحُ الذي انتظرته شائكاتُ ح٦ نائمةً منذ الجلسة ٥');
+
+  // ————— ١٨ص. 🚪 **بوابةُ الختام: من أضعف الرحلة كلِّها** (بندُ الجلسة ٧) —————
+  //
+  // «من أضعف الرحلة كلِّها (السمعُ والحرفُ معاً)، ≥٨٠٪، لا رسوب» — وتُقاد مرّتين
+  // كأختيها: **خطأً فلا تُفتَح** (بلا لفظ رسوب ولا حدٍّ للإعادة)، ثم صواباً فتُفتَح
+  // ويُذكَر فيها بابُ «المستوى الثاني» **ذكراً لا وعداً يُقاس**.
+
+  const endGate = curriculum.gateById('end');
+  win.location.hash = '#/gate/end';
+  const endScreen = await waitFor(() => appDoc()?.querySelector('.gate-head'), 25000);
+  ok(!!endScreen, '🚪 **بوابةُ ختام التأسيس تُفتَح** (آخرُ عقدة في الرحلة)');
+  const endAsks = await driveGate(3);
+  let endDoc = appDoc();
+  ok(endAsks.length === 10, `وتُقاد عشرةَ تمارين (${endAsks.length})`);
+  ok(!!endDoc.querySelector('.celebrate--again'),
+    '**ودون العتبة لا تُفتَح** — «ليس بعدُ» بلا لفظ رسوب');
+  ok(endDoc.body.textContent.includes(endGate.again),
+    `ونصُّ تشجيعها من بيانها هو («${endGate.again}»)`);
+  [...endDoc.querySelectorAll('.celebrate button')]
+    .find((b) => /أعِد/.test(b.textContent))?.click();
+  await waitFor(() => appDoc()?.querySelector('.q-stage, .dots'), 25000);
+  await driveGate(0);
+  await waitFor(() => appDoc()?.querySelector('.celebrate'), 25000);
+  endDoc = appDoc();
+  ok(!!endDoc.querySelector('.celebrate') && !endDoc.querySelector('.celebrate--again'),
+    '**وبإصابةٍ تامّة تُفتَح** (≥٨٠٪ من المحاولات)');
+  ok(endDoc.body.textContent.includes(endGate.next),
+    `🎓 **وبابُ «المستوى الثاني» يُذكَر في احتفالها** («${endGate.next}») — `
+    + 'ذكرٌ لا عقدةَ له في الخريطة ولا مفتاحَ في ليتنر');
+  const endStars = JSON.parse(win.localStorage.getItem('english.progress.v1') || '{}').stars
+    || {};
+  ok(endStars['gate:end'] > 0, 'ونجمةُ بوابة الختام مكتوبةٌ بمعرّفها هو');
+  // **ومدَاها الرحلةُ كلُّها**: مفاتيحُ المحطات جميعِها من الجبهتين — يُقرأ من بيانها
+  // هي (`gateSkills`) لا من عدّ ما وقع في محاولةٍ بعينها.
+  const endScope = new Set(curriculum.gateSkills('end'));
+  const outside = curriculum.stations()
+    .flatMap((t) => t.skills || []).filter((k) => !endScope.has(k));
+  ok(endScope.size > 0 && outside.length === 0,
+    `ومدَاها الرحلةُ كلُّها — الجبهتان معاً (${endScope.size} مفتاحاً`
+    + `${outside.length ? `، وخارجَها ${outside.length}` : ''})`);
 
   // ————— ١٩. **لا نصَّ يُنطَق خارج قائمة الصوت** (`AUDIO_QUEUE.md §٣`) —————
   //
