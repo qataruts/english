@@ -408,14 +408,29 @@ ok(/removeAttribute\('title'\)/.test(mainSrc),
 
 /* **وقواعدُ الهدوء تُجرَد من اللوح**: كلُّ قاعدةٍ منها **تُسكِن حركةً** لا تغيّر مقاساً
    ولا لوناً — فمن أضاف تحت `:root.calm` قاعدةً تزحزح تخطيطاً أو تُخفي عنصراً احمرّ
-   هنا. **ولا تُكتب قاعدةُ تفضيل النظام هنا بيدٍ**: ليست في لوحنا اليوم، وكتابتُها
-   تغيّر السلوكَ القائم لمن لم يمسّ الوضعَ قطّ (بند العقد ٢) — فهي بندٌ يُرفَع. */
+   هنا. **وتفضيلُ النظام يُطاع بجانبها** (حكمُ المدير في قبول الجلسة ب، ونُفِّذ في ب٢
+   قراراً معلَناً في `METHOD.md §١٢·١٨`): `prefers-reduced-motion` إعلانُ المستعمِل في
+   نظامه لا تغييرٌ منّا، فطاعتُه أدبُ منصّةٍ لا مقبضُ دعم — **والبابُ يمنع أن يعود
+   المتحرّكُ صامتاً**: تُجرَد مُنتقَياتُ الهدوء واحداً واحداً في كتلة التفضيل، فقاعدةٌ
+   تُزاد لهدوءٍ ولا يُزاد نظيرُها هناك تحمرّ. */
 const calmRules = (css.match(/^:root\.calm [^{}]+\{[^{}]*\}/gm) || []);
 ok(calmRules.length >= 3,
   `وقواعدُ الهدوء في اللوح (${calmRules.length} قاعدة): `
   + calmRules.map((r) => r.replace(/\s+/g, ' ').replace(':root.calm ', '')).join(' | '));
 ok(calmRules.every((r) => /animation:\s*none|transition-duration:\s*1ms/.test(r)),
   'وكلُّها تُسكِن حركةً لا غير — لا مقاسَ يتبدّل ولا عنصرَ يُخفى');
+
+const reduced = css.match(/@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\n\}/)?.[0] || '';
+ok(reduced.length > 0,
+  'و**تفضيلُ خفض الحركة في النظام مُطاعٌ في اللوح** (`prefers-reduced-motion: reduce`)');
+const calmTargets = calmRules.map((r) => r.match(/^:root\.calm ([^{]+)\{/)?.[1].trim());
+const unheard = calmTargets.filter((sel) => sel && !reduced.replace(/\s+/g, ' ').includes(sel));
+ok(reduced.length > 0 && unheard.length === 0,
+  `وكلُّ ما يُسكِنه الهدوءُ يسكن بإعلان المستعمِل (${calmTargets.length} مُنتقىً)`
+  + (unheard.length ? ` — لم يُطَع فيه: ${unheard.join('، ')}` : ''));
+ok(reduced.length > 0 && /animation:\s*none/.test(reduced)
+  && !/\b(display|width|height|padding|margin|color)\s*:/.test(reduced),
+  'وهي تُسكِن حركةً لا غير — لا مادّةَ تُخفى ولا مقاسَ يتبدّل بإعلانٍ في النظام');
 
 // ————— ١٠) سطرُ الوعد الصادق: في اللوحة والتعريفية معاً —————
 

@@ -451,9 +451,14 @@ ok(!/placement/.test(bare(src('main.js'))),
   'ولا بابَ له في التوجيه — فلا يفتحه طفلٌ بعنوانٍ يكتبه');
 ok(!/https:\/\//.test(parentSrc), 'واللوحةُ تبقى صفرَ عناوينَ خارجية');
 
+/* **والمحروسُ حضورُهما في القشرة ورفعُ رقمها — لا رقمٌ بعينه** (تصحيحُ ب٢): كان
+   الرقمُ مكتوباً `v11` في الحارس، فكلُّ نشرةٍ تليه تُحمِرُّه بلا عيب — **حارسٌ يحمرّ
+   من صوابٍ يُعلّم تجاهلَ الحمرة**. فصار يقرأ الرقمَ من مصدره ويشترط أن يكون مرفوعاً
+   عن `v11` (النشرةُ التي دخلت فيها الوحدتان القشرة). */
 const sw = rootSrc('app/sw.js');
-ok(/'js\/placement\.js'/.test(sw) && /'js\/support\.js'/.test(sw) && /const VERSION = 'v11'/.test(sw),
-  'وهو في قشرة v11 مع وحدة الدعم فيعملان دون إنترنت');
+const shellVersion = sw.match(/const VERSION = 'v(\d+)'/)?.[1];
+ok(/'js\/placement\.js'/.test(sw) && /'js\/support\.js'/.test(sw) && Number(shellVersion) >= 11,
+  `وهو في قشرة v${shellVersion || '؟'} مع وحدة الدعم فيعملان دون إنترنت`);
 
 console.log(fails ? `\n${fails} فشل` : '\nكل اختبارات «بوابة اللحاق» ناجحة');
 process.exit(fails ? 1 : 0);

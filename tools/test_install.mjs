@@ -89,5 +89,44 @@ const welcome = readFileSync(new URL('../app/welcome/index.html', import.meta.ur
 ok(!/install\.js/.test(welcome) && !/<script/.test(welcome),
   'وصفحةُ التعريف لم تلمسها — صفرُ جافاسكربت فيها عهدٌ قائم');
 
+// ————— ٤. بطاقةُ أول تشغيل: «ثبّت أولاً ثم امتحن» (الجلسة ب٢) —————
+//
+// **العلّة** (بلاغ `install-before-exam-first-run-card`): مخزنُ المثبَّت مستقلٌّ عن
+// سفاري على iOS، فامتحانُ لحاقٍ في المتصفّح **يضيع بالتثبيت بعده**. والمحروسُ ثلاثة:
+//   ١) **جدولُ حالاتٍ كامل** — رحلةٌ بكرٌ وحدَها، وفي المتصفّح دعوةُ التثبيت وحدَها.
+//   ٢) **لا تحبس أحداً** — «لاحقاً» يُغلقها أبداً (لا أسبوعاً)، وأولُ نجمةٍ تُغيّبها.
+//   ٣) **بنيوياً** — بطاقةُ والدٍ في صدر الصفحة لا زرٌّ في شاشة الطفل، وزرُّ الامتحان
+//      يفتح **بوابةَ اللوحة** لا الامتحانَ مباشرة، ومعفاةٌ في المعاينة كأخيها.
+
+console.log('\n٤. بطاقةُ أول تشغيل — «ثبّت أولاً ثم امتحن»');
+
+const { firstRunState } = await import('../app/js/install.js');
+const virgin = { standalone: false, stars: 0, attempts: 0, memo: {} };
+const card = (over) => firstRunState({ ...virgin, ...over });
+
+ok(card({}) === 'install',
+  'رحلةٌ بكرٌ في المتصفّح: **دعوةُ التثبيت وحدَها** — ولا تُعرَض دعوةُ امتحانٍ يضيع');
+ok(card({ standalone: true }) === 'exam',
+  'ومن التطبيق المثبَّت: دعوةُ امتحان اللحاق — القياسُ يبقى حيث يمشي الطفل');
+ok(card({ standalone: true, stars: 1 }) === 'hidden'
+  && card({ stars: 1 }) === 'hidden',
+  'وبأول نجمةٍ تغيب — الرحلةُ بدأت فلا دعوةَ إلى بدايةٍ أخرى');
+ok(card({ standalone: true, attempts: 1 }) === 'hidden',
+  'وبأول محاولةٍ كذلك — ولو لم يكسب نجمةً بعد');
+ok(card({ standalone: true, memo: { firstRunDone: true } }) === 'hidden'
+  && card({ memo: { firstRunDone: true } }) === 'hidden',
+  '**و«لاحقاً» يُغلقها أبداً** — دعوةٌ مرّةً واحدة لا مطالبةٌ تتكرّر');
+ok(card({ memo: { dismissedAt: base.now } }) === 'install',
+  'ورقادُ شريط التثبيت لا يُسكِتها — بابان لا باب، ولكلٍّ ذاكرتُه');
+
+ok(/remember\(\{ firstRunDone: true \}\)[\s\S]{0,180}go\('#\/parent'\)/.test(src),
+  'وزرُّ الامتحان يفتح **بوابةَ اللوحة** لا الامتحانَ مباشرة — فلا يفتحه طفلٌ على نفسه');
+const paintSrc = src.match(/export function paintFirstRun[\s\S]*?\n\}/)?.[0] || '';
+ok(/document\.body\.prepend\(card\)/.test(paintSrc) && !/\.map\b|screen/.test(paintSrc),
+  'وموضعُها صدرُ الصفحة لا داخلُ الخريطة — بطاقةُ والدٍ لا زرٌّ في شاشة الطفل');
+ok(/if \(!progress\.PREVIEW\) \{\s*\n\s*install\.paintFirstRun\(\{ stars: progress\.totalStars\(\), attempts: progress\.skills\(\)\.length \}\)/
+  .test(mainSrc),
+  'وتُقاس عند كل تصييرٍ بعددَي التقدّم — ومعفاةٌ في المعاينة كأخيها');
+
 console.log(fails ? `\n${fails} فشل` : '\nكل اختبارات باب التثبيت ناجحة');
 process.exit(fails ? 1 : 0);

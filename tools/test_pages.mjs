@@ -200,6 +200,25 @@ for (const [what, needle] of [
   ['وهو في تجربةٍ ميدانية', 'تجربةٍ ميدانية'],
 ]) ok(page.includes(needle), `  وفيه: ${what}`);
 
+/* **وشريطُ الإنصاف يدخل الجردَ** (بلاغ `equity-band-under-hero` — الجلسة ب٢):
+   سطران تحت الصدر مباشرة يقولان إنّ للطفل بابين اختياريين، **ورابطُهما ينزل إلى
+   القسم المفصَّل**. **وعلّةُ حراستهما**: الشريطُ زينةٌ في نظر محرِّرٍ لاحق فيسقط،
+   ورابطُه يسقط أهونَ منه — وسقوطُهما يعيد الميزتين إلى عمق الصفحة حيث لا يمرّ
+   مديرُ مركز. **وثلاثةُ أبوابٍ لا باب**: حضورُ الشريط · ورابطُه إلى `#pace`
+   بعينه · **وموضعُه فوق قسم التثبيت** (فترتيبُ «ثبّته أولاً» أمرُ مالكٍ: الشريطُ
+   سطران فوقه لا قسمٌ يزاحمه). */
+const band = HOME.match(/<aside class="w-band"[\s\S]*?<\/aside>/)?.[0] || '';
+ok(band.length > 0, 'وتحت الصدر **شريطُ الإنصاف** (`aside.w-band`)');
+ok(/href="#pace"/.test(band),
+  'ورابطُه ينزل إلى القسم المفصَّل (`#pace`)'
+  + (band && !/href="#pace"/.test(band) ? ' — **الشريطُ بلا رابط**' : ''));
+ok(band.includes('امتحانُ اللحاق') && band.includes('وضعُ الدعم'),
+  'وفيه البابان بلفظنا — لا وعدَ بما ليس في التطبيق');
+const bandAt = HOME.indexOf('<aside class="w-band"');
+const installAt = HOME.indexOf('id="install-first"');
+ok(band.length > 0 && bandAt > 0 && installAt > bandAt,
+  'وموضعُه **تحت الصدر وفوق قسم التثبيت** — سطران فوقه لا قسمٌ يزاحمه');
+
 const used = new Set(claims.map((claim) => claim.name));
 const idle = Object.keys(FIGURES).filter((name) => !used.has(name));
 console.log(`  · ${used.size} مصدراً مستعمَلاً في الصفحات، و${idle.length} محسوباً `

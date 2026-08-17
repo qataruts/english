@@ -366,6 +366,12 @@ async function render() {
 
   if (token !== renderToken) return;   // سبقتنا وجهة أحدث
   app.replaceChildren(screen);
+  // **وبطاقةُ أول تشغيل تُقاس عند كل تصيير** (الجلسة ب٢): موضعُها رحلةٌ بكرٌ وحدَها،
+  // فتغيب في اللحظة التي يكسب فيها الطفلُ أولَ نجمةٍ أو يجيب أولَ سؤال — بلا إعادة
+  // تحميل. والقرارُ كلُّه في `install.js` (دالّةٌ نقيّة محروسة)، وهذه تمدّه بالعددين.
+  if (!progress.PREVIEW) {
+    install.paintFirstRun({ stars: progress.totalStars(), attempts: progress.skills().length });
+  }
   // **وإشعارُ التحديث يتبع الموضع** (أعلاه): يظهر في الخريطة ولوحِ الوالد، ويختفي
   // بدخول شاشة تمرين — فيُقرأ حيث يُقرأ الخبرُ ولا يقاطع درساً.
   paintUpdateNote();

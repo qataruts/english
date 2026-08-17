@@ -119,10 +119,23 @@
 /* ولونُ الفعل الرئيس يبقى لأصله في `app.css` — لذلك يُستثنى هنا */
 .w-wrap a.btn:not(.btn--primary) { color: var(--ink); }
 
+/* **والفسحةُ فوق المرساة مقيسةٌ بارتفاع الشريط اللاصق لا مخمَّنة** (درسُ احسب —
+   بلاغ `calc-silent-guard-and-sticky-anchor`، والجلسة ب٢): كانت `1.5rem` وشريطُنا
+   `.w-top` لاصقٌ في أعلى الصفحة، فترويسةُ القسم كانت **تقع تحته** بعد كل نقرةِ
+   رابط — والقارئُ يظنّ أنّ الرابط لم يعمل، **وهو أخطرُ من رابطٍ ميت**.
+
+   **والارتفاعُ يتبدّل بالعرض** لأنّ روابطَ الشريط تلتفّ: قِيس في متصفّحٍ حقيقيّ
+   على خمسة عشر عرضاً (`tools/check_anchor.py`) فكان **١٥٣٫٦بك** دون ٤٠٠بك (ثلاثةُ
+   صفوف) و**١٠٧٫٥بك** حتى نحو ٥٠٠بك (صفّان) و**٦٨٫٢بك** فوقها (صفّ) — والحدودُ
+   عندهما لا مقدَّرةً. والفسحةُ فوق كلِّ قياسٍ بنحو درجةٍ كي لا تلتصق الترويسةُ
+   بحافّة الشريط. */
 .w-section {
   margin: 3.5rem 0 0;
-  scroll-margin-top: 1.5rem;
+  scroll-margin-top: 10.5rem;
 }
+
+@media (min-width: 25rem)    { .w-section { scroll-margin-top: 7.5rem; } }
+@media (min-width: 31.25rem) { .w-section { scroll-margin-top: 5.25rem; } }
 
 .w-section > h2 {
   font-size: clamp(1.5rem, 4vw, 2rem);
@@ -180,6 +193,36 @@
 
 @media (min-width: 62rem) {
   .w-hero-shot { margin: 0; }
+}
+
+/* ————— شريطُ الإنصاف: سطران تحت الصدر مباشرة —————
+
+   **سطران لا قسم** (بلاغ `equity-band-under-hero`): بلا عنوانٍ ولا بطاقات، فلا
+   يزاحم «ثبّته أولاً» الذي يليه. **ولونُه من متغيّر اللوح** (`--accent` يُمرَّر
+   في الصفحة إلى `--accent-gate`) — الحبرُ حبرُ المتن على مزيجٍ خفيف من اللون
+   نفسِه، **وقِيس التباينُ يدوياً في متصفّحٍ حقيقيّ** نهاراً وليلاً (لا عدّةَ
+   تباينٍ في شجرتنا اليوم — والأرقامُ في بند الجلسة ب٢). **ولا صورةَ فيه ولا
+   جافاسكربت**: خطٌّ جانبيّ بلون اللوح، ومزيجُ خلفيةٍ في `srgb`. */
+.w-band {
+  margin-top: 1.25rem;
+  padding: .9rem 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .35rem .9rem;
+  background: color-mix(in srgb, var(--accent, var(--accent-gate)) 8%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--accent, var(--accent-gate)) 25%, var(--line));
+  border-inline-start: 4px solid var(--accent, var(--accent-gate));
+  border-radius: var(--radius);
+  color: var(--ink);
+}
+
+.w-band-text { margin: 0; flex: 1 1 20rem; }
+
+.w-band-link {
+  color: var(--accent, var(--accent-gate));
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 /* **الأيقونةُ والاسمُ سطرٌ واحد لا سطران** (حكم المالك بالنظر، ١٣ أغسطس ٢٠٢٦):
