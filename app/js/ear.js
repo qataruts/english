@@ -49,6 +49,8 @@ const SEGMENT_MAX = 2;
 
 const ASK = {
   first: 'اسْمَعِ الصَّوْتَ وَالْمَسْ مَا يَبْدَأُ بِهِ',
+  // **وطرفُ الكلمة الآخِر يسبق أوّلَها عند طفلنا** (حسمُ أ-٤ · `METHOD.md §٤`)
+  last: 'اسْمَعِ الصَّوْتَ وَالْمَسْ مَا يَنْتَهِي بِهِ',
   blend: 'اسْمَعِ الْأَصْوَاتَ وَاجْمَعْهَا — أَيَّةُ صُورَةٍ هِيَ؟',
   segment: 'اسْمَعِ الْكَلِمَةَ ثُمَّ الْمَسْ أَصْوَاتَهَا بِتَرْتِيبِهَا',
   rhyme: 'اسْمَعْ وَالْمَسْ مَا يُشْبِهُ آخِرَهُ',
@@ -84,6 +86,9 @@ export const CONSUMES = {
 /** أوّلُ صوتٍ في كلمة (بمعرّفه لا برسمه). */
 const initialOf = (word) => soundsOf(word)?.[0] || null;
 
+/** آخِرُ صوتٍ فيها — طرفُها الأسهل على أذن الناطق بالعربية (حسمُ أ-٤). */
+const finalOf = (word) => soundsOf(word)?.at(-1) || null;
+
 /** مشتّتاتٌ من حوض المحطة لا تشارك الهدفَ مفتاحَه الصوتيّ. */
 const others = (station, rnd, keyOf, key, count) =>
   shuffle(station.words.filter((w) => keyOf(w.w) !== key), rnd).slice(0, count);
@@ -109,20 +114,28 @@ function pictureRound(station, rnd,
   };
 }
 
-/** س٤-١: يُسمَع صوتٌ معزول، وتُلمَس الصورةُ التي تبدأ به. */
-function firstRound(station, rnd, { range = null } = {}) {
+/**
+ * **عزلُ الصوت في طرفٍ من الكلمة** — س٤-١ (أوّلُها) وس٤-٥ (آخِرُها).
+ *
+ * **ومهارتان لا واحدة**: طرفُ الكلمة الآخِر أسهلُ على أذن طفلنا من مطلعها (بنيةُ
+ * `body-coda` العربية — `METHOD.md §٤`)، فيُدرَّس قبله ويُقاس بمفتاحه (`final-*`).
+ * والبناءُ واحدٌ لأنّ السؤالَ واحد: صوتٌ يُسمَع وصورةٌ تُلمَس.
+ */
+function edgeRound(station, rnd, { range = null } = {}) {
   const key = range || pick(station.ranges, rnd);
   const skill = skillOf(station, key, station.kind);
   if (!skill) return null;
-  const sound = String(key).slice('initial-'.length);
-  const group = station.words.filter((w) => initialOf(w.w) === sound);
+  const last = String(key).startsWith('final-');
+  const edgeOf = last ? finalOf : initialOf;
+  const sound = String(key).slice((last ? 'final-' : 'initial-').length);
+  const group = station.words.filter((w) => edgeOf(w.w) === sound);
   const target = pick(group, rnd);
   if (!target) return null;
-  const pool = others(station, rnd, initialOf, sound, OPTIONS - 1);
+  const pool = others(station, rnd, edgeOf, sound, OPTIONS - 1);
   const next = seeder(rnd);
   return pictureRound(station, rnd, {
-    shape: 'first',
-    ask: ASK.first,
+    shape: last ? 'last' : 'first',
+    ask: last ? ASK.last : ASK.first,
     skill,
     target,
     pool,
@@ -223,7 +236,7 @@ function roundFor(station, rnd, opts = {}) {
   if (station.kind === 'blend-ear') return blendRound(station, rnd, opts);
   if (station.kind === 'segment-ear') return segmentRound(station, rnd, opts);
   if (station.unit === 'rhyme') return rhymeRound(station, rnd, opts);
-  if (station.unit === 'phon') return firstRound(station, rnd, opts);
+  if (station.unit === 'phon') return edgeRound(station, rnd, opts);
   return null;
 }
 
@@ -311,7 +324,7 @@ async function sayEach(sounds, api) {
 
 /** مادّةُ سؤال الجولة كما تُسمَع. */
 async function playAsk(round, api) {
-  if (round.shape === 'first') return sayEn(round.sounds[0]);
+  if (round.shape === 'first' || round.shape === 'last') return sayEn(round.sounds[0]);
   if (round.shape === 'blend') return sayEach(round.sounds, api);
   if (round.shape === 'rhyme') return sayEn(round.heard);
   return sayEn(round.target);           // التقطيع: تُسمَع الكلمةُ كاملة

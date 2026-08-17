@@ -48,17 +48,36 @@ const WAIT_LIMIT = 30;
 const QUIET_LIMIT = 30;
 const SEED = flag('--seed', 20260817);
 
-// ————— سقفُ اليوم وكلفةُ ما فيه (أرقامُ منهجٍ لا اجتهاد) —————
+// ————— سقفُ اليوم وكلفةُ ما فيه: **تُسعَّر بالمحتوى لا بثابت** (حسمُ أ-٥) —————
 //
 // **سقفُ اليوم ١٥ دقيقة**: `METHOD.md §١٢-٨` (حكمُ مدير المشروع، ١٣ أغسطس) —
-// «سقفُ توصية اليوم في لوحة الوالد: ١٥ دقيقة». **وكلفةُ المحطة ٤ دقائق**: أوسطُ
-// «٣–٥ دقائق» المنصوصة في `METHOD.md §٤` (حلقةُ كل محطة). وجلسةُ المراجعة والبوابةُ
-// أطولُ قليلاً بعدد تمارينهما. وهذه **أرقامُ محاكاةٍ معلَنة**: من غيّرها غيّر عددَ
-// الأيام المطبوع، فلا يُقرأ الرقمُ إلا بها.
+// «سقفُ توصية اليوم في لوحة الوالد: ١٥ دقيقة».
+//
+// **وكانت كلفةُ المحطة ثابتاً واحداً (٤ دقائق) لكلِّ محطة** — فمحطةُ العناقيد
+// بمفاتيحها الواحدِ والخمسين تُسعَّر كمحطة تمييزٍ بمفتاحٍ واحد. وذاك تسعيرٌ يكذب في
+// جهتين: **يقصّر الرحلةَ** على الورق، **ويخفي** أنّ محطةً ثقيلةً لا تُستوفى في
+// جلسةِ يومٍ واحد. فصار الزمنُ **دالّةَ ما في المحطة**، بأصلين معلَنين:
+//
+//   • `VISIT_MINUTES` — كلفةُ **الزيارة** نفسِها: الفتحُ والطقسُ المنطوق والاحتفال
+//     والانتقال — لا تتبدّل بعدد ما في المحطة، وهي وحدَها ما بقي ثابتاً.
+//   • `ROUND_MINUTES` — كلفةُ **جولةٍ** واحدة (نمذجةً أو بعونٍ أو وحدَك): تُقرأ من
+//     خطة الشاشة نفسِها (`roundsOf`) لا تُقدَّر، وتُسعَّر بها **المراجعةُ والبوابةُ**
+//     كذلك — فأصلٌ واحد يحكم كلَّ ما يفعله الطفل.
+//   • `KEY_MINUTES` — كلفةُ **تدريس مفتاحٍ** في محطته: رمزٌ يُعرَض ويُنطَق، أو كلمةٌ
+//     تُنمذَج، أو شائكةٌ تُوسَم. فالمحطةُ التي تُدرِّس واحداً وخمسين مفتاحاً تُنفق
+//     في تدريسها ما لا تنفقه محطةُ مفتاح.
+//
+// **ومعايرتُها على نصّ المنهج**: «حلقةُ كل محطة ٣–٥ دقائق» (`METHOD.md §٤`) — فبهذه
+// الثلاثة تقع **محطاتُ الرحلة العاديّةُ كلُّها داخل ذلك المدى**، وتخرج عنه الثقيلاتُ
+// وحدَهنّ (ح١٣ العناقيد · ح١٤ · ح١٥) فيقلن بأنفسهنّ ما كان الثابتُ يخفيه. وهي
+// **أرقامُ محاكاةٍ معلَنة**: من غيّرها غيّر عددَ الأيام المطبوع، فلا يُقرأ الرقمُ إلا بها.
+//
+// **ومحطةٌ أثقلُ من سقف اليوم تُستوفى في يومين فأكثر** (ولا تُبتَر): الطفلُ ينفق
+// فيها ما بقي من يومه ويعود إليها غداً — وذلك عينُ الصدق الذي كان الثابتُ يخفيه.
 const DAY_MINUTES = 15;
-const STATION_MINUTES = 4;
-const REVIEW_MINUTES = 3;
-const GATE_MINUTES = 5;
+const VISIT_MINUTES = 1;
+const ROUND_MINUTES = 0.25;
+const KEY_MINUTES = 0.15;
 
 const store = new Map();
 globalThis.localStorage = {
@@ -133,6 +152,20 @@ const roundsOf = (plan) => [
   ...(plan.solo || []),
 ];
 
+/** مفاتيحُ عقدةٍ كما يعلنها المنهج — مادّةُ تسعير تدريسها. */
+const KEYS_OF_NODE = new Map(c.stations().map((s) => [s.id, (s.skills || []).length]));
+
+/**
+ * **كلفةُ محطةٍ بالدقائق — من محتواها** (حسمُ أ-٥): جولاتُها المبنيّة فعلاً،
+ * ومفاتيحُها التي تُدرَّس فيها. ولا ثابتَ يُقرأ لمحطةٍ دون محطة.
+ */
+const stationMinutes = (nodeId, plan) =>
+  VISIT_MINUTES + roundsOf(plan).length * ROUND_MINUTES
+  + (KEYS_OF_NODE.get(nodeId) || 0) * KEY_MINUTES;
+
+/** كلفةُ جلسةٍ تقيس ولا تدرّس (مراجعةً أو بوابة): زيارةٌ وتمارينُها. */
+const sessionMinutes = (items) => VISIT_MINUTES + items * ROUND_MINUTES;
+
 const state = {
   day: 0,
   minutes: 0,
@@ -144,6 +177,9 @@ const state = {
   longestWait: 0,             // أطولُ وقفةٍ عند بابٍ ينتظر مادّتَه
   lastCount: 0,               // آخرُ عددٍ مقيس (لقياس توقّف الاستيعاب)
   quiet: 0,                   // أيامٌ بلا مفتاحٍ جديد يدخل القياس
+  paying: null,               // محطةٌ ثقيلة تُستوفى على أيام: {id, paid}
+  spread: new Map(),          // محطةٌ ← عددُ الأيام التي استغرقتها
+  costliest: { id: '', minutes: 0 },
   finishedAt: 0,              // يومُ بلوغ آخر عقدة
   played: new Set(),          // عقدٌ لُعبت
   reviews: 0,
@@ -269,7 +305,8 @@ for (state.day = 1; state.day <= MAX_DAYS; state.day++) {
   let minutes = 0;
 
   // ١) **المراجعةُ أولاً كما في التطبيق**: المستحقُّ والبِكرُ من الجبهتين معاً
-  if (runReview(day, asked)) minutes += REVIEW_MINUTES;
+  const first = runReview(day, asked);
+  if (first) minutes += sessionMinutes(first);
 
   // ٢) ثم العقدُ بترتيبها حتى يُستنفَد سقفُ اليوم
   let stalled = false;
@@ -277,19 +314,19 @@ for (state.day = 1; state.day <= MAX_DAYS; state.day++) {
     const node = p.nextNode();
     if (!node) break;
     if (node.type === 'gate') {
-      if (minutes + GATE_MINUTES > DAY_MINUTES) break;
       const items = gate.gateItems(node.part, rnd);
+      // **والبوابةُ تُسعَّر بتمارينها** كسائر ما يفعله الطفل (حسمُ أ-٥)
+      if (minutes + sessionMinutes(items.length) > DAY_MINUTES && minutes > 0) break;
       for (const item of items) play(item, day);
       // **والبوابةُ تقيس ولا تدرّس**: تمارينُها تمارينُ المراجعة، فتُكتب بمفاتيحها
       p.markReview(items.length, items.length);
       p.setStars(node.id, p.MAX_STARS);
       state.gatesAt[node.part] = day;
       state.played.add(node.id);
-      minutes += GATE_MINUTES;
+      minutes += sessionMinutes(items.length);
       if (TRACE) console.log(`  يوم ${day}: 🚪 ${node.title}`);
       continue;
     }
-    if (minutes + STATION_MINUTES > DAY_MINUTES) break;
     const built = station(node.id, day);
     if (!built) {
       /* **وعقدةٌ تنتظر مادّتَها ليست عقدةً ميّتة**: القصةُ نصٌّ كلُّه أو لا شيء
@@ -307,22 +344,38 @@ for (state.day = 1; state.day <= MAX_DAYS; state.day++) {
       stalled = true;
       break;
     }
+    /* **والثقيلةُ تُستوفى على أيام** (حسمُ أ-٥): يُنفَق فيها ما بقي من اليوم، فإن لم
+       تُستوفَ حُملت بقيّتُها إلى الغد — ولا تُلعَب ولا تُقاس حتى تُدفَع كلُّها، فلا
+       تُبتَر محطةٌ نصفَين ولا يُسعَّر ثقيلُها كخفيفها. */
+    const cost = stationMinutes(node.id, built.plan);
+    if (cost > state.costliest.minutes) state.costliest = { id: node.id, minutes: cost };
+    const paid = state.paying?.id === node.id ? state.paying.paid : 0;
+    // (و`max(0)` لأنّ خطةَ المحطة تُبنى ببذرة اليوم: قد تنقص جولةٌ فينقص ثمنُها
+    //  عمّا دُفع بالأمس — فلا يُردّ للطفل وقتٌ أنفقه)
+    const spend = Math.max(0, Math.min(cost - paid, DAY_MINUTES - minutes));
+    minutes += spend;
+    state.spread.set(node.id, (state.spread.get(node.id) || 0) + 1);
+    if (paid + spend < cost - 1e-9) {
+      state.paying = { id: node.id, paid: paid + spend };
+      break;
+    }
+    state.paying = null;
     for (const round of roundsOf(built.plan)) {
       play({ ...round, node: node.id }, day,
         { measure: (built.plan.solo || []).includes(round) });
     }
     p.setStars(node.id, p.MAX_STARS);
     state.played.add(node.id);
-    minutes += STATION_MINUTES;
-    if (TRACE) console.log(`  يوم ${day}: ${node.title}`);
+    if (TRACE) console.log(`  يوم ${day}: ${node.title} (${cost.toFixed(1)} دقيقة)`);
   }
 
   // ٣) **وما بقي من اليوم مراجعة**: بابٌ واقفٌ ينتظر نضجَ مادّته، أو رحلةٌ تمّت
   // عقدُها والمفاتيحُ تُثبَّت — والشاشةُ نفسُها تُعاد بتمارين جديدة في كل مرة.
   const idle = stalled || !p.nextNode();
-  while (idle && minutes + REVIEW_MINUTES <= DAY_MINUTES) {
-    if (!runReview(day, asked)) break;
-    minutes += REVIEW_MINUTES;
+  while (idle && minutes < DAY_MINUTES) {
+    const items = runReview(day, asked);
+    if (!items) break;
+    minutes += sessionMinutes(items);
   }
 
   if (!p.nextNode() && !state.finishedAt) state.finishedAt = day;
@@ -346,6 +399,12 @@ const done = nodes.filter((n) => p.isDone(n.id));
 
 console.log(`\n— رقمُ الرحلة المقيس: ${state.finishedAt || '—'} يوماً إلى بوابة الختام، `
   + `و${days} يوماً إلى تمام قياس كل مفتاح —`);
+/* **وقيدُ الرقم يُطبَع معه لا في تعليقٍ داخليّ** (حسمُ أ-٥ · الشقُّ القوليّ): كان
+   الرأسُ يعترف بأنّ الرقمَ أرضيةٌ لطفلٍ مثاليّ، **والاعترافُ في تعليقٍ لا يبلغ مَن
+   يُرفَع إليه الرقم**. فصار السطرُ تحت الرقم حيث يُقرأ. */
+console.log('  (وهو **بلوغُ آخر عقدةٍ بأضيق الحالات** لا كفايةٌ لغوية: طفلٌ لا يخطئ '
+  + 'ولا يغيب يوماً، بسقف يومٍ كامل — أرضيةُ زمنٍ تُقاس، لا وعدَ إتقانِ لغة.\n'
+  + '   والثاني تمامُ قياس كلِّ مفتاحٍ مرّةً — لا تمامُ إتقانه.)');
 ok(done.length === nodes.length,
   `كلُّ عقد الرحلة بُلغت ولُعبت: ${done.length} من ${nodes.length}`);
 ok(days < MAX_DAYS, `والرحلةُ تنتهي (سقفُ الأمان ${MAX_DAYS} يوماً)`);
@@ -404,6 +463,17 @@ if (asleep.length) {
   console.log(`  ⏸ و${asleep.length} مفتاحاً محبوساً بقيد الاقتران بحقّ `
     + `(${asleep.join('، ')}) — شائكاتٌ لا محطةَ سمعيةَ لمفاتيحها بعد — نائم، يستيقظ ذاتياً`);
 }
+
+// ————— **تسعيرُ المحتوى يُرى في المخرَج** (حسمُ أ-٥): لا يُقرأ رقمُ الأيام بلا ثمنه —
+console.log('\n— التسعير: زمنُ المحطة دالّةُ مفاتيحها وجولاتِها —');
+const spread = [...state.spread].filter(([, days]) => days > 1);
+console.log(`  · الأصلُ: زيارةٌ ${VISIT_MINUTES} دقيقة + ${ROUND_MINUTES} للجولة + `
+  + `${KEY_MINUTES} لكلِّ مفتاحٍ يُدرَّس (سقفُ اليوم ${DAY_MINUTES})`);
+console.log(`  · أثقلُ محطة: «${state.costliest.id}» ${state.costliest.minutes.toFixed(1)} `
+  + `دقيقة (بـ${KEYS_OF_NODE.get(state.costliest.id)} مفتاحاً) — وكانت تُسعَّر ٤ دقائق `
+  + 'كمحطةٍ بمفتاحٍ واحد');
+console.log(`  · ومحطاتٌ لم تُستوفَ في يومٍ واحد: ${spread.length}`
+  + (spread.length ? ` (${spread.map(([id, d]) => `${id}×${d}`).join('، ')})` : ''));
 
 console.log(`\n(الجلساتُ: ${state.reviews} جلسةَ مراجعة · البواباتُ: `
   + `${Object.entries(state.gatesAt).map(([id, at]) => `${id}@${at}`).join(' · ')})`);

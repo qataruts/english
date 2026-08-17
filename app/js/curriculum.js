@@ -285,6 +285,17 @@ export const WORDS = [
   { w: 'eight', field: 'numbers', at: 's1-6', sounds: ['ai', 't'], count: 8 },
   { w: 'nine', field: 'numbers', at: 's1-6', sounds: ['n', 'igh', 'n'], count: 9 },
   { w: 'ten', field: 'numbers', at: 's1-6', sounds: ['t', 'e', 'n'], count: 10 },
+  // ————— **س١-٧: حاملا كلِّ زوجٍ أدنى** (حسمُ أ-٣، ١٧ أغسطس ٢٠٢٦) —————
+  //
+  // أربعُ كلماتٍ **مصوَّرةٌ صادقةٌ كلُّها**، علّةُ وجودها أن يكون لأصعب زوجين على
+  // أذن طفلنا (‏i/e · a/u) **كلمتان تُلمَسان** بدل تمييزٍ صوتيٍّ مجرَّد. وثلاثٌ منها
+  // خارج مداخل Starters بميزانيةٍ معلَنة معدودة (`PAIR_BUDGET` أدناه)، و`pen` مدخلٌ
+  // فيها نُقل من س٥-٢ إلى هنا **لأنّ الزوجَ لا يُسأل عنه قبل أن تُسمَع كلمتاه**
+  // (صونُ قيد الاقتران — والمحطةُ تسبق س٣ في الرحلة).
+  { w: 'pin', field: 'school', at: 's1-7', sounds: ['p', 'i', 'n'], face: '📌' },
+  { w: 'pen', field: 'school', at: 's1-7', face: '🖊️' },
+  { w: 'cap', field: 'clothes', at: 's1-7', sounds: ['k', 'a', 'p'], face: '🧢' },
+  { w: 'cup', field: 'home', at: 's1-7', sounds: ['k', 'u', 'p'], face: '☕' },
   // س٢-٢ أوامرُ الوضع المكاني — حروفُ الجرّ مشهدٌ لا رمز
   { w: 'in', field: 'places', at: 's2-2', pictured: 'scene' },
   { w: 'on', field: 'places', at: 's2-2', pictured: 'scene' },
@@ -323,7 +334,6 @@ export const WORDS = [
   { w: 'glasses', field: 'clothes', at: 's5-1', sounds: ['g', 'l', 'a', 's', 'i', 'z'], face: '👓' },
   // س٥-٢ المدرسة واللعب
   { w: 'book', field: 'school', at: 's5-2', face: '📚' },
-  { w: 'pen', field: 'school', at: 's5-2', face: '🖊️' },
   { w: 'pencil', field: 'school', at: 's5-2', sounds: ['p', 'e', 'n', 's', 'i', 'l'], face: '✏️' },
   { w: 'ruler', field: 'school', at: 's5-2', sounds: ['r', 'oo', 'l', 'er'], face: '📏' },
   { w: 'school', field: 'school', at: 's5-2', face: '🏫' },
@@ -367,6 +377,28 @@ export const WORDS = [
   { w: 'read', field: 'verbs', at: 's5-5', face: '📖' },
   { w: 'write', field: 'verbs', at: 's5-5', sounds: ['r', 'igh', 't'], face: '✍️' },
   { w: 'swim', field: 'verbs', at: 's5-5', face: '🏊' },
+];
+
+/**
+ * **ميزانيةُ الأزواج الدنيا — خرقٌ ثانٍ محصورٌ معلَن** (حسمُ أ-٣، ١٧ أغسطس ٢٠٢٦).
+ *
+ * **العلّة**: قائمةُ مفرداتِ امتحانٍ صارت قيداً على العلاج الصوتيّ — فبقي أصعبُ
+ * زوجين على الناطق بالعربية (‏/ɪ/ مقابل /e/، و/a/ مقابل /u/) بلا كلمةٍ واحدة، لأنّ
+ * `bit/bet` و`cap/cup` ليست من مداخل Starters ‏2025. **والرصيدُ خادمُ المنهج لا
+ * حاكمٌ عليه**؛ ودليلُ الأولوية مقيس: الصوائتُ ٤٧٪ صحّةَ تمييزٍ عند المبتدئ العربيّ
+ * مقابل ٨٦٪ للصوامت، و**‏/ɪ/ أسوأُ مفردةٍ على الإطلاق (٨٪)** تنهار إلى /e/
+ * (‏Evans & Alshangiti 2018, *Journal of Phonetics* 68).
+ *
+ * **وهو خرقٌ على سَنَن الشائكات**: معدودٌ (ثلاثُ كلمات)، **بعلّةٍ مكتوبة لكلٍّ**،
+ * ولا يدخله إلا **حاملُ زوجٍ في محطة تمييز** — يحرسه `check_range` (بابُ الرصيد
+ * وبابُ الأزواج) فلا تتسلّل كلمةٌ خارج Starters من هذا الباب بلا زوجٍ يحملها.
+ * وكلُّها **مفكوكةٌ ثلاثيةٌ مصوَّرةٌ صدقاً**، ولا تدخل سلّمَ الفكّ (`GRADES`): بابُها
+ * الأذنُ وحدَها.
+ */
+export const PAIR_BUDGET = [
+  { w: 'pin', pair: 'i-e', why: '‏pin/pen زوجُ /ɪ/ و/e/ المصوَّر — و«pin» ليست من مداخل Starters ‏2025، و📌 صورتُها الصادقة' },
+  { w: 'cap', pair: 'a-u', why: '‏cap/cup زوجُ /a/ و/u/ المصوَّر — وفي Starters «baseball cap» وحدَها لا «cap»، و🧢 صورتُها' },
+  { w: 'cup', pair: 'a-u', why: 'أختُ cap في الزوج نفسِه — وفي Starters «cupboard» لا «cup»، و☕ صورتُها' },
 ];
 
 /**
@@ -1136,16 +1168,51 @@ export const PHONEMES = [
   { id: 'oo', say: '/oo/', ex: 'blue', graphemes: ['oo', 'ue', 'ew', 'u-e'] },
   // **الاستثناءُ المعلَن** (رأسُ الجدول): رسمُه رسمُ أخيه، فنصُّه المنطوق علامتُه الدولية
   { id: 'oo-book', say: '/ʊ/', ex: 'book', graphemes: ['oo-book'] },
-  { id: 'ar', say: '/ar/', ex: 'car', graphemes: ['ar'] },
-  { id: 'or', say: '/or/', ex: 'for', graphemes: ['or', 'aw', 'au'] },
-  { id: 'ur', say: '/ur/', ex: 'girl', graphemes: ['ur', 'ir'] },
-  { id: 'er', say: '/er/', ex: 'spider', graphemes: ['er'] },
+  // ————— **السبعةُ الراتعة: رمزُها L&S وتحقيقُها أمريكيّ** (حسمُ أ-٢) —————
+  //
+  // **الرمزُ رسمٌ لا لهجة، والصوتُ لهجةٌ لا رسم.** سلّمُ الرموز الاثنين والسبعين
+  // يبقى L&S كما هو (وهو ما يُعلَّم رسماً↔صوتاً)، **وتحقيقُ الصوت يتبع اللكنة
+  // المحسومة** (ق١/ق٢، ١٦ أغسطس — `REVIEW_IDENTITY.md`: «لكنةٌ أمريكية، صوتُ Leda»).
+  //
+  // وكان نصُّ هذه السبعة منقولاً عن جدول L&S بحرفه (`/ar/` · `/ear/` · `/air/` …)،
+  // وهو جدولٌ بريطانيٌّ **غيرُ راتع** ينصّ مصدرُه عليه (DfE English Appendix 1 ص٦٣:
+  // «*by convention, based on Received Pronunciation*»): فـ`ar` عنده صائتٌ طويل بلا
+  // راء، و`ear`/`air`/`ure` **صوائتُ مركّبة مركزية** (‏/ɪə/ /ɛə/ /ʊə/) **لا وجودَ لها
+  // في العامّة الأمريكية أصلاً**. فكنّا نقول للطفل «هذا الرمزُ صوتٌ واحد» ونُسمعه
+  // صائتاً **وراءً مسموعة** — والراءُ في العربية فونيمٌ بارز، فهو **سامعُها يقيناً**.
+  //
+  // فصار المنطوقُ هنا **راتعاً على العرف الأمريكيّ**: الأربعةُ الراتعة بصوائتها
+  // (‏/ɑr/ /ɔr/ /ɜr/ /ər/)، والثلاثةُ المركزيةُ **تسلسلاً راتعاً** (‏/ɪr/ /er/ /ʊr/).
+  // ويحرسه بابُ اللكنة في `check_range.py` مُجرَّباً سالباً: لا يدخل الجدولَ صوتٌ لا
+  // يقوله لسانُنا المقرَّر، ولا يعود رمزٌ راتعٌ يُنطَق باسم رسمه.
+  { id: 'ar', say: '/ɑr/', ex: 'car', graphemes: ['ar'] },
+  { id: 'or', say: '/ɔr/', ex: 'for', graphemes: ['or', 'aw', 'au'] },
+  { id: 'ur', say: '/ɜr/', ex: 'girl', graphemes: ['ur', 'ir'] },
+  { id: 'er', say: '/ər/', ex: 'spider', graphemes: ['er'] },
   { id: 'ow', say: '/ow/', ex: 'cow', graphemes: ['ow', 'ou'] },
   { id: 'oi', say: '/oi/', ex: 'boy', graphemes: ['oi', 'oy'] },
-  { id: 'ear', say: '/ear/', ex: 'ear', graphemes: ['ear'] },
-  { id: 'air', say: '/air/', ex: 'chair', graphemes: ['air'] },
-  { id: 'ure', say: '/ure/', ex: 'sure', graphemes: ['ure'] },
+  { id: 'ear', say: '/ɪr/', ex: 'ear', graphemes: ['ear'] },
+  { id: 'air', say: '/er/', ex: 'chair', graphemes: ['air'] },
+  { id: 'ure', say: '/ʊr/', ex: 'sure', graphemes: ['ure'] },
 ];
+
+/**
+ * **اللكنةُ المحسومة ولوازمُها على الجدول** — يقرؤها بابُ اللكنة في `check_range.py`
+ * فيقابل كلَّ صوتٍ بها (حسمُ أ-٢، ١٧ أغسطس ٢٠٢٦).
+ *
+ * `rhotic` رموزُ السلّم التي فيها راءٌ مرسومة: **تحقيقُها في لسانِنا راءٌ مسموعة**،
+ * فنصُّها المنطوق ينتهي بـ`r` ولا يكون اسمَ رسمه. و`absent` أصواتٌ **لا يقولها**
+ * لساننا المقرَّر: الصوائتُ المركّبة المركزية (رتعُها هو الفارق)، وعلامةُ الطول
+ * الطويلة `ː` (عرفُ RP في الجدول البريطاني).
+ */
+export const ACCENT = {
+  id: 'en-US',
+  ar: 'أمريكية',
+  source: 'docs/REVIEW_IDENTITY.md — ق١/ق٢ (المالك، ١٦ أغسطس ٢٠٢٦)',
+  rhotic: ['ar', 'or', 'ur', 'er', 'ear', 'air', 'ure'],
+  absent: ['/ɪə/', '/ɛə/', '/ʊə/', '/eə/', '/ɑː/', '/ɔː/', '/ɜː/', '/ɪə(r)/'],
+  lengthMark: 'ː',
+};
 
 /** رسمٌ ← صوتُه (يُبنى مرّةً من الجدول أعلاه — ولا خريطةَ ثانية تُكتب بيد). */
 const SOUND_OF_SYMBOL = new Map(
@@ -1428,6 +1495,10 @@ const LISTEN_STAGES = [
       // مُصيَّرتان بقيمة لونهما (حكمُ المدير — رأسُ الرصيد المصوَّر أعلاه).
       { part: 's1-5', title: 'الألوان', field: 'colours', face: '🟥', pictures: 'swatch' },
       { part: 's1-6', title: 'الأعداد سمعاً', field: 'numbers', face: '🔵', pictures: 'count' },
+      // **وحاملا الزوجين الأصعبين يُسمعان قبل أن يُميَّزا** (حسمُ أ-٣): كلماتُ
+      // `PAIR_BUDGET` ومعها `pen` — محطةٌ سمعيةٌ كأخواتها، **وموضعُها قبل س٣ شرطٌ لا
+      // زينة**: لا يُسأل طفلٌ «أيَّهما سمعت؟» عن كلمةٍ لم يلقَها قطّ.
+      { part: 's1-7', title: 'كلماتُ الأزواج', face: '📌' },
     ],
   },
   {
@@ -1454,19 +1525,29 @@ const LISTEN_STAGES = [
     // وهو حكمُ f/v المقيَّد في `METHOD.md §٤` **معمَّماً بالبيانات** لا مكتوباً لزوج.
     id: 'listen3', ar: 'س٣ — محطةُ الأصوات المتقاربة', sub: 'زوجان يُسمَعان ويُميَّزان',
     type: 'contrast', face: '🔀',
+    // ————— **الترتيبُ ترتيبُ المصفوفة، والمعرّفُ هويّةٌ لا رقمُ سير** —————
+    //
+    // **الصوائتُ أوّلاً** (حسمُ أ-٣ · دليلُ Evans & Alshangiti 2018): الصائتُ ٤٧٪
+    // صحّةَ تمييزٍ عند مبتدئنا والصامتُ ٨٦٪ — **فبابُ الفجوة الصوائتُ لا الصوامت**،
+    // و`/ɪ/` أسوأُ ما فيها (٨٪) وهي **ثانيةُ درجات السلّم** (ح٢). فقُدّمت محطتُها،
+    // ولها في بياناتها **عنايةٌ مضاعفة** (`focus` أدناه: نمذجةٌ أطول وجولاتٌ أكثر).
+    // ومعرّفاتُ المحطات باقيةٌ كما هي (‏`s3-1` p/b …) — **فهي أسماءٌ لا مواضع**،
+    // وتبديلُها يبدّل نجومَ جهازٍ لُعب عليه بلا فائدة.
     parts: [
+      { part: 's3-3', title: 'الحركاتُ القصار', face: '🐑', pairs: [
+        // **وأصعبُ زوجٍ أوّلُ الأزواج**: `/ɪ/` تنهار إلى `/e/` في ٧٢٪ من «hid»
+        // عند المبتدئ العربيّ، ويبقى الخطأُ ٥٦٪ عند المتقدّم — فله حاملان مصوَّران
+        // وعنايةٌ مضاعفة، ثم **يعود عند ح٤** يومَ يجيء الرسمان (`pairReturnGrade`).
+        { key: 'i-e', phonemes: ['i', 'e'], words: ['pin', 'pen'], focus: true,
+          why: 'أصعبُ تمييزٍ على أذن طفلنا (‏٨٪ صحّةً لـ/ɪ/ — Evans & Alshangiti 2018)' },
+        { key: 'i-ee', phonemes: ['i', 'ee'], words: ['ship', 'sheep'] },
+        { key: 'a-u', phonemes: ['a', 'u'], words: ['cap', 'cup'] }] },
       { part: 's3-1', title: 'p و b', face: '🍐', pairs: [
         { key: 'p-b', phonemes: ['p', 'b'], words: ['pear', 'bear'] }] },
       { part: 's3-2', title: 'f و v', face: '🔊', pairs: [
         { key: 'f-v', phonemes: ['f', 'v'],
           why: 'بابُ V في Starters ‏2025 فيه كلمةٌ واحدة (very) ولا صورةَ صادقة لها '
-            + '— فلا زوجَ أدنى مصوَّرٌ في الرصيد (`METHOD.md §٤` أحكامُ المادة)' }] },
-      { part: 's3-3', title: 'الحركاتُ القصار', face: '🐑', pairs: [
-        { key: 'i-ee', phonemes: ['i', 'ee'], words: ['ship', 'sheep'] },
-        { key: 'i-e', phonemes: ['i', 'e'],
-          why: 'bit/bet وأخواتُهما ليست من مداخل Starters ‏2025' },
-        { key: 'a-u', phonemes: ['a', 'u'],
-          why: 'cap/cup ليستا من مداخل Starters ‏2025 (وفيها `baseball cap` وحدَها)' }] },
+            + '— ولا زوجَ أدنى مصوَّرٌ يصدُق لها في ميزانية الأزواج (`METHOD.md §٤`)' }] },
       // **والعنقودُ تجاورُ ساكنين لا صوتٌ ثالث**: التمييزُ فيه بين مطلعٍ عنقوديّ
       // ومطلعٍ مفرد (‏spider/sun) — فلا صوتَ معزولاً يُقابَل به، وحاملاه لازمان.
       { part: 's3-4', title: 'العناقيد', face: '🕷️', pairs: [
@@ -1481,9 +1562,32 @@ const LISTEN_STAGES = [
     // يلقَها بعدُ في محطةٍ سابقة.
     id: 'listen4', ar: 'س٤ — محطةُ الأذن الفونيمية', sub: 'أصواتٌ بلا حرفٍ يُرى',
     type: 'ear', face: '🔊',
+    // ————— **ترتيبٌ مقلوبٌ عن L&S بعلّته المعلَنة** (حسمُ أ-٤، ١٧ أغسطس ٢٠٢٦) —————
+    //
+    // كان ترتيبُ المحطات ترتيبَ «L&S المرحلة ١ الجانب ٧» كما هو: **الصوتُ الأول
+    // أولاً** والقافيةُ آخراً. وذلك ترتيبُ طفلٍ الإنكليزيةُ لغتُه: بنيةُ مقطعه
+    // **onset-rime**، فانتزاعُ صامت المطلع أوّلُ ما يقدر عليه.
+    //
+    // **وطفلُنا مقلوبُه**: بنيةُ المقطع العربيّ **body-coda** — وحدةُ CV متماسكة،
+    // فانتزاعُ الصامت من جسمها **أصعبُ عمليةٍ فونيمية متاحة له**. وقِيس ذلك على
+    // أطفالٍ عربٍ في الروضة والصف الأول: **عزلُ الصوت الأخير أسهلُ من عزل الأول**
+    // (‏Saiegh-Haddad 2003, *Applied Psycholinguistics*)، ويشدّه من جهةٍ أخرى أنّ
+    // العناقيدَ **النهائية** تُنطَق سليمةً عند الكويتيّ والابتدائيةَ وحدَها موضعُ
+    // الخلل (‏Al-Abdullah & Almutairi 2024, *JLTR* 15(2)). **فطرفُ الكلمة الآخِر هو
+    // بابُها الأسهل** — وس٤ بوابةُ فتح مسار الحرف كلِّه (ق٤)، فلا يُبدأ فيها بالأصعب.
+    //
+    // فصار السيرُ: **القافيةُ ← الصوتُ الأخير ← الصوتُ الأول ← الدمجُ ← التقطيع** —
+    // من الكلّ إلى الجزء، ومن الطرف السهل إلى الطرف الصعب. والمعرّفاتُ أسماءٌ لا
+    // مواضع (كأخواتها في س٣)، و`s4-5` هو المولود: **عزلُ الصوت الأخير** — ولم يكن
+    // في المنهج كلِّه مفتاحٌ واحد له (‏`phon|final-*`).
     parts: [
-      // **ثلاثٌ عتبةُ المادّة**: هدفٌ ومشتّتان في الجولة، فمدىً بأقلَّ من ثلاث كلماتٍ
-      // يُعيد الصورةَ نفسَها في كل جولة فيُحفَظ الجوابُ بالشكل لا بالسمع.
+      // **والقافيةُ كلمتان فأكثر**: تُسمَع واحدةٌ وتُلمَس أختُها، فاثنتان تكفيان مدىً.
+      { part: 's4-4', title: 'القافية', face: '🎵', unit: 'rhyme', kind: 'pick',
+        pool: 'met', rhymes: { min: 2 } },
+      // **ثلاثٌ عتبةُ المادّة** (للطرفين معاً): هدفٌ ومشتّتان في الجولة، فمدىً بأقلَّ
+      // من ثلاث كلماتٍ يُعيد الصورةَ نفسَها في كل جولة فيُحفَظ الجوابُ بالشكل لا بالسمع.
+      { part: 's4-5', title: 'الصوتُ الأخير', face: '🔚', unit: 'phon', kind: 'pick',
+        pool: 'met', finals: { min: 3 } },
       { part: 's4-1', title: 'الصوتُ الأول', face: '🔤', unit: 'phon', kind: 'pick',
         pool: 'met', initials: { min: 3 } },
       // **والدمجُ والتقطيعُ ثلاثةُ أصوات** (عينُ L&S المرحلة ١: CVC شفهياً) — ومادّتُهما
@@ -1492,9 +1596,6 @@ const LISTEN_STAGES = [
         pool: 'met', sounds: { count: 3 } },
       { part: 's4-3', title: 'قطِّع الكلمة', face: '✂️', unit: 'oral', kind: 'segment-ear',
         pool: 'met', sounds: { count: 3 } },
-      // **والقافيةُ كلمتان فأكثر**: تُسمَع واحدةٌ وتُلمَس أختُها، فاثنتان تكفيان مدىً.
-      { part: 's4-4', title: 'القافية', face: '🎵', unit: 'rhyme', kind: 'pick',
-        pool: 'met', rhymes: { min: 2 } },
     ],
   },
   {
@@ -1670,6 +1771,15 @@ const initialRanges = (part) =>
     .filter(([, words]) => words.length >= part.initials.min)
     .map(([sound]) => `initial-${sound}`).sort();
 
+/**
+ * مدياتُ «الصوتِ الأخير» — بالقاعدة نفسِها من الطرف الآخر (حسمُ أ-٤).
+ * **وهي الطرفُ الأسهل على أذن طفلنا**، فتُدرَّس قبل مدياتِ المطلع لا بعدها.
+ */
+const finalRanges = (part) =>
+  [...soundGroups(part, (w) => soundsOf(w)?.at(-1))]
+    .filter(([, words]) => words.length >= part.finals.min)
+    .map(([sound]) => `final-${sound}`).sort();
+
 /** مدياتُ القافية: قوافٍ لها من حوض المحطة كلمتان فأكثر (`rhymes.min`). */
 const rhymeRanges = (part) =>
   [...soundGroups(part, rimeOf)]
@@ -1715,6 +1825,7 @@ function listenSounds(part) {
       .flatMap((p) => p.phonemes || []));
   }
   if (part.initials) return says(initialRanges(part).map((r) => r.slice('initial-'.length)));
+  if (part.finals) return says(finalRanges(part).map((r) => r.slice('final-'.length)));
   // الدمجُ والتقطيعُ ينطقان أصواتَ كلماتهما واحداً واحداً
   if (part.sounds) return says(listenWords(part).flatMap((w) => soundsOf(w.w)));
   return [];
@@ -1744,6 +1855,7 @@ function listenSkills(part) {
   }
   if (part.pairs) return part.pairs.map((p) => `pair|${p.key}|pick`);
   if (part.initials) return initialRanges(part).map((r) => `${part.unit}|${r}|${part.kind}`);
+  if (part.finals) return finalRanges(part).map((r) => `${part.unit}|${r}|${part.kind}`);
   if (part.rhymes) return rhymeRanges(part).map((r) => `${part.unit}|${r}|${part.kind}`);
   const kind = part.kind || 'listen-pick';
   // و**الوحدةُ تُعلَن حين تفارق حقلَها**: س٤-٢ وس٤-٣ تسمعان كلماتِ س١ نفسَها ولكنّ
@@ -1799,6 +1911,9 @@ function listenStations() {
       names: [...(pair.words || [])],
       words: (pair.words || []).map(wordNamed).filter(Boolean),
       sounds: (pair.phonemes || []).map(phonemeSay),
+      // **والعنايةُ المضاعفة بيانٌ يخرج مع الزوج** (حسمُ أ-٣ ج): تقرؤه شاشتُه فتُطيل
+      // نمذجتَه وتزيد جولاتِه — ولا تعرف شاشةٌ زوجاً بمعرّفه.
+      focus: Boolean(pair.focus),
       why: pair.why || '',
     })),
     // مدياتُ المحطة كما تُقاس (الحقلُ الثاني من مفتاحها) — تقرؤها شاشتُها
@@ -1952,6 +2067,86 @@ function gradeStations() {
   }));
 }
 
+// ————— **عودةُ الزوج عند درجة رمزه** (حسمُ أ-٣ ب، ١٧ أغسطس ٢٠٢٦) —————
+//
+// **العلّة**: محطاتُ س٣ كلُّها **قبل ح١** — فالعلاجُ الصوتيّ يقع قبل الداء بأسابيع
+// ثم لا يعود. فليس في المنهج موضعٌ واحد يعيد p/b **حين يجيء الحرفان** (‏`p` في ح١
+// و`b` في ح٥)، ولا i/e **حين يجيئان** (‏`i` في ح٢ و`e` في ح٤) — وهناك موضعُ الخطر:
+// يومَ يُفكّ الرسمان لا يومَ يُسمَع الصوتان.
+//
+// **والموضعُ محسوبٌ لا مكتوب** (كموضع س٥): درجةُ عودة الزوج هي **أوّلُ درجةٍ تُفتَح
+// عندها رسومُ صوتيه معاً** — فإن تحرّك رمزٌ في السلّم غداً تحرّكت معه، ولا سطرَ
+// يُعدَّل. والزوجُ العنقوديّ لا أصواتَ مفردة له، فموضعُه **درجةُ العناقيد** نفسُها
+// (‏ح١٣ — وهي التي قال المنهجُ إنّ س٣-٤ تسبقها سمعاً).
+//
+// **ومفتاحُ العودة مفتاحُ الزوج نفسُه** (`pair|i-e|pick`) لا مفتاحٌ ثانٍ: المهارةُ
+// واحدة، وإنّما تُعاد في موضعها — فيرتفع صندوقُها في ليتنر ولا تنشقّ مهارةٌ شقّين.
+
+/** أوّلُ درجةٍ يُفتَح فيها رسمٌ لهذا الصوت — أو `null` إن لم يُفتَح له رسمٌ قطّ. */
+const gradeOfSound = (soundId) =>
+  GRADES.find((g) => g.symbols.some((s) => phonemeOf(s.id) === soundId))?.id || null;
+
+/** درجةُ عودة الزوج: أبعدُ درجاتِ صوتيه — أو درجةُ العناقيد لزوجٍ بلا أصواتٍ مفردة. */
+function pairReturnGrade(pair) {
+  const order = GRADES.map((g) => g.id);
+  const ids = pair.phonemes || [];
+  if (!ids.length) return CLUSTER_GRADE;
+  const at = ids.map((id) => order.indexOf(gradeOfSound(id)));
+  return at.some((i) => i < 0) ? null : order[Math.max(...at)];
+}
+
+/** درجةٌ ← أزواجُ س٣ التي تعود عندها (محسوبةٌ مرّةً من الجداول). */
+function returningPairs() {
+  const slots = new Map();
+  for (const part of listenParts().filter((p) => p.pairs)) {
+    for (const pair of part.pairs) {
+      const at = pairReturnGrade(pair);
+      if (at) slots.set(at, [...(slots.get(at) || []), { part, pair }]);
+    }
+  }
+  return slots;
+}
+
+/**
+ * **محطةُ عودةٍ لدرجةٍ** — محطةُ تمييزٍ ثانية بمفاتيح أزواجها نفسِها، في مسار الحرف.
+ * وشكلُها شكلُ محطة س٣ حرفاً (`contrast`)، فلا شاشةَ جديدة ولا نوعَ قياسٍ جديد.
+ */
+function returnStations(grade) {
+  const back = returningPairs().get(grade.id) || [];
+  if (!back.length) return [];
+  const pairs = back.map(({ part, pair }) => {
+    const built = listenStations().find((s) => s.part === part.part);
+    return built.pairs.find((p) => p.key === pair.key);
+  });
+  const words = pairs.flatMap((p) => p.words);
+  const names = pairs.map((p) => p.key.replace('-', ' و'));
+  return [{
+    id: `contrast:${grade.id}-again`,
+    type: 'contrast',
+    part: `${grade.id}-again`,
+    track: 'letter',
+    stage: grade.era,
+    title: `عودةُ الأذن — ${names.join(' · ')}`,
+    face: '🔁',
+    pictures: 'face',
+    words,
+    props: [],
+    kind: 'pick',
+    unit: '',
+    order: '',
+    colours: [],
+    pairs,
+    ranges: pairs.map((p) => p.key),
+    sounds: [...new Set(pairs.filter((p) => p.mode === 'sound').flatMap((p) => p.sounds))],
+    sentences: [],
+    owners: [],
+    // **ولا رمزَ ولا شائكةَ في جبهتها**: هي محطةُ **أذنٍ** وقعت في مسار الحرف، لا
+    // تعرض رسماً ولا تقرأ كلمة — فحدُّها حقولُ حاملَيها وحدَها.
+    frontier: { fields: [...new Set(words.map((w) => w.field))], symbols: [], tricky: [] },
+    skills: pairs.map((p) => `pair|${p.key}|pick`),
+  }];
+}
+
 /**
  * **أوّلُ درجةٍ تُكتب لها قصة** (`METHOD.md §٥`): «من بعد 🚪٢، كتابٌ لكل درجةٍ
  * فصاعداً» — فالبوابةُ الثانية بعد ح٥، ولا قصةَ قبل ح٦ (يحرسه `check_range`).
@@ -2001,8 +2196,14 @@ function storyStations() {
  */
 function letterStations() {
   const stories = new Map(storyStations().map((station) => [station.part, station]));
-  return gradeStations().flatMap((station) =>
-    [station, ...(stories.has(station.part) ? [stories.get(station.part)] : [])]);
+  const grades = new Map(GRADES.map((grade) => [grade.id, grade]));
+  return gradeStations().flatMap((station) => [
+    station,
+    // **وعودةُ الأذن تلي درجتَها مباشرةً** (حسمُ أ-٣ ب): الرسمُ يُدرَّس ثم يُميَّز
+    // صوتُه في موضعه — وقبل قصّتها، فالقصةُ خاتمةُ الدرجة.
+    ...returnStations(grades.get(station.part) || {}),
+    ...(stories.has(station.part) ? [stories.get(station.part)] : []),
+  ]);
 }
 
 /**
@@ -2341,8 +2542,10 @@ export const UNIT_UNITS = [
   { id: 'pair', section: 'listen', title: 'أصواتٌ متقاربة يميّزها',
     does: 'يميّز {ما} سمعاً', needs: 'يخلط {ما}',
     count: ['زوجاً واحداً', 'زوجين', 'أزواج', 'زوجاً'] },
-  { id: 'phon', section: 'listen', title: 'أولُ الصوت في الكلمة',
-    does: 'يعرف أوّلَ الصوت في {ما}', needs: 'يحتاج تمييزَ أوّل الصوت في {ما}',
+  // **وطرفا الكلمة وحدةٌ واحدة بمدَيين** (حسمُ أ-٤): المهارةُ عزلُ صوتٍ في طرف،
+  // ويفترق الطرفان في المدى (`initial-` · `final-`) فتقرأهما اللوحةُ سطرين.
+  { id: 'phon', section: 'listen', title: 'عزلُ الصوت في طرف الكلمة',
+    does: 'يعزل {ما}', needs: 'يحتاج تمييزَ {ما}',
     count: ['صوتاً واحداً', 'صوتين', 'أصوات', 'صوتاً'] },
   { id: 'oral', section: 'listen', title: 'دمجُ الأصوات وتقطيعُها سمعاً',
     does: 'يدمج ويقطّع {ما} سمعاً', needs: 'يحتاج تدريباً على {ما}',
@@ -2399,6 +2602,12 @@ export function rangeText(range, unit = '') {
   if (text.startsWith('initial-')) {
     const sound = text.slice('initial-'.length);
     return `أوّلُ صوت ${phonemeSay(sound) || sound}`;
+  }
+  // **وطرفا الكلمة مهارتان تُقرآن مفترقتين في اللوحة** (حسمُ أ-٤): لو قيل «صوت
+  // ‏/t/» في السطرين لَقرأ الوالدُ سطرين متطابقين لمهارتين مختلفتين.
+  if (text.startsWith('final-')) {
+    const sound = text.slice('final-'.length);
+    return `آخِرُ صوت ${phonemeSay(sound) || sound}`;
   }
   const grade = GRADES.find((g) => g.id === text);
   if (grade) return `الدرجة ${grade.ar.slice(1)}`;

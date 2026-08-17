@@ -37,6 +37,8 @@ ROOT = Path(__file__).resolve().parent.parent
 APP_JS = ROOT / "app" / "js"
 CURRICULUM = APP_JS / "curriculum.js"
 FIGURES = APP_JS / "figures.js"
+# وثيقةُ الهوية: فيها اللكنةُ المحسومة بقرار المالك — يقرؤها بابُ اللكنة (حسمُ أ-٢)
+IDENTITY = ROOT / "docs" / "REVIEW_IDENTITY.md"
 
 # وحداتُ البذرة ليست شاشاتِ تمارين — هي المنصةُ نفسُها (نظيرُ `SEED` في `test_nodes.mjs`)
 SEED_MODULES = {
@@ -78,6 +80,11 @@ def load_curriculum() -> dict:
     console.log(JSON.stringify({{
       starters: m.STARTERS, forms: [...m.starterForms()],
       words: m.WORDS, raised: m.RAISED, resolved: m.RESOLVED, ritual: m.RITUAL,
+      // **ميزانيةُ الأزواج الدنيا** (حسمُ أ-٣): الخرقُ الثاني المحصور لقيد Starters —
+      // يقرؤها بابُ الرصيد فيأذن لها وحدَها، وبابٌ خاصٌّ يقابلها بشرطها.
+      pairBudget: m.PAIR_BUDGET,
+      // **واللكنةُ المحسومة** (حسمُ أ-٢): بها يُقابَل جدولُ الأصوات صوتاً صوتاً.
+      accent: m.ACCENT,
       fields: m.FIELDS,
       eras: m.ERAS, grades: m.GRADES,
       phonemes: m.PHONEMES,
@@ -202,9 +209,9 @@ def usage_errors(label: str, used: dict, frontier: dict, bank: dict) -> list:
         elif word not in lex:
             errors.append(f"{label}: «{word}» خارج الرصيد السمعي المعلَن "
                           f"(`WORDS` في `curriculum.js`)")
-        elif word not in bank["forms"]:
+        elif word not in bank["forms"] and word not in bank["budget"]:
             errors.append(f"{label}: «{word}» في الرصيد وليست من مداخل "
-                          "Cambridge Pre A1 Starters ‏2025")
+                          "Cambridge Pre A1 Starters ‏2025 ولا من ميزانية الأزواج المعلَنة")
 
     # **وكلماتُ الأمر المنطوق تُقابَل بالقائمة الأصل**: `point to the cat` — «cat»
     # مجرودةٌ في الرصيد المصوَّر أعلاه، و«point» و«to» و«the» مداخلُ في Starters ولا
@@ -615,6 +622,9 @@ def bank_of(data: dict) -> dict:
         "words": {w["w"] for w in data["words"]},
         "touchable": set(data.get("touchable") or []),
         "forms": set(data["forms"]),
+        # **ميزانيةُ الأزواج**: كلماتٌ خارج Starters بإذنٍ معدودٍ معلَّل — تمرّ على
+        # بابِ الكلمة كما تمرّ مداخلُ القائمة، ولا تمرّ على غيره بلا شرطها.
+        "budget": {b["w"] for b in data.get("pairBudget") or []},
         "raised": {r["w"]: r["why"] for r in data["raised"]},
         "fields": {f["id"] for f in data["fields"]},
         "units": {u["id"] for u in data["units"]},
@@ -712,13 +722,15 @@ def pair_errors(data: dict) -> list:
     errors = []
     faced = {w["w"] for w in data["words"] if w.get("face")}
     forms = set(data["forms"])
+    budget = {b["w"] for b in data.get("pairBudget") or []}
     for station in data["stations"]:
         for pair in station.get("pairs") or []:
             label = f"[{station['id']} · زوج {pair['key']}]"
             for name in pair.get("names") or []:
-                if name not in forms:
+                if name not in forms and name not in budget:
                     errors.append(f"{label}: الحاملُ «{name}» ليس من مداخل "
-                                  "Cambridge Pre A1 Starters ‏2025")
+                                  "Cambridge Pre A1 Starters ‏2025 ولا من ميزانية "
+                                  "الأزواج المعلَنة")
             names = pair.get("names") or []
             pictured = len(names) == 2 and all(n in faced for n in names)
             if (pair["mode"] == "word") != pictured:
@@ -735,16 +747,106 @@ def pair_errors(data: dict) -> list:
     return errors
 
 
+def budget_word_errors(data: dict, bank: dict) -> list:
+    """**ميزانيةُ الأزواج الدنيا: خرقٌ محصورٌ لا بابٌ خلفيّ** (حسمُ أ-٣).
+
+    أُذن لكلماتٍ معدوداتٍ أن تدخل الرصيدَ المصوَّر وهي خارج مداخل Starters — **لأنّ
+    الرصيدَ خادمُ المنهج لا حاكمٌ عليه**، ولأنّ أصعبَ زوجين على أذن طفلنا بقيا بلا
+    كلمة. ولولا هذا البابُ لَصار الإذنُ ثقباً: تدخل منه كلمةٌ لا زوجَ لها فيتّسع
+    الرصيدُ من غير بابه المُعلَن.
+
+    فأربعةُ شروطٍ لكلِّ كلمةٍ فيها، ولكلٍّ علّتُه:
+      ١) **لها علّةٌ مكتوبة** — لا اسمُ زوجٍ وحدَه.
+      ٢) **وهي فعلاً خارج Starters** — فمن أدخل فيها مدخلاً من القائمة وسّع الميزانيةَ
+         بلا حاجة، وأوهم أنّ الخرقَ أكبرُ ممّا هو.
+      ٣) **وهي حاملُ زوجٍ في محطة تمييزٍ فعلاً** — لا كلمةً تدخل الرصيدَ باسم زوجٍ
+         ثم تُدرَّس مفرداتٍ.
+      ٤) **ولا تدخل سلّمَ الفكّ** (`GRADES`): بابُها الأذنُ وحدَها — وإلّا صارت
+         الميزانيةُ توسيعاً لمقروء الطفل من غير قرار مالك (أ-٦).
+    """
+    errors = []
+    budget = data.get("pairBudget") or []
+    carriers = {n for s in data["stations"] for p in (s.get("pairs") or [])
+                for n in (p.get("names") or [])}
+    ladder = {w["w"] for g in data["grades"] for w in g["words"]}
+    for entry in budget:
+        name = entry.get("w")
+        label = f"[ميزانية الأزواج · {name}]"
+        if len(str(entry.get("why") or "")) <= 20:
+            errors.append(f"{label}: بلا علّةٍ مكتوبة تُقرأ")
+        if name in bank["forms"]:
+            errors.append(f"{label}: مدخلٌ في Starters أصلاً — فلا حاجةَ به إلى ميزانية")
+        if name not in carriers:
+            errors.append(f"{label}: ليست حاملَ زوجٍ في أيّ محطة تمييز — "
+                          "وبابُ الميزانية الأزواجُ وحدَها")
+        if name not in bank["words"]:
+            errors.append(f"{label}: ليست في الرصيد المصوَّر (`WORDS`)")
+        if name in ladder:
+            errors.append(f"{label}: دخلت سلّمَ الفكّ — وميزانيةُ الأزواج بابُها "
+                          "الأذنُ وحدَها (توسيعُ المقروء قرارُ مالك)")
+    return errors
+
+
+def accent_errors(data: dict) -> list:
+    """**جدولُ الأصوات يتبع اللكنة المحسومة** (حسمُ أ-٢، ١٧ أغسطس ٢٠٢٦).
+
+    سلّمُ الرموز L&S **رسمٌ لا لهجة** فيبقى؛ **وتحقيقُ الصوت لهجةٌ فيتبع الصوتَ
+    المقرَّر** (لكنةٌ أمريكية، صوتُ Leda — `docs/REVIEW_IDENTITY.md`). وكان الجدولُ
+    منقولاً عن مصدرٍ بريطانيٍّ غيرِ راتع، فكان يقول للطفل «هذا الرمزُ صوتٌ واحد»
+    ويُسمعه صائتاً وراءً — والراءُ في العربية فونيمٌ بارز يسمعه يقيناً.
+
+    وثلاثةُ شروطٍ يقابل بها كلَّ صوت:
+      ١) **اللكنةُ المُعلَنة في الوثيقة هي اللكنةُ في البيانات** — فإن تبدّلت هناك
+         ولم تتبدّل هنا وقف البابُ ولم يمرّ صامتاً.
+      ٢) **ما رُسم بالراء يُنطَق راتعاً**: نصُّه ينتهي براءٍ، **ولا يكون اسمَ رسمه**
+         (‏`/ar/` نصُّ الجدول البريطانيّ لا نطقُ لسانِنا).
+      ٣) **ولا يدخل الجدولَ صوتٌ لا يقوله لسانُنا**: المركّباتُ المركزية
+         (‏/ɪə/ /ɛə/ /ʊə/) وعلامةُ الطول الطويلة — كلاهما عرفُ RP لا العامّة الأمريكية.
+    """
+    errors = []
+    accent = data.get("accent") or {}
+    phonemes = data.get("phonemes") or []
+    declared = (IDENTITY.read_text(encoding="utf-8") if IDENTITY.exists() else "")
+    if accent.get("ar") and accent["ar"] not in declared:
+        errors.append(f"[اللكنة] البياناتُ تقول «{accent['ar']}» ولا تقولها "
+                      f"{IDENTITY.name} — واللكنةُ قرارُ مالكٍ يُقرأ من موضعه")
+    absent = set(accent.get("absent") or [])
+    rhotic = set(accent.get("rhotic") or [])
+    mark = accent.get("lengthMark") or "ː"
+    for phoneme in phonemes:
+        say, pid = str(phoneme.get("say") or ""), phoneme.get("id")
+        if say in absent:
+            errors.append(f"[صوت {pid}] «{say}» لا يقوله لسانُنا المقرَّر "
+                          f"({accent.get('ar')}) — وهو مركّبٌ مركزيٌّ غيرُ راتع")
+        if mark in say:
+            errors.append(f"[صوت {pid}] «{say}» فيه علامةُ الطول «{mark}» — "
+                          f"وهي عرفُ الجدول البريطانيّ لا لكنتَنا")
+        if pid in rhotic:
+            if not say.endswith("r/"):
+                errors.append(f"[صوت {pid}] رمزٌ فيه راءٌ مرسومة ونصُّه «{say}» غيرُ "
+                              "راتع — والطفلُ سامعُ الراء يقيناً")
+            if say.strip("/") == str(pid):
+                errors.append(f"[صوت {pid}] نصُّه المنطوق اسمُ رسمه «{say}» — "
+                              "نقلٌ عن جدولٍ لا نطقٌ في لسانٍ مقرَّر")
+    missing = [s for s in rhotic if not any(p.get("id") == s for p in phonemes)]
+    if missing:
+        errors.append(f"[اللكنة] رموزٌ مُعلَنةٌ راتعةً لا وجودَ لها في الجدول: "
+                      f"{'، '.join(missing)}")
+    return errors
+
+
 def source_errors(data: dict) -> list:
     """الرصيدُ المنقول: عددُه ما أعلنه مصدرُه، وكلُّ مصوَّرٍ منه مدخلٌ فيه."""
     errors = []
     if len(data["starters"]) != len(set(data["starters"])):
         errors.append("[الرصيد] مدخلٌ مكرَّر في `STARTERS`")
     bank = bank_of(data)
-    outside = sorted(w for w in bank["words"] if w not in bank["forms"])
+    outside = sorted(w for w in bank["words"]
+                     if w not in bank["forms"] and w not in bank["budget"])
     if outside:
-        errors.append(f"[الرصيد] كلمةٌ في الرصيد المصوَّر ليست من مداخل Starters: "
-                      f"{'، '.join(outside)}")
+        errors.append(f"[الرصيد] كلمةٌ في الرصيد المصوَّر ليست من مداخل Starters "
+                      f"ولا من ميزانية الأزواج: {'، '.join(outside)}")
+    errors += budget_word_errors(data, bank)
     raised_in = sorted(set(bank["raised"]) & bank["words"])
     if raised_in:
         errors.append(f"[الرصيد] كلمةٌ مرفوعةٌ وهي في الرصيد المصوَّر: {'، '.join(raised_in)}")
@@ -873,6 +975,11 @@ def check(data: dict) -> int:
          "، ".join(f"{e['id']}: {e['trickyBudget']}" for e in data["eras"]))
     door("أصواتُ المنهج: لا رمزَ بلا صوت ولا صوتان بنصٍّ واحد", sound_errors(data),
          f"{len(data.get('phonemes') or [])} صوتاً لـ{symbols} رمزاً، ولكلٍّ نصُّه المنطوق")
+    accent = data.get("accent") or {}
+    door("لكنةُ الجدول: تحقيقُ الصوت يتبع اللسانَ المقرَّر", accent_errors(data),
+         f"لكنةٌ {accent.get('ar')} ({accent.get('id')})، و{len(accent.get('rhotic') or [])} "
+         f"رمزاً راتعاً نصُّه راءٌ مسموعة، ولا صوتَ من {len(accent.get('absent') or [])} "
+         "لا يقولها لساننا")
     pairs = [p for s in stations for p in (s.get("pairs") or [])]
     door("المراجعُ الضميرية: لكلٍّ رسمٌ مُصيَّر وعبارةٌ تسمّيه",
          deixis_errors(data),
@@ -1459,6 +1566,63 @@ def self_test(data: dict) -> int:
                                "sounds": ["/zh/"]}, ears, bank), "ليس من أصوات المنهج"),
        "**وجولةٌ تنطق صوتاً مخترَعاً تُمسَك** — لا يمرّ على بابَي الكلمة والرمز "
        "(ليس كلمةً ولا رسماً)، ولا يُسمَع خطؤه إلا في أذن طفل")
+
+    # ————— بابُ اللكنة: **صوتٌ لا يقوله لسانُنا يُمسَك** (حسمُ أ-٢) —————
+    print("\n— بابُ اللكنة: تحقيقُ الصوت يتبع اللسانَ المقرَّر —")
+
+    def dosed_accent(mutate):
+        clone = copy.deepcopy(data)
+        mutate(clone)
+        return accent_errors(clone)
+
+    def phoneme_of(clone, pid):
+        return next(p for p in clone["phonemes"] if p["id"] == pid)
+
+    ok(not accent_errors(data), "جدولُ الأصوات الحيّ يمرّ نظيفاً على لكنته")
+    ok(find(dosed_accent(lambda c: phoneme_of(c, "ear").update({"say": "/ɪə/"})),
+            "لا يقوله لسانُنا"),
+       "**وصائتٌ مركّبٌ مركزيٌّ يُمسَك** — «/ɪə/» لا وجودَ لها في العامّة الأمريكية، "
+       "والطفلُ سامعُ الراء يقيناً")
+    ok(find(dosed_accent(lambda c: phoneme_of(c, "ar").update({"say": "/ɑː/"})),
+            "علامةُ الطول"),
+       "**وعلامةُ الطول الطويلة تُمسَك** — «/ɑː/» عرفُ الجدول البريطانيّ غيرِ الراتع")
+    ok(find(dosed_accent(lambda c: phoneme_of(c, "ar").update({"say": "/ar/"})),
+            "اسمُ رسمه"),
+       "**ونصٌّ هو اسمُ رسمه يُمسَك** — «/ar/» نقلٌ عن جدولٍ لا نطقٌ في لسان "
+       "(وهو عينُ ما كان قبل الحسم)")
+    ok(find(dosed_accent(lambda c: phoneme_of(c, "ur").update({"say": "/ɜ/"})),
+            "غيرُ راتع"),
+       "**ورمزٌ فيه راءٌ مرسومة ونصُّه بلا راء يُمسَك**")
+    ok(find(dosed_accent(lambda c: c["accent"].update({"ar": "بريطانية"})),
+            "ولا تقولها"),
+       "**وبياناتٌ تُعلن لكنةً لا تقولها وثيقةُ الهوية تُمسَك** — واللكنةُ قرارُ مالك")
+
+    # ————— بابُ ميزانية الأزواج: **إذنٌ محصورٌ لا ثقبٌ في الرصيد** (حسمُ أ-٣) —————
+    print("\n— بابُ ميزانية الأزواج: خرقٌ معدودٌ معلَّل —")
+
+    def dosed_budget(mutate):
+        clone = copy.deepcopy(data)
+        mutate(clone)
+        return budget_word_errors(clone, bank_of(clone))
+
+    ok(not budget_word_errors(data, bank), "ميزانيةُ الأزواج الحيّة تمرّ بشرطها")
+    ok(find(dosed_budget(lambda c: c["pairBudget"].append(
+        {"w": "queen", "pair": "?", "why": "علّةٌ مكتوبةٌ طويلةٌ تكفي البابَ لفظاً"})),
+        "ليست حاملَ زوج"),
+       "**وكلمةٌ تدخل الميزانيةَ بلا زوجٍ يحملها تُمسَك** — وإلّا صار الإذنُ باباً "
+       "خلفياً يتّسع منه الرصيدُ بلا قرار")
+    ok(find(dosed_budget(lambda c: c["pairBudget"].append(
+        {"w": "cat", "pair": "?", "why": "قصيرة"})), "بلا علّةٍ مكتوبة"),
+       "  وبلا علّةٍ تُقرأ تُمسَك")
+    ok(find(dosed_budget(lambda c: next(
+        b for b in c["pairBudget"] if b["w"] == "pin").update({"w": "pear"})),
+        "مدخلٌ في Starters"),
+       "  ومدخلٌ من القائمة أُقحم في الميزانية يُمسَك (فالخرقُ يُعَدّ على قدره)")
+    ok(find(dosed_budget(lambda c: c["grades"][0]["words"].append(
+        {"w": "pin", "gpc": ["p", "i", "n"], "listen": "word|pin|listen-pick"})),
+        "سلّمَ الفكّ"),
+       "**وكلمةُ ميزانيةٍ تسلّلت إلى سلّم الفكّ تُمسَك** — بابُها الأذنُ وحدَها، "
+       "وتوسيعُ المقروء قرارُ مالك (أ-٦)")
 
     print(f"\n{fails} فشل" if fails else "\n✓ الفاحصُ يمسك المدسوسَ كلَّه")
     return 1 if fails else 0

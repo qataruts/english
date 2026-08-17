@@ -1,5 +1,547 @@
 [
   {
+    "text": "/f/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "/g/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "/j/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "/k/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "/m/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      },
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-17",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview",
+    "style_hint": "Say only the pure isolated consonant sound /m/ — a short closed-lip nasal hum, 'mmm', about half a second. There must be NO vowel at all: not 'em', not 'am', not 'muh'. Begin with the lips already closed. The sound"
+  },
+  {
+    "text": "/n/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      },
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-17",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "/ng/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-4",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "/p/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "/s/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-16",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن: الصوتُ طويل (٢× وسيط أقرانه)",
+        "requeuedAt": "2026-08-16"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "/th/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-3",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "blue",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "do you have any milk",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "go to bed",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-4",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "I go to dad",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "I thought so",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "look at me",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "mirror",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "word",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-3.1-flash-tts-preview",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "mum called me",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      },
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-17",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "point to the frog",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "the big blue ball",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "the cat is on the bed",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "the red sock in the box",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "we go through the door",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "we have some milk",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "what do you see",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-6",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
+    "text": "who is happy",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "sentence",
+    "requestedBy": "session-2",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "fixHistory": [
+      {
+        "was": "gemini-2.5-pro-preview-tts",
+        "voice": "Leda",
+        "doneAt": "2026-08-16",
+        "reason": "حكم الأذن",
+        "requeuedAt": "2026-08-17"
+      }
+    ],
+    "model": "gemini-2.5-pro-preview-tts"
+  },
+  {
     "text": "اسْمَعِ الْأَصْوَاتَ وَاجْمَعْهَا — أَيَّةُ صُورَةٍ هِيَ؟",
     "lang": "ar",
     "voice": "Sulafat",
@@ -74,6 +616,17 @@
     "priority": 10,
     "status": "done",
     "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "اسْمَعِ الصَّوْتَ وَالْمَسْ مَا يَنْتَهِي بِهِ",
+    "lang": "ar",
+    "voice": "Sulafat",
+    "category": "instruction",
+    "requestedBy": "session-h",
+    "priority": 10,
+    "status": "done",
+    "doneAt": "2026-08-17",
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -451,25 +1004,14 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
-    "text": "/air/",
+    "text": "/ɑr/",
     "lang": "en",
     "voice": "Leda",
     "category": "phoneme",
-    "requestedBy": "session-4",
+    "requestedBy": "session-h",
     "priority": 40,
     "status": "done",
-    "doneAt": "2026-08-16",
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
-    "text": "/ar/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-4",
-    "priority": 40,
-    "status": "done",
-    "doneAt": "2026-08-16",
+    "doneAt": "2026-08-17",
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -517,17 +1059,6 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
-    "text": "/ear/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-4",
-    "priority": 40,
-    "status": "done",
-    "doneAt": "2026-08-16",
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
     "text": "/ee/",
     "lang": "en",
     "voice": "Leda",
@@ -550,43 +1081,25 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
-    "text": "/f/",
+    "text": "/ər/",
     "lang": "en",
     "voice": "Leda",
     "category": "phoneme",
-    "requestedBy": "session-3",
-    "priority": 10,
+    "requestedBy": "session-h",
+    "priority": 40,
     "status": "done",
     "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
-    "text": "/g/",
+    "text": "/ɜr/",
     "lang": "en",
     "voice": "Leda",
     "category": "phoneme",
-    "requestedBy": "session-3",
-    "priority": 10,
+    "requestedBy": "session-h",
+    "priority": 40,
     "status": "done",
     "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -623,43 +1136,14 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
-    "text": "/j/",
+    "text": "/ɪr/",
     "lang": "en",
     "voice": "Leda",
     "category": "phoneme",
-    "requestedBy": "session-4",
-    "priority": 10,
+    "requestedBy": "session-h",
+    "priority": 40,
     "status": "done",
     "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
-    "text": "/k/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-3",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -693,81 +1177,6 @@
     "priority": 40,
     "status": "done",
     "doneAt": "2026-08-16",
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
-    "text": "/m/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-3",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      },
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-17",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-3.1-flash-tts-preview",
-    "style_hint": "Say only the pure isolated consonant sound /m/ — a short closed-lip nasal hum, 'mmm', about half a second. There must be NO vowel at all: not 'em', not 'am', not 'muh'. Begin with the lips already closed. The sound"
-  },
-  {
-    "text": "/n/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-3",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      },
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-17",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
-    "text": "/ng/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-4",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -815,17 +1224,6 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
-    "text": "/or/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-4",
-    "priority": 40,
-    "status": "done",
-    "doneAt": "2026-08-16",
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
     "text": "/ow/",
     "lang": "en",
     "voice": "Leda",
@@ -837,23 +1235,14 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
-    "text": "/p/",
+    "text": "/ɔr/",
     "lang": "en",
     "voice": "Leda",
     "category": "phoneme",
-    "requestedBy": "session-3",
-    "priority": 10,
+    "requestedBy": "session-h",
+    "priority": 40,
     "status": "done",
     "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -865,26 +1254,6 @@
     "priority": 40,
     "status": "done",
     "doneAt": "2026-08-16",
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
-    "text": "/s/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-3",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-16",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن: الصوتُ طويل (٢× وسيط أقرانه)",
-        "requeuedAt": "2026-08-16"
-      }
-    ],
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -910,53 +1279,11 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
-    "text": "/th/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-3",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
     "text": "/u/",
     "lang": "en",
     "voice": "Leda",
     "category": "phoneme",
     "requestedBy": "session-3",
-    "priority": 40,
-    "status": "done",
-    "doneAt": "2026-08-16",
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
-    "text": "/ur/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-3",
-    "priority": 40,
-    "status": "done",
-    "doneAt": "2026-08-16",
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
-    "text": "/ure/",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "phoneme",
-    "requestedBy": "session-4",
     "priority": 40,
     "status": "done",
     "doneAt": "2026-08-16",
@@ -971,6 +1298,17 @@
     "priority": 40,
     "status": "done",
     "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "/ʊr/",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "phoneme",
+    "requestedBy": "session-h",
+    "priority": 40,
+    "status": "done",
+    "doneAt": "2026-08-17",
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -1260,26 +1598,6 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
-    "text": "blue",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "word",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
     "text": "boat",
     "lang": "en",
     "voice": "Leda",
@@ -1390,6 +1708,17 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
+    "text": "cap",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "word",
+    "requestedBy": "session-h",
+    "priority": 60,
+    "status": "done",
+    "doneAt": "2026-08-17",
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
     "text": "car",
     "lang": "en",
     "voice": "Leda",
@@ -1475,6 +1804,17 @@
     "priority": 60,
     "status": "done",
     "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "cup",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "word",
+    "requestedBy": "session-h",
+    "priority": 60,
+    "status": "done",
+    "doneAt": "2026-08-17",
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -2127,26 +2467,6 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
-    "text": "mirror",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "word",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-3.1-flash-tts-preview",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-3.1-flash-tts-preview"
-  },
-  {
     "text": "monkey",
     "lang": "en",
     "voice": "Leda",
@@ -2375,6 +2695,17 @@
     "priority": 60,
     "status": "done",
     "doneAt": "2026-08-16",
+    "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "pin",
+    "lang": "en",
+    "voice": "Leda",
+    "category": "word",
+    "requestedBy": "session-h",
+    "priority": 60,
+    "status": "done",
+    "doneAt": "2026-08-17",
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
@@ -3170,46 +3501,6 @@
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
-    "text": "do you have any milk",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
-    "text": "go to bed",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-4",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
     "text": "go to the door",
     "lang": "en",
     "voice": "Leda",
@@ -3342,26 +3633,6 @@
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
-    "text": "I go to dad",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
     "text": "I have one frog",
     "lang": "en",
     "voice": "Leda",
@@ -3472,26 +3743,6 @@
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
-    "text": "I thought so",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
     "text": "it is so big",
     "lang": "en",
     "voice": "Leda",
@@ -3511,26 +3762,6 @@
     "priority": 70,
     "status": "done",
     "doneAt": "2026-08-16",
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
-    "text": "look at me",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -3564,33 +3795,6 @@
     "priority": 70,
     "status": "done",
     "doneAt": "2026-08-16",
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
-    "text": "mum called me",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      },
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-17",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -3770,26 +3974,6 @@
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
-    "text": "point to the frog",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
     "text": "point to the small blue ball",
     "lang": "en",
     "voice": "Leda",
@@ -3955,26 +4139,6 @@
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
-    "text": "the big blue ball",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
     "text": "the big cow",
     "lang": "en",
     "voice": "Leda",
@@ -4104,26 +4268,6 @@
     "priority": 70,
     "status": "done",
     "doneAt": "2026-08-16",
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
-    "text": "the cat is on the bed",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -4358,26 +4502,6 @@
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
-    "text": "the red sock in the box",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
     "text": "the sheep in the sun",
     "lang": "en",
     "voice": "Leda",
@@ -4598,26 +4722,6 @@
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
-    "text": "we go through the door",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
     "text": "we have a cat",
     "lang": "en",
     "voice": "Leda",
@@ -4637,26 +4741,6 @@
     "priority": 70,
     "status": "done",
     "doneAt": "2026-08-16",
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
-    "text": "we have some milk",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-6",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
@@ -4693,26 +4777,6 @@
     "model": "gemini-2.5-pro-preview-tts"
   },
   {
-    "text": "what do you see",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-6",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
     "text": "what is it",
     "lang": "en",
     "voice": "Leda",
@@ -4743,26 +4807,6 @@
     "priority": 70,
     "status": "done",
     "doneAt": "2026-08-16",
-    "model": "gemini-2.5-pro-preview-tts"
-  },
-  {
-    "text": "who is happy",
-    "lang": "en",
-    "voice": "Leda",
-    "category": "sentence",
-    "requestedBy": "session-2",
-    "priority": 10,
-    "status": "done",
-    "doneAt": "2026-08-17",
-    "fixHistory": [
-      {
-        "was": "gemini-2.5-pro-preview-tts",
-        "voice": "Leda",
-        "doneAt": "2026-08-16",
-        "reason": "حكم الأذن",
-        "requeuedAt": "2026-08-17"
-      }
-    ],
     "model": "gemini-2.5-pro-preview-tts"
   },
   {

@@ -40,6 +40,15 @@ const TYPES = new Set(['contrast']);
 const GUIDED = 2;
 const SOLO = 5;
 const MODEL_ITEMS = 2;
+/**
+ * **العنايةُ المضاعفة بزوجٍ يُعلنها المنهج** (`pairs[].focus` — حسمُ أ-٣ ج).
+ *
+ * لا كلُّ زوجٍ سواءٌ في أذن طفلنا: `/ɪ/` أسوأُ مفردةٍ على الإطلاق عنده (‏٨٪ صحّةَ
+ * تمييز، و«hid» تُسمَع «head» في ٧٢٪ — Evans & Alshangiti 2018)، وهي **ثانيةُ درجات
+ * السلّم**. فالزوجُ المُعلَن `focus` **يُنمذَج أوّلاً** (لا بالقرعة) و**تُزاد جولاتُه
+ * المقيسة** — والزيادةُ في الجولات لا في المفاتيح: مهارةٌ واحدة تُمرَّن أكثر.
+ */
+const FOCUS_SOLO = 2;
 
 // ————— التعليماتُ المنطوقة (عربيةٌ كلُّها — `METHOD.md §٩·١`) —————
 
@@ -156,8 +165,14 @@ export function buildStation(stationId, seed) {
     return bag.pop();
   };
 
-  const shown = Array.from({ length: MODEL_ITEMS }, () => pairRound(station, rnd, {}))
-    .filter(Boolean);
+  /* **وأصعبُ الأزواج أوّلُ ما يُنمذَج**: النمذجةُ بالقرعة تُسقط زوجَ العناية من
+     المشاهدة كلَّها في بعض البذور — فيُصدَّر إن أعلنته المحطة، وتُملأ البقيةُ قرعةً. */
+  const focus = station.pairs.filter((pair) => pair.focus);
+  const shown = [
+    ...focus.slice(0, MODEL_ITEMS).map((pair) => pairRound(station, rnd, { pair })),
+    ...Array.from({ length: Math.max(0, MODEL_ITEMS - focus.length) },
+      () => pairRound(station, rnd, {})),
+  ].filter(Boolean);
   return {
     model: {
       title: 'المعلّمُ يُسمِعُ صوتين متقاربين، وأنت تنصت',
@@ -178,8 +193,12 @@ export function buildStation(stationId, seed) {
     },
     guided: Array.from({ length: GUIDED }, () =>
       pairRound(station, rnd, { pair: nextPair() })).filter(Boolean),
-    solo: Array.from({ length: SOLO }, () =>
-      pairRound(station, rnd, { pair: nextPair() })).filter(Boolean),
+    solo: [
+      ...Array.from({ length: SOLO }, () => pairRound(station, rnd, { pair: nextPair() })),
+      // **وجولاتٌ زائدةٌ لزوج العناية** — بعد القرعة كي لا تُنقِص من حظّ أخواته
+      ...focus.flatMap((pair) =>
+        Array.from({ length: FOCUS_SOLO }, () => pairRound(station, rnd, { pair }))),
+    ].filter(Boolean),
   };
 }
 
