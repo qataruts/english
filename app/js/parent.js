@@ -22,6 +22,8 @@ import {
 } from './curriculum.js';
 import { h, go, toast, arNum, arCount, topbar, shake, BRAND, PAUSE_ACCENT } from './ui.js';
 import { feedbackSection } from './feedback.js';
+import * as support from './support.js';
+import * as placement from './placement.js';
 
 const ACCENT = PAUSE_ACCENT;
 const GOOD = 'var(--ok)';
@@ -52,6 +54,7 @@ const STUCK_DAYS = 21;
 const NAME_LIMIT = 6;
 
 let unlocked = false;        // البوابة تُفتح لهذه الجلسة فقط (لا تُحفظ في التخزين)
+let examining = false;       // امتحانُ اللحاق جارٍ — يحلّ محلّ اللوحة ما دام
 
 /** ثوانٍ ← نصّ عربي مقروء. */
 export function minutesText(seconds) {
@@ -252,6 +255,114 @@ function previewSection() {
     h('p', { class: 'note' },
       'وهو للمعلّم أو وليّ الأمر يقيّم التطبيق — لا للطفل: القفلُ التسلسليّ'
       + ' (لا يُعرض عليه ما لم يبلغه) من أسس المنهج لا قيدٍ عليه.'),
+  );
+}
+
+/**
+ * **قسمُ وضع الدعم** (الجلسة ب — بلاغ العقد، البند ٦ من توجيهنا): مفتاحٌ أعلى واحد
+ * تتبعه المقابضُ كلُّها، ثم يُطفئ وليُّ الأمر ما لا يحتاجه طفلُه، و«أعِد الافتراضات»
+ * يردّ المخزنَ إلى فراغه. **والمفاتيحُ من الجدول لا مكتوبةً بيد** (`PANEL_KEYS` — فما
+ * لم تبلغه شاشةٌ بعدُ لا مفتاحَ له)، وكلُّ اسمٍ وسطرِ شرحٍ يُقرأ من `support.js` — فلا
+ * يفترق ما يقرؤه الوالدُ عمّا يقع في الشاشة.
+ *
+ * **وسطرُ الوعد الصادق فوقها** بنصّه (`support.PROMISE`) — هو نفسُه في الصفحة
+ * التعريفية حرفاً بحرف: لا يشخّص، ولا يعالج، ولا يحكم على النطق، ولا يخدم الكفيفَ ولا
+ * الأصمَّ المُشير ولا غيرَ الناطق، ولا يَعِد بحجم أثر.
+ */
+function supportSection(rerender) {
+  const on = support.modeOn();
+
+  const toggle = (label, active, onclick, className = '') => h('button', {
+    class: `btn ${className}`.trim(),
+    'aria-pressed': active ? 'true' : 'false',
+    css: active ? { 'border-color': 'var(--star-text)', color: 'var(--star-text)' } : {},
+    onclick,
+  }, active ? `✓ ${label}` : label);
+
+  return h('div', {},
+    h('p', { class: 'hint' }, support.PROMISE),
+
+    h('div', { class: 'row', css: { 'justify-content': 'flex-start' } },
+      toggle(on ? 'وضعُ الدعم مشتغل' : 'شغّل وضعَ الدعم', on,
+        () => { support.setMode(!on); rerender(); }, 'support-mode btn--primary')),
+
+    // المقابضُ تتبع المفتاح الأعلى، فلا تُعرَض إلا وهو مشتغل — ولا مفتاحَ بلا أثر.
+    on && h('div', { class: 'support-knobs' },
+      support.PANEL_KEYS.map((key) => {
+        const knob = support.KNOBS[key];
+        const active = support.isOn(key);
+        return h('div', { class: 'note', css: { 'text-align': 'start', 'margin-top': '.5rem' } },
+          h('div', { class: 'row', css: { 'justify-content': 'flex-start' } },
+            toggle(knob.title, active, () => { support.set(key, !active); rerender(); },
+              `support-knob knob-${key}`)),
+          h('p', { class: 'hint', css: { margin: '.35rem 0 0' } }, knob.line));
+      })),
+
+    on && h('div', { class: 'row', css: { 'justify-content': 'flex-start', 'margin-top': '.75rem' } },
+      h('button', {
+        class: 'btn support-reset',
+        onclick: () => { support.reset(); toast('عاد وضعُ الدعم إلى الافتراضات'); rerender(); },
+      }, 'أعِد الافتراضات')),
+
+    h('p', { class: 'note' }, support.MARK.note),
+    // **ومسطرةُ الامتحان الواحدة تُقال هنا** (بلاغ `support-and-placement-coexist`):
+    // فلا يظنّ وليُّ الأمر أنّ تشغيلَ الوضع يفتح لطفله في امتحان اللحاق ما لم يُثبته.
+    h('p', { class: 'note support-exam' },
+      h('b', {}, 'وفي البوابات وامتحان اللحاق مسطرةٌ واحدة للجميع. '),
+      'ما يريح يسري فيها (النموذجُ الأبطأ والهدوء) فلا يُمتحَن طفلُك بشاشةٍ تُربكه؛'
+      + ' وما يمسّ القياس يُعطَّل فيها (الجرعةُ وضيقُ الحوض) فلا يُفتح له بامتحانٍ'
+      + ' أسهلَ من امتحان غيره.'),
+  );
+}
+
+/**
+ * **قسمُ بوابة اللحاق** (الجلسة ب — قاعدةُ `catchup-gate-rule` بقيودها الخمسة):
+ * بابُه هذا القسمُ وحدَه، **ولا زرَّ له في شاشة طفل ولا مسارَ في التوجيه**.
+ *
+ * ويقول لوليّ الأمر ثلاثةً بلا وعدٍ زائد: كم درجةً بقيت وأين يستأنف، **وما الذي يقصُر
+ * السلّم** (بوّابةٌ يجتازها طفلُه بنفسه، **أو جدارُ اقتران**: درجةُ حرفٍ تنتظر أن تنضج
+ * كلماتُها في أذنه)، وأنّ ما فُتح لا يُغلق.
+ */
+function placementSection(rerender) {
+  const info = placement.state();
+
+  const start = h('button', {
+    class: 'btn btn--primary start-placement',
+    onclick: () => {
+      if (!info.left) { toast('لا درجةَ تُمتحَن الآن'); return; }
+      examining = true;
+      // مغادرةُ الشاشة تُنهي الامتحان: فلا يعود وليُّ الأمر إلى نصفِ امتحانٍ لم يطلبه
+      addEventListener('hashchange', () => { examining = false; }, { once: true });
+      rerender();
+    },
+  }, 'امتحان اللحاق');
+
+  return h('div', {},
+    h('p', { class: 'hint' },
+      'طفلٌ يعرف بعضَ الإنكليزية أصلاً (من مدرسةٍ أو مركز)؟ امتحنه هنا: درجةً درجة'
+      + ` بحتى ${arNum(placement.CAP)} تمارين من تمارين المراجعة نفسِها — ما يجتازه`
+      + ' بإصابة ٨٠٪ (عتبةُ بوابة الإتقان نفسُها) يُفتح له بمحطاته، وعند أول إخفاقٍ يقف'
+      + ' فتبدأ رحلتُه من هناك.'),
+    h('div', { class: 'row parent-tool' }, start,
+      h('span', { class: 'pill' }, info.left
+        ? `أمامه ${arNum(info.left)} من ${arNum(info.total)}`
+        : 'لا درجةَ تُمتحَن الآن')),
+    info.next && h('p', { class: 'hint' }, `يبدأ من: ${info.next}.`),
+    // **والبوابةُ تُسمّى حين تقصُر السلّم**: فلا يظنّ الوالدُ أنّ الامتحان انتهى وقد
+    // وقف عند بوابةٍ يجتازها طفلُه بنفسه.
+    info.gate && h('p', { class: 'note' },
+      `والسلّمُ يقف عند «${info.gate}» — البواباتُ لا تُقفز: يعبرها بنفسه، ثم يُستأنف`
+      + ' الامتحانُ لما بعدها.'),
+    // **وجدارُ الاقتران يُسمّى كذلك** (قيدُنا الخاصّ — `METHOD.md §٦`): درجةُ حرفٍ لا
+    // تُفتح لكلمةٍ لم تُثبَت سمعاً ولو اجتاز الطفلُ درجتَها.
+    info.wall && h('p', { class: 'note coupling-wall' },
+      `والسلّمُ يقف عند «${info.wall}» — لا لأنّه أخطأ، بل لأنّ كلمات هذه الدرجة لم`
+      + ' تثبت في أذنه بعد: لا يُفتح عندنا حرفٌ لكلمةٍ لم تُتقَن سمعاً. تمضي المراجعةُ'
+      + ' اليومية أياماً فتنضج، ثم يُستأنف الامتحانُ من هنا.'),
+    h('p', { class: 'note' },
+      'ولا يُغلق ما فُتح أبداً: الإعادةُ تستأنف من آخر حدٍّ بلغه، والنجمةُ الواحدة تفكّ'
+      + ' القفل ولا تدّعي إتقاناً — تبقى المحطةُ تدعوه إلى لعبها. وكلُّ محاولةٍ فيه'
+      + ' تُسجَّل في سجلّ مهاراته كأيّ محاولةٍ أخرى، ولا تُعَدّ مراجعةَ اليوم.'),
   );
 }
 
@@ -784,6 +895,12 @@ function dashboard(rerender = () => {}) {
       h('p', { class: 'hint' },
         `بانتظار التثبيت الآن: ${arNum(due.length)} من ${arNum(progress.skills().length)} مهارة سُجّلت.`)),
 
+    // **البابان الاختياريان** (الجلسة ب): وضعُ الدعم يقول **كيف يمشي**، وامتحانُ
+    // اللحاق يقول **من أين يبدأ** — متعامدان بالبناء، وبابُهما هذه اللوحةُ وحدَها.
+    ...section('وضعُ الدعم', supportSection(rerender)),
+
+    ...section('امتحان اللحاق — لطفلٍ يعرف بعضَ الإنكليزية', placementSection(rerender)),
+
     ...section('نسخة احتياطية من تقدّمه', backupSection(rerender)),
 
     ...section('تحكّم في الرحلة', journeySection(rerender)),
@@ -830,16 +947,32 @@ function dashboard(rerender = () => {}) {
   );
 }
 
-/** الشاشة: البوابة أولاً، ثم اللوحة — والفتح يبقى ما دامت الصفحة مفتوحة. */
+/**
+ * الشاشة: البوابة أولاً، ثم اللوحة — والفتح يبقى ما دامت الصفحة مفتوحة.
+ *
+ * **وامتحانُ اللحاق يحلّ محلّ اللوحة خلف بوابتها** (لا مسارَ ثانياً في `main.js`):
+ * فلا يبلغه طفلٌ بعنوانٍ يكتبه في شريط المتصفّح. ويعود إلى اللوحة بـ`onDone`،
+ * ومغادرةُ الشاشة تُنهيه (المستمعُ في `placementSection`).
+ */
 export function renderParent(rerender) {
-  if (unlocked) return dashboard(rerender);
-  return gateScreen(() => {
-    unlocked = true;
-    rerender();
-  });
+  if (!unlocked) {
+    return gateScreen(() => {
+      unlocked = true;
+      rerender();
+    });
+  }
+  if (examining) {
+    const exam = placement.renderPlacement({
+      onDone: () => { examining = false; rerender(); },
+    });
+    if (exam) return exam;
+    examining = false;      // لم تبق درجةٌ تُمتحَن: اللوحةُ نفسُها لا شاشةٌ فارغة
+  }
+  return dashboard(rerender);
 }
 
 /** لإعادة إغلاق البوابة في الاختبارات. */
 export function lockGate() {
   unlocked = false;
+  examining = false;
 }

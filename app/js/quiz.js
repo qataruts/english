@@ -29,6 +29,12 @@ import {
   registerExercise, stationScreen, usedOf,
 } from './station.js';
 import { h, icon, pick, shuffle, seeded, pop, LISTEN_ACCENT, roundSeed } from './ui.js';
+/* **سعةُ حوض الخيارات تُقرأ من مخزن المقابض عند بناء كل جولة** (وضعُ الدعم — الجلسة
+   ب: «حوضٌ أضيق»)، ومطفأً تردّ الثلاثةَ القائمة حرفاً. **ولا ثابتَ حوضٍ في وحدةِ
+   تمارين**: مقبضٌ تنساه وحدةٌ واحدة يكذب على وليّ الأمر في تمرينٍ من ستّة —
+   يجرده `tools/test_support.mjs` على الوحدات كلِّها. **وتُقرأ عند بناء الجولة لا عند
+   تحميل الوحدة**، فتقع مسطرةُ الامتحان الواحدة (`duringExam`) على ما يُبنى داخلها. */
+import { optionCount } from './support.js';
 
 /** أنواعُ الشاشات التي تملكها هذه الوحدة (يقابلها `STATIONS` في `test_measure.mjs`). */
 const TYPES = new Set(['quiz']);
@@ -36,7 +42,6 @@ const TYPES = new Set(['quiz']);
 const GUIDED = 2;          // «جرِّب معي» — جولتان بخيارين، غيرُ مقيستين
 const SOLO = 5;            // «وحدك» — وهي المقيسة
 const GUIDED_OPTIONS = 2;
-const SOLO_OPTIONS = 3;
 const MODEL_ITEMS = 3;     // ما يعرضه المعلم في «شاهِدْ»
 
 // ————— التعليماتُ المنطوقة (عربيةٌ كلُّها) —————
@@ -110,7 +115,7 @@ function distractors(station, target, count, rnd) {
 }
 
 /** جولةُ «اسمع والمس» — كلمةٌ تُسمَع وصورٌ تُلمَس. */
-function pickRound(station, rnd, { options = SOLO_OPTIONS, word = null } = {}) {
+function pickRound(station, rnd, { options = optionCount(), word = null } = {}) {
   const target = word || pick(station.words, rnd);
   if (!target) return null;
   const skill = skillOf(station, target.w, 'listen-pick');
@@ -175,7 +180,7 @@ function sentenceOptions(station, sentence, rnd, count) {
 }
 
 /** جولةُ «اسمع الجملة والمس صورتها». */
-function sentenceRound(station, rnd, { options = SOLO_OPTIONS, sentence = null } = {}) {
+function sentenceRound(station, rnd, { options = optionCount(), sentence = null } = {}) {
   const target = sentence || pick(station.sentences, rnd);
   if (!target) return null;
   // **والمفتاحُ من المنهج**: ضميرٌ يُقاس بمفتاح الرصيد، وجملةٌ تُقاس بمفتاحها
@@ -241,7 +246,7 @@ function sentencePlan(station, seed) {
       sentenceRound(station, rnd, { options: GUIDED_OPTIONS, sentence: nextSentence() }))
       .filter(Boolean),
     solo: Array.from({ length: SOLO }, () =>
-      sentenceRound(station, rnd, { options: SOLO_OPTIONS, sentence: nextSentence() }))
+      sentenceRound(station, rnd, { options: optionCount(), sentence: nextSentence() }))
       .filter(Boolean),
   };
 }
@@ -283,7 +288,7 @@ export function buildStation(stationId, seed) {
     guided: Array.from({ length: GUIDED }, () =>
       pickRound(station, rnd, { options: GUIDED_OPTIONS, word: nextWord() })).filter(Boolean),
     solo: Array.from({ length: Math.min(SOLO, station.words.length) }, () =>
-      pickRound(station, rnd, { options: SOLO_OPTIONS, word: nextWord() })).filter(Boolean),
+      pickRound(station, rnd, { options: optionCount(), word: nextWord() })).filter(Boolean),
   };
 }
 

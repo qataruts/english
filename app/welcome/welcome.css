@@ -795,6 +795,17 @@
   margin: .5rem 0 1.25rem;
 }
 
+/* **عبارةُ الحدّ منقولةٌ من مصدرها** (`support.PROMISE` — حرفاً بحرف كما يقرؤها وليُّ
+   الأمر في اللوحة): تُميَّز بخطٍّ جانبيّ ليُعرَف أنّها نصٌّ منقول لا صياغةُ صفحة —
+   ويحرس تطابقَها مع مصدرها `tools/test_support.mjs`. */
+.w-promise {
+  display: block;
+  margin: .6rem 0;
+  padding-inline-start: .9rem;
+  border-inline-start: 3px solid var(--accent, var(--accent-gate));
+  color: var(--ink);
+}
+
 .w-table td .w-letters, .w-table td .w-word {
   font-family: var(--font-letter);
   font-size: 1.05em;

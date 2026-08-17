@@ -32,6 +32,12 @@
 // و**موتُ الحلقة بمغادرة شاشتها** (`onScreen` — `calc@a88fe9f`، الجلسة م٥) في
 // `ui.js` ويستهلكه `review.js`. والتفصيلُ بأسبابه أدناه وفي `docs/SEED.md`.
 
+// **وبطءُ النموذج معالجةُ تشغيلٍ لا توليد** (وضعُ الدعم — الجلسة ب): يُقرأ المقدارُ
+// من مخزن المقابض **بلسان القناة** (`rate(lang)`)، فيُبطَّأ نموذجُ المادّة الإنكليزية
+// وحدَه ويبقى التوجيهُ العربيّ على سرعته — **والملفُّ هو هو** (لا توليدَ جديد ولا نطقٌ
+// آليّ)، **وطبقتُه محفوظة** (`preservesPitch`) فلا يتشوّه صوتُ المعلّم المُقَرّ بالأذن.
+import { rate } from './support.js';
+
 const AUDIO_URL = new URL('../audio/', import.meta.url);
 const MANIFEST_URL = new URL('manifest.json', AUDIO_URL);
 const VERSIONS_URL = new URL('versions.json', AUDIO_URL);
@@ -199,10 +205,16 @@ export function estimateMs(text) {
   return Math.min(6000, Math.max(700, letters * 130));
 }
 
-function playFile(text) {
+function playFile(text, lang) {
   return new Promise((resolve, reject) => {
     const el = new Audio(urlFor(text));
     el.preload = 'auto';
+    /* **بطءُ النموذج**: مقدارٌ واحد يُقرأ من المخزن — ومطفأً يساوي ١ فلا يُمَسّ
+       العنصرُ بشيء. **والطبقةُ محفوظة** (الافتراضُ في المتصفّحات الحديثة، ويُكتب
+       صراحةً كي لا يتشوّه نموذجُ المعلّم إن تبدّل الافتراضُ يوماً). */
+    const speed = rate(lang);
+    el.playbackRate = speed;
+    el.preservesPitch = true;
     let settled = false;
     let timer = 0;
     const close = () => {
@@ -219,11 +231,13 @@ function playFile(text) {
 
     /* **حارسُ التجميد**: `ended` قد لا يجيء أبداً (وسيطٌ يُفصَل، ملفٌّ يعلَق بعد أن
        بدأ) — ولو انتظرته القناةُ بلا حدّ لَتجمّد الدرسُ كلُّه على طفل. فمهلةٌ من طول
-       الملفّ متى عُرف، ومن طول نصّه قبل ذلك. */
+       الملفّ متى عُرف، ومن طول نصّه قبل ذلك.
+       **وتُقسَم على السرعة**: ملفٌّ يُشغَّل أبطأ يطول زمنُه بقدرها — فلولا القسمةُ
+       لَقطع الحارسُ نموذجاً بُطِّئ قبل أن يتمّ (وهو أوّلُ ما يريده مَن شغّل المقبض). */
     const arm = () => {
       clearTimeout(timer);
       const ms = (Number.isFinite(el.duration) && el.duration > 0
-        ? el.duration * 1000 : estimateMs(text)) + 1500;
+        ? el.duration * 1000 : estimateMs(text)) / speed + 1500;
       timer = setTimeout(cut, ms);
     };
     arm();
@@ -327,7 +341,7 @@ async function playNow(text, lang, mine) {
     return fallback(text, lang);
   }
   try {
-    return await playFile(text);
+    return await playFile(text, lang);
   } catch {
     // **والعطبُ الذي يصادفه إسكاتٌ لا يُبعَث** (`read@9220ab1`): القناةُ تجعل الإسكاتَ
     // المتعمَّد **تسويةً هادئة** (`cut` يحلّ الوعدَ بـfalse) فلا يبلغ هذا `catch`
@@ -338,7 +352,7 @@ async function playNow(text, lang, mine) {
     if (mine !== epoch) return false;                 // أُسكتنا عمداً — لا إعادةَ ولا احتياط
     if (known !== true) return fallback(text, lang);  // فهرسٌ لم يُقرأ: لا نعرف، فالاحتياط
     try {
-      return await playFile(text);                    // موجودٌ وتأخّر: محاولةٌ ثانية
+      return await playFile(text, lang);                    // موجودٌ وتأخّر: محاولةٌ ثانية
     } catch {
       console.warn(`[audio] تعذّر تحميل ملف «${text}» — صمتٌ ولا نطق آليّ`);
       // **والصمتُ بزمنه**: لا يُدهَس الدرسُ لأنّ ملفاً تعذّر — يمضي بمهلةٍ محسوبة

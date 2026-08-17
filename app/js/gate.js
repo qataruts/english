@@ -23,6 +23,9 @@
 import { gateById, gateSkills } from './curriculum.js';
 import * as progress from './progress.js';
 import { renderSession, sessionItems, starsForReview } from './review.js';
+// **مسطرةُ الامتحان الواحدة**: يُستورَد نطاقُ الامتحان وحدَه — لا مقدارٌ من مقادير
+// وضع الدعم يُقرأ في هذا الملفّ.
+import { duringExam } from './support.js';
 import {
   h, icon, faceEl, go, arNum, starsRow, mascot, passportStamp, chance, PAUSE_ACCENT,
 } from './ui.js';
@@ -44,12 +47,18 @@ export const passed = (right, errors) =>
  * العلّة التي وُجدت البوابةُ لها.
  *
  * **والتنويعُ يبقى من الحصيلة كلِّها**: المدى يحكم **مادّةَ الضعف** لا حوضَ التنويع.
+ *
+ * **وتُبنى بمسطرةٍ واحدة** (وضعُ الدعم — بلاغ `support-and-placement-coexist`): البوابةُ
+ * سؤالٌ عن الإتقان **بعتبةٍ واحدة للجميع** (٨٠٪ أعلاه)، فلا يعبرها حوضٌ أضيق ولا جرعةٌ
+ * أقصر — ومقابضُ الراحة تسري (نموذجٌ أبطأ وهدوءٌ حسّيّ) فلا يُمتحَن بشاشةٍ تُربكه.
+ * **ونطاقُه مدّةُ البناء**: `duringExam` نداءٌ متزامن يُردّ في `finally`، لا عَلَمٌ
+ * يُخزَّن فيعلق مفتوحاً ويعبر إعادةَ التحميل.
  */
 export function gateItems(gateId, rnd = chance) {
   const scope = new Set(gateSkills(gateId));
   const weakest = progress.weakestSkills()
     .filter((s) => scope.has(`${s.unit}|${s.range}|${s.kind}`));
-  return sessionItems(weakest, GATE_SIZE, rnd);
+  return duringExam(() => sessionItems(weakest, GATE_SIZE, rnd));
 }
 
 export function renderGate(gateId) {

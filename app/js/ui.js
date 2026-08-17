@@ -8,6 +8,11 @@
 // `coverEl` · `inkLift`/`giantInk`)، وسقط هنا ما يعرف حساباً (معالمُ محطاته السبعة ·
 // `latinNum`). وبقي المحايدُ كما هو حرفاً بحرف. الجردُ بأسبابه في `docs/SEED.md §٢`.
 
+/* **ومؤشّرُ وضع الدعم يسكن الشريطَ اللاصق** (الجلسة ب — بلاغ العقد، البند ٦):
+   تستورد هذه الوحدةُ المخزنَ لتقرأ **المفتاحَ الأعلى واسمَ العلامة** لا غير — ووحدةُ
+   الدعم لا تستورد شيئاً، فلا دَورَ في الاستيراد ولا تعرف هذه الوحدةُ مِقبضاً. */
+import * as support from './support.js';
+
 export const DEV = typeof location !== 'undefined'
   && new URLSearchParams(location.search).get('dev') === '1';
 
@@ -89,8 +94,22 @@ export function go(hash) {
   location.hash = hash;
 }
 
+/**
+ * الشريطُ اللاصق أعلى كل شاشة — **وهو موضعُ مؤشّر وضع الدعم** (بلاغ العقد، البند ٦).
+ *
+ * **علامتُه خطٌّ في شارته يرسمه اللوح** (`:root.support-on .topbar .pill`)، **واسمُه
+ * هنا في `title` وحدَه** — يقرؤه البالغُ بمرور مؤشّره ولا يقع تحت بصر الطفل حرفاً
+ * (وطفلُنا قبل-قارئٍ بلغتين، فأيُّ كلمةٍ مكتوبة له لغوٌ أو وسم). ولا يزحزح تخطيطاً:
+ * ظلٌّ داخليّ لا حدٌّ يزيد ارتفاعَ الشارة.
+ *
+ * **وموضعُه الشريطُ لا أعلى الصفحة** — بلاغُ ميدان المالك عند اقرأ: العلامةُ العائمة
+ * تُبتلَع في الجوّال وتُرى في الحاسوب.
+ */
 export function topbar(...extra) {
-  return h('header', { class: 'topbar' }, extra);
+  return h('header', {
+    class: 'topbar',
+    ...(support.modeOn() ? { title: support.MARK.label } : {}),
+  }, extra);
 }
 
 export function starsRow(count, className = 'node-stars') {

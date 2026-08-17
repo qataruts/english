@@ -293,6 +293,73 @@
   ok(!/\*\*/.test(doc.querySelector('.audit')?.textContent || ''),
     'ولا نجمتَي توكيدٍ تُقرأ في نصّها (اللوحةُ نصٌّ مبنيّ لا Markdown)');
 
+  /* ————— ٩ج. **البابان الاختياريان ومؤشّرُ وضع الدعم على الشاشة نفسِها** (الجلسة ب) —————
+
+     **ما لا يُثبته إلا متصفّح**: أنّ العلامةَ **تُرى** (ظلٌّ داخليّ في شارة الشريط
+     اللاصق) وأنّها **لا تَسِمُ الطفل** (لا كلمةَ تُكتب) و**لا تزحزح تخطيطاً** (ارتفاعُ
+     الشارة والشريط كما هما بايتاً ببايت). وحارسُ العقد يقيس المصدرَ واللوحَ، وهذا
+     يقيس **ما وقع على الشاشة**.
+
+     **ويُطفَأ الوضعُ في آخره**: بقيّةُ البطارية تقيس السلوكَ القائم، فلو بقي مشتغلاً
+     لقاست جرعةً وحوضاً غيرَ ما تعلن. */
+
+  win.location.hash = '#/';
+  await waitFor(() => appDoc()?.querySelector('.map'));
+  doc = appDoc();
+  const barOf = () => appDoc().querySelector('.topbar');
+  const pillOf = () => appDoc().querySelector('.topbar .pill');
+  const boxOf = (el) => win.getComputedStyle(el).boxShadow;
+  const beforeMark = { pill: pillOf().offsetHeight, bar: barOf().offsetHeight, shadow: boxOf(pillOf()) };
+  ok(!appDoc().documentElement.classList.contains('support-on'),
+    'ووضعُ الدعم مطفأٌ ابتداءً على الشاشة — لا صنفَ على الجذر ولا علامةَ في الشريط');
+
+  win.location.hash = '#/parent';
+  await waitFor(() => appDoc()?.querySelector('.audit'));
+  doc = appDoc();
+  ok(!!doc.querySelector('.support-mode') && !!doc.querySelector('.start-placement'),
+    'وبابا «وضع الدعم» و«امتحان اللحاق» في لوحة وليّ الأمر (لا في شاشة طفل)');
+  ok(/لا يشخّص ولا يعالج/.test(doc.body.textContent)
+    && /لا يَعِد بقدرِ أثرٍ/.test(doc.body.textContent),
+    'وسطرُ الوعد الصادق مقروءٌ فيها بحدوده');
+  doc.querySelector('.support-mode').click();
+  await waitFor(() => appDoc()?.querySelector('.support-knob'));
+  doc = appDoc();
+  const knobs = [...doc.querySelectorAll('.support-knob')];
+  ok(knobs.length === 4,
+    `وتشغيلُه يُظهر مقابضَه الأربعة (${knobs.map((k) => k.textContent.replace('✓', '').trim()).join(' · ')})`);
+  ok(knobs.some((k) => /نموذج/.test(k.textContent)),
+    'ومنها **مقبضُنا وحدَنا**: نموذجُ الصوت الإنكليزيّ أبطأ');
+
+  win.location.hash = '#/';
+  await waitFor(() => appDoc()?.querySelector('.map'));
+  doc = appDoc();
+  const afterMark = { pill: pillOf().offsetHeight, bar: barOf().offsetHeight, shadow: boxOf(pillOf()) };
+  ok(doc.documentElement.classList.contains('support-on')
+    && doc.documentElement.classList.contains('calm'),
+    'وعلى شاشة الطفل: صنفا الوضع والهدوء على الجذر في اللحظة نفسِها');
+  ok(afterMark.shadow !== beforeMark.shadow && /inset/.test(afterMark.shadow),
+    `**والعلامةُ تُرى**: ظلٌّ داخليّ في شارة الشريط اللاصق («${afterMark.shadow.slice(0, 60)}…»)`);
+  ok(afterMark.pill === beforeMark.pill && afterMark.bar === beforeMark.bar,
+    `**ولا تزحزح تخطيطاً**: الشارةُ ${afterMark.pill}px والشريطُ ${afterMark.bar}px كما كانا`);
+  ok(barOf().getAttribute('title') === 'وضعُ الدعم مشتغل',
+    'واسمُها لوليّ الأمر في `title` وحدَه');
+  ok(!/الدعم|أبطأ|بطء/.test(doc.querySelector('.map').textContent)
+    && !/الدعم/.test(barOf().textContent),
+    '**ولا كلمةَ تَسِمُ الطفل**: لا في الشريط ولا في الخريطة — ولا رمزَ بطء');
+  ok(!/امتحان اللحاق/.test(doc.body.textContent),
+    'ولا زرَّ لامتحان اللحاق في شاشة طفلٍ البتّة');
+
+  win.location.hash = '#/parent';
+  await waitFor(() => appDoc()?.querySelector('.audit'));
+  appDoc().querySelector('.support-mode').click();
+  await wait(200);
+  win.location.hash = '#/';
+  await waitFor(() => appDoc()?.querySelector('.map'));
+  doc = appDoc();
+  ok(!doc.documentElement.classList.contains('support-on')
+    && !barOf().hasAttribute('title') && boxOf(pillOf()) === beforeMark.shadow,
+    'وتغيب بالإطفاء كما جاءت — والشجرةُ تعود إلى ما كانت عليه بايتاً ببايت');
+
   // ————— ١٠. **حارسُ التعاقب على القناة المنسوخة** (معيارُ قبول الجلسة ٠) —————
   //
   // الحرّاسُ الذين **يعدّون التشغيلات ولا يقيسون التعاقب** أخضرُ كاذب (قاعدةُ اقرأ

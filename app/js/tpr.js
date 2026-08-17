@@ -40,6 +40,12 @@ import {
   registerExercise, stationScreen, usedOf,
 } from './station.js';
 import { h, icon, pick, shuffle, seeded, pop, LISTEN_ACCENT, roundSeed } from './ui.js';
+/* **سعةُ حوض الخيارات تُقرأ من مخزن المقابض عند بناء كل جولة** (وضعُ الدعم — الجلسة
+   ب: «حوضٌ أضيق»)، ومطفأً تردّ الثلاثةَ القائمة حرفاً. **ولا ثابتَ حوضٍ في وحدةِ
+   تمارين**: مقبضٌ تنساه وحدةٌ واحدة يكذب على وليّ الأمر في تمرينٍ من ستّة —
+   يجرده `tools/test_support.mjs` على الوحدات كلِّها. **وتُقرأ عند بناء الجولة لا عند
+   تحميل الوحدة**، فتقع مسطرةُ الامتحان الواحدة (`duringExam`) على ما يُبنى داخلها. */
+import { optionCount } from './support.js';
 
 /** أنواعُ الشاشات التي تملكها هذه الوحدة (يقابلها `STATIONS` في `test_measure.mjs`). */
 const TYPES = new Set(['tpr']);
@@ -47,7 +53,6 @@ const TYPES = new Set(['tpr']);
 const GUIDED = 2;
 const SOLO = 5;
 const GUIDED_OPTIONS = 2;
-const SOLO_OPTIONS = 3;
 const MODEL_ITEMS = 2;
 
 // ————— التعليماتُ المنطوقة (عربيةٌ كلُّها) —————
@@ -140,7 +145,7 @@ export const CONSUMES = {
 const saidWords = (...texts) => [...new Set(texts.join(' ').split(/\s+/).filter(Boolean))];
 
 /** جولةُ «المس ما تسمع» — أمرٌ يُسمَع وصورةٌ تُلمَس (س٢-١). */
-function pickRound(station, rnd, { options = SOLO_OPTIONS, word = null } = {}) {
+function pickRound(station, rnd, { options = optionCount(), word = null } = {}) {
   const target = word || pick(station.words, rnd);
   if (!target) return null;
   const skill = skillOf(station, target.w, station.kind);
@@ -167,7 +172,7 @@ function pickRound(station, rnd, { options = SOLO_OPTIONS, word = null } = {}) {
 }
 
 /** جولةُ «افعل مثلي» — أوضاعٌ تُرى، وتُلمَس الفاعلةُ لِما أُمر به (س٢-٣). */
-function actRound(station, rnd, { options = SOLO_OPTIONS, word = null } = {}) {
+function actRound(station, rnd, { options = optionCount(), word = null } = {}) {
   const pool = station.words.filter((w) => hasPose(w.w));
   const target = word && hasPose(word.w) ? word : pick(pool, rnd);
   if (!target) return null;
@@ -324,7 +329,7 @@ export function buildStation(stationId, seed) {
     guided: Array.from({ length: GUIDED }, () =>
       roundFor(station, rnd, { options: GUIDED_OPTIONS, word: nextWord() })).filter(Boolean),
     solo: Array.from({ length: SOLO }, () =>
-      roundFor(station, rnd, { options: SOLO_OPTIONS, word: nextWord() })).filter(Boolean),
+      roundFor(station, rnd, { options: optionCount(), word: nextWord() })).filter(Boolean),
   };
 }
 

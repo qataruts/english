@@ -31,11 +31,15 @@ import {
   registerExercise, stationScreen, usedOf,
 } from './station.js';
 import { h, pick, shuffle, seeded, pop, STORY_ACCENT, roundSeed } from './ui.js';
+/* **سعةُ حوض الخيارات تُقرأ من مخزن المقابض عند بناء كل جولة** (وضعُ الدعم — الجلسة
+   ب: «حوضٌ أضيق»)، ومطفأً تردّ الثلاثةَ القائمة حرفاً. **ولا ثابتَ حوضٍ في وحدةِ
+   تمارين**: مقبضٌ تنساه وحدةٌ واحدة يكذب على وليّ الأمر في تمرينٍ من ستّة —
+   يجرده `tools/test_support.mjs` على الوحدات كلِّها. **وتُقرأ عند بناء الجولة لا عند
+   تحميل الوحدة**، فتقع مسطرةُ الامتحان الواحدة (`duringExam`) على ما يُبنى داخلها. */
+import { optionCount } from './support.js';
 
 /** أنواعُ الشاشات التي تملكها هذه الوحدة (يقابلها `STATIONS` في `test_measure.mjs`). */
 const TYPES = new Set(['story']);
-
-const OPTIONS = 3;
 
 // ————— التعليماتُ المنطوقة (عربيةٌ كلُّها — `METHOD.md §٩·١`) —————
 
@@ -127,7 +131,7 @@ function pageRound(station, page, rnd, isMastered) {
   if (!line.some((spec) => spec.word === page.pick)) return null;
   const others = shuffle(readableAt(station.part, isMastered)
     .filter((word) => word.w !== page.pick && isTouchable(word.w)), rnd)
-    .slice(0, OPTIONS - 1)
+    .slice(0, optionCount() - 1)
     .map((word) => word.w);
   if (!others.length) return null;
   const options = shuffle([page.pick, ...others], rnd).map(pictureSpec);

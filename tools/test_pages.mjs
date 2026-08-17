@@ -28,7 +28,18 @@ import { readFileSync, readdirSync } from 'node:fs';
 const ROOT = new URL('../', import.meta.url);
 const WELCOME = new URL('app/welcome/', ROOT);
 
+/* **ووحدةُ الدعم تُقرأ كما يُقرأ المنهج** (الجلسة ب): بطاقةُ التعريفية تعلن عددَ
+   مقابضها، **ويُجرَد اسمُ كل مقبضٍ فيها** — فبطاقةٌ تنسى مقبضاً تحمرّ. وهي تقرأ
+   `localStorage` عند تحميلها (مخزنُ وليّ الأمر)، فيُوضَع لها شبَحٌ في العقدة. */
+const store = new Map();
+globalThis.localStorage = {
+  getItem: (k) => (store.has(k) ? store.get(k) : null),
+  setItem: (k, v) => store.set(k, String(v)),
+  removeItem: (k) => store.delete(k),
+};
+
 const c = await import(new URL('app/js/curriculum.js', ROOT));
+const support = await import(new URL('app/js/support.js', ROOT));
 
 let fails = 0;
 const ok = (cond, msg) => {
@@ -72,6 +83,8 @@ export const FIGURES = {
   stories: () => stations.filter((s) => s.type === 'story').length,
   returns: () => stations.filter((s) => String(s.part).endsWith('-again')).length,
   coupled: coupledCount,
+  // **ومقابضُ وضع الدعم المعروضة** — عددٌ يُحسب من الجدول لا يُكتب في الصفحة
+  knobs: () => support.PANEL_KEYS.length,
 };
 
 // **ومراحلُ السمع تُعَدّ بأسمائها** (`stage:listen1`): كلُّ مرحلةٍ رقمٌ في صفحتها
@@ -148,6 +161,44 @@ const loose = pages.flatMap((page) =>
 ok(loose.length === 0,
   'ولا رقمَ في جدول الأرقام بلا مصدرٍ معلَن'
   + (loose.length ? ` — ${loose.join('، ')}` : ''));
+
+// ————— جردُ تغطية الميزتين في التعريفية (بلاغ `features-need-their-own-sections`) —————
+//
+// **العلّة**: القسمُ يُكتب مرّةً ثم يُزاد مقبضٌ في `support.js` فلا يُسمّى فيه — فيقرأ
+// مديرُ المركز قائمةً ناقصة ويظنّها تامّة. **فيُجرَد الجدولُ على الصفحة**: اسمُ كل
+// مقبضٍ معروض يجب أن يقع في القسم بنصّه، ومعه اسمُ الميزتين وحدُّهما.
+//
+// **وهو جردُ حضورٍ لا جردُ صياغة**: لا يحكم على نصّ الصفحة، وإنّما يمنع أن يسقط منها
+// ما تعلنه الشيفرةُ اليوم.
+
+const HOME = readFileSync(new URL('index.html', WELCOME), 'utf8');
+const section = HOME.match(/<section class="w-section" id="pace"[\s\S]*?<\/section>/)?.[0] || '';
+
+ok(section.length > 0, 'وفي الرئيسة **قسمٌ مستقلٌّ** للميزتين (`id="pace"`)');
+const heads = [...section.matchAll(/<h3>([^<]*)<\/h3>/g)].map((m) => m[1].trim());
+ok(heads.length === 2 && heads.some((t) => t.includes('اللحاق'))
+  && heads.some((t) => t.includes('وضعُ الدعم')),
+  `وفيه بطاقتان بعنوانيهما (${heads.join(' · ') || 'لا بطاقات'})`);
+/* **والمقابلةُ على نصٍّ مسطَّح**: سطورُ HTML تُلَفّ عند حدّ العرض، فاسمُ مقبضٍ قد
+   يقع على سطرين — والمقيسُ حضورُه لا موضعُ لفّه. */
+const flat = (t) => t.replace(/\s+/g, ' ').trim();
+const page = flat(section);
+const missing = support.PANEL_KEYS.map((k) => support.KNOBS[k].title)
+  .filter((title) => !page.includes(title));
+ok(missing.length === 0,
+  `وكلُّ مقبضٍ معروضٍ مسمّىً فيه بنصّه (${support.PANEL_KEYS.length} مقابض)`
+  + (missing.length ? ` — سقط: ${missing.join('، ')}` : ''));
+ok(page.includes(flat(support.PROMISE)),
+  'وعبارةُ الحدّ فيه **من مصدرها** (`support.PROMISE`) حرفاً بحرف لا مُعادَ صياغة');
+for (const [what, needle] of [
+  ['البابُ لوحةُ وليّ الأمر لا شاشةُ الطفل', 'لا من شاشة الطفل'],
+  ['العتبةُ عتبةُ بوابات الإتقان', 'عتبةُ بوّابات الإتقان'],
+  ['ما فُتح لا يُغلق', 'لا يُغلق'],
+  ['ولا يُحتسب ما أُعين عليه إتقاناً', 'أُعين عليه'],
+  ['وقيدُ الاقتران في الفتح (خصوصيتُنا)', 'لم تثبت في أذنه'],
+  ['ولا نَعِد بحجم أثر', 'ولا نَعِد بحجم أثر'],
+  ['وهو في تجربةٍ ميدانية', 'تجربةٍ ميدانية'],
+]) ok(page.includes(needle), `  وفيه: ${what}`);
 
 const used = new Set(claims.map((claim) => claim.name));
 const idle = Object.keys(FIGURES).filter((name) => !used.has(name));

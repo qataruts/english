@@ -22,12 +22,20 @@
 
 import * as progress from './progress.js';
 import * as audio from './audio.js';
+/* **جرعةُ الجلسة مقدارٌ يُقرأ لا ثابتٌ يُحمَّل** (وضعُ الدعم — الجلسة ب): الرقمُ
+   مكتوبٌ مرّةً واحدة في جدول `support.js` ويقابله الفاحصُ بـ`SESSION_SIZE` أدناه،
+   **ويُقرأ عند كل بناء** لا مرّةً عند التحميل — وإلّا لم يتغيّر شيءٌ حتى يُعاد فتحُ
+   التطبيق. **ولا يُقرأ منه مقدارٌ آخر هنا**: المحرّكُ هيكلٌ لا يعرف مِقبضاً. */
+import { sessionSize } from './support.js';
 import {
   h, icon, toast, go, arNum, arCount, starsRow, topbar, mascot, cheer, shuffle, onScreen, DEV,
   chance, PAUSE_ACCENT,
 } from './ui.js';
 
-export const SESSION_SIZE = 6;    // جلسة قصيرة تُنجَز في دقائق (`METHOD.md §٧`)
+/** جلسة قصيرة تُنجَز في دقائق (`METHOD.md §٧`) — **وهو القائمُ في جدول `support.js`**
+ *  (يقابله الفاحصُ بـ`KNOBS.dose.standing` فلا رقمان يفترقان)، والمقروءُ عند البناء
+ *  `sessionSize()` — فجرعةُ وليّ الأمر تقع في الجلسة التالية لا في التحميل التالي. */
+export const SESSION_SIZE = 6;
 const ACCENT = PAUSE_ACCENT;      // المراجعة تثبيتُ مهارات — لونها لون البوابات
 
 /**
@@ -59,7 +67,7 @@ export const starsForReview = (errors, items) => (errors === 0 ? 3 : errors <= i
  */
 export function buildSession({
   due = [], itemFor = () => null, fillers = [], longs = {},
-  size = SESSION_SIZE, rnd = Math.random,
+  size = sessionSize(), rnd = Math.random,
 } = {}) {
   const items = [];
   const seen = new Set();
@@ -298,9 +306,15 @@ export function setBuilders({ item, fillers, view, longs } = {}) {
  *
  *  **وصدفتُها `chance` لا `Math.random`** (بندُ الجلسة ٩): مصدرٌ واحد للصدفة يتبع
  *  بذرةَ المساق — زمنيٌّ عند الطفل، حتميٌّ في مساقٍ مبذور (`?seed=N`). فجلسةُ
- *  المراجعة والبوابةُ تُعادان كما كانتا في الفحص، ولا يتبدّل عند الطفل شيء. */
-export function sessionItems(due, size = SESSION_SIZE, rnd = chance) {
-  return buildSession({ due, itemFor, fillers: fillersOf(rnd), longs: longKinds, size, rnd });
+ *  المراجعة والبوابةُ تُعادان كما كانتا في الفحص، ولا يتبدّل عند الطفل شيء.
+ *
+ *  **وحوضُ التنويع يُمرَّر لمن أراد غيرَه** (بوابةُ اللحاق — الجلسة ب): تمرّره فارغاً
+ *  فلا تُكمَّل عيّنةُ درجةٍ من خارج شريحتها، **فلا يُحكَم على شريحةٍ بخطأٍ في مادّةٍ
+ *  ليست منها**. ومَن سكت أخذ حوضَ الحصيلة كما كان — لا فرقَ ببايت في المراجعة. */
+export function sessionItems(due, size = sessionSize(), rnd = chance, fillers = null) {
+  return buildSession({
+    due, itemFor, fillers: fillers || fillersOf(rnd), longs: longKinds, size, rnd,
+  });
 }
 
 export function renderReview() {

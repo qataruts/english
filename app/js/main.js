@@ -19,6 +19,7 @@ import { renderReview } from './review.js';
 import { renderGate } from './gate.js';
 import { renderParent, skillsText } from './parent.js';
 import * as install from './install.js';
+import * as support from './support.js';
 /* **وحداتُ التمارين تُحمَّل لأثرها** (من الجلسة ٢): كلُّ وحدةٍ تسجّل شاشاتِ أنواعها
    في السجلّ (`registry.js`) وتمارينَها في المراجعة عند تحميلها — فلا يعرف هذا الملفّ
    اسمَ شاشةٍ واحدة منها، ولا تدخل محطةٌ جديدة بسطرٍ يُعدَّل هنا. والسطرُ الواحدُ لكل
@@ -495,10 +496,27 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') resetZoom();
 });
 
+/* **صبغُ وضع الدعم على الجذر** (الجلسة ب): صنفان لا شاشةَ ثالثة — `calm` يستدعي
+   قواعدَ سكون الحركة في اللوح، و`support-on` يُظهر خطَّ المؤشّر في شارة الشريط
+   اللاصق. ويُنادى عند كل تبديلٍ في اللوحة فيقع الأثرُ في اللحظة نفسِها بلا إعادة
+   تحميل، **ويُصبَغ `title` على الشرائط الحيّة** كما تصبغه `topbar` على ما يُبنى
+   بعدها (فلا يفترق شريطٌ قائم عن شريطٍ جديد). */
+function paintSupport() {
+  const on = support.modeOn();
+  document.documentElement.classList.toggle('calm', support.calm());
+  document.documentElement.classList.toggle('support-on', on);
+  for (const bar of document.querySelectorAll('.topbar')) {
+    if (on) bar.title = support.MARK.label;
+    else bar.removeAttribute('title');
+  }
+}
+support.onChange(paintSupport);
+
 window.addEventListener('hashchange', render);
 audio.ready();
 startClock();
 render();
+paintSupport();
 registerServiceWorker();
 watchShellUpdate();
 // **وشريطُ التثبيت لا يُركَّب في المعاينة**: شريطان فوق الشاشة ضجيجٌ على المقيّم،

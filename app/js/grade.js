@@ -49,13 +49,18 @@ import {
   registerExercise, stationScreen, usedOf, BEAT,
 } from './station.js';
 import { h, icon, pick, shuffle, seeded, pop, LETTER_ACCENT, roundSeed } from './ui.js';
+/* **سعةُ حوض الخيارات تُقرأ من مخزن المقابض عند بناء كل جولة** (وضعُ الدعم — الجلسة
+   ب: «حوضٌ أضيق»)، ومطفأً تردّ الثلاثةَ القائمة حرفاً. **ولا ثابتَ حوضٍ في وحدةِ
+   تمارين**: مقبضٌ تنساه وحدةٌ واحدة يكذب على وليّ الأمر في تمرينٍ من ستّة —
+   يجرده `tools/test_support.mjs` على الوحدات كلِّها. **وتُقرأ عند بناء الجولة لا عند
+   تحميل الوحدة**، فتقع مسطرةُ الامتحان الواحدة (`duringExam`) على ما يُبنى داخلها. */
+import { optionCount } from './support.js';
 
 /** أنواعُ الشاشات التي تملكها هذه الوحدة (يقابلها `STATIONS` في `test_measure.mjs`). */
 const TYPES = new Set(['grade']);
 
 const GUIDED = 2;
 const SOLO = 5;
-const OPTIONS = 3;
 const MODEL_ITEMS = 2;
 /** سقفُ الدمج في جلسة المراجعة: تمرينٌ من ثلاث لمساتٍ يطول على طفلٍ إن تكرّر (نظيرُ س٤-٣). */
 export const BUILD_MAX = 2;
@@ -189,7 +194,7 @@ function soundRound(station, rnd, { range = null } = {}) {
   const skill = id && skillOf(station, id, 'sound-pick');
   const sound = id && phonemeSay(phonemeOf(id));
   if (!skill || !sound) return null;
-  const pool = otherGlyphs(station, rnd, id, OPTIONS - 1);
+  const pool = otherGlyphs(station, rnd, id, optionCount() - 1);
   if (!pool.length) return null;
   const specs = shuffle([id, ...pool], rnd).map(glyphSpec);
   const next = seeder(rnd);
@@ -221,7 +226,7 @@ function altRound(station, rnd, { range = null } = {}) {
   const known = id && priorGrapheme(id);
   const sound = id && phonemeSay(phonemeOf(id));
   if (!skill || !known || !sound) return null;
-  const pool = otherGlyphs(station, rnd, id, OPTIONS - 1);
+  const pool = otherGlyphs(station, rnd, id, optionCount() - 1);
   if (!pool.length) return null;
   const specs = shuffle([id, ...pool], rnd).map(glyphSpec);
   const next = seeder(rnd);
@@ -275,8 +280,8 @@ function letterRound(station, rnd, { range = null, isMastered } = {}) {
   const twin = alt ? phonemeSay(phonemeOf(sameGrapheme(id))) : '';
   const pool = [
     ...(twin ? [twin] : []),
-    ...otherGlyphs(station, rnd, id, OPTIONS - 1).map((other) => phonemeSay(phonemeOf(other))),
-  ].filter((text) => text && text !== sound).slice(0, OPTIONS - 1);
+    ...otherGlyphs(station, rnd, id, optionCount() - 1).map((other) => phonemeSay(phonemeOf(other))),
+  ].filter((text) => text && text !== sound).slice(0, optionCount() - 1);
   if (!pool.length) return null;
   const shown = shuffle([sound, ...pool], rnd);
   const picture = carrier ? focusSpec(carrier, id) : glyphSpec(id);
@@ -347,7 +352,7 @@ function decodeRound(station, rnd, { word = null, isMastered } = {}) {
   // **والمشتّتاتُ صورُ ما نضج سمعاً**: صورةٌ لم يلقَها الطفلُ تجعل السؤالَ حزراً
   const others = shuffle(readableIn(station, isMastered)
     .filter((w) => w.w !== target.w && isTouchable(w.w)), rnd)
-    .slice(0, OPTIONS - 1)
+    .slice(0, optionCount() - 1)
     .map((w) => w.w);
   if (!others.length) return null;
   const specs = shuffle([target.w, ...others], rnd).map(pictureSpec);
@@ -443,7 +448,7 @@ function trickyRound(station, rnd, { range = null, isMastered } = {}) {
     ...open.filter((other) => other !== word)
       .map((other) => trickySpec(markedTricky(other, station.part))),
     ...readableIn(station, isMastered).map(wordSpec),
-  ], rnd).slice(0, OPTIONS - 1);
+  ], rnd).slice(0, optionCount() - 1);
   if (!others.length) return null;
   const specs = shuffle([trickySpec(marked), ...others], rnd);
   const next = seeder(rnd);

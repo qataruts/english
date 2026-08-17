@@ -1350,6 +1350,44 @@ export function readableTrickyAt(gradeId, isMastered) {
 }
 
 /**
+ * ————— **قيدُ الاقتران في الفتح — بابُه الثالث** (بوابةُ اللحاق، الجلسة ب) —————
+ *
+ * **العلّة** (توجيهُ المدير باسمنا — بلاغ `complete-the-table-directives`): «لا يُفتَح
+ * حرفٌ لكلمةٍ لم تُثبَت سمعاً **ولو اجتاز الطفلُ درجتَه**». فامتحانُ اللحاق يفتح عقداً
+ * بلا أن يلعبها الطفل، ولو فتح **درجةَ حرفٍ** كلماتُها لم تنضج في أذنه لَبلغها وهي
+ * جوفاء: تُعرَض عليه بلا كلماتها (يمنعها `readableAt`)، **فيُختصَر عليه ما لم يُثبته**
+ * — وهو الفخُّ الذي وُجد القيدُ له: «فكٌّ بلا معنى».
+ *
+ * **وحكمُه يمرّ بالبابين نفسِهما** (`readableAt` · `readableTrickyAt`) لا بنسخةٍ ثانية:
+ * فلو تحرّكت عتبةُ الإتقان غداً تحرّك الفتحُ معها، ولا حكمان على شيءٍ واحد.
+ *
+ * **ومقياسُه مفاتيحُ المحطة نفسِها**: كلُّ مفتاحِ قراءةٍ تعلنه (`word|…|build` ·
+ * `word|…|decode` · `tricky|…|read`) يجب أن تكون كلمتُه خارجةً من البابين اليوم.
+ * **والقصةُ نصٌّ كلُّه أو لا شيء** — فتُقابَل كلماتُ نصّها كلِّها (وما ليس من حوض
+ * المنهج أصلاً لا يُحبَس بهذا الباب: ذاك شأنُ `check_range`).
+ *
+ * @param {object} station محطةٌ من `stations()`
+ * @param {(key: string) => boolean} isMastered `progress.isMastered` أو نظيرتُها
+ * @returns {boolean} أنضجت مادّةُ قراءتها سمعاً فيجوز فتحُها؟
+ */
+export function coupledReadyAt(station, isMastered) {
+  const grade = station?.part;
+  if (!GRADES.some((g) => g.id === grade)) return true;   // ليست درجةَ حرفٍ ولا قصّتها
+  const words = new Set(readableAt(grade, isMastered).map((word) => word.w));
+  const tricky = new Set(readableTrickyAt(grade, isMastered));
+  for (const key of station.skills || []) {
+    const [unit, range, kind] = key.split('|');
+    if (unit === 'word' && (kind === 'build' || kind === 'decode') && !words.has(range)) return false;
+    if (unit === 'tricky' && kind === 'read' && !tricky.has(range)) return false;
+  }
+  if (station.type !== 'story') return true;
+  const pool = new Set(wordsUpTo(grade).map((word) => word.w));
+  const known = new Set(trickyUpTo(grade));
+  return String(station.text || '').split(/\s+/).filter(Boolean)
+    .every((word) => !(pool.has(word) || known.has(word)) || words.has(word) || tricky.has(word));
+}
+
+/**
  * ————— **حوضُ قيد الاقتران كما تراه لوحةُ الوالد** (بندُ الجلسة ٨) —————
  *
  * «وقيدُ الاقتران مرئياً: **يقرأ ما أتقن سمعَه** بعدّاده الحي (كم كلمةً أتقن سمعاً،

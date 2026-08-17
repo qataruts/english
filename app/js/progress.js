@@ -299,9 +299,19 @@ export function isMastered(key) {
  *
  * **والخطأ يُسجَّل على المهارة المطلوبة لا على ما لمس** — يفرضه المُنادي بتمرير
  * مفتاح الهدف، وهو عقدُ شاشات التمارين مع هذه الوحدة.
+ *
+ * **والملقَّنُ لا يُحتسب إتقاناً** (وضعُ الدعم — الجلسة ب، المبدأ الثاني «العونُ
+ * يُسجَّل ولا يُزوَّر القياس»): محاولةٌ وقع فيها تلميحٌ قبلها (`helped`) **لا ترفع
+ * صندوقاً ولا تُسجَّل صواباً ولا خطأً** — تُسجَّل معانةً وتبقى المهارةُ مستحقّةً كما
+ * كانت، **فالعونُ لا يُبعد موعداً ولا يبلغ صندوقَ الإتقان أبداً**. وموضعُ القاعدة
+ * هنا — **في وحدة القياس لا في الشاشة** — فما من شاشةٍ تستطيع أن تلقّن وتحتسب.
+ * **وهي هنا أثقلُ**: `MASTERED_BOX` عتبةُ **قيد الاقتران** نفسِها (§٦)، فإتقانٌ
+ * ملقَّنٌ لا يفتح صندوقاً وحده بل **يفتح كلمةً للقراءة** لم تثبت في الأذن.
+ * ويحرسه `tools/test_support.mjs`.
+ *
  * @returns {object|null} حالة المهارة بعد التسجيل
  */
-export function recordAttempt(unit, range, kind, correct, today = dayNumber()) {
+export function recordAttempt(unit, range, kind, correct, today = dayNumber(), helped = false) {
   if (!unit || !kind) return null;
   const key = skillKey(unit, range, kind);
   const s = state.skills[key]
@@ -311,6 +321,17 @@ export function recordAttempt(unit, range, kind, correct, today = dayNumber()) {
      من `seen` (وهو آخرُ يوم) — فتُقيَّد بدايتُها يومَ تبدأ. وسجلٌّ قديم بلا `since`
      يبدأ عدُّه من اليوم: لا نخترع له ماضياً لم نقِسه. */
   if (s.since === undefined) s.since = today;
+  if (helped) {
+    /* **المعانةُ تُسجَّل ولا تُحتسب**: لا صندوقَ يرتفع ولا صوابٌ ولا خطأٌ يُعَدّ —
+       ويبقى موعدُها كما كان (وإن تقدّم فإلى اليومِ لا بعده)، فمَن أُعين على مهارةٍ
+       يلقاها ثانيةً بلا عون. */
+    s.helped = (s.helped || 0) + 1;
+    s.due = Math.min(s.due ?? today, today);
+    s.seen = today;
+    state.skills[key] = s;
+    save();
+    return s;
+  }
   if (correct) {
     s.right++;
     s.box = Math.min(MAX_BOX, s.box + 1);
