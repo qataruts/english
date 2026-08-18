@@ -121,6 +121,49 @@ export function looseFigures(html) {
     .filter((text) => DIGITS.test(text));
 }
 
+/* ————— بابُ حقيبة المعلم في صدر الدليل (بلاغ `teacher-kit-link-and-whatsapp-form`) —————
+
+   **الحقيبةُ صفحةُ العائلة العامّة** (`learn.mishkat.qa/teacher.html`) للأربعة، ودليلُنا
+   **خاصٌّ أعمق** — فالمكتوبُ عندنا **إحالةٌ لا نسخ** (درسُ حقن النصّ من مصدره: النسخُ
+   يفترق نصفاه بعد شهر). **وعلّةُ حراسته**: سطرٌ في صدر صفحةٍ يقرؤه محرِّرٌ لاحق زينةً
+   فيسقط، ورابطُه يسقط أهونَ منه — فيبقى النصُّ يَعِد بحقيبةٍ لا بابَ إليها.
+   **وبابان لا باب**: حضورُ الإحالة باسمها · **ورابطُها إلى الحقيبة بعينه**. */
+
+export const KIT_URL = 'https://learn.mishkat.qa/teacher.html';
+
+/** إحالةُ الحقيبة كما تقرؤها الصفحة — دالّةٌ خالصة تُجرَّب بنصٍّ مصنوع. */
+export function kitBand(html) {
+  const band = [...html.matchAll(/<aside class="w-band"[\s\S]*?<\/aside>/g)]
+    .map((m) => m[0].replace(/\s+/g, ' '))
+    .find((b) => b.includes('حقيبةُ المعلّم')) || '';
+  return { present: band.length > 0, linked: band.includes(`href="${KIT_URL}"`) };
+}
+
+/* ————— بابُ صيغة رقم واتساب (أمرُ المالك، البلاغ نفسُه) —————
+
+   الرقمُ **يُكتب رابطاً بلا فراغات** بـ`dir="ltr"` و`unicode-bidi: isolate` — وإلّا
+   انقلب شكلُه في نصٍّ عربيّ فقرأه الوالدُ مقلوباً. **وجردُ اليوم: لا موضعَ يعرضه
+   نصّاً** (وحدةُ «بلِّغنا» تكتبه في `href` وحدَه ونصُّها «عبر واتساب») — **فالبابُ
+   لمنع عودته**، لا لإصلاح حال. **وصورةٌ مأذونةٌ واحدة**: الرقمُ عارياً بعد
+   `wa.me/` (وهو الرابطُ نفسُه)، أو داخل رابطٍ موافقٍ بالسمتين. وما سواهما نصٌّ
+   يُعرَض للناس فيحمرّ. */
+
+/** ظهورُ الرقم في نصٍّ معروضٍ خارج الرابط الموافق — دالّةٌ خالصة. */
+export function bareNumbers(src, number) {
+  if (!number) return [];
+  const sep = '[\\s\\u200e\\u200f\\u2066-\\u2069+\\-().]*';
+  const digit = (d) => `[${d}${'٠١٢٣٤٥٦٧٨٩'[Number(d)]}]`;
+  const shape = new RegExp([...number].map(digit).join(sep), 'g');
+  const link = new RegExp(`href="https://wa\\.me/${number}`);
+  const stripped = src
+    // الرابطُ الموافق يُطرَح كلُّه — نصُّه داخله معزولٌ بالسمتين
+    .replace(/<a\b[^>]*>[\s\S]*?<\/a>/g, (a) => (
+      link.test(a) && /\bdir="ltr"/.test(a) && /unicode-bidi:\s*isolate/.test(a) ? '' : a))
+    // وصورةُ الرابط نفسُها مأذونةٌ حيث تُكتب (‏`feedback.js` تبنيها في شيفرتها)
+    .replace(new RegExp(`https://wa\\.me/${number}`, 'g'), '');
+  return [...stripped.matchAll(shape)].map((m) => m[0]);
+}
+
 if (process.argv.includes('--self-test')) {
   console.log('— فحصُ الفاحص: أيمسك المدسوس؟ —');
   const good = '<b data-fig="gates">٣</b>';
@@ -131,6 +174,28 @@ if (process.argv.includes('--self-test')) {
     '**ورقمٌ في جدول الأرقام بلا `data-fig` يُمسَك** — وهو الصنفُ الذي تخلّف بالأمس');
   ok(looseFigures('<ul class="w-figs"><li><b data-fig="gates">٣</b><span>ب</span></li></ul>')
     .length === 0, '  والمُعلَنُ مصدرُه يمرّ');
+
+  // **إحالةُ الحقيبة**: بابان يفترقان — يسقط السطرُ، أو يبقى نصّاً بلا رابط
+  const BAND = `<aside class="w-band"><p>حقيبةُ المعلّم للعائلة</p>`
+    + `<a href="${KIT_URL}">learn.mishkat.qa/teacher.html</a></aside>`;
+  ok(kitBand(BAND).present && kitBand(BAND).linked, 'يقرأ إحالةَ الحقيبة ورابطَها');
+  ok(!kitBand('<aside class="w-band"><p>شريطٌ آخر</p></aside>').present,
+    '**وحذفُ السطر يُمسَك** — إحالةٌ باسمها لا شريطٌ أيّاً كان');
+  const NAKED = BAND.replace(/<a\b[^>]*>[\s\S]*?<\/a>/, 'learn.mishkat.qa/teacher.html');
+  ok(kitBand(NAKED).present && !kitBand(NAKED).linked,
+    '**وتحويلُ الرابط نصّاً يُمسَك وحدَه** — الحضورُ يمرّ والرابطُ يحمرّ');
+
+  // **ورقمُ واتساب**: عارياً في نصٍّ معروض يُمسَك، ورابطاً موافقاً يمرّ
+  const N = '97433882806';
+  const GOOD = `<a href="https://wa.me/${N}" dir="ltr" style="unicode-bidi: isolate">+${N}</a>`;
+  ok(bareNumbers(`<p>للتواصل: +974 3388 2806</p>`, N).length === 1,
+    '**ورقمٌ عارٍ في نصٍّ معروض يُمسَك** — ولو فرّقته فراغاتٌ');
+  ok(bareNumbers(`<p>للتواصل: ${GOOD}</p>`, N).length === 0, '  والرابطُ الموافق بالسمتين يمرّ');
+  ok(bareNumbers(`<p>${GOOD.replace(' dir="ltr" style="unicode-bidi: isolate"', '')}</p>`, N)
+    .length === 1, '  **ورابطٌ بلا السمتين يحمرّ** — نصُّه ينقلب في العربية');
+  ok(bareNumbers(`wa.href = \`https://wa.me/${N}?text=\${t}\`;`, N).length === 0,
+    '  وعنوانُ الرابط في الشيفرة يمرّ — رابطٌ لا نصٌّ يُعرَض');
+  ok(bareNumbers('<p>لا رقمَ هنا</p>', N).length === 0, '  وصفحةٌ بلا رقمٍ تمرّ');
   console.log(fails ? `\n${fails} فشل` : '\n✓ حارسُ الصفحات يمسك المدسوسَ كلَّه');
   process.exit(fails ? 1 : 0);
 }
@@ -218,6 +283,32 @@ const bandAt = HOME.indexOf('<aside class="w-band"');
 const installAt = HOME.indexOf('id="install-first"');
 ok(band.length > 0 && bandAt > 0 && installAt > bandAt,
   'وموضعُه **تحت الصدر وفوق قسم التثبيت** — سطران فوقه لا قسمٌ يزاحمه');
+
+/* **وإحالةُ الحقيبة تدخل الجرد** (بلاغ `teacher-kit-link-and-whatsapp-form`): في صدر
+   `guide.html` سطرٌ يحيل إلى حقيبة المعلم العائلية — **إحالةٌ لا نسخ**، وهو الرابطُ
+   الخارجيُّ الثالث بقاعدته المعلَنة (`<a>` يُفتَح إن نُقر ولا يُجلَب). */
+const GUIDE = readFileSync(new URL('guide.html', WELCOME), 'utf8');
+const kit = kitBand(GUIDE);
+ok(kit.present, 'وفي صدر الدليل **إحالةُ حقيبة المعلم** باسمها'
+  + (kit.present ? '' : ' — **سقط سطرُ الحقيبة**'));
+ok(kit.linked, `ورابطُها إلى الحقيبة بعينه (${KIT_URL})`
+  + (kit.present && !kit.linked ? ' — **الإحالةُ نصٌّ بلا رابط**' : ''));
+
+/* **وصيغةُ رقم واتساب** (أمرُ المالك): الرقمُ من مصدره — `feedback.js` — لا مكتوباً
+   هنا بيد، **ويُجرَد كلُّ نصٍّ يُعرَض للناس**: التعريفياتُ الأربع ووحداتُ التطبيق. */
+const FEEDBACK = readFileSync(new URL('app/js/feedback.js', ROOT), 'utf8');
+const number = FEEDBACK.match(/wa\.me\/(\d+)/)?.[1] || '';
+ok(number.length > 0, 'ورقمُ واتساب يُقرأ من مصدره (`feedback.js`) لا يُكتب في الحارس');
+const scanned = [
+  ...pages.map((page) => [`welcome/${page}`, readFileSync(new URL(page, WELCOME), 'utf8')]),
+  ...readdirSync(new URL('app/js/', ROOT)).filter((f) => f.endsWith('.js'))
+    .map((f) => [`js/${f}`, readFileSync(new URL(`app/js/${f}`, ROOT), 'utf8')]),
+];
+const bare = scanned.flatMap(([name, src]) =>
+  bareNumbers(src, number).map((hit) => `${name}: «${hit}»`));
+ok(bare.length === 0,
+  `ولا ظهورَ للرقم في نصٍّ معروضٍ خارج رابط \`wa.me\` بسمتيه (${scanned.length} ملفاً)`
+  + (bare.length ? ` — ${bare.join('، ')}` : ''));
 
 const used = new Set(claims.map((claim) => claim.name));
 const idle = Object.keys(FIGURES).filter((name) => !used.has(name));
