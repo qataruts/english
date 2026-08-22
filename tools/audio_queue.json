@@ -1512,12 +1512,13 @@
   {
     "text": "beard",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "because",
@@ -1687,12 +1688,13 @@
   {
     "text": "burger",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "Bye bye!",
@@ -1829,12 +1831,13 @@
   {
     "text": "crayon",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "cup",
@@ -2092,12 +2095,13 @@
   {
     "text": "fox",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "friend",
@@ -2586,12 +2590,13 @@
   {
     "text": "night",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "nine",
@@ -2695,12 +2700,13 @@
   {
     "text": "owl",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "pear",
@@ -2760,12 +2766,13 @@
   {
     "text": "pie",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "pin",
@@ -2814,12 +2821,13 @@
   {
     "text": "point",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "purple",
@@ -2835,12 +2843,13 @@
   {
     "text": "rain",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "read",
@@ -2922,12 +2931,13 @@
   {
     "text": "saw",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "school",
@@ -3130,12 +3140,13 @@
   {
     "text": "song",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "spider",
@@ -3162,12 +3173,13 @@
   {
     "text": "stew",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "stop",
@@ -3227,12 +3239,13 @@
   {
     "text": "tap",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "teddy",
@@ -3545,12 +3558,13 @@
   {
     "text": "yam",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-t",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "yellow",
