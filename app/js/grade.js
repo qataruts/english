@@ -40,7 +40,8 @@
 import * as progress from './progress.js';
 import { registerScreen } from './registry.js';
 import {
-  stations, readableAt, trickyAt, readableTrickyAt, markedTricky, symbolById, isTouchable,
+  stations, readableAt, namedPictures, trickyAt, readableTrickyAt, markedTricky,
+  symbolById, isTouchable,
   sceneOf, phonemeOf, phonemeSay, priorGrapheme, sameGrapheme, HEART_WORDS, WORDS,
 } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
@@ -349,12 +350,18 @@ function decodeRound(station, rnd, { word = null, isMastered } = {}) {
     sig: `${station.id}|${target.w}|${next()}`,
   };
   if (!isTouchable(target.w)) return sceneRound(head, target, rnd);
-  // **والمشتّتاتُ صورُ ما نضج سمعاً**: صورةٌ لم يلقَها الطفلُ تجعل السؤالَ حزراً
-  const others = shuffle(readableIn(station, isMastered)
-    .filter((w) => w.w !== target.w && isTouchable(w.w)), rnd)
-    .slice(0, optionCount() - 1)
-    .map((w) => w.w);
-  if (!others.length) return null;
+  // **والمشتّتاتُ صورُ ما نضج سمعاً**: صورةٌ لم يلقَها الطفلُ تجعل السؤالَ حزراً.
+  // **وهي صورةٌ تُسمّى لا كلمةٌ تُقرأ** (حسمُ أ-١): فأخواتُ الكلمة المفكوكات أوّلاً —
+  // فهنّ أقربُ إلى ما بين يديه — ثم يُتمّ العددَ من **كلِّ ما أتقن اسمَه سمعاً**
+  // (`namedPictures`). ولولا الشقُّ الثاني لَسقط تمرينُ ح١ صامتاً: كلمةُ فكٍّ واحدة
+  // في الدرجة كلِّها، فلا مشتّتَ لها من المفكوك أبداً.
+  const want = optionCount() - 1;
+  const near = shuffle(readableIn(station, isMastered)
+    .filter((w) => w.w !== target.w && isTouchable(w.w)), rnd).map((w) => w.w);
+  const wider = shuffle(namedPictures(isMastered)
+    .filter((w) => w.w !== target.w && !near.includes(w.w)), rnd).map((w) => w.w);
+  const others = [...near, ...wider].slice(0, want);
+  if (others.length < want) return null;
   const specs = shuffle([target.w, ...others], rnd).map(pictureSpec);
   return {
     ...head,

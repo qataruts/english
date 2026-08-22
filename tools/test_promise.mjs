@@ -201,7 +201,14 @@ function play(round, day, { measure = true } = {}) {
   if (!measure || !round.kind) return;
   if (['build', 'decode', 'read'].includes(round.kind) && !state.firstRead
     && round.unit !== 'tricky') {
-    state.firstRead = { day, kind: round.kind, range: round.range };
+    // **ومعها ما تخطّته**: كلماتُ الدرجات **الأسبق** التي كانت ناضجةً سمعاً يومَها
+    // ولم تُقرأ — وهي وحدَها ما يُسمّى تخطّياً (انظر الوعدَ الثاني أدناه).
+    const at = round.unit === 'text'
+      ? c.GRADES.findIndex((g) => g.id === round.range)
+      : c.GRADES.findIndex((g) => g.words.some((w) => w.w === round.range));
+    const skipped = c.GRADES.slice(0, Math.max(at, 0)).flatMap((g) => g.words)
+      .filter((w) => p.isMastered(w.listen)).map((w) => w.w);
+    state.firstRead = { day, kind: round.kind, range: round.range, at, skipped };
   }
   // **ومَن بنى الجولةَ يكتب مفاتيحَها** (`scoreOf` — لا يستنتج الحارسُ المكتوبَ من
   // حقلَي الجولة): الأمرُ المركّب يكتب صفتيه معاً، فلو كتبنا مفتاحاً واحداً لَشهدنا
@@ -429,10 +436,29 @@ ok(Boolean(state.firstRead), 'وقع في الرحلة تمرينُ قراءةٍ
 ok(state.firstRead && state.gatesAt.ear && state.firstRead.day >= state.gatesAt.ear,
   `ولا يقع قبل عبور 🚪١ (عبورُ الأذن يوم ${state.gatesAt.ear} · أوّلُ فكٍّ يوم `
   + `${state.firstRead?.day}) — وهي ق٤ نصّاً`);
-const firstWords = new Set((c.GRADES.find((g) => g.id === firstGradeWithWords)?.words || [])
-  .map((w) => w.w));
-ok(state.firstRead && firstWords.has(state.firstRead.range),
-  `وأوّلُ كلمةٍ تُقرأ من كلمات ${firstGradeWithWords} — «${state.firstRead?.range}»`);
+// ————— **ولا تُتخطّى مادّةٌ ناضجة** (تدقيقُ الشرط، جلسةُ ت — حسمُ أ-١) —————
+//
+// **وكان يُكتب**: «أوّلُ كلمةٍ تُقرأ **من كلمات أوّلِ درجةٍ ذاتِ كلمات**». وذلك
+// **مقياسٌ يصدُق ما دامت ح١ خالية** (وكانت كذلك يومَ كُتب: أوّلُ درجةٍ ذاتِ كلمات
+// كانت ح٢، وكلماتُها ثلاثٌ تُسمَع في أوّل محطةٍ في الرحلة). فلمّا أدخل حسمُ أ-١ في
+// ح١ **كلمةً واحدة** (‏`tap` — وهي كلُّ ما يُبنى من `s a t p` بصورةٍ صادقة) انكسر
+// **المقياسُ لا الوعد**: كلمةُ قراءةٍ لا تُقرأ حتى تبلغ صندوقَ الإتقان سمعاً
+// (ثلاثُ إصاباتٍ متباعدات)، **وكلمةٌ واحدة في درجةٍ لا يُضمَن نضجُها يومَ تُفتَح** —
+// فمتى وقعت إصابتُها الثالثة شأنُ جدولة المراجعة لا شأنُ ترتيبٍ نملكه. (جُرِّب:
+// نُقلت محطةُ سماعها في س١ موضعين فتبدّل أوّلُ المقروء ولم ينضج — والترتيبُ ليس
+// بيدَه.) **والدرجةُ تمضي برموزها وشائكاتها ولا يقف المسار** (نصُّ `grade.js`)،
+// وكلمتُها تُقرأ يومَ تنضج.
+//
+// **فصار الشرطُ نصَّ وعده**: لا تُقرأ كلمةٌ **وقد نضجت قبلها كلمةٌ في درجةٍ أسبق
+// ولم تُقرأ** — وهو أشدُّ من سابقه في وجه (يقيس الدرجاتِ الأسبقَ كلَّها لا الأولى
+// وحدَها) وأصدقُ في وجه (يقيس التخطّي لا التوقيت).
+const first = state.firstRead;
+console.log(`     · أوّلُ درجةٍ ذاتِ كلمات: ${firstGradeWithWords}`
+  + ` · وأوّلُ مقروءٍ فعلاً: «${first?.range}» في ${c.GRADES[first?.at]?.id || '؟'}`
+  + ` يوم ${first?.day}`);
+ok(first && first.skipped.length === 0,
+  'ولا تُتخطّى كلمةٌ نضجت سمعاً في درجةٍ أسبق'
+  + (first?.skipped.length ? ` — تُخُطّيت: ${first.skipped.join('، ')}` : ''));
 
 console.log('\n— الوعدُ الثالث: كلُّ محطةٍ تُبلَغ وتُقاس —');
 const stationsOf = c.stations();

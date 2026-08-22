@@ -225,11 +225,17 @@ export const WORDS = [
   { w: 'hand', field: 'body', at: 's1-2', face: '✋' },
   { w: 'foot', field: 'body', at: 's1-2', face: '🦶' },
   { w: 'leg', field: 'body', at: 's1-2', face: '🦵' },
+  // **وكلمةُ فكٍّ من الميزانية** (‏`DECODE_BUDGET` أدناه — حسمُ أ-١): تُسمَع ههنا
+  // قبل درجتها كسائر الرصيد، وبابُها الحقلُ نفسُه لا بابٌ ثانٍ.
+  { w: 'beard', field: 'body', at: 's1-2', face: '🧔' },
   // س١-٣ الحيوانات
   { w: 'cat', field: 'animals', at: 's1-3', face: '🐈' },
   { w: 'dog', field: 'animals', at: 's1-3', face: '🐕' },
   { w: 'bird', field: 'animals', at: 's1-3', face: '🐦' },
   { w: 'fish', field: 'animals', at: 's1-3', face: '🐟' },
+  // **و`horse` تُعلن أصواتَها سمعاً ولا تدخل السلّم** (حكمُ مراجعة الجلسة ت):
+  // هاؤها الصامتة لا رمزَ لها في سلّمنا، فعرضُ رسمِها من رموزها «hors» كذبٌ
+  // على الرسم — والرمزُ `or` في قيد العرض المعلَن ومادّتُه مجدولة.
   { w: 'horse', field: 'animals', at: 's1-3', sounds: ['h', 'or', 's'], face: '🐎' },
   { w: 'cow', field: 'animals', at: 's1-3', face: '🐄' },
   { w: 'duck', field: 'animals', at: 's1-3', face: '🦆' },
@@ -243,6 +249,9 @@ export const WORDS = [
   { w: 'tiger', field: 'animals', at: 's1-3', sounds: ['t', 'igh', 'g', 'er'], face: '🐅' },
   { w: 'snake', field: 'animals', at: 's1-3', sounds: ['s', 'n', 'ai', 'k'], face: '🐍' },
   { w: 'spider', field: 'animals', at: 's1-3', face: '🕷️' },
+  // كلمتا فكٍّ من الميزانية (‏`DECODE_BUDGET`) — حقلُهما حقلُ محطتهما
+  { w: 'fox', field: 'animals', at: 's1-3', face: '🦊' },
+  { w: 'owl', field: 'animals', at: 's1-3', face: '🦉' },
   // س١-٤ الطعام والشراب
   { w: 'apple', field: 'food', at: 's1-4', sounds: ['a', 'p', 'l'], face: '🍎' },
   { w: 'banana', field: 'food', at: 's1-4', soundless: 'شوا في مقطعيها الأول والأخير (/bəˈnænə/)', face: '🍌' },
@@ -256,6 +265,13 @@ export const WORDS = [
   { w: 'carrot', field: 'food', at: 's1-4', soundless: 'شوا في مقطعها الثاني (/ˈkærət/)', face: '🥕' },
   { w: 'rice', field: 'food', at: 's1-4', sounds: ['r', 'igh', 's'], face: '🍚' },
   { w: 'ice cream', field: 'food', at: 's1-4', soundless: 'كلمتان لا كلمة — والأصواتُ تُعلَن لكلمةٍ واحدة', face: '🍦' },
+  // **مدخلان من Starters لم يبلغا الرصيدَ بعد** (حسمُ أ-٢): يحملان رمزين بلا مادّة
+  // (‏`ur` في burger و`ie` في pie)، فدخلا محطتَهما ثم درجتَيهما.
+  { w: 'burger', field: 'food', at: 's1-4', face: '🍔' },
+  { w: 'pie', field: 'food', at: 's1-4', face: '🥧' },
+  // وكلمتا فكٍّ من الميزانية (‏`DECODE_BUDGET`)
+  { w: 'yam', field: 'food', at: 's1-4', face: '🍠' },
+  { w: 'stew', field: 'food', at: 's1-4', face: '🍲' },
   // س١-٥ الألوان — والمربّعُ الملوّن أصدقُ صورةٍ للّون: لا شيءَ فيه سواه.
   // **وأربعةٌ تحمل قيمتَها معها**: هي ألوانُ الأمر المركّب في س٢-٤ (كرةٌ حمراء
   // كبيرة)، وقيمتُها **قيمةُ مربّعها في Twemoji نفسِها** — فاللونُ الذي رآه الطفلُ
@@ -279,13 +295,13 @@ export const WORDS = [
   { w: 'two', field: 'numbers', at: 's1-6', sounds: ['t', 'oo'], count: 2 },
   { w: 'three', field: 'numbers', at: 's1-6', sounds: ['th', 'r', 'ee'], count: 3 },
   { w: 'four', field: 'numbers', at: 's1-6', sounds: ['f', 'or'], count: 4 },
-  { w: 'five', field: 'numbers', at: 's1-6', sounds: ['f', 'igh', 'v'], count: 5 },
-  { w: 'six', field: 'numbers', at: 's1-6', sounds: ['s', 'i', 'ks'], count: 6 },
+  { w: 'five', field: 'numbers', at: 's1-6', count: 5 },
+  { w: 'six', field: 'numbers', at: 's1-6', count: 6 },
   { w: 'seven', field: 'numbers', at: 's1-6', soundless: 'شوا قبل النون (/ˈsɛvən/)', count: 7 },
   { w: 'eight', field: 'numbers', at: 's1-6', sounds: ['ai', 't'], count: 8 },
   { w: 'nine', field: 'numbers', at: 's1-6', sounds: ['n', 'igh', 'n'], count: 9 },
   { w: 'ten', field: 'numbers', at: 's1-6', sounds: ['t', 'e', 'n'], count: 10 },
-  // ————— **س١-٧: حاملا كلِّ زوجٍ أدنى** (حسمُ أ-٣، ١٧ أغسطس ٢٠٢٦) —————
+  // ————— **س١-٧: حاملا كلِّ زوجٍ أدنى، وأوّلُ كلمةِ فكّ** (حسمُ أ-٣ ثم أ-١) —————
   //
   // أربعُ كلماتٍ **مصوَّرةٌ صادقةٌ كلُّها**، علّةُ وجودها أن يكون لأصعب زوجين على
   // أذن طفلنا (‏i/e · a/u) **كلمتان تُلمَسان** بدل تمييزٍ صوتيٍّ مجرَّد. وثلاثٌ منها
@@ -296,6 +312,10 @@ export const WORDS = [
   { w: 'pen', field: 'school', at: 's1-7', face: '🖊️' },
   { w: 'cap', field: 'clothes', at: 's1-7', sounds: ['k', 'a', 'p'], face: '🧢' },
   { w: 'cup', field: 'home', at: 's1-7', sounds: ['k', 'u', 'p'], face: '☕' },
+  // **و`tap` أوّلُ كلمةٍ تُفكّ في الرحلة كلِّها** (حسمُ أ-١): درجتُها ح١ — أوّلُ
+  // الدرجات — فلا محطةَ سمعيةٍ تسبقها إلا محطاتُ س١، وموضعُها ههنا **شرطٌ لا زينة**
+  // (قيدُ الاقتران: لا تُقرأ كلمةٌ لم تنضج سمعاً).
+  { w: 'tap', field: 'home', at: 's1-7', face: '🚰' },
   // س٢-٢ أوامرُ الوضع المكاني — حروفُ الجرّ مشهدٌ لا رمز
   { w: 'in', field: 'places', at: 's2-2', pictured: 'scene' },
   { w: 'on', field: 'places', at: 's2-2', pictured: 'scene' },
@@ -326,7 +346,7 @@ export const WORDS = [
   { w: 'hat', field: 'clothes', at: 's5-1', face: '🎩' },
   { w: 'shoe', field: 'clothes', at: 's5-1', face: '👟' },
   { w: 'sock', field: 'clothes', at: 's5-1', face: '🧦' },
-  { w: 'dress', field: 'clothes', at: 's5-1', sounds: ['d', 'r', 'e', 's'], face: '👗' },
+  { w: 'dress', field: 'clothes', at: 's5-1', face: '👗' },
   { w: 'T-shirt', field: 'clothes', at: 's5-1', sounds: ['t', 'ee', 'sh', 'ur', 't'], face: '👕' },
   { w: 'jacket', field: 'clothes', at: 's5-1', sounds: ['j', 'a', 'k', 'i', 't'], face: '🧥' },
   { w: 'jeans', field: 'clothes', at: 's5-1', sounds: ['j', 'ee', 'n', 'z'], face: '👖' },
@@ -348,6 +368,9 @@ export const WORDS = [
   { w: 'boat', field: 'school', at: 's5-2', sounds: ['b', 'oa', 't'], face: '⛵' },
   { w: 'bike', field: 'school', at: 's5-2', face: '🚲' },
   { w: 'ship', field: 'school', at: 's5-2', face: '🚢' },
+  // مدخلان من Starters يحملان رمزين بلا مادّة (‏`ng` في song و`ay` في crayon)
+  { w: 'song', field: 'school', at: 's5-2', face: '🎵' },
+  { w: 'crayon', field: 'school', at: 's5-2', face: '🖍️' },
   // س٥-٣ البيت أغراضاً
   { w: 'bed', field: 'home', at: 's5-3', face: '🛏️' },
   { w: 'chair', field: 'home', at: 's5-3', face: '🪑' },
@@ -360,6 +383,7 @@ export const WORDS = [
   { w: 'bath', field: 'home', at: 's5-3', sounds: ['b', 'a', 'th'], face: '🛁' },
   { w: 'box', field: 'home', at: 's5-3', face: '📦' },
   { w: 'phone', field: 'home', at: 's5-3', face: '📱' },
+  { w: 'saw', field: 'home', at: 's5-3', face: '🪚' },
   // س٥-٤ الأماكن والطبيعة
   { w: 'tree', field: 'places', at: 's5-4', face: '🌳' },
   { w: 'flower', field: 'places', at: 's5-4', face: '🌸' },
@@ -370,6 +394,9 @@ export const WORDS = [
   { w: 'street', field: 'places', at: 's5-4', sounds: ['s', 't', 'r', 'ee', 't'], face: '🛣️' },
   { w: 'house', field: 'places', at: 's5-4', sounds: ['h', 'ow', 's'], face: '🏠' },
   { w: 'stop', field: 'places', at: 's5-4', face: '🛑' },
+  // `night` مدخلٌ في Starters يحمل `igh`، و`rain` من الميزانية تحمل `ai`
+  { w: 'night', field: 'places', at: 's5-4', face: '🌃' },
+  { w: 'rain', field: 'places', at: 's5-4', face: '🌧️' },
   // س٥-٥ أفعالُ اليوم
   { w: 'eat', field: 'verbs', at: 's5-5', face: '🍽️' },
   { w: 'drink', field: 'verbs', at: 's5-5', sounds: ['d', 'r', 'i', 'ng', 'k'], face: '🥤' },
@@ -377,6 +404,8 @@ export const WORDS = [
   { w: 'read', field: 'verbs', at: 's5-5', face: '📖' },
   { w: 'write', field: 'verbs', at: 's5-5', sounds: ['r', 'igh', 't'], face: '✍️' },
   { w: 'swim', field: 'verbs', at: 's5-5', face: '🏊' },
+  // `point` مدخلٌ في Starters (وهو فعلُ الأمر المنطوق في س٢-١) يحمل `oi` بلا مادّة
+  { w: 'point', field: 'verbs', at: 's5-5', face: '👉' },
 ];
 
 /**
@@ -399,6 +428,92 @@ export const PAIR_BUDGET = [
   { w: 'pin', pair: 'i-e', why: '‏pin/pen زوجُ /ɪ/ و/e/ المصوَّر — و«pin» ليست من مداخل Starters ‏2025، و📌 صورتُها الصادقة' },
   { w: 'cap', pair: 'a-u', why: '‏cap/cup زوجُ /a/ و/u/ المصوَّر — وفي Starters «baseball cap» وحدَها لا «cap»، و🧢 صورتُها' },
   { w: 'cup', pair: 'a-u', why: 'أختُ cap في الزوج نفسِه — وفي Starters «cupboard» لا «cup»، و☕ صورتُها' },
+];
+
+/**
+ * **ميزانيةُ كلمات الفكّ — الخرقُ الثالث المحصور المعلَن** (حسمُ أ-١، ١٩ أغسطس ٢٠٢٦:
+ * «الخيار (أ)» من `PEDAGOGY_AUDIT.md` بحكم المالك).
+ *
+ * **العلّة مقيسةٌ لا مظنونة** (‏`audit_compute.mjs` — م٣ وم٥): سلّمُ L&S اختار
+ * `s a t p` لأنّها تصنع أكثرَ كلمات CVC **في عموم الإنجليزية**، **ورصيدُنا الحصريّ
+ * (Starters المصوَّر) لا يحوي واحدةً منها** — فورثنا ترتيباً بُني لعائدٍ أسقطته
+ * قاعدتُنا نحن، وصار أوّلُ لقاءِ الطفلة بمسار الحرف كلِّه **درجةً بلا كلمةٍ تُفكّ**.
+ * وهو عينُ ما وقع للأزواج قبلها: **الرصيدُ خادمُ المنهج لا حاكمٌ عليه**.
+ *
+ * **وهي على سَنَن أختها حرفاً**: معدودةٌ، **بعلّةٍ مكتوبة لكلٍّ**، وبصورةٍ صادقة —
+ * **وما لا صورةَ صادقة له لم يدخل** وإن كان عائدُ درجته صفراً (فالصورةُ شرطُ
+ * السماع، والسماعُ شرطُ القراءة). وتفارقها في بابٍ واحد **معلَنٍ بعلّته**: بابُ
+ * الأزواج **الأذنُ وحدَها** فلا تدخل سلّمَ الفكّ، وبابُ هذه **الفكُّ نفسُه** — فلكلِّ
+ * كلمةٍ ههنا **درجتُها مكتوبةً** (`grade`)، وهي الدرجةُ التي وُجدت لأجلها.
+ *
+ * **وقيدُ الاقتران لا يُستثنى منها**: كلُّ كلمةٍ هنا في `WORDS` أعلاه بمحطةٍ سمعيةٍ
+ * **قبل** درجتها (كما دخلت pin/cap/cup محطةَ س١-٧) — يحرسه `check_coupling`،
+ * ويحرس شرطَها الكاملَ `check_range` (بابُ ميزانية الفكّ) مُجرَّباً سالباً.
+ */
+export const DECODE_BUDGET = [
+  { w: 'tap', grade: 'h01', why: 'أوّلُ كلمةٍ تُفكّ في الرحلة: ح١ (`s a t p`) عائدُها صفرٌ في رصيدنا، و🚰 صنبورٌ تصدُق فيه — وليست من مداخل Starters ‏2025' },
+  { w: 'fox', grade: 'h06', why: 'ح٦ (`j v w x`) لم يكن فيها إلا `box`، و`fox` تعيد `x` بحيوانٍ يُلمَس (🦊) — وليست من مداخل Starters' },
+  { w: 'yam', grade: 'h07', why: 'ح٧ (`y z zz qu`) عائدُها صفر، و`y` وحدَه ما له كلمةٌ مصوَّرة صادقة (🍠) — وليست من مداخل Starters' },
+  { w: 'rain', grade: 'h09', why: 'رمزُ `ai` بلا مادّةٍ قطّ، ومداخلُ Starters الحاملةُ له إمّا عنقوديةٌ (train) أو بلا صورة (tail) — و🌧️ تصدُق في rain' },
+  { w: 'owl', grade: 'h11', why: 'ح١١ لم يكن فيها إلا `cow`، و🦉 صورتُها الصادقة — وليست من مداخل Starters' },
+  { w: 'beard', grade: 'h12', why: 'ح١٢ (`ear air ure`) لم يكن فيها إلا `ear` و`chair`، و`bear`/`pear` رسمُهما `ear` ونطقُهما `air` فلا تدخلان — و🧔 تصدُق في beard' },
+  { w: 'saw', grade: 'h14', why: 'رمزُ `aw` بلا مادّة، ومدخلا Starters الحاملان له (draw · drawing) فعلان لا صورةَ مفردة لهما — و🪚 منشارٌ يصدُق' },
+  { w: 'stew', grade: 'h15', why: 'رمزُ `ew` بلا مادّة، و`new` مدخلُ Starters الوحيدُ الحاملُ له صفةٌ لا تُصوَّر — و🍲 تصدُق في stew' },
+];
+
+/**
+ * **رموزُ العرض — قيدٌ معلَنٌ لا سكوت** (حسمُ أ-٢: «وما لا كلمةَ له في Starters ولا
+ * تسدّه ميزانيةُ الفكّ يُقيَّد رمزَ عرضٍ للمستوى الثاني بقيدٍ معلَن»).
+ *
+ * **العلّة**: رمزٌ يُدرَّس صوتاً↔رسماً ثم **لا يُقرأ في شيءٍ أبداً** تعليمٌ بلا
+ * مصداق — وقد وجد التدقيقُ عشرين منه من اثنين وسبعين. فما وُجدت له كلمةٌ دخلت
+ * مادّةَ درجته، **وما لم توجد له فههنا بعلّته** — ولا يمرّ رمزٌ ثالثٌ بينهما:
+ * بابُ `check_range` («لا رمزَ بلا مادةٍ إلا بقيدٍ معلَن») يُحمِرّ للصنفين معاً —
+ * لرمزٍ بلا مادّةٍ ولا قيد، **ولقيدٍ لرمزٍ صارت له مادّة** (فلا يشيخ القيدُ صامتاً).
+ *
+ * **وهذه ليست إذناً بترك الرمز**: مادّتُه **بابُ المستوى الثاني** المعلَن
+ * (`METHOD.md §١٣`) حيث يتّسع حوضُ المفكوك — لا زيادةً صامتةً ههنا.
+ */
+export const SHOWCASE_SYMBOLS = [
+  { id: 'ff', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: لا مدخلَ في Starters يحمل `ff` بنطقٍ منتظم (giraffe شواها في مقطعها الأخير)، ولا كلمةَ مصوَّرةً صادقةً خارجه' },
+  { id: 'z', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: `zebra` رسمُها لا يُفكّ بسلّمنا (‏e تقول /ee/)، و`zoo` مرفوعةٌ لانعدام الصورة الصادقة (`RAISED`)' },
+  { id: 'zz', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: buzz · fizz · jazz لا صورةَ صادقة لواحدةٍ منها، و`puzzle` رسمُها ينتهي بـ`le` وليس في السلّم' },
+  { id: 'qu', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: `queen` لها صورةٌ صادقة ولكنّ حقلَها ليس من حقول القائمة الموضوعية الاثني عشر، و`question`/`quiet` لا صورةَ لهما' },
+  { id: 'ure', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: sure · pure · cure كلماتُ حالٍ لا تُصوَّر، و`picture` نطقُ `ture` فيها /tʃər/ لا /ʊr/' },
+  { id: 'au', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: مثالُ L&S نفسِه اسمُ عَلَم (Paul)، و`sausage` مدخلُ Starters الوحيد وشواها في مقطعها الثاني' },
+  { id: 'e-e', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: أندرُ المفصولات، ومداخلُها في Starters (these) كلماتُ وظيفةٍ لا تُصوَّر' },
+  { id: 'u-e', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: rule · cute · tube ليست من مداخل Starters، ولا صورةَ صادقة لواحدةٍ منها في حقولنا' },
+  // (حكمُ مراجعة الجلسة ت — بعد ردِّ `horse` إلى الإعلان الصوتيّ وحدَه:)
+  { id: 'or', why: 'رمزُ عرضٍ — مادتُه مجدولة: `horse` هاؤها الصامتة لا رمزَ لها فرسمُها من رموزها يكذب (تبقى تُعلن أصواتَها سمعاً)، و`morning` مدخلٌ يُفكّ بسلّمنا وإدخالُه بندُ محتوىً يُجدوَل ولا يُزاحِم' },
+];
+
+/**
+ * **أصواتٌ شحيحةُ المادّة — القيدُ نفسُه من بابه الثاني** (ب-٣، `METHOD.md §١٢-١٣`).
+ *
+ * بابُ «لا صوتَ دون ٣ كلماتِ قراءةٍ تحمله» يقيس **الصوتَ** لا الرسم: فقد يكون
+ * لرسمِ الصوت مادّةٌ ويبقى الصوتُ دونها (كلمةٌ واحدة تحمله). وما بقي بعد موادّ
+ * أ-١ وأ-٢ **يُقيَّد ههنا بعلّته ولا تُفتَح له ميزانيةٌ بلا حدّ** — وموضعُ سدّه
+ * بابُ المستوى الثاني كأخيه.
+ */
+export const THIN_SOUNDS = [
+  { id: 'j', why: '‏`jump` وحدَها — ومداخلُ Starters الأخرى في بابها (jacket · jeans · juice) رسومُها لا تُفكّ بسلّمنا' },
+  { id: 'v', why: '‏`five` وحدَها — و`very` مدخلُ Starters الوحيد في باب V ولا صورةَ صادقة له (علّةُ زوج f/v نفسُها)' },
+  { id: 'w', why: '‏`swim` و`white` — و`window` رسمُها ينتهي بنطقٍ بديلٍ لا يُفتَح قبل ح١٦' },
+  { id: 'y', why: '‏`yam` و`yellow` — وبقيةُ باب Y في Starters (yes · your · young) بلا صورةٍ صادقة' },
+  { id: 'z', why: 'صفرٌ — وهي علّةُ رمزَي `z` و`zz` نفسُها في قيد العرض أعلاه' },
+  { id: 'kw', why: 'صفرٌ — وهي علّةُ رمز `qu` نفسُها في قيد العرض أعلاه' },
+  { id: 'ch', why: '‏`chair` وحدَها — و`beach` رسمُ صائتها `ea` (ح١٤ لا ح٨)، و`chicken`/`chips` ليستا في الرصيد المصوَّر' },
+  { id: 'th', why: '‏`mouth` وحدَها — و`bath` و`three` مدخلان مصوَّران يُفكّان بسلّمنا، وإدخالُهما بندُ محتوىً يُجدوَل ولا يُزاحِم' },
+  { id: 'ng', why: '‏`song` وحدَها — و`pink`/`drink` نونُهما مرسومةٌ `n` لا `ng`، فلبناتُ دمجها تخالف رسمَها' },
+  { id: 'oo-book', why: '‏`book` و`foot` — والرسمُ نفسُه لصوتين (نصُّ L&S ص٧٤)، فما زاد منه ذهب إلى أخيه' },
+  { id: 'ar', why: '‏`car` وحدَها — و`arm` مصوَّرةٌ حركةً تُفكّ بسلّمنا، وإدخالُها بندُ محتوىً يُجدوَل' },
+  { id: 'or', why: '‏`saw` وحدَها — و`horse` رُدَّت إلى الإعلان الصوتيّ (هاؤها الصامتة بلا رمز)، و`ball`/`door`/`four`/`walk` رسومُ صوائتها (‏a · oor · our · al) ليست في السلّم، و`morning` بندُ المحتوى المجدوَل' },
+  { id: 'oi', why: '‏`point` و`boy` — ومداخلُ Starters الأخرى في بابه لا صورةَ مفردةً صادقة لها' },
+  // (حكمُ مراجعة الجلسة ت — عاد `/h/` دون الثلاث بردِّ `horse`:)
+  { id: 'h', why: '‏`hat` و`hand` — و`horse`/`house` هاؤهما الصامتة بلا رمزٍ فرسمُهما من رموزهما يكذب، و`home` (‏h·o-e·m) مدخلٌ مصوَّرٌ يُفكّ بسلّمنا وإدخالُه بندُ محتوىً يُجدوَل ولا يُزاحِم' },
+  { id: 'ear', why: '‏`ear` و`beard` — و`bear`/`pear` رسمُهما `ear` ونطقُهما `air`، فدخولُهما كذبٌ على الرمز' },
+  { id: 'air', why: '‏`chair` وحدَها — و`hair` مرفوعةٌ لانعدام الصورة الصادقة (`RAISED`)' },
+  { id: 'ure', why: 'صفرٌ — وهو الصوتُ الذي سمّاه التدقيق بصفرٍ (ب-٣)، وعلّتُه علّةُ رمز `ure` في قيد العرض' },
 ];
 
 /**
@@ -508,9 +623,14 @@ export const GRADES = [
       { id: 't', g: 't', ex: 'ten' }, { id: 'p', g: 'p', ex: 'pen' },
     ],
     tricky: [],
-    // **ولا دمجَ في ح١**: نصُّ `METHOD.md §٥` («الدمجُ بالرموز **من ح٢**») وعينُ
-    // جدول L&S الأسبوعي (الدمجُ يبدأ الأسبوعَ الثاني).
-    words: [],
+    // **وكلمةٌ واحدة تُفكّ** (حسمُ أ-١): كانت `words: []` فكان عائدُ أوّلِ درجةٍ في
+    // الرحلة **صفراً** — يتعلّم الطفلُ أربعةَ رموزٍ ولا يقرأ بها شيئاً. و`tap` وحدَها
+    // ممّا يُبنى من `s a t p` له صورةٌ صادقة (🚰)، فدخلت بميزانية `DECODE_BUDGET`.
+    // **ولا دمجَ (`build`) فيها**: نصُّ `METHOD.md §٥` («الدمجُ بالرموز **من ح٢**»)
+    // باقٍ حرفاً — يحرسه `BUILD_FROM` أدناه، فههنا **فكٌّ** لا دمج.
+    words: [
+      { w: 'tap', gpc: ['t', 'a', 'p'], listen: 'word|tap|listen-pick' },
+    ],
   },
   {
     id: 'h02', era: 'letter1', ar: 'ح٢',
@@ -578,7 +698,13 @@ export const GRADES = [
       { id: 'w', g: 'w', ex: 'window' }, { id: 'x', g: 'x', ex: 'box' },
     ],
     tricky: ['he', 'she'],
-    words: [{ w: 'box', gpc: ['b', 'o', 'x'], listen: 'word|box|listen-pick' }],
+    // **وكانت كلمةً واحدة** (‏`box`) فصارت ثلاثاً (حسمُ أ-١): `six` مدخلٌ في الرصيد
+    // كان يُعلن أصواتَه ولم يدخل السلّمَ، و`fox` من ميزانية الفكّ.
+    words: [
+      { w: 'box', gpc: ['b', 'o', 'x'], listen: 'word|box|listen-pick' },
+      { w: 'six', gpc: ['s', 'i', 'x'], listen: 'word|six|listen-pick' },
+      { w: 'fox', gpc: ['f', 'o', 'x'], listen: 'word|fox|listen-pick' },
+    ],
   },
   {
     id: 'h07', era: 'letter2', ar: 'ح٧',
@@ -587,7 +713,11 @@ export const GRADES = [
       { id: 'zz', g: 'zz', ex: 'buzz' }, { id: 'qu', g: 'qu', ex: 'queen' },
     ],
     tricky: ['we', 'me', 'be'],
-    words: [],
+    // **وكان عائدُها صفراً** (حسمُ أ-١): و`y` وحدَه من رموزها الأربعة ما وُجدت له
+    // كلمةٌ مصوَّرةٌ صادقة — وأخواتُه الثلاثة (`z zz qu`) رموزُ عرضٍ بقيدها المعلَن.
+    words: [
+      { w: 'yam', gpc: ['y', 'a', 'm'], listen: 'word|yam|listen-pick' },
+    ],
   },
   {
     id: 'h08', era: 'letter2', ar: 'ح٨',
@@ -600,6 +730,8 @@ export const GRADES = [
       { w: 'fish', gpc: ['f', 'i', 'sh'], listen: 'word|fish|listen-pick' },
       { w: 'ship', gpc: ['sh', 'i', 'p'], listen: 'word|ship|listen-pick' },
       { w: 'shell', gpc: ['sh', 'e', 'll'], listen: 'word|shell|listen-pick' },
+      // **ومادّةُ `ng`** (حسمُ أ-٢): كان يُدرَّس ولا يُقرأ في شيء
+      { w: 'song', gpc: ['s', 'o', 'ng'], listen: 'word|song|listen-pick' },
     ],
   },
   {
@@ -613,6 +745,9 @@ export const GRADES = [
       { w: 'sheep', gpc: ['sh', 'ee', 'p'], listen: 'word|sheep|listen-pick' },
       { w: 'bee', gpc: ['b', 'ee'], listen: 'word|bee|listen-pick' },
       { w: 'goat', gpc: ['g', 'oa', 't'], listen: 'word|goat|listen-pick' },
+      // **ومادّةُ `ai` و`igh`** (حسمُ أ-٢): رمزان من العشرين كانا بلا كلمةٍ ولا قصة
+      { w: 'rain', gpc: ['r', 'ai', 'n'], listen: 'word|rain|listen-pick' },
+      { w: 'night', gpc: ['n', 'igh', 't'], listen: 'word|night|listen-pick' },
     ],
   },
   {
@@ -635,7 +770,13 @@ export const GRADES = [
       { id: 'oi', g: 'oi', ex: 'coin' }, { id: 'er', g: 'er', ex: 'corner' },
     ],
     tricky: ['all', 'are'],
-    words: [{ w: 'cow', gpc: ['c', 'ow'], listen: 'word|cow|listen-pick' }],
+    // **وكانت كلمةً واحدة** (‏`cow`): `burger` مدخلُ Starters يحمل `ur` (حسمُ أ-٢)،
+    // و`owl` من ميزانية الفكّ (حسمُ أ-١).
+    words: [
+      { w: 'cow', gpc: ['c', 'ow'], listen: 'word|cow|listen-pick' },
+      { w: 'burger', gpc: ['b', 'ur', 'g', 'er'], listen: 'word|burger|listen-pick' },
+      { w: 'owl', gpc: ['ow', 'l'], listen: 'word|owl|listen-pick' },
+    ],
   },
   {
     id: 'h12', era: 'letter2', ar: 'ح١٢',
@@ -647,6 +788,7 @@ export const GRADES = [
     words: [
       { w: 'ear', gpc: ['ear'], listen: 'word|ear|listen-pick' },
       { w: 'chair', gpc: ['ch', 'air'], listen: 'word|chair|listen-pick' },
+      { w: 'beard', gpc: ['b', 'ear', 'd'], listen: 'word|beard|listen-pick' },
     ],
   },
   {
@@ -678,6 +820,9 @@ export const GRADES = [
       { w: 'flower', gpc: ['f', 'l', 'ow', 'er'], listen: 'word|flower|listen-pick' },
       { w: 'brown', gpc: ['b', 'r', 'ow', 'n'], listen: 'word|brown|listen-pick' },
       { w: 'spider', gpc: ['s', 'p', 'i', 'd', 'er'], listen: 'word|spider|listen-pick' },
+      // **ومادّةُ `ss` و`oi`** (حسمُ أ-٢): كلتاهما عنقوديةٌ فموضعُها ح١٣ لا درجةُ رمزها
+      { w: 'dress', gpc: ['d', 'r', 'e', 'ss'], listen: 'word|dress|listen-pick' },
+      { w: 'point', gpc: ['p', 'oi', 'n', 't'], listen: 'verb|point|listen-pick' },
     ],
   },
   {
@@ -698,6 +843,10 @@ export const GRADES = [
       { w: 'mouth', gpc: ['m', 'ou', 'th'], listen: 'word|mouth|listen-pick' },
       { w: 'girl', gpc: ['g', 'ir', 'l'], listen: 'word|girl|listen-pick' },
       { w: 'bird', gpc: ['b', 'ir', 'd'], listen: 'word|bird|listen-pick' },
+      // **ومادّةُ `ay` و`ie` و`aw`** — ثلاثةٌ من العشرين
+      { w: 'crayon', gpc: ['c', 'r', 'ay', 'o', 'n'], listen: 'word|crayon|listen-pick' },
+      { w: 'pie', gpc: ['p', 'ie'], listen: 'word|pie|listen-pick' },
+      { w: 'saw', gpc: ['s', 'aw'], listen: 'word|saw|listen-pick' },
     ],
   },
   {
@@ -720,6 +869,13 @@ export const GRADES = [
       { w: 'bike', gpc: ['b', 'i-e', 'k'], listen: 'word|bike|listen-pick' },
       { w: 'kite', gpc: ['k', 'i-e', 't'], listen: 'word|kite|listen-pick' },
       { w: 'phone', gpc: ['ph', 'o-e', 'n'], listen: 'word|phone|listen-pick' },
+      // **ومادّةُ `v`** — فجوةُ العربيّ المركزية (`STUDY §٣`: خطؤها ١٠٠٪ باتجاهٍ واحد):
+      // يُفتَح رسمُها في ح٦ ولم تكن تُقرأ في شيءٍ أبداً. و`very` مدخلُ Starters الوحيد
+      // في بابها **ولا صورةَ صادقة له** (وهو نصُّ علّةِ زوج f/v في س٣-٢)، فحاملُها
+      // `five` — مدخلٌ مصوَّرٌ كمّيةً في س١-٦، ورسمُها لا يُفكّ قبل `i-e` في ح١٥.
+      { w: 'five', gpc: ['f', 'i-e', 'v'], listen: 'word|five|listen-pick' },
+      // ومادّةُ `ew`
+      { w: 'stew', gpc: ['s', 't', 'ew'], listen: 'word|stew|listen-pick' },
     ],
   },
   {
@@ -961,6 +1117,18 @@ export const VOWEL_SYMBOLS = new Set([
  * الموضعين لصار للحقيقة مصدران يفترقان بلا حارس.
  */
 export const CLUSTER_GRADE = 'h13';
+
+/**
+ * **أوّلُ درجةٍ يُدمَج فيها بالرموز** — `METHOD.md §٥` نصاً: «الدمجُ (`build` بالرموز)
+ * **من ح٢**»، وهو عينُ جدول L&S الأسبوعي (الدمجُ يبدأ الأسبوعَ الثاني).
+ *
+ * **ولِمَ صار ثابتاً بعد أن كان خلوَّ ح١ من الكلمات؟** لأنّ حسمَ أ-١ أدخل ح١ كلمةً
+ * تُفكّ (‏`tap`) — فلو بقي الحكمُ مستنتَجاً من الخلوّ لَوُلد مفتاحُ دمجٍ في ح١ بلا
+ * قرار، ونقض سطراً في المنهج بيد بياناتٍ تحرّكت. فالقاعدةُ تُكتب حيث تُقرأ:
+ * **ح١ فكٌّ بلا دمج**، وما بعدها كلاهما. (والفكُّ غيرُ الدمج: ذاك يقرأ الكلمةَ
+ * المكتوبةَ ويلمس مصداقَها، وهذا يركّب لبناتِها بترتيبها.)
+ */
+export const BUILD_FROM = 'h02';
 
 /**
  * ————— **القصصُ شبهُ المفكوكة** (`METHOD.md §٥` و§٧) —————
@@ -1314,6 +1482,43 @@ export function readableAt(gradeId, isMastered) {
 }
 
 /**
+ * ————— **صورٌ يعرف الطفلُ أسماءَها** (مشتّتاتُ الفكّ — حسمُ أ-١) —————
+ *
+ * **العلّة**: سؤالُ الفكّ «اقرأ الكلمةَ والمس صورتَها» يحتاج **مشتّتاً مصوَّراً**،
+ * وكان المولّدُ يأخذه من `readableAt` — أي من الكلمات **المفكوكة** المتقَنة. وذلك
+ * شرطٌ أضيقُ ممّا يقتضيه السؤال: المشتّتُ **صورةٌ تُسمّى** لا كلمةٌ تُقرأ، فلا حاجةَ
+ * به إلى أن يكون رسمُه مفكوكاً. **وضِيقُه يُعمي درجةً كاملة**: ح١ فيها كلمةُ فكٍّ
+ * واحدة (‏`tap` — وهي كلُّ ما يُبنى من `s a t p` بصورةٍ صادقة)، فلا مشتّتَ لها من
+ * المفكوك أبداً، فيسقط تمرينُها صامتاً ويصير عائدُ الدرجة صفراً من حيث لا يُنظَر.
+ *
+ * **والشرطُ الباقي هو الشرطُ الصحيح**: أن يكون الطفلُ قد **أتقن اسمَها سمعاً** — فلا
+ * تُعرَض عليه صورةٌ لم يلقَها فيصير الجوابُ حزراً (وهو عينُ شرط حوض س٤).
+ *
+ * **وهي بابٌ يأبى أن يُستدعى بلا سؤال ليتنر** كأختيها — والقاعدةُ التي تُذكَر تُنسى.
+ *
+ * @param {(key: string) => boolean} isMastered `progress.isMastered` أو نظيرتُها
+ */
+const LISTEN_KEY = new Map();
+
+export function namedPictures(isMastered) {
+  if (typeof isMastered !== 'function') {
+    throw new TypeError('namedPictures: لا صورةَ تُعرَض على طفلٍ بلا سؤال ليتنر '
+      + '— المشتّتُ صورةٌ يعرف اسمَها، ومعرفتُه تُقاس');
+  }
+  if (!LISTEN_KEY.size) {
+    for (const station of stations()) {
+      if (station.track !== 'listen') continue;
+      for (const key of station.skills) {
+        const range = key.split('|')[1];
+        if (!LISTEN_KEY.has(range)) LISTEN_KEY.set(range, key);
+      }
+    }
+  }
+  return WORDS.filter((word) => isTouchable(word.w)
+    && LISTEN_KEY.has(word.w) && isMastered(LISTEN_KEY.get(word.w)));
+}
+
+/**
  * **الشائكاتُ المفتوحةُ عند درجةٍ ما** — حوضُ ما يُعرَض منها (هدفاً كان أو مشتّتاً).
  * وهي كلُّها معلَنةٌ بميزانيتها (`METHOD.md §١٢-١`)، وما يُسأل عنه منها يمرّ بعدُ
  * من `readableTrickyAt` أدناه.
@@ -1536,7 +1741,11 @@ const LISTEN_STAGES = [
       // **وحاملا الزوجين الأصعبين يُسمعان قبل أن يُميَّزا** (حسمُ أ-٣): كلماتُ
       // `PAIR_BUDGET` ومعها `pen` — محطةٌ سمعيةٌ كأخواتها، **وموضعُها قبل س٣ شرطٌ لا
       // زينة**: لا يُسأل طفلٌ «أيَّهما سمعت؟» عن كلمةٍ لم يلقَها قطّ.
-      { part: 's1-7', title: 'كلماتُ الأزواج', face: '📌' },
+      //
+      // **ومعها `tap`** (حسمُ أ-١): درجتُها ح١ — أوّلُ درجات السلّم — فلا موضعَ لسماعها
+      // إلا في س١، وهذه محطةُ س١ التي لا يحكمها حقلٌ واحد. **وعلّةُ المحطتين واحدة**:
+      // كلمةٌ وجب أن تُسمَع مبكّراً لسببٍ بنيويّ لا لأنّ حقلَها جاء دورُه.
+      { part: 's1-7', title: 'كلماتٌ أولى', face: '📌' },
     ],
   },
   {
@@ -2070,7 +2279,10 @@ function gradeSkills(grade) {
     }
     keys.push(`gpc|${symbol.id}|letter-pick`);
   }
-  for (const word of grade.words) keys.push(`word|${word.w}|build`);
+  // **والدمجُ من ح٢** (`BUILD_FROM` — `METHOD.md §٥` نصاً): ح١ فكٌّ بلا دمج
+  const buildsAt = GRADES.findIndex((g) => g.id === grade.id)
+    >= GRADES.findIndex((g) => g.id === BUILD_FROM);
+  if (buildsAt) for (const word of grade.words) keys.push(`word|${word.w}|build`);
   // **والفكُّ مصداقُه صورةٌ مفردة أو مشهد** (بندُ الجلسة ٦ · حكمُ قبول الجلسة ٤):
   // فكلمةُ الموضع والحجم تدخل الفكَّ بمفتاحها، ويُلمَس مصداقُها في مشهدٍ مرسوم.
   for (const word of grade.words) {

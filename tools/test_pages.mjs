@@ -74,6 +74,7 @@ export const FIGURES = {
   words: () => c.WORDS.length,
   starters: () => c.STARTERS.length,
   budget: () => c.PAIR_BUDGET.length,
+  'decode-budget': () => c.DECODE_BUDGET.length,
   raised: () => c.RAISED.length,
   grades: () => c.GRADES.length,
   graphemes: () => c.GRADES.flatMap((g) => g.symbols).length,

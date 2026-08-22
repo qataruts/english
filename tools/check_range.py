@@ -61,6 +61,11 @@ SWATCH_RE = re.compile(r"^#[0-9A-Fa-f]{6}$")
 # **لأنّ اللون هو الكلمة**.
 SWATCH_FIELD = "colours"
 
+# **عتبةُ مادّة الصوت** (ب-٣ — `METHOD.md §١٢-١٣`): ثلاثُ كلماتِ قراءةٍ تحمله. وهي
+# عينُ عتبة مديات س٤ (`finals.min` و`initials.min`) وعلّتُها واحدة: هدفٌ ومشتّتان
+# في الجولة، فمدىً بأقلَّ منها يُعيد الصورةَ نفسَها فيُحفَظ الجوابُ لا يُسمَع.
+SOUND_SUPPORT = 3
+
 # عقدُ المولّد (تلتزم به الجلسات ٢+): وحدةٌ **خالصة** تُستورَد في node بلا متصفّح،
 # تُعلن ما تستهلك (`CONSUMES`) وتفتح جولاتِها للجرد (`probeRounds`).
 CONSUMES_DECL = re.compile(r"export\s+const\s+CONSUMES\b")
@@ -83,6 +88,12 @@ def load_curriculum() -> dict:
       // **ميزانيةُ الأزواج الدنيا** (حسمُ أ-٣): الخرقُ الثاني المحصور لقيد Starters —
       // يقرؤها بابُ الرصيد فيأذن لها وحدَها، وبابٌ خاصٌّ يقابلها بشرطها.
       pairBudget: m.PAIR_BUDGET,
+      // **وميزانيةُ كلمات الفكّ** (حسمُ أ-١): الخرقُ الثالث المحصور — بابُها الفكُّ
+      // نفسُه لا الأذنُ وحدَها، فلكلِّ كلمةٍ فيها درجتُها مكتوبةً.
+      decodeBudget: m.DECODE_BUDGET,
+      // **وقيدُ العرض المعلَن** (حسمُ أ-٢): رمزٌ بلا مادّةٍ لا يمرّ إلا بسطرٍ ههنا،
+      // وصوتٌ دون ثلاث كلماتٍ كذلك (ب-٣).
+      showcase: m.SHOWCASE_SYMBOLS, thinSounds: m.THIN_SOUNDS,
       // **واللكنةُ المحسومة** (حسمُ أ-٢): بها يُقابَل جدولُ الأصوات صوتاً صوتاً.
       accent: m.ACCENT,
       fields: m.FIELDS,
@@ -624,7 +635,11 @@ def bank_of(data: dict) -> dict:
         "forms": set(data["forms"]),
         # **ميزانيةُ الأزواج**: كلماتٌ خارج Starters بإذنٍ معدودٍ معلَّل — تمرّ على
         # بابِ الكلمة كما تمرّ مداخلُ القائمة، ولا تمرّ على غيره بلا شرطها.
-        "budget": {b["w"] for b in data.get("pairBudget") or []},
+        # **والميزانيتان بابٌ واحد على بابِ الكلمة**: كلتاهما خرقٌ معدودٌ معلَّل
+        # لقيد Starters — ولكلٍّ بابُها الخاصُّ بشرطها (`budget_word_errors`
+        # للأزواج، و`decode_budget_errors` للفكّ).
+        "budget": ({b["w"] for b in data.get("pairBudget") or []}
+                   | {b["w"] for b in data.get("decodeBudget") or []}),
         "raised": {r["w"]: r["why"] for r in data["raised"]},
         "fields": {f["id"] for f in data["fields"]},
         "units": {u["id"] for u in data["units"]},
@@ -784,6 +799,151 @@ def budget_word_errors(data: dict, bank: dict) -> list:
         if name in ladder:
             errors.append(f"{label}: دخلت سلّمَ الفكّ — وميزانيةُ الأزواج بابُها "
                           "الأذنُ وحدَها (توسيعُ المقروء قرارُ مالك)")
+    return errors
+
+
+def decode_budget_errors(data: dict, bank: dict) -> list:
+    """**ميزانيةُ كلمات الفكّ: خرقٌ محصورٌ لا بابٌ خلفيّ** (حسمُ أ-١، ١٩ أغسطس ٢٠٢٦).
+
+    أُذن لكلماتٍ معدوداتٍ خارج مداخل Starters أن تدخل **سلّمَ الفكّ** — لأنّ أوّلَ
+    درجةٍ في الرحلة كان عائدُها صفرَ كلمة، **ورصيدُنا خادمُ المنهج لا حاكمٌ عليه**.
+    وهي أختُ ميزانية الأزواج في سَنَنها وتفارقها في بابها، **فلها بابُها**:
+
+      ١) **علّةٌ مكتوبة** لكلٍّ — لا اسمُ درجةٍ وحدَه.
+      ٢) **وهي فعلاً خارج Starters** — فمن أدخل فيها مدخلاً من القائمة وسّع الخرقَ
+         بلا حاجة وأوهم أنّه أكبرُ ممّا هو (وبابُها الصحيح مادّةُ أ-٢).
+      ٣) **ولها صورةٌ صادقةٌ مفردة** — فالصورةُ شرطُ السماع، والسماعُ شرطُ القراءة
+         (قيدُ الاقتران): كلمةُ فكٍّ بلا صورة كلمةٌ لا تُسمَع، فلا تُقرأ أبداً.
+      ٤) **وتدخل سلّمَ الفكّ عند درجتها المكتوبة** — وهي عكسُ شرط أختها: بابُ الأزواج
+         الأذنُ وحدَها، وبابُ هذه الفكُّ نفسُه. فكلمةٌ ههنا لا تُفكّ عند درجتها
+         **ميزانيةٌ صُرفت في غير وجهها**، وكلمةٌ بلا درجةٍ مكتوبة توسيعٌ للرصيد بلا سبب.
+    """
+    errors = []
+    grade_of = {w["w"]: g["id"] for g in data["grades"] for w in g["words"]}
+    faced = {w["w"] for w in data["words"] if w.get("face")}
+    known = {g["id"] for g in data["grades"]}
+    for entry in data.get("decodeBudget") or []:
+        name, grade = entry.get("w"), entry.get("grade")
+        label = f"[ميزانية الفكّ · {name}]"
+        if len(str(entry.get("why") or "")) <= 20:
+            errors.append(f"{label}: بلا علّةٍ مكتوبة تُقرأ")
+        if name in bank["forms"]:
+            errors.append(f"{label}: مدخلٌ في Starters أصلاً — فلا حاجةَ به إلى ميزانية "
+                          "(وبابُه مادّةُ أ-٢ لا الخرق)")
+        if name not in bank["words"]:
+            errors.append(f"{label}: ليست في الرصيد المصوَّر (`WORDS`)")
+        elif name not in faced:
+            errors.append(f"{label}: بلا صورةٍ صادقةٍ مفردة — والصورةُ شرطُ السماع، "
+                          "والسماعُ شرطُ القراءة (قيدُ الاقتران)")
+        if grade not in known:
+            errors.append(f"{label}: بلا درجةٍ معلَنةٍ في السلّم («{grade}»)")
+        elif grade_of.get(name) != grade:
+            errors.append(f"{label}: تُعلن درجتَها «{grade}» وموضعُها في السلّم "
+                          f"«{grade_of.get(name) or 'لا شيء'}» — وميزانيةُ الفكّ "
+                          "بابُها الفكُّ نفسُه عند درجتها")
+    return errors
+
+
+def material_errors(data: dict) -> list:
+    """**لا رمزَ بلا مادةٍ إلا بقيدٍ معلَن** (حسمُ أ-٢) — **ولا صوتَ دون ثلاث** (ب-٣).
+
+    وجد التدقيقُ التربويّ **عشرين رمزاً من اثنين وسبعين** يُدرَّس صوتاً↔رسماً
+    **ولا يظهر في كلمةٍ ولا قصة**: يتعلّم الطفلُ الرمزَ ويميّز صوتَه **ثم لا يقرؤه
+    في شيءٍ أبداً** — تعليمٌ بلا مصداق، وأثقلُه `v` (فجوةُ العربيّ المركزية).
+    فصارت المادّةُ **مقيسةً بابَ حارسٍ** لا وعداً في وثيقة، وله شقّان:
+
+      • **الرمز**: كلُّ رمزٍ في الدرجات إمّا تطلبه **كلمةُ قراءةٍ مرمَّزة** أو **قصةٌ**،
+        وإمّا هو في **قيد العرض المعلَن** (`SHOWCASE_SYMBOLS`) بعلّته — وما سواهما أحمر.
+      • **والصوت** (ب-٣): كلُّ صوتٍ في `PHONEMES` تحمله **ثلاثُ كلماتِ قراءةٍ** فأكثر،
+        أو هو في القيد المعلَن (`THIN_SOUNDS`) بعلّته. **وثلاثٌ عتبةُ مادّةٍ لا رقمٌ
+        مختار**: هدفٌ ومشتّتان في الجولة (عينُ عتبة مديات س٤).
+
+    **والقيدُ يُحرَس من طرفيه**: قيدٌ لرمزٍ (أو صوتٍ) صارت له مادّةٌ **يُمسَك** كذلك —
+    فلا يشيخ الإعفاءُ صامتاً بعد أن زالت علّتُه، وهو عينُ ما يُنسى حين تُكتب
+    الاستثناءاتُ قوائمَ لا يعيدها أحدٌ إلى مصدرها.
+    """
+    errors = []
+    words = [w for g in data["grades"] for w in g["words"]]
+    used = {gpc for w in words for gpc in (w.get("gpc") or [])}
+    # **والقصةُ مادّةٌ كالكلمة** (نصُّ الحكم): كلماتُ نصّها تُقابَل بكلمات القراءة
+    # المرمَّزة، فما ورد منها في قصةٍ أضاف رموزَه — ومنه يُعرَف رمزٌ حيٌّ في نصّ.
+    story_tokens = set()
+    for station in data["stations"]:
+        for token in (station.get("text") or "").lower().split():
+            bare = re.sub(r"[^a-z'’-]", "", token)
+            if bare:
+                story_tokens.add(bare)
+    for word in words:
+        if word["w"].lower() in story_tokens:
+            used |= set(word.get("gpc") or [])
+
+    showcase = {s["id"]: s.get("why") or "" for s in data.get("showcase") or []}
+    taught = [(g["id"], s["id"]) for g in data["grades"] for s in g["symbols"]]
+    for grade_id, symbol in taught:
+        if symbol in used:
+            if symbol in showcase:
+                errors.append(f"[{grade_id}] الرمز «{symbol}» في قيد العرض المعلَن "
+                              "وله مادّةٌ اليوم — والقيدُ يُرفَع حين تزول علّتُه")
+        elif symbol not in showcase:
+            errors.append(f"[{grade_id}] الرمز «{symbol}» يُدرَّس ولا تطلبه كلمةُ قراءةٍ "
+                          "ولا قصة — ولا رمزَ بلا مادةٍ إلا بقيدٍ معلَن "
+                          "(`SHOWCASE_SYMBOLS`)")
+        elif len(showcase.get(symbol) or "") <= 20:
+            errors.append(f"[{grade_id}] قيدُ عرض الرمز «{symbol}» بلا علّةٍ مكتوبة تُقرأ")
+    known = {s for _, s in taught}
+    for symbol in showcase:
+        if symbol not in known:
+            errors.append(f"[قيد العرض] «{symbol}» ليس رمزاً في السلّم — وقيدٌ لِما "
+                          "لا يُدرَّس إعفاءٌ بلا مُعفىً عنه")
+
+    # ————— ب-٣: لا صوتَ دون ثلاث كلماتِ قراءةٍ تحمله —————
+    thin = {t["id"]: t.get("why") or "" for t in data.get("thinSounds") or []}
+    ids = set()
+    for phoneme in data.get("phonemes") or []:
+        pid, graphemes = phoneme["id"], set(phoneme.get("graphemes") or [])
+        ids.add(pid)
+        support = sum(1 for w in words if graphemes & set(w.get("gpc") or []))
+        if support >= SOUND_SUPPORT:
+            if pid in thin:
+                errors.append(f"[صوت {pid}] في قيد المادّة الشحيحة وله {support} "
+                              "كلماتِ قراءةٍ اليوم — والقيدُ يُرفَع حين تزول علّتُه")
+        elif pid not in thin:
+            errors.append(f"[صوت {pid}] تحمله {support} كلمةٍ من كلمات القراءة "
+                          f"(والعتبةُ {SOUND_SUPPORT}) — ولا صوتَ دونها إلا بقيدٍ "
+                          "معلَن (`THIN_SOUNDS`)")
+        elif len(thin.get(pid) or "") <= 20:
+            errors.append(f"[صوت {pid}] قيدُ مادّته الشحيحة بلا علّةٍ مكتوبة تُقرأ")
+    for pid in thin:
+        if pid not in ids:
+            errors.append(f"[قيد المادّة] «{pid}» ليس صوتاً في `PHONEMES`")
+    return errors
+
+
+def spelling_errors(data: dict) -> list:
+    """**رسمُ الكلمة من رموزها هو رسمُها — لا كذبَ على الرسم** (حكمُ مراجعة الجلسة ت).
+
+    شاشةُ الفكّ تبني المكتوبَ من `gpc` نفسِها (`letterEl` في `figures.js`): رسمُ
+    كلِّ رمزٍ (`g`) يُصَفّ صفّاً — والمنفلقُ (نحو `i-e`) يُعرَض وحدةً بشرطته على
+    عُرف L&S، فحرفُه الأوّل في موضعه وهاؤه ذيلُ الكلمة. فإن لم يُساوِ المبنيُّ
+    رسمَ الكلمة الإنجليزيَّ رأى الطفلُ كلمةً مكتوبةً **بغير رسمها** — وهو عينُ
+    ما وقع لِـ`horse` (هاؤها الصامتة لا رمزَ لها فبُنيت «hors») يومَ نُقلت من
+    الإعلان الصوتيّ إلى السلّم، فرُدَّت وبُني هذا البابُ لصنفها كلِّه.
+    """
+    errors = []
+    glyph = {s["id"]: s.get("g") or s["id"]
+             for g in data["grades"] for s in g["symbols"]}
+    for grade in data["grades"]:
+        for word in grade["words"]:
+            core, tail = "", ""
+            for gid in word.get("gpc") or []:
+                g = glyph.get(gid, gid)
+                if re.fullmatch(r"[a-z]-e", g):
+                    core, tail = core + g[0], "e"
+                else:
+                    core += g
+            if core + tail != word["w"]:
+                errors.append(f"[{grade['id']} · {word['w']}] رسمُها من رموزها "
+                              f"«{core + tail}» لا «{word['w']}» — كذبٌ على الرسم")
     return errors
 
 
@@ -985,6 +1145,22 @@ def check(data: dict) -> int:
          deixis_errors(data),
          f"{len(data.get('deixis') or [])} مرجعاً مرسوماً "
          f"({'، '.join(one['w'] for one in data.get('deixis') or [])})")
+    budget = data.get("decodeBudget") or []
+    showcase = data.get("showcase") or []
+    thin = data.get("thinSounds") or []
+    door("مادّةُ الرمز والصوت: لا رمزَ بلا مادةٍ إلا بقيدٍ معلَن",
+         material_errors(data),
+         f"{symbols} رمزاً، منها {len(showcase)} رمزَ عرضٍ مقيَّدٌ بعلّته؛ "
+         f"و{len(data.get('phonemes') or [])} صوتاً، منها {len(thin)} شحيحُ المادّة "
+         f"مقيَّدٌ بعلّته (والعتبةُ {SOUND_SUPPORT} كلماتِ قراءة)")
+    door("ميزانيةُ كلمات الفكّ: خرقٌ معدودٌ معلَّلٌ يدخل السلّم",
+         decode_budget_errors(data, bank),
+         f"{len(budget)} كلمةً خارج Starters، لكلٍّ علّتُها وصورتُها ودرجتُها "
+         f"({'، '.join(b['w'] for b in budget)})")
+    door("رسمُ الكلمة من رموزها هو رسمُها — لا كذبَ على الرسم",
+         spelling_errors(data),
+         f"{sum(len(g['words']) for g in data['grades'])} كلمةَ قراءةٍ "
+         "يُبنى رسمُها من رموزها فيطابق")
     door("أزواجُ التمييز: شكلُها محسوبٌ من صورة حاملَيها", pair_errors(data),
          f"{len(pairs)} زوجاً، منها {sum(1 for p in pairs if p['mode'] == 'word')} مصوَّرٌ "
          f"و{sum(1 for p in pairs if p['mode'] == 'sound')} صوتيٌّ خالص بعلّته")
@@ -1623,6 +1799,95 @@ def self_test(data: dict) -> int:
         "سلّمَ الفكّ"),
        "**وكلمةُ ميزانيةٍ تسلّلت إلى سلّم الفكّ تُمسَك** — بابُها الأذنُ وحدَها، "
        "وتوسيعُ المقروء قرارُ مالك (أ-٦)")
+
+    # ————— بابُ المادّة: **رمزٌ يُدرَّس ولا يُقرأ يُمسَك** (حسمُ أ-٢ · ب-٣) —————
+    print("\n— بابُ المادّة: لا رمزَ بلا مادةٍ إلا بقيدٍ معلَن —")
+
+    def dosed_material(mutate):
+        clone = copy.deepcopy(data)
+        mutate(clone)
+        return material_errors(clone)
+
+    def grade_of(clone, gid):
+        return next(g for g in clone["grades"] if g["id"] == gid)
+
+    ok(not material_errors(data),
+       "المنهجُ الحيّ يمرّ: كلُّ رمزٍ له مادّةٌ أو قيدُ عرضٍ معلَّل، وكلُّ صوتٍ كذلك")
+    ok(find(dosed_material(lambda c: grade_of(c, "h07")["symbols"].append(
+        {"id": "zh", "g": "zh", "ex": "vision"})), "ولا تطلبه كلمةُ قراءة"),
+       "**ورمزٌ يُدسّ بلا مادّةٍ ولا قيدٍ يُمسَك** — «zh» تُدرَّس صوتاً↔رسماً ثم لا "
+       "يقرؤها الطفلُ في شيءٍ أبداً، وهو عينُ ما وجده التدقيقُ في عشرين رمزاً")
+    ok(find(dosed_material(lambda c: c["showcase"].append(
+        {"id": "zh", "why": "قيدٌ مكتوبٌ طويلٌ يكفي البابَ لفظاً ولا مُعفىً عنه"})),
+        "ليس رمزاً في السلّم"),
+       "  وقيدُ عرضٍ لرمزٍ لا يُدرَّس يُمسَك (إعفاءٌ بلا مُعفىً عنه)")
+    ok(find(dosed_material(lambda c: c["showcase"].append(
+        {"id": "ng", "why": "قيدٌ مكتوبٌ طويلٌ يكفي البابَ لفظاً وقد زالت علّتُه"})),
+        "وله مادّةٌ اليوم"),
+       "**وقيدٌ لرمزٍ صارت له مادّةٌ يُمسَك** — فلا يشيخ الإعفاءُ صامتاً بعد زوال علّته")
+    ok(find(dosed_material(lambda c: next(
+        one for one in c["showcase"] if one["id"] == "ff").update({"why": "قصيرة"})),
+        "بلا علّةٍ مكتوبة"),
+       "  وقيدُ عرضٍ بلا علّةٍ تُقرأ يُمسَك")
+    ok(find(dosed_material(lambda c: c["thinSounds"].remove(
+        next(t for t in c["thinSounds"] if t["id"] == "ure"))), "ولا صوتَ دونها"),
+       "**وصوتٌ دون ثلاث كلماتِ قراءةٍ بلا قيدٍ يُمسَك** (ب-٣) — و«/ʊr/» هو الصفرُ "
+       "الذي سمّاه التدقيق")
+    ok(find(dosed_material(lambda c: c["thinSounds"].append(
+        {"id": "s", "why": "قيدٌ مكتوبٌ طويلٌ يكفي البابَ لفظاً وقد زالت علّتُه"})),
+        "في قيد المادّة الشحيحة"),
+       "  وقيدُ مادّةٍ شحيحة لصوتٍ بلغ العتبةَ يُمسَك")
+
+    # ————— بابُ الرسم الصادق: **رسمُ الكلمة من رموزها هو رسمُها** —————
+    print("\n— بابُ الرسم الصادق: ما يُبنى من الرموز يطابق رسمَ الكلمة —")
+
+    def dosed_spelling(mutate):
+        clone = copy.deepcopy(data)
+        mutate(clone)
+        return spelling_errors(clone)
+
+    ok(not spelling_errors(data),
+       "المنهجُ الحيّ يمرّ: كلُّ كلمةِ قراءةٍ يُبنى رسمُها من رموزها فيطابق")
+    ok(find(dosed_spelling(lambda c: next(
+        g for g in c["grades"] if g["id"] == "h10")["words"].append(
+        {"w": "horse", "gpc": ["h", "or", "s"]})), "«hors» لا «horse»"),
+       "**وكلمةٌ رسمُها من رموزها غيرُ رسمِها تُمسَك** — «horse» تُدسّ كما دُسّت "
+       "يومَ وقعت (هاؤها الصامتة بلا رمز فتُبنى «hors») فتحمرّ")
+    ok(not dosed_spelling(lambda c: next(
+        g for g in c["grades"] if g["id"] == "h15")["words"].append(
+        {"w": "bike", "gpc": ["b", "i-e", "k"]})),
+       "  والمنفلقُ يمرّ بعُرفه (‏`bike` = ب + منفلقُ `i-e` + ك — هاؤه ذيلُ الكلمة)")
+
+    # ————— بابُ ميزانية الفكّ: **خرقٌ ثالثٌ بشرطه** (حسمُ أ-١) —————
+    print("\n— بابُ ميزانية كلمات الفكّ: خرقٌ معدودٌ يدخل السلّم بدرجته —")
+
+    def dosed_decode(mutate):
+        clone = copy.deepcopy(data)
+        mutate(clone)
+        return decode_budget_errors(clone, bank_of(clone))
+
+    ok(not decode_budget_errors(data, bank), "ميزانيةُ الفكّ الحيّة تمرّ بشرطها")
+    ok(find(dosed_decode(lambda c: c["decodeBudget"].append(
+        {"w": "pear", "grade": "h09", "why": "علّةٌ مكتوبةٌ طويلةٌ تكفي البابَ لفظاً"})),
+        "مدخلٌ في Starters"),
+       "  ومدخلٌ من القائمة أُقحم في الميزانية يُمسَك (فبابُه مادّةُ أ-٢ لا الخرق)")
+    ok(find(dosed_decode(lambda c: next(
+        b for b in c["decodeBudget"] if b["w"] == "owl").update({"grade": "h11-x"})),
+        "بلا درجةٍ معلَنة"),
+       "  ودرجةٌ لا وجودَ لها في السلّم تُمسَك")
+    ok(find(dosed_decode(lambda c: next(
+        b for b in c["decodeBudget"] if b["w"] == "owl").update({"grade": "h12"})),
+        "وموضعُها في السلّم"),
+       "**وكلمةُ ميزانيةٍ تُعلن درجةً غيرَ درجتها تُمسَك** — والميزانيةُ تُصرَف في "
+       "وجهها المكتوب لا في غيره")
+    ok(find(dosed_decode(lambda c: next(
+        w for w in c["words"] if w["w"] == "tap").pop("face")), "بلا صورةٍ صادقة"),
+       "**وكلمةُ فكٍّ بلا صورةٍ صادقة تُمسَك** — الصورةُ شرطُ السماع والسماعُ شرطُ "
+       "القراءة، فكلمةٌ لا تُسمَع لا تُقرأ أبداً (قيدُ الاقتران)")
+    ok(find(dosed_decode(lambda c: next(
+        b for b in c["decodeBudget"] if b["w"] == "saw").update({"why": "قصيرة"})),
+        "بلا علّةٍ مكتوبة"),
+       "  وبلا علّةٍ تُقرأ تُمسَك")
 
     print(f"\n{fails} فشل" if fails else "\n✓ الفاحصُ يمسك المدسوسَ كلَّه")
     return 1 if fails else 0

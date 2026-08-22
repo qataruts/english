@@ -1510,6 +1510,16 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
+    "text": "beard",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "because",
     "lang": "en",
     "voice": "Leda",
@@ -1675,6 +1685,16 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
+    "text": "burger",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "Bye bye!",
     "lang": "en",
     "voice": "Leda",
@@ -1805,6 +1825,16 @@
     "status": "done",
     "doneAt": "2026-08-16",
     "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "crayon",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
   },
   {
     "text": "cup",
@@ -2058,6 +2088,16 @@
     "status": "done",
     "doneAt": "2026-08-16",
     "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "fox",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
   },
   {
     "text": "friend",
@@ -2544,6 +2584,16 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
+    "text": "night",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "nine",
     "lang": "en",
     "voice": "Leda",
@@ -2643,6 +2693,16 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
+    "text": "owl",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "pear",
     "lang": "en",
     "voice": "Leda",
@@ -2698,6 +2758,16 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
+    "text": "pie",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "pin",
     "lang": "en",
     "voice": "Leda",
@@ -2742,6 +2812,16 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
+    "text": "point",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "purple",
     "lang": "en",
     "voice": "Leda",
@@ -2751,6 +2831,16 @@
     "status": "done",
     "doneAt": "2026-08-16",
     "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "rain",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
   },
   {
     "text": "read",
@@ -2828,6 +2918,16 @@
     "status": "done",
     "doneAt": "2026-08-16",
     "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "saw",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
   },
   {
     "text": "school",
@@ -3028,6 +3128,16 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
+    "text": "song",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "spider",
     "lang": "en",
     "voice": "Leda",
@@ -3048,6 +3158,16 @@
     "status": "done",
     "doneAt": "2026-08-16",
     "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "stew",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
   },
   {
     "text": "stop",
@@ -3103,6 +3223,16 @@
     "status": "done",
     "doneAt": "2026-08-16",
     "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "tap",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
   },
   {
     "text": "teddy",
@@ -3411,6 +3541,16 @@
     "status": "done",
     "doneAt": "2026-08-16",
     "model": "gemini-3.1-flash-tts-preview"
+  },
+  {
+    "text": "yam",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-t",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
   },
   {
     "text": "yellow",
