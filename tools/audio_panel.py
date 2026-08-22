@@ -39,10 +39,19 @@ import generate_audio as gen  # noqa: E402
 
 PANEL = gen.ROOT / "scratch" / "panel"
 GROUP_AR = dict(gen.CATEGORY_AR)      # الفئاتُ السبع من المولّد نفسِه لا مكتوبةً هنا
+# **وقسما المقارنة** (جلسةُ ص٣، بلاغُ الميدان ٢): حين يُعاد صوتٌ بتعليمةٍ جديدة
+# يُعرَض **قديمُه بجوار جديده** — فالأذنُ تحكم بالفرق لا بالانطباع؛ والمعادُ خارج
+# `app/` حتى يقع اللفظ، فيُشغَّل من مجلَّد انتظاره لا من الفهرس.
+GROUP_AR["current"] = "القائم"
+GROUP_AR["redone"] = "المعاد"
 
 
-def rows(since: float = 0.0) -> list:
-    """صفوفُ اللوحة — لكل ملفٍ في الفهرس: نصُّه ولغتُه وفئتُه وصوتُه ومدّتُه وحكمُه."""
+def rows(since: float = 0.0, texts: tuple = (), stage_dir: Path | None = None) -> list:
+    """صفوفُ اللوحة — لكل ملفٍ في الفهرس: نصُّه ولغتُه وفئتُه وصوتُه ومدّتُه وحكمُه.
+
+    و`texts` تصفيةٌ بنصوصٍ بعينها (دفعةٌ تُعرَض وحدَها فلا تُتعَب الأذنُ بما حُكم فيه)،
+    و`stage_dir` يضمّ **المعادَ المنتظِر** صفوفاً إلى جوار القائم بقسمَيهما.
+    """
     manifest_path = gen.OUT_DIR / "manifest.json"
     if not manifest_path.exists():
         return []
@@ -60,11 +69,16 @@ def rows(since: float = 0.0) -> list:
     versions = json.loads(versions_path.read_text(encoding="utf-8")) \
         if versions_path.exists() else {}
 
+    staged = {e["text"]: e["staged"] for e in queue.values()
+              if e.get("staged") and (not texts or e["text"] in texts)} if stage_dir else {}
+
     out = []
     for key, text in man.items():
         path = gen.OUT_DIR / f"{key}.mp3"
         if not path.exists():
             continue
+        if texts and text not in texts:
+            continue                      # دفعةٌ مصفّاة: ما سُمّي وحدَه
         if since and path.stat().st_mtime < since:
             continue                      # «الجديدُ فقط»: ما كُتب بعد لحظةٍ بعينها
         e = queue.get(text, {})
@@ -73,6 +87,9 @@ def rows(since: float = 0.0) -> list:
         say = gen.speech_form(text, cat)
         out.append({
             "key": key,
+            "rid": f"{key}:{versions.get(key, '')}",
+            "src": f"../../app/audio/{key}.mp3",
+            "group": "current" if text in staged else cat,
             "v": versions.get(key, ""),
             "text": text,
             "say": "" if say == text else say,      # ما أُرسل فعلاً إن خالف المكتوب
@@ -84,21 +101,63 @@ def rows(since: float = 0.0) -> list:
             "by": e.get("requestedBy", "المنهج"),
             "verdict": verdicts.get(text, {}).get("verdict", ""),
         })
-    order = list(GROUP_AR)
-    out.sort(key=lambda r: (order.index(r["cat"]) if r["cat"] in order else 9, r["text"]))
+    # **والمعادُ ينضمّ من مجلَّد انتظاره** — لا من الفهرس: فهو لم يدخله ولا يدخله قبل اللفظ.
+    for text, rec in staged.items():
+        path = ROOT_OF(rec.get("file", ""))
+        if not path or not path.exists():
+            print(f"  ⚠ معادٌ مقيَّدٌ ولا ملفَ له: «{text}» ({rec.get('file')})", file=sys.stderr)
+            continue
+        cat = cats.get(text, "phoneme")
+        lang = gen.CATEGORY_LANG.get(cat, "en")
+        say = gen.speech_form(text, cat)
+        out.append({
+            "key": gen.key_for(text),
+            "rid": f"{gen.key_for(text)}:{rec.get('v', '')}",
+            "src": "../../" + rec.get("file", ""),
+            "group": "redone",
+            "v": rec.get("v", ""),
+            "text": text,
+            "say": "" if say == text else say,
+            "cat": cat,
+            "lang": lang,
+            "voice": rec.get("voice") or gen.VOICES.get(lang, ""),
+            "model": gen.short_model(rec.get("model", "")),
+            "sec": round(gen.mp3_duration(path), 2),
+            "by": rec.get("reason", ""),
+            "verdict": "",
+        })
+
+    order = ["current", "redone"] + list(gen.CATEGORY_AR)
+    rank = {g: i for i, g in enumerate(order)}
+    if staged:      # وضعُ المقارنة: قديمُ كلِّ نصٍّ يليه جديدُه مباشرةً
+        out.sort(key=lambda r: (r["text"], rank.get(r["group"], 99)))
+    else:
+        out.sort(key=lambda r: (rank.get(r["group"], 99), r["text"]))
     return out
 
 
-def build(since: float = 0.0, title: str = "") -> Path:
-    data = rows(since)
+def ROOT_OF(rel: str) -> Path | None:
+    """مسارٌ نسبيٌّ من جذر المستودع ← مطلقاً (ولا شيء إن كان فارغاً)."""
+    return (gen.ROOT / rel) if rel else None
+
+
+def build(since: float = 0.0, title: str = "", texts: tuple = (),
+          stage_dir: Path | None = None) -> Path:
+    data = rows(since, texts, stage_dir)
     PANEL.mkdir(parents=True, exist_ok=True)
     groups = {}
     for r in data:
-        groups.setdefault(r["cat"], []).append(r)
+        groups.setdefault(r["group"], []).append(r)
+    compare = any(r["group"] == "redone" for r in data)
     tabs = "".join(
-        f'<button class="tab" data-cat="{cat}">{GROUP_AR.get(cat, cat)}'
+        f'<button class="tab" data-cat="{g}">{GROUP_AR.get(g, g)}'
         f'<small>{len(items)} · {items[0]["voice"]}</small></button>'
-        for cat, items in groups.items())
+        for g, items in sorted(groups.items(),
+                               key=lambda kv: ["current", "redone"].index(kv[0])
+                               if kv[0] in ("current", "redone") else 9))
+    if compare:      # **والمقارنةُ أوّلاً**: قديمٌ فجديدٌ في شاشةٍ واحدة لا في تبويبين
+        tabs = ('<button class="tab" data-cat="*">الكل — للمقارنة'
+                f'<small>{len(data)} ملفاً</small></button>') + tabs
     payload = json.dumps(data, ensure_ascii=False)
     html = """<!doctype html>
 <html lang="ar" dir="rtl"><head><meta charset="utf-8">
@@ -172,14 +231,15 @@ def build(since: float = 0.0, title: str = "") -> Path:
   <button id="clearbad">امسح المردود</button>
   <button id="reset">امسح الأحكام كلَّها</button>
   <span class="grow"></span>
-  <span>الملف يُشغَّل من <code>app/audio</code> — واللوحةُ لا تغيّر شيئاً</span>
+  <span id="whence">الملف يُشغَّل من <code>app/audio</code> — واللوحةُ لا تغيّر شيئاً</span>
 </footer>
 <script>
 const DATA = PAYLOAD;
+const COMPARE = IS_COMPARE;
 const KEY_GOOD = 'panel.good', KEY_BAD = 'panel.bad';
 const good = new Set(JSON.parse(localStorage.getItem(KEY_GOOD) || '[]'));
 const bad = new Set(JSON.parse(localStorage.getItem(KEY_BAD) || '[]'));
-let cat = DATA.length ? DATA[0].cat : '', auto = false, cur = null, curRow = null;
+let cat = COMPARE ? '*' : (DATA.length ? DATA[0].group : ''), auto = false, cur = null, curRow = null;
 
 /** هُويّةُ الحكم — **مفتاحٌ وبصمةُ صوته**: يسقط الحكمُ متى تبدّل الصوت. */
 const idOf = (r) => `${r.key}:${r.v}`;
@@ -192,7 +252,7 @@ const judged = (id) => good.has(id) || bad.has(id);
 
 function visible() {
   const q = $('#q').value.trim();
-  return DATA.filter((r) => r.cat === cat
+  return DATA.filter((r) => (cat === '*' || r.group === cat)
     && (!q || r.text.includes(q))
     && !($('#hideJudged').checked && judged(idOf(r))));
 }
@@ -200,9 +260,10 @@ function visible() {
 function render() {
   const items = visible();
   $('#list').innerHTML = items.map((r) => `
-    <div class="row ${good.has(idOf(r)) ? 'good' : ''} ${bad.has(idOf(r)) ? 'bad' : ''}" data-key="${r.key}">
-      <button class="play" data-key="${r.key}">▶</button>
+    <div class="row ${good.has(idOf(r)) ? 'good' : ''} ${bad.has(idOf(r)) ? 'bad' : ''}" data-rid="${r.rid}">
+      <button class="play" data-rid="${r.rid}">▶</button>
       <div class="t" dir="${r.lang === 'en' ? 'ltr' : 'rtl'}">${r.text}${
+        COMPARE ? `<span class="say">${r.group === 'redone' ? 'المعاد' : 'القائم'}</span>` : ''}${
         r.say ? `<span class="say">أُرسل: ${r.say}</span>` : ''}</div>
       <div class="meta">${r.sec}ث</div>
       <div class="meta">${r.voice} · ${r.model || '—'}${
@@ -218,14 +279,14 @@ function render() {
   $('#bar').style.width = `${Math.round(100 * (good.size + bad.size) / (DATA.length || 1))}%`;
 }
 
-function play(key, then) {
-  const r = DATA.find((x) => x.key === key);
+function play(rid, then) {
+  const r = DATA.find((x) => x.rid === rid);
   if (!r) return;
   if (cur) cur.pause();
   if (curRow) curRow.classList.remove('playing');
-  curRow = document.querySelector(`.row[data-key="${key}"]`);
+  curRow = document.querySelector(`.row[data-rid="${rid}"]`);
   if (curRow) curRow.classList.add('playing');
-  cur = new Audio(`../../app/audio/${key}.mp3`);
+  cur = new Audio(r.src);
   cur.playbackRate = +$('#rate').value;
   cur.onended = () => { if (then) then(); };
   cur.onerror = () => { if (then) then(); };
@@ -235,15 +296,29 @@ function play(key, then) {
 function playFrom(i) {
   const items = visible();
   if (!auto || i >= items.length) { auto = false; $('#auto').textContent = '▶ شغّل بالتتابع'; return; }
-  play(items[i].key, () => setTimeout(() => playFrom(i + 1), 500));
+  play(items[i].rid, () => setTimeout(() => playFrom(i + 1), 500));
 }
 
 /** الأحكامُ أوامرَ جاهزة — المقبولُ يُقيَّد بياناً، والمردودُ يعود إلى الانتظار. */
 function commands() {
   const esc = (s) => s.replace(/"/g, '\\\\"');
-  const okTexts = DATA.filter((r) => good.has(idOf(r)));
-  const badTexts = DATA.filter((r) => bad.has(idOf(r)));
+  const okTexts = DATA.filter((r) => good.has(idOf(r)) && r.group !== 'redone');
+  const badTexts = DATA.filter((r) => bad.has(idOf(r)) && r.group !== 'redone');
+  const okNew = DATA.filter((r) => good.has(idOf(r)) && r.group === 'redone');
+  const badNew = DATA.filter((r) => bad.has(idOf(r)) && r.group === 'redone');
   const lines = ['# ——— حكمُ الأذن (يُنفَّذ من جذر المستودع) ———'];
+  if (okNew.length) {
+    lines.push('', `# قُبِل المعادُ في ${okNew.length} — **وبه وحدَه يُقلَب الفهرسان**:`);
+    lines.push(`python3 tools/generate_audio.py --adopt "${okNew.map((r) => esc(r.text)).join(',')}" --note "لفظ المالك هنا"`);
+    for (const r of okNew) {
+      lines.push(`python3 tools/generate_audio.py --verdict "${esc(r.text)}=قُبِل المعاد بالأذن"`);
+    }
+  }
+  if (badNew.length) {
+    lines.push('', `# رُدَّ المعادُ في ${badNew.length} — **القائمُ يبقى كما هو**، ورميةٌ بتعليمةٍ أخرى:`);
+    lines.push(`# عدّل style_hint في tools/audio_queue.json ثم:`);
+    lines.push(`.venv/bin/python tools/generate_audio.py --restage "${badNew.map((r) => esc(r.text)).join(',')}" --restage-reason "ردُّ الأذن على المعاد"`);
+  }
   if (okTexts.length) {
     lines.push('', `# قُبِل ${okTexts.length}:`);
     for (const r of okTexts) {
@@ -255,7 +330,7 @@ function commands() {
     lines.push(`python3 tools/generate_audio.py --requeue "${badTexts.map((r) => esc(r.text)).join(',')}" --requeue-reason "حكم الأذن"`);
     lines.push('# ثم:  .venv/bin/python tools/generate_audio.py --from-queue');
   }
-  if (okTexts.length + badTexts.length === 0) lines.push('# لا حكمَ بعد.');
+  if (okTexts.length + badTexts.length + okNew.length + badNew.length === 0) lines.push('# لا حكمَ بعد.');
   return lines.join('\\n');
 }
 
@@ -267,7 +342,7 @@ document.addEventListener('click', (e) => {
     document.querySelectorAll('.tab').forEach((b) => b.classList.toggle('on', b === t));
     render(); return;
   }
-  if (t.dataset.key) { auto = false; play(t.dataset.key); return; }
+  if (t.dataset.rid) { auto = false; play(t.dataset.rid); return; }
   if (t.dataset.ok) {
     const k = t.dataset.ok;
     if (good.has(k)) good.delete(k); else { good.add(k); bad.delete(k); }
@@ -310,29 +385,34 @@ $('#hideJudged').addEventListener('change', render);
 $('#rate').addEventListener('change', () => { if (cur) cur.playbackRate = +$('#rate').value; });
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT') return;
-  if (e.code === 'Space' && curRow) { e.preventDefault(); play(curRow.dataset.key); }
+  if (e.code === 'Space' && curRow) { e.preventDefault(); play(curRow.dataset.rid); }
   if ((e.key === 'c' || e.key === 'a') && curRow) {
-    const k = idOf(DATA.find((x) => x.key === curRow.dataset.key));
+    const k = idOf(DATA.find((x) => x.rid === curRow.dataset.rid));
     if (good.has(k)) good.delete(k); else { good.add(k); bad.delete(k); }
     save(); render();
   }
   if (e.key === 'x' && curRow) {
-    const k = idOf(DATA.find((x) => x.key === curRow.dataset.key));
+    const k = idOf(DATA.find((x) => x.rid === curRow.dataset.rid));
     if (bad.has(k)) bad.delete(k); else { bad.add(k); good.delete(k); }
     save(); render();
   }
 });
 document.querySelector('.tab')?.classList.add('on');
+if (COMPARE) {
+  $('#whence').innerHTML = 'القائمُ من <code>app/audio</code> والمعادُ من مجلَّد انتظاره خارج <code>app/</code>'
+    + ' — واللوحةُ لا تغيّر شيئاً، ولا يُقلَب فهرسٌ إلا بأمرِ الاستبدال بلفظك';
+}
 render();
 </script></body></html>"""
     html = (html.replace("TABS", tabs).replace("PAYLOAD", payload)
+            .replace("IS_COMPARE", "true" if compare else "false")
             .replace("TITLE", title or "لوحة فحص الأصوات — اسمع واحكم ملفاً ملفاً"))
     out = PANEL / "index.html"
     out.write_text(html, encoding="utf-8")
     print(f"اللوحة: {out}  ({len(data)} ملفاً في {len(groups)} أقسام)")
     for c, items in groups.items():
         print(f"  · {GROUP_AR.get(c, c)}: {len(items)} — {items[0]['voice']}"
-              f" ({gen.CATEGORY_LANG.get(c, '؟')})")
+              f" ({gen.CATEGORY_LANG.get(items[0]['cat'], '؟')})")
     return out
 
 
@@ -375,13 +455,18 @@ def main() -> int:
     ap.add_argument("--since", default="",
                     help="لا تُدرج إلا ما كُتب بعد هذا الملف الشاهد (أو طابع زمني)")
     ap.add_argument("--title", default="")
+    ap.add_argument("--texts", default="",
+                    help="تصفيةٌ بنصوصٍ بعينها مفصولةً بفاصلة — دفعةٌ تُعرَض وحدَها")
+    ap.add_argument("--stage-dir", default="",
+                    help="ضمُّ المعاد المنتظِر في هذا المجلَّد إلى جوار القائم (قسما مقارنة)")
     ap.add_argument("--port", type=int, default=8110)
     args = ap.parse_args()
     since = 0.0
     if args.since:
         marker = Path(args.since)
         since = marker.stat().st_mtime if marker.exists() else float(args.since)
-    build(since, args.title)
+    texts = tuple(t.strip() for t in args.texts.split(",") if t.strip())
+    build(since, args.title, texts, (gen.ROOT / args.stage_dir) if args.stage_dir else None)
     if args.serve:
         serve(args.port)
     return 0

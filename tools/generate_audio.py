@@ -76,6 +76,7 @@ QUEUE_FILE = ROOT / "tools" / "audio_queue.json"
 VERDICTS = ROOT / "tools" / "audio_verdicts.json"     # ما سمعه المالك وحكم فيه
 APPROVAL_FILE = ROOT / "tools" / "style_approval.json"  # إقرارُ الأذن على التعليمات
 PREV_DIR = ROOT / "scratch" / "prev"                  # سلفُ كل ملفٍ استُبدل — بابُ الرجوع
+STAGE_DIR = ROOT / "scratch" / "ear-pending"           # المعادُ ينتظر أذنَ المالك خارج `app/`
 SPEND_FILE = ROOT / "scratch" / "spend.json"
 TODAY = datetime.date.today().isoformat()
 
@@ -1057,6 +1058,129 @@ def revert_prev(texts: list) -> tuple:
     return back, none
 
 
+# ———— المعادُ ينتظر: توليدٌ **إلى جوار** القائم لا فوقَه (بلاغُ الميدان ٢) ————
+#
+# **العلّةُ التي وُلد منها هذا الباب**: أذنُ الميدان تردّ ملفاً في التطبيق الحيّ، فيُعاد
+# توليدُه بتعليمةٍ جديدة — **ولا يجوز أن يقع الجديدُ في `app/audio/` قبل أن تسمعه أذنُ
+# المالك**: القديمُ المردودُ مسموعٌ معروفُ العيب، والجديدُ **مجهول** حتى يُسمَع، فقلبُ
+# الفهرسَين عليه رهانٌ بأذن طفل. و`--requeue` وحدَه لا يكفي: بابُه يكتب فوق الملفّ
+# القائم ثم يقلب الفهرسَ من تلقائه (وسلفُه في `scratch/prev` بابَ رجوعٍ **بعد** الوقوع).
+#
+# فهذا بابٌ يقف قبله: يولّد بالتعليمة المقيَّدة في المدخل، **ويكتب خارج `app/`**، ولا
+# يمسّ حالةَ القائمة ولا `manifest.json` ولا `versions.json` بحرف. والاستبدالُ بعده
+# **فعلُ يدٍ بلفظ المالك** لا أثرٌ جانبيٌّ لأمرِ توليد.
+
+def staged_name(text: str, digest: str) -> str:
+    """اسمُ المعاد: **مفتاحُ نصّه وبصمةُ بايتاته** — فيقف بجوار سلفه لا فوقه.
+
+    مفتاحُ الملفّ من النصّ وحدَه (`key_for`)، فالمعادُ والقائمُ اسمُهما واحد لو تُرك.
+    وبصمةُ المحتوى في الاسم تفرّقهما، **وهي البصمةُ نفسُها التي تدخل `versions.json`**
+    يومَ يقع الاستبدال — فما تسمعه الأذنُ اليوم هو ما يُنشَر بعينه، بلا توليدٍ ثانٍ.
+    """
+    return f"{key_for(text)}-{digest}.mp3"
+
+
+def mark_staged(text: str, record: dict) -> bool:
+    """يقيّد في المدخل أنّ له معاداً ينتظر أذناً — **معلَّقاً لا مُنفَّذاً**."""
+    def edit(e):
+        e["staged"] = record
+        return True
+    return _merge(text, edit)
+
+
+def restage(pool: KeyPool, texts: list, reason: str, stage_dir: Path = STAGE_DIR,
+            dry_run: bool = False) -> int:
+    """يولّد المعادَ إلى مجلد الانتظار — والفهارسُ الحيّةُ لا تُقلَب ولا الملفُّ يُمَسّ."""
+    queue = {e["text"]: e for e in load_queue()}
+    made = failed = 0
+    for n, text in enumerate(texts, 1):
+        entry = queue.get(text)
+        if entry is None:
+            print(f"  ✗ ليس في القائمة: «{text}»", file=sys.stderr)
+            failed += 1
+            continue
+        cat = entry.get("category", "instruction")
+        model, voice = model_for(entry), voice_for(entry)
+        label = f"[{n}/{len(texts)}] {text} ({CATEGORY_AR.get(cat, cat)}، {short_model(model)}، {voice})"
+        why = gate_reason(text, cat, entry.get("lang", CATEGORY_LANG[cat]))
+        if why:
+            print(f"  ⛔ {label}: {why} — يُحجَز ولا يُطلَب", file=sys.stderr)
+            failed += 1
+            continue
+        if dry_run:
+            print(f"  ⟶ {label} → {stage_dir.relative_to(ROOT)}/  (تجربة جافّة)")
+            continue
+        try:
+            pcm, rate, used_key = pool.call(
+                speech_form(text, cat), style_for(entry), model, voice)
+        except Exception as e:  # noqa: BLE001
+            print(f"  ✗ {label}: [{type(e).__name__}] {e}", file=sys.stderr)
+            failed += 1
+            continue
+        stage_dir.mkdir(parents=True, exist_ok=True)
+        tmp = stage_dir / f".{key_for(text)}.{os.getpid()}.tmp"
+        pcm_to_mp3(pcm, rate, tmp)
+        digest = fingerprint(tmp)
+        path = stage_dir / staged_name(text, digest)
+        os.replace(tmp, path)
+        secs = mp3_duration(path)
+        if used_key in PAID_KEYS:
+            bump_usd(model, secs, len(style_for(entry)) + len(text))
+        live = OUT_DIR / f"{key_for(text)}.mp3"
+        mark_staged(text, {
+            "file": str(path.relative_to(ROOT)), "v": digest, "at": TODAY,
+            "reason": reason, "model": model, "voice": voice, "sec": round(secs, 2),
+            "was": fingerprint(live) if live.exists() else "",
+            "awaiting": "لفظُ المالك — لا يُقلَب الفهرسان قبله",
+        })
+        made += 1
+        print(f"  ✓ {label} → {path.relative_to(ROOT)} "
+              f"{path.stat().st_size // 1024}KB · {secs:.2f}ث · {used_key}")
+    print(f"\nالمعادُ في الانتظار: {made} ملفاً، {failed} إخفاقاً — "
+          f"**الفهارسُ الحيّة لم تُمَسّ** ({stage_dir.relative_to(ROOT)}/).")
+    return failed
+
+
+def adopt_staged(texts: list, note: str) -> tuple:
+    """الاستبدالُ: المعادُ يحلّ محلَّ القائم **ولا يقع إلا بلفظ المالك**.
+
+    وهو الفعلُ الوحيد الذي يقلب الفهرسَين على صوتٍ سمعته الأذن: السلفُ يُحفَظ
+    (`scratch/prev`) فبابُ `--revert` مفتوح، والبصمةُ الجديدةُ تدخل `versions.json`
+    **فيُكسَر كاشُ هذا الملفّ وحدَه** على أجهزة الأطفال. ولفظُ المالك يُقيَّد في
+    `fixHistory` بنصّه: فلا يُقرأ الاستبدالُ يوماً أثراً جانبياً لأمرِ توليد.
+    """
+    disk = load_queue()
+    took, none = [], []
+    for e in disk:
+        if e.get("text") not in texts:
+            continue
+        rec = e.get("staged") or {}
+        src = ROOT / rec.get("file", "")
+        if not rec or not src.exists():
+            none.append(e["text"])
+            continue
+        live = OUT_DIR / f"{key_for(e['text'])}.mp3"
+        archive_prev(live)
+        OUT_DIR.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, live)
+        e.setdefault("fixHistory", []).append(
+            {"was": e.get("model", ""), "voice": e.get("voice", ""),
+             "doneAt": e.get("doneAt"), "reason": rec.get("reason", ""),
+             "adoptedAt": TODAY, "note": note, "v": rec.get("v", ""),
+             "wasV": rec.get("was", "")})
+        e.update(model=rec.get("model", e.get("model", "")),
+                 voice=rec.get("voice", e.get("voice", "")), doneAt=TODAY)
+        e.pop("staged", None)
+        took.append(e["text"])
+    if took:
+        save_queue(disk)
+        write_manifest(manifest_map())
+    for t in texts:
+        if t not in took and t not in none:
+            none.append(t)
+    return took, none
+
+
 # ————————————— أحكامُ الأذن: تُقيَّد بياناً فلا يتكرّر السؤال —————————————
 
 def load_verdicts() -> dict:
@@ -1467,6 +1591,16 @@ def self_test() -> int:
        "والبصمةُ أولُ ٨ خاناتٍ من sha1 **البايتات** لا النصّ")
     tmp.unlink()
 
+    print("\n— المعادُ ينتظر: اسمُه بصمتُه، فيقف بجوار القائم لا فوقه —")
+    ok(staged_name("/l/", "abc12345") == f"{key_for('/l/')}-abc12345.mp3"
+       and staged_name("/l/", "abc12345") != f"{key_for('/l/')}.mp3",
+       "اسمُ المعاد = مفتاحُ النصّ + بصمةُ بايتاته — لا يزاحم اسمَ الملفّ الحيّ")
+    ok(staged_name("/l/", "aaaaaaaa") != staged_name("/l/", "bbbbbbbb"),
+       "ورميتان لنصٍّ واحدٍ لا تكتب إحداهما فوق الأخرى")
+    ok(STAGE_DIR.parent.name == "scratch" and OUT_DIR not in STAGE_DIR.parents
+       and STAGE_DIR != OUT_DIR,
+       "ومجلَّدُ الانتظار **خارج `app/`** — فلا يراه فهرسٌ ولا عاملُ خدمة")
+
     print("\n— شواذُّ المدة: تُقاس داخل الفئة لا عبر الفئات —")
     ok(DURATION_FLOOR == 4 and DURATION_RATIO > 1 > DURATION_SHORT,
        "الحدودُ معقولةٌ: أرضيةٌ للوسيط، وسقفٌ للتكرار، وقاعٌ للبتر")
@@ -1572,6 +1706,13 @@ def main() -> int:
     ap.add_argument("--requeue", metavar="TEXTS", help="إعادةُ نصوصٍ إلى الانتظار بأولوية ١٠")
     ap.add_argument("--requeue-reason", default="عيب مسموع")
     ap.add_argument("--revert", metavar="TEXTS", help="ردُّ نصوصٍ إلى سلفها في scratch/prev")
+    ap.add_argument("--restage", metavar="TEXTS",
+                    help="توليدُ معادٍ إلى مجلد الانتظار — بجوار القائم، بلا قلبِ فهرس")
+    ap.add_argument("--restage-reason", default="حكم ميدان")
+    ap.add_argument("--adopt", metavar="TEXTS",
+                    help="استبدالُ القائم بالمعاد المنتظِر — **بلفظ المالك في `--note`**")
+    ap.add_argument("--stage-dir", default=str(STAGE_DIR.relative_to(ROOT)),
+                    help="مجلَّدُ انتظار المعاد (افتراضي: scratch/ear-pending)")
     ap.add_argument("--verdict", metavar="نص=الحكم",
                     help="تقييدُ حكم الأذن على نصّ (فلا يتكرّر السؤال ولا يُنسى الجواب)")
     ap.add_argument("--approve-style", metavar="ar|en|phoneme",
@@ -1613,6 +1754,37 @@ def main() -> int:
         for t in none:
             print(f"  ✗ لا سلفَ محفوظ لـ«{t}»", file=sys.stderr)
         return 0 if back else 1
+
+    if args.adopt:
+        wanted = [t.strip() for t in args.adopt.split(",") if t.strip()]
+        # **واللفظُ شرطُ بنيةٍ لا زينة**: قلبُ الفهرسَين على صوتٍ لم يُسمَع رهانٌ بأذن
+        # طفل — فلا يقع إلا ومعه لفظُ من سمع، مقيَّداً في السجلّ.
+        if not args.note:
+            sys.exit("الاستبدال لا يقع إلا بلفظ المالك: --adopt \"…\" --note \"لفظه\"")
+        took, none = adopt_staged(wanted, args.note)
+        print(f"استُبدل {len(took)} ملفاً بالمعاد المقبول ({args.note}).")
+        for t in none:
+            print(f"  ✗ لا معادَ منتظِرٌ لـ«{t}»", file=sys.stderr)
+        return 0 if took and not none else 1
+
+    if args.restage:
+        wanted = [t.strip() for t in args.restage.split(",") if t.strip()]
+        # **وبابُ الإقرار قائمٌ هنا كما هو في البنك**: تعليمةُ المدخل زيادةٌ على هُويّة
+        # القناة لا بديلٌ عنها (`style_for`) — فما لم تُقَرّ الهُويّةُ لا يُولَّد بها حرف.
+        lacking = unapproved_langs()
+        if lacking and not args.dry_run:
+            sys.exit("لم تُقَرّ تعليمةُ: " + "، ".join(lacking))
+        keys = read_keys()
+        if not keys and not args.dry_run:
+            sys.exit("التوليد يحتاج رافداً أو GEMINI_API_KEY في البيئة أو في .env")
+        if not encoder_name() and not args.dry_run:
+            sys.exit(NO_ENCODER)
+        set_rpm(args.rpm)
+        stage = ROOT / args.stage_dir
+        print(f"معادٌ إلى الانتظار: {len(wanted)} نصاً → {args.stage_dir}/ "
+              f"· روافد: {'، '.join(n for n, _v in keys) or 'لا شيء'}")
+        return 1 if restage(KeyPool(keys), wanted, args.restage_reason, stage,
+                            args.dry_run) else 0
 
     queue = load_queue()
     done, pending = expected_texts()

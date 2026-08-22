@@ -2524,12 +2524,13 @@
   {
     "text": "morning",
     "lang": "en",
-    "voice": "",
+    "voice": "Leda",
     "category": "word",
     "requestedBy": "session-th",
     "priority": 60,
-    "status": "pending",
-    "doneAt": null
+    "status": "done",
+    "doneAt": "2026-08-22",
+    "model": "gemini-3.1-flash-tts-preview"
   },
   {
     "text": "mouse",
