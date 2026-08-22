@@ -2522,6 +2522,16 @@
     "model": "gemini-3.1-flash-tts-preview"
   },
   {
+    "text": "morning",
+    "lang": "en",
+    "voice": "",
+    "category": "word",
+    "requestedBy": "session-th",
+    "priority": 60,
+    "status": "pending",
+    "doneAt": null
+  },
+  {
     "text": "mouse",
     "lang": "en",
     "voice": "Leda",

@@ -293,7 +293,7 @@ export const WORDS = [
   // س١-٦ الأعداد سمعاً — كميةٌ تُعَدّ لا رقمٌ يُقرأ
   { w: 'one', field: 'numbers', at: 's1-6', sounds: ['w', 'u', 'n'], count: 1 },
   { w: 'two', field: 'numbers', at: 's1-6', sounds: ['t', 'oo'], count: 2 },
-  { w: 'three', field: 'numbers', at: 's1-6', sounds: ['th', 'r', 'ee'], count: 3 },
+  { w: 'three', field: 'numbers', at: 's1-6', count: 3 },
   { w: 'four', field: 'numbers', at: 's1-6', sounds: ['f', 'or'], count: 4 },
   { w: 'five', field: 'numbers', at: 's1-6', count: 5 },
   { w: 'six', field: 'numbers', at: 's1-6', count: 6 },
@@ -336,7 +336,7 @@ export const WORDS = [
   // ونسبُها محفوظٌ في `RESOLVED` أدناه.
   // و`order` أمرُها المنطوق حيث يفارق قالبَ محطته (أدناه): الفعلُ يُؤمَر به مجرَّداً
   // («jump»)، وعضوُ الجسد يُؤمَر بلمسه («touch your arm») — والابتسامةُ فعلٌ فتُجرَّد.
-  { w: 'arm', field: 'body', at: 's2-3', sounds: ['ar', 'm'], pictured: 'act', order: 'point to your arm' },
+  { w: 'arm', field: 'body', at: 's2-3', pictured: 'act', order: 'point to your arm' },
   { w: 'face', field: 'body', at: 's2-3', sounds: ['f', 'ai', 's'], pictured: 'act', order: 'point to your face' },
   { w: 'smile', field: 'body', at: 's2-3', sounds: ['s', 'm', 'igh', 'l'], pictured: 'act' },
   // س٢-٤ الأمرُ المركّب — الصفةُ تُميَّز في مشهدٍ من شيئين
@@ -375,12 +375,12 @@ export const WORDS = [
   { w: 'bed', field: 'home', at: 's5-3', face: '🛏️' },
   { w: 'chair', field: 'home', at: 's5-3', face: '🪑' },
   { w: 'door', field: 'home', at: 's5-3', sounds: ['d', 'or'], face: '🚪' },
-  { w: 'window', field: 'home', at: 's5-3', sounds: ['w', 'i', 'n', 'd', 'oa'], face: '🪟' },
+  { w: 'window', field: 'home', at: 's5-3', face: '🪟' },
   { w: 'clock', field: 'home', at: 's5-3', sounds: ['k', 'l', 'o', 'k'], face: '🕰️' },
   { w: 'lamp', field: 'home', at: 's5-3', sounds: ['l', 'a', 'm', 'p'], face: '💡' },
   { w: 'mirror', field: 'home', at: 's5-3', sounds: ['m', 'i', 'r', 'er'], face: '🪞' },
   { w: 'sofa', field: 'home', at: 's5-3', soundless: 'شوا في مقطعها الأخير (/ˈsoʊfə/)', face: '🛋️' },
-  { w: 'bath', field: 'home', at: 's5-3', sounds: ['b', 'a', 'th'], face: '🛁' },
+  { w: 'bath', field: 'home', at: 's5-3', face: '🛁' },
   { w: 'box', field: 'home', at: 's5-3', face: '📦' },
   { w: 'phone', field: 'home', at: 's5-3', face: '📱' },
   { w: 'saw', field: 'home', at: 's5-3', face: '🪚' },
@@ -389,7 +389,7 @@ export const WORDS = [
   { w: 'flower', field: 'places', at: 's5-4', face: '🌸' },
   { w: 'sun', field: 'places', at: 's5-4', face: '☀️' },
   { w: 'sea', field: 'places', at: 's5-4', face: '🌊' },
-  { w: 'beach', field: 'places', at: 's5-4', sounds: ['b', 'ee', 'ch'], face: '🏖️' },
+  { w: 'beach', field: 'places', at: 's5-4', face: '🏖️' },
   { w: 'shell', field: 'places', at: 's5-4', face: '🐚' },
   { w: 'street', field: 'places', at: 's5-4', sounds: ['s', 't', 'r', 'ee', 't'], face: '🛣️' },
   { w: 'house', field: 'places', at: 's5-4', sounds: ['h', 'ow', 's'], face: '🏠' },
@@ -397,6 +397,13 @@ export const WORDS = [
   // `night` مدخلٌ في Starters يحمل `igh`، و`rain` من الميزانية تحمل `ai`
   { w: 'night', field: 'places', at: 's5-4', face: '🌃' },
   { w: 'rain', field: 'places', at: 's5-4', face: '🌧️' },
+  // **و`morning` مدخلُ Starters الذي يحمل `or`** (دَينُ المحتوى المسمّى في حكم
+  // مراجعة الجلسة ت): وقتُ يومٍ كأختها `night` وفي حقلها نفسِه — و«🌄» شمسٌ
+  // تطلع على أفقٍ جبليّ: **مطلعُ النهار مرسوماً**، تقابل ليلَ `night` ولا تلتبس
+  // بـ`sun` (قرصٌ وحدَه) ولا بـ`sea`/`beach` (فلا ماءَ فيها ولا شاطئ). **وحدُّها
+  // معلَنٌ**: الصباحُ وقتٌ والصورةُ مشهدُ مطلعِه — وهو صنفُ `night` (🌃) و`grandma`
+  // (👵) المُقَرّ: أصدقُ ما يُرسَم للمعنى، لا معنىً قريبٌ لكلمةٍ أخرى عندنا.
+  { w: 'morning', field: 'places', at: 's5-4', face: '🌄' },
   // س٥-٥ أفعالُ اليوم
   { w: 'eat', field: 'verbs', at: 's5-5', face: '🍽️' },
   { w: 'drink', field: 'verbs', at: 's5-5', sounds: ['d', 'r', 'i', 'ng', 'k'], face: '🥤' },
@@ -483,8 +490,10 @@ export const SHOWCASE_SYMBOLS = [
   { id: 'au', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: مثالُ L&S نفسِه اسمُ عَلَم (Paul)، و`sausage` مدخلُ Starters الوحيد وشواها في مقطعها الثاني' },
   { id: 'e-e', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: أندرُ المفصولات، ومداخلُها في Starters (these) كلماتُ وظيفةٍ لا تُصوَّر' },
   { id: 'u-e', why: 'رمزُ عرضٍ — مادتُه في المستوى الثاني: rule · cute · tube ليست من مداخل Starters، ولا صورةَ صادقة لواحدةٍ منها في حقولنا' },
-  // (حكمُ مراجعة الجلسة ت — بعد ردِّ `horse` إلى الإعلان الصوتيّ وحدَه:)
-  { id: 'or', why: 'رمزُ عرضٍ — مادتُه مجدولة: `horse` هاؤها الصامتة لا رمزَ لها فرسمُها من رموزها يكذب (تبقى تُعلن أصواتَها سمعاً)، و`morning` مدخلٌ يُفكّ بسلّمنا وإدخالُه بندُ محتوىً يُجدوَل ولا يُزاحِم' },
+  // **و`or` خرج من القيد** (الجلسة ث — سدادُ الدَّين المسمّى في حكم مراجعة الجلسة ت):
+  // قُيّد يومَ رُدَّت `horse` إلى الإعلان الصوتيّ (هاؤها الصامتة بلا رمز)، **وسدَّته
+  // `morning`** — مدخلُ Starters الذي رسمُه من رموزه رسمُه (‏m or n i ng)، بصورةٍ
+  // صادقة في س٥-٤ ومحطةٍ سمعيةٍ قبل ح١٠. فلا قيدَ يشيخ بعد زوال علّته.
 ];
 
 /**
@@ -498,19 +507,23 @@ export const SHOWCASE_SYMBOLS = [
 export const THIN_SOUNDS = [
   { id: 'j', why: '‏`jump` وحدَها — ومداخلُ Starters الأخرى في بابها (jacket · jeans · juice) رسومُها لا تُفكّ بسلّمنا' },
   { id: 'v', why: '‏`five` وحدَها — و`very` مدخلُ Starters الوحيد في باب V ولا صورةَ صادقة له (علّةُ زوج f/v نفسُها)' },
-  { id: 'w', why: '‏`swim` و`white` — و`window` رسمُها ينتهي بنطقٍ بديلٍ لا يُفتَح قبل ح١٦' },
+  // (‏`w` خرج من القيد في الجلسة ث: `window` دخلت عند ح١٦ — حيث يُفتَح نطقُ `ow`
+  // البديل — فصار لـ/w/ ثلاثُ كلمات: swim · white · window.)
   { id: 'y', why: '‏`yam` و`yellow` — وبقيةُ باب Y في Starters (yes · your · young) بلا صورةٍ صادقة' },
   { id: 'z', why: 'صفرٌ — وهي علّةُ رمزَي `z` و`zz` نفسُها في قيد العرض أعلاه' },
   { id: 'kw', why: 'صفرٌ — وهي علّةُ رمز `qu` نفسُها في قيد العرض أعلاه' },
-  { id: 'ch', why: '‏`chair` وحدَها — و`beach` رسمُ صائتها `ea` (ح١٤ لا ح٨)، و`chicken`/`chips` ليستا في الرصيد المصوَّر' },
-  { id: 'th', why: '‏`mouth` وحدَها — و`bath` و`three` مدخلان مصوَّران يُفكّان بسلّمنا، وإدخالُهما بندُ محتوىً يُجدوَل ولا يُزاحِم' },
-  { id: 'ng', why: '‏`song` وحدَها — و`pink`/`drink` نونُهما مرسومةٌ `n` لا `ng`، فلبناتُ دمجها تخالف رسمَها' },
+  { id: 'ch', why: '‏`chair` و`beach` (دخلت عند ح١٤ حيث يُفتَح رسمُ صائتها `ea` لا ح٨) — و`chicken` عينُها شوا في مقطعها الأخير فرسمُها يكذب، و`chips` مدخلٌ لم يدخل الرصيدَ المصوَّر بعد: ثالثتُه مرشَّحةٌ لدَينِ محتوىً تالٍ لا لهذه السبع' },
+  // (‏`th` خرج من القيد في الجلسة ث: `bath` عند ح٨ و`three` عند ح١٣ — ومطلعُ
+  // `three` عنقودٌ (‏th+r) فموضعُها درجةُ العناقيد — فصارت ثلاثاً مع `mouth`.)
+  { id: 'ng', why: '‏`song` و`morning` — و`pink`/`drink` نونُهما مرسومةٌ `n` لا `ng` فلبناتُ دمجها تخالف رسمَها، وبقيةُ بابه في Starters إمّا صيغةُ `-ing` لفعلٍ لا صورةَ مفردةَ له (‏fishing · painting · drawing) وإمّا رسمُها يكذب على سلّمنا (‏young · mango · angry — فيها /g/ لا رمزَ له أو صائتٌ غيرُ رمزه)' },
   { id: 'oo-book', why: '‏`book` و`foot` — والرسمُ نفسُه لصوتين (نصُّ L&S ص٧٤)، فما زاد منه ذهب إلى أخيه' },
-  { id: 'ar', why: '‏`car` وحدَها — و`arm` مصوَّرةٌ حركةً تُفكّ بسلّمنا، وإدخالُها بندُ محتوىً يُجدوَل' },
-  { id: 'or', why: '‏`saw` وحدَها — و`horse` رُدَّت إلى الإعلان الصوتيّ (هاؤها الصامتة بلا رمز)، و`ball`/`door`/`four`/`walk` رسومُ صوائتها (‏a · oor · our · al) ليست في السلّم، و`morning` بندُ المحتوى المجدوَل' },
+  { id: 'ar', why: '‏`car` و`arm` (مصوَّرةٌ حركةً في س٢-٣ ودخلت ح١٠) — و`park` مرفوعةٌ لالتباس صورتها، و`garden`/`armchair` لا صورةَ صادقةً مفردةً لهما (والأولى شوا في مقطعها الأخير)، و`carrot`/`lizard` ألفُهما ليست /ɑr/' },
+  { id: 'or', why: '‏`saw` و`morning` — و`horse` رُدَّت إلى الإعلان الصوتيّ (هاؤها الصامتة بلا رمز)، و`ball`/`door`/`four`/`walk` رسومُ صوائتها (‏a · oor · our · al) ليست في السلّم' },
   { id: 'oi', why: '‏`point` و`boy` — ومداخلُ Starters الأخرى في بابه لا صورةَ مفردةً صادقة لها' },
-  // (حكمُ مراجعة الجلسة ت — عاد `/h/` دون الثلاث بردِّ `horse`:)
-  { id: 'h', why: '‏`hat` و`hand` — و`horse`/`house` هاؤهما الصامتة بلا رمزٍ فرسمُهما من رموزهما يكذب، و`home` (‏h·o-e·m) مدخلٌ مصوَّرٌ يُفكّ بسلّمنا وإدخالُه بندُ محتوىً يُجدوَل ولا يُزاحِم' },
+  // (حكمُ مراجعة الجلسة ت — عاد `/h/` دون الثلاث بردِّ `horse`؛ **والجلسة ث حاولت
+  // `home` فردَّتها الصورةُ لا الرسم**: رسمُها يُفكّ بسلّمنا تماماً وصورتُها بيتٌ
+  // مرسوم — وهي صورةُ `house` بعينها. فرُفعت في `RAISED` كسُنّة `very`.)
+  { id: 'h', why: '‏`hat` و`hand` — و`horse`/`house` هاؤهما الصامتة بلا رمزٍ فرسمُهما من رموزهما يكذب، و`home` رسمُها يُفكّ (‏h·o-e·m) ولا صورةَ صادقة تفرّقها عن `house` فرُفعت (`RAISED`)' },
   { id: 'ear', why: '‏`ear` و`beard` — و`bear`/`pear` رسمُهما `ear` ونطقُهما `air`، فدخولُهما كذبٌ على الرمز' },
   { id: 'air', why: '‏`chair` وحدَها — و`hair` مرفوعةٌ لانعدام الصورة الصادقة (`RAISED`)' },
   { id: 'ure', why: 'صفرٌ — وهو الصوتُ الذي سمّاه التدقيق بصفرٍ (ب-٣)، وعلّتُه علّةُ رمز `ure` في قيد العرض' },
@@ -543,6 +556,11 @@ export const RAISED = [
   { w: 'zoo', field: 'animals', why: 'لا رمزَ لحديقة حيوان — وأيُّ حيوانٍ يُرسَم يصير اسمَه هو' },
   { w: 'park', field: 'places', why: '«🏞» منظرٌ طبيعيّ يلتبس بـ tree وsea معاً' },
   { w: 'sand', field: 'places', why: '«🏖» شاطئٌ (beach) وهو مدخلٌ آخر' },
+  // **و`home` رُفعت في الجلسة ث** — وهي أوّلُ مرفوعةٍ رسمُها يُفكّ بسلّمنا تماماً
+  // (‏h · منفلقُ o-e · m عند ح١٥) وكانت ستكون ثالثةَ /h/: **الصورةُ ردَّتها لا
+  // الرسم**. وهي سُنّةُ `very` نفسُها (الجلسة ت): شرطُ الصورة الصادقة أصلٌ، وحاجةُ
+  // صوتٍ إلى مادّةٍ فرعٌ عنه — فلا يُتكلَّف للصوت صورةٌ تكذب.
+  { w: 'home', field: 'places', why: '«🏠» بيتٌ مرسوم — وهو صورةُ house بعينها، مدخلٌ آخر في القائمة؛ والفرقُ بين المسكن والبناء معنىً لا يُرسَم' },
 ];
 
 /**
@@ -732,6 +750,9 @@ export const GRADES = [
       { w: 'shell', gpc: ['sh', 'e', 'll'], listen: 'word|shell|listen-pick' },
       // **ومادّةُ `ng`** (حسمُ أ-٢): كان يُدرَّس ولا يُقرأ في شيء
       { w: 'song', gpc: ['s', 'o', 'ng'], listen: 'word|song|listen-pick' },
+      // **وثانيةُ /th/** (دَينُ المحتوى، الجلسة ث): مدخلٌ مصوَّرٌ في س٥-٣ كان يُعلن
+      // أصواتَه ولا يدخل السلّم — ورسمُه `b a th` يُفكّ ههنا بلا عنقود.
+      { w: 'bath', gpc: ['b', 'a', 'th'], listen: 'word|bath|listen-pick' },
     ],
   },
   {
@@ -761,6 +782,13 @@ export const GRADES = [
       { w: 'car', gpc: ['c', 'ar'], listen: 'word|car|listen-pick' },
       { w: 'book', gpc: ['b', 'oo-book', 'k'], listen: 'word|book|listen-pick' },
       { w: 'foot', gpc: ['f', 'oo-book', 't'], listen: 'word|foot|listen-pick' },
+      // **وثانيةُ `ar`** (دَينُ المحتوى، الجلسة ث): مدخلٌ مصوَّرٌ **حركةً** في س٢-٣
+      // (‏«point to your arm») — ومصداقُ فكِّه وضعٌ مرسوم كأخواته من أفعال س٢.
+      { w: 'arm', gpc: ['ar', 'm'], listen: 'word|arm|tpr-do' },
+      // **ومادّةُ `or`** (دَينُ المحتوى المسمّى في حكم مراجعة الجلسة ت): كان الرمزُ
+      // في قيد العرض بعد ردِّ `horse` — و`morning` مدخلٌ **رسمُه من رموزه رسمُه**
+      // (‏m or n i ng)، فرُفع القيدُ وصارت له مادّةٌ تُقرأ.
+      { w: 'morning', gpc: ['m', 'or', 'n', 'i', 'ng'], listen: 'word|morning|listen-pick' },
     ],
   },
   {
@@ -823,6 +851,9 @@ export const GRADES = [
       // **ومادّةُ `ss` و`oi`** (حسمُ أ-٢): كلتاهما عنقوديةٌ فموضعُها ح١٣ لا درجةُ رمزها
       { w: 'dress', gpc: ['d', 'r', 'e', 'ss'], listen: 'word|dress|listen-pick' },
       { w: 'point', gpc: ['p', 'oi', 'n', 't'], listen: 'verb|point|listen-pick' },
+      // **وثالثةُ /th/** (دَينُ المحتوى، الجلسة ث): مطلعُها `th`+`r` **عنقودٌ**،
+      // فموضعُها ههنا لا ح٩ — درجتُها من رموزها لا من رمزها الأعلى وحدَه.
+      { w: 'three', gpc: ['th', 'r', 'ee'], listen: 'word|three|listen-pick' },
     ],
   },
   {
@@ -847,6 +878,9 @@ export const GRADES = [
       { w: 'crayon', gpc: ['c', 'r', 'ay', 'o', 'n'], listen: 'word|crayon|listen-pick' },
       { w: 'pie', gpc: ['p', 'ie'], listen: 'word|pie|listen-pick' },
       { w: 'saw', gpc: ['s', 'aw'], listen: 'word|saw|listen-pick' },
+      // **وثانيةُ /ch/** (دَينُ المحتوى، الجلسة ث): رسمُ صائتها `ea` لا `ee`
+      // (فـ«beech» غيرُها) — فدرجتُها ح١٤ حيث يُفتَح `ea`، لا ح٨ حيث `ch`.
+      { w: 'beach', gpc: ['b', 'ea', 'ch'], listen: 'word|beach|listen-pick' },
     ],
   },
   {
@@ -895,6 +929,10 @@ export const GRADES = [
       { w: 'bread', gpc: ['b', 'r', 'ea-alt', 'd'], listen: 'word|bread|listen-pick' },
       { w: 'school', gpc: ['s', 'ch-alt', 'oo', 'l'], listen: 'word|school|listen-pick' },
       { w: 'family', gpc: ['f', 'a', 'm', 'i', 'l', 'y-alt'], listen: 'word|family|listen-pick' },
+      // **وثالثةُ /w/** (دَينُ المحتوى، الجلسة ث): واوُها الأخيرة `ow` بنطقها
+      // **البديل** (‏/oa/ كـ`yellow` لا /ow/ كـ`cow`) — فدرجتُها ههنا لا ح٦ حيث
+      // يُفتَح `w` وحدَه: رسمُها من رموزها هو رسمُها، وبه تُعرَف درجتُها.
+      { w: 'window', gpc: ['w', 'i', 'n', 'd', 'ow-alt'], listen: 'word|window|listen-pick' },
     ],
   },
 ];
