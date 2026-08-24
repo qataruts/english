@@ -317,15 +317,23 @@ export function sessionItems(due, size = sessionSize(), rnd = chance, fillers = 
   });
 }
 
-export function renderReview() {
+/**
+ * **شاشةُ مراجعةٍ — ومادّتُها تُمرَّر لمن أرادها بعينها** (جلسةُ الإسعاف م):
+ * «مراجعةُ اليوم» تأخذ الافتراضَ (مستحقُّ الطفل وبِكرُه)، **وجلسةُ الإنضاج** تمرّر
+ * مفاتيحَ عقدةٍ تنتظر نضجَ مادّتها — فالمحرّكُ والحكمُ والتسجيلُ في ليتنر واحدٌ لا
+ * يُنسَخ: **لا مسارَ قياسٍ موازياً** (عهدُ `review.js` في رأسه)، وإنما حوضٌ آخر.
+ */
+export function renderReview({
+  make = () => sessionItems(progress.todaySkills()),
+  pill = 'مراجعة اليوم',
+} = {}) {
   // **ومادّةُ اليوم مستحقٌّ وبِكر** (`progress.todaySkills` — حارسُ الوعد، الجلسة ٧):
   // المستحقُّ الأضعفُ أولاً، ثم مفتاحٌ فُتحت محطتُه ولم يُقَس بعدُ (مفاتيحُ القراءة
   // التي منعها قيدُ الاقتران يومَ محطتها) — فلا يبقى في المنهج مفتاحٌ لا يُسأل عنه.
-  const make = () => sessionItems(progress.todaySkills());
 
   return renderSession({
     make,
-    pill: 'مراجعة اليوم',
+    pill,
     leaveAsk: 'تريد الخروج قبل إتمام المراجعة؟',
     verdict: ({ right, errors, items }) => {
       progress.markReview(right + errors, right);

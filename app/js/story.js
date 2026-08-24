@@ -21,22 +21,26 @@
 // **ويبقى القلبُ وحدَه** — لأنّه تحذيرٌ يحتاجه الطفلُ وهو يقرأ: «هذه لا تُفكّ».
 
 import * as progress from './progress.js';
-import { registerScreen } from './registry.js';
+import { registerScreen, registerRipening } from './registry.js';
 import {
   stations, readableAt, readableTrickyAt, markedTricky, symbolById, isTouchable, WORDS,
+  pendingListenOf,
 } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
 import {
   say, sayEn, praiseThen, missedThen, seeder, skillOf, stationById,
   registerExercise, stationScreen, usedOf,
 } from './station.js';
-import { h, pick, shuffle, seeded, pop, STORY_ACCENT, roundSeed } from './ui.js';
+import { h, pick, shuffle, seeded, pop, toast, chance, STORY_ACCENT, roundSeed } from './ui.js';
+/* **جلسةُ الإنضاج تركب محرّكَ المراجعة نفسَه** (جلسةُ الإسعاف م — بلاغُ الميدان ٣):
+   لا محرّكَ ثانياً ولا تسجيلَ ثانياً في ليتنر، وإنما حوضٌ آخر يُمرَّر. */
+import { renderReview, sessionItems } from './review.js';
 /* **سعةُ حوض الخيارات تُقرأ من مخزن المقابض عند بناء كل جولة** (وضعُ الدعم — الجلسة
    ب: «حوضٌ أضيق»)، ومطفأً تردّ الثلاثةَ القائمة حرفاً. **ولا ثابتَ حوضٍ في وحدةِ
    تمارين**: مقبضٌ تنساه وحدةٌ واحدة يكذب على وليّ الأمر في تمرينٍ من ستّة —
    يجرده `tools/test_support.mjs` على الوحدات كلِّها. **وتُقرأ عند بناء الجولة لا عند
    تحميل الوحدة**، فتقع مسطرةُ الامتحان الواحدة (`duringExam`) على ما يُبنى داخلها. */
-import { optionCount } from './support.js';
+import { optionCount, sessionSize } from './support.js';
 
 /** أنواعُ الشاشات التي تملكها هذه الوحدة (يقابلها `STATIONS` في `test_measure.mjs`). */
 const TYPES = new Set(['story']);
@@ -259,7 +263,8 @@ function pageView(round, hooks) {
 
 registerScreen('story', (part) => {
   const station = stationById(`story:${part}`);
-  if (!station || !buildStation(station.id, 1)) return null;
+  if (!station) return null;
+  if (!buildStation(station.id, 1)) return ripenScreen(station);
   return stationScreen({
     nodeId: station.id,
     title: station.title,
@@ -269,6 +274,85 @@ registerScreen('story', (part) => {
     score,
     save: (stars) => progress.setStars(station.id, stars),
   });
+});
+
+// ————— **الإنضاج: لمسةٌ تعمل أبداً** (جلسةُ الإسعاف م — بلاغُ الميدان ٣) —————
+//
+// **العلّةُ سباقُ جبهةٍ لا عطلُ عدّة**: العقدُ تُفتح بالنجوم، والطفلُ السريع يبلغ
+// القصةَ قبل أن يُتمّ ليتنر إنضاجَ كلماتها (الإتقانُ ثلاثُ إصاباتٍ متباعدات) — فتردّ
+// `buildStation` بحكم **قيد الاقتران** `null`، وكانت الشاشةُ تردّ `null` معها فترجع
+// اللمسةُ إلى الخريطة **صامتة**. وذاك عينُ ما ينقضه مرسومُ المالك النافذ عند اكتب:
+// «**المضيُّ دائماً — لا خطوةَ تحبس طفلاً**».
+//
+// **ولا يُلَان قيدُ الاقتران بحرف**: لا كلمةَ تُقرأ قبل نضجها — ولا تُنقَص كلمةٌ من
+// النصّ ولا تُبدَّل. وإنما تُفتَح **جلسةُ إنضاج**: جولاتٌ من عدّة المراجعة القائمة
+// تقيس **مفاتيحَ كلماتِ هذه القصة غيرِ الناضجة بأعيانها** — فيمضي الطفلُ في اللحظة،
+// وتنفتح القصةُ بيده هو لا بانتظارٍ أعمى.
+
+/**
+ * **حوضُ الإنضاج: مفاتيحُ السمع التي تنتظرها هذه القصة**.
+ *
+ * **ويُستخرَج كما يستخرجه `lineSpecs`** بلا مسارٍ ثانٍ: `pendingListenOf` يعلن
+ * مفاتيحَ **كلمات نصّها** كما يملكها المنهج (`words[].listen` و`HEART_WORDS[].listen`
+ * — لا مطابقةَ رسمٍ ولا اشتقاق)، وما لم يبلغ منها صندوقَ الإتقان **هو بعينه** ما
+ * أسقط السطرَ: `readableAt` ليست إلا `wordsUpTo` مصفّاةً بـ`isMastered`.
+ * **والوظيفةُ الصرفةُ خارجَه** بعلّتها المكتوبة (لا مفتاحَ سمعيّ لها، `METHOD.md §٦`).
+ */
+export const ripeningKeys = (stationId, isMastered = progress.isMastered) =>
+  pendingListenOf(stationId).filter((key) => !isMastered(key));
+
+/**
+ * **تمارينُ جلسة الإنضاج** — من عدّة المراجعة القائمة (`sessionItems`) — وحوضُ
+ * التنويع **فارغٌ عمداً** (كما تفعل بوابةُ اللحاق): لا يُملأ الفراغُ بمادّةٍ من خارج
+ * ما ينتظره البابُ، فتُصرَف الجلسةُ إلى ما يفتحه.
+ *
+ * **وتُطلَب بمداها هي** (`fresh`): معناها في `itemFor` «بمداه هو أو لا يُبنى» — فلا
+ * يُقبَل بديلٌ يقيس مفتاحاً آخر ويبقى مفتاحُ البابِ حيث كان (درسُ حارس الوعد).
+ * **والتسجيلُ بليتنر نفسِه** يقع في محرّك الجلسة (`renderSession`) لا هنا.
+ */
+export function ripenItems(stationId, rnd = chance) {
+  const keys = ripeningKeys(stationId);
+  if (!keys.length) return [];
+  const known = new Map(progress.skills().map((skill) => [skill.key, skill]));
+  const due = keys
+    .map((key) => ({
+      box: 0, right: 0, wrong: 0, ...(known.get(key) || {}),
+      ...progress.parseSkillKey(key), fresh: true,
+    }))
+    .sort((a, b) => a.box - b.box || b.wrong - a.wrong);
+  return sessionItems(due, sessionSize(), rnd, []);
+}
+
+/** نصُّ شارة الجلسة — **للوالد يقرأ فوق الشاشة**، ولا فعلَ يلزم الطفلَ به. */
+const RIPEN_PILL = 'تنضج كلماتُ القصة';
+
+/**
+ * **شاشةُ الإنضاج**: جلسةُ مراجعةٍ حوضُها مفاتيحُ هذه القصة — **وثلاثُ درجاتٍ لا
+ * واحدة**، فلا لمسةَ ترجع صامتةً بحال:
+ *   ١) مفاتيحُ القصة إن بُنيت منها جولةٌ · ٢) وإلا **جلسةُ المراجعة العادية** —
+ *   فالطفلُ يمضي ولو كان بابُه ينتظر مادّةً لا يبنيها اليوم شيء ·
+ *   ٣) وإن خلت اليدُ من الاثنتين: **قولٌ وردٌّ إلى الخريطة** لا صمت.
+ */
+function ripenScreen(station) {
+  const make = () => {
+    const mine = ripenItems(station.id);
+    return mine.length ? mine : sessionItems(progress.todaySkills());
+  };
+  const screen = renderReview({ make, pill: RIPEN_PILL });
+  if (screen) return screen;
+  toast('تنضج كلماتُها — تابِعْ مراجعتك', 'smile');
+  return null;
+}
+
+/**
+ * **مسبارُ الخريطة** (`registry.js`): يردّ ما تنتظره القصةُ من مفاتيح أو `null`.
+ * **ولا يبني خطةً**: مفتاحٌ واحدٌ لم ينضج يُسقط السطرَ فالقصةَ كلَّها (`lineSpecs`)،
+ * فوجودُ مفتاحٍ في الحوض **هو بعينه** أنّ الخطة لا تُبنى اليوم — وسؤالٌ رخيصٌ يُسأل
+ * عن كل عقدةٍ في كل رسمة.
+ */
+registerRipening('story', (part) => {
+  const keys = ripeningKeys(`story:${part}`);
+  return keys.length ? keys : null;
 });
 
 /**

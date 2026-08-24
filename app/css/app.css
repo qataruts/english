@@ -467,7 +467,8 @@ button {
 
 /* معلم «إعادة» على العقدة المنجَزة: سهمٌ دائريّ على حافة وجهها — يدلّ أن المنجَز
    يبقى مفتوحاً للّعب، ولا يزاحم ما في وسط الدائرة. */
-.node-replay {
+.node-replay,
+.node-ripen {
   position: absolute;
   top: -.15rem;
   inset-inline-start: -.15rem;
@@ -482,7 +483,8 @@ button {
   pointer-events: none;
 }
 
-.node-replay svg { width: .85rem; height: .85rem; display: block; }
+.node-replay svg,
+.node-ripen .ui-icon { width: .85rem; height: .85rem; display: block; }
 
 .node-face {
   display: grid;
@@ -510,6 +512,22 @@ button {
 .node--next .node-face {
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 28%, transparent);
   animation: pulse 1.8s ease-in-out infinite;
+}
+
+/* **عقدةٌ تنضج كلماتُها** (بلاغُ الميدان ٣ · جلسةُ الإسعاف م) — الحالُ الثالثة بين
+   المفتوحة والمقفلة: **وجهُها حيٌّ** (لا رماديّ القفل: الطفلُ بلغها ولمستُها تعمل)،
+   وحدُّها **متقطّعٌ** يقول «لم تكتمل بعد» بالنظر، ونبضٌ بطيءٌ صامتٌ لا يزاحم نبضةَ
+   «تابع من هنا» (١.٨ ثانية) ولا يشبهها. **ولا كلمةَ فيها** — الرمليةُ صورتُها. */
+.node--ripening .node-face {
+  background: color-mix(in srgb, var(--accent) 7%, var(--mix));
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--mix));
+  color: color-mix(in srgb, var(--accent) 60%, var(--ink));
+  animation: ripen 3.6s ease-in-out infinite;
+}
+
+@keyframes ripen {
+  50% { border-color: color-mix(in srgb, var(--accent) 78%, var(--mix)); }
 }
 
 .node--locked .node-face {
@@ -1651,11 +1669,13 @@ button {
    المقابلةَ** (`test_support.mjs` §٨): قاعدةُ هدوءٍ تُزاد ولا يُزاد نظيرُها هنا
    تحمرّ — فلا يعود المتحرّكُ صامتاً. */
 :root.calm .node--next .node-face { animation: none; }
+:root.calm .node--ripening .node-face { animation: none; }
 :root.calm .celebrate-face { animation: none; }
 :root.calm .big-stars .on { animation: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .node--next .node-face { animation: none; }
+  .node--ripening .node-face { animation: none; }
   .celebrate-face { animation: none; }
   .big-stars .on { animation: none; }
 }

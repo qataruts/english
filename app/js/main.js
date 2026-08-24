@@ -14,7 +14,7 @@
 
 import * as progress from './progress.js';
 import * as audio from './audio.js';
-import { registerScreen, hasScreen, screenFor } from './registry.js';
+import { registerScreen, hasScreen, screenFor, ripeningFor } from './registry.js';
 import { renderReview } from './review.js';
 import { renderGate } from './gate.js';
 import { renderParent, skillsText } from './parent.js';
@@ -93,7 +93,12 @@ function renderMap() {
   const review = reviewCard();
   if (review) main.append(review);
 
-  if (next) {
+  /* **ولا يشير السهمُ إلى عقدةٍ تنضج** (بلاغُ الميدان ٣ · جلسةُ الإسعاف م): «تابع من
+     هنا» وعدُ **محطةٍ تُلعَب الآن**، وعقدةُ الإنضاج تُلمَس فتُنضج كلماتِها ولا تُلعَب
+     بعدُ — فيُصرَف الوعدُ إلى **بطاقة المراجعة** فوقها، وهي عينُ ما يُنضجها. **ولا
+     يُترَك الطفلُ بلا سهمٍ بحال**: إن لم تكن للمراجعة بطاقةٌ (حصيلةٌ دون مهارتين) بقي
+     السهمُ على حاله — ولمستُه تعمل (`story.js`: جلسةُ الإنضاج). */
+  if (next && !(review && ripeningOf(next))) {
     main.append(h('button', {
       class: 'continue',
       css: { '--accent': accentOf(next) },
@@ -104,7 +109,7 @@ function renderMap() {
         h('b', {}, next.title || next.id),
         h('small', {}, `تابع من هنا · ${progress.sectionOf(next.id)?.title || ''}`)),
     ));
-  } else if (sections.length) {
+  } else if (!next && sections.length) {
     main.append(h('p', { class: 'note' }, icon('party'), ' أتممتَ الرحلة كلها!'));
   }
 
@@ -187,6 +192,18 @@ function reviewCard() {
 /** لون العقدة أو القسم — من وصف القسم نفسِه، وإلا فلونُ البوابات. */
 function accentOf(node) {
   return progress.sectionOf(node.id)?.accent || PAUSE_ACCENT;
+}
+
+/**
+ * **أتنضج مادّةُ هذه العقدة؟** — تُسأل عنه وحدةُ نوعِها في السجلّ (`registry.js`)،
+ * فلا يعرف هذا الملفُّ نوعَ عقدةٍ بعينه ولا سببَ انتظارها.
+ *
+ * **والحالُ الثالثة لعقدةٍ بلغها الطفلُ ولم يُتمّها**: المقفلةُ لا تُسأل (لم يبلغها)،
+ * والمنجَزةُ لا تُسأل (مادّتُها وقعت). وما بينهما هو موضعُ البلاغ ٣.
+ */
+function ripeningOf(node) {
+  if (!node || progress.isDone(node.id) || !progress.isNodeUnlockedById(node.id)) return null;
+  return ripeningFor(node.type)?.(node.part) || null;
 }
 
 /**
@@ -285,16 +302,36 @@ function replayMark() {
   return replayTemplate.cloneNode(true);
 }
 
+/**
+ * وسمُ «تنضج» على عقدةٍ تنتظر نضجَ مادّتها — **رمليةٌ صامتة** على حافة وجهها، نظيرةُ
+ * سهم الإعادة في موضعها ومقاسها: **صورةٌ لا كلمة** (قاعدةُ اللاقراءة بلغتين)، وهي
+ * تقول للوالد بنظرةٍ ما تقوله `aria-label` لقارئ الشاشة.
+ */
+let ripenTemplate = null;
+function ripenMark() {
+  if (!ripenTemplate) {
+    ripenTemplate = h('span', { class: 'node-ripen', 'aria-hidden': 'true' });
+    ripenTemplate.append(icon('hourglass'));
+  }
+  return ripenTemplate.cloneNode(true);
+}
+
 function nodeButton(node, next) {
   const stars = progress.getStars(node.id);
   const open = progress.isNodeUnlockedById(node.id);
-  const isNext = next && next.id === node.id;
+  /* **الحالُ ثالثةٌ لا ثانية** (بلاغُ الميدان ٣): «تنضج» عقدةٌ بلغها الطفلُ ومادّتُها
+     تنمو بالمراجعة — تُميَّز بوسمٍ صامت (رمليةٌ ونبضٌ بطيء في اللوح)، **ولا نصَّ في
+     شاشة الطفل**: قولُها في `aria-label` لوليّ الأمر وقارئِ الشاشة. ولمستُها تعمل. */
+  const ripening = Boolean(ripeningOf(node));
+  const isNext = Boolean(next) && next.id === node.id && !ripening;
   const label = node.title || node.id;
-  const state = !open ? 'locked' : stars ? 'done' : 'open';
+  const state = !open ? 'locked' : stars ? 'done' : ripening ? 'ripening' : 'open';
+  const said = stars ? `${arNum(stars)} نجوم · يمكن إعادته`
+    : ripening ? 'تنضج كلماتُها بالمراجعة' : 'مفتوح';
 
   const btn = h('button', {
     class: `node node--${node.type} node--${state}${isNext ? ' node--next' : ''}`,
-    'aria-label': `${label} — ${open ? (stars ? `${arNum(stars)} نجوم · يمكن إعادته` : 'مفتوح') : 'مقفل'}`,
+    'aria-label': `${label} — ${open ? said : 'مقفل'}`,
     onclick: () => {
       // **والمقفلُ يُجيب**: هزّةٌ ورسالة «أكمِل ما قبله أولاً» — لا زرٌّ ميّت
       // (`disabled`) لا يردّ على الطفل (عهدُ «لا شاشة خطأ ولا عقاب»).
@@ -311,6 +348,7 @@ function nodeButton(node, next) {
     faceEl(open ? node.face : h('span', { class: 'node-lock' }, icon('lock')), 'node-face'),
     starsRow(stars),
     state === 'done' && replayMark(),
+    state === 'ripening' && ripenMark(),
   );
 
   if (isNext) btn.dataset.next = '1';
