@@ -91,7 +91,7 @@ const c = await import(new URL('curriculum.js', APP));
 const review = await import(new URL('review.js', APP));
 const gate = await import(new URL('gate.js', APP));
 const { seeded } = await import(new URL('ui.js', APP));
-const { scoreOf } = await import(new URL('station.js', APP));
+const { scoreOf, isDrilled, stationById: stationOf } = await import(new URL('station.js', APP));
 
 const SEEDLESS = new Set(['main.js', 'progress.js', 'curriculum.js', 'ui.js', 'audio.js',
   'review.js', 'parent.js', 'registry.js', 'figures.js', 'station.js', 'gate.js']);
@@ -306,6 +306,16 @@ if (args.includes('--self-test')) {
 
 console.log('\n— محاكاةُ طفلٍ يمشي الرحلةَ يوماً بيوم —');
 
+
+/* **ومقياسُ التمام يُمرَّر كما يمرّره `main.js` حرفاً** (بلاغُ الميدان ٧): صارت
+   المحطةُ تُزار مراتٍ بالقضمة، والسهمُ يبقى عليها حتى تُدرَّب مفاتيحُها — فلو مشى
+   الحارسُ بغير ذلك لَقاس رحلةً لا يمشيها طفل. */
+const drilled = (node) => {
+  const st = stationOf(node.id);
+  return !st || isDrilled(st);
+};
+const nextNode = () => p.nextNode(drilled);
+
 for (state.day = 1; state.day <= MAX_DAYS; state.day++) {
   const day = state.day;
   const asked = new Set();
@@ -318,7 +328,7 @@ for (state.day = 1; state.day <= MAX_DAYS; state.day++) {
   // ٢) ثم العقدُ بترتيبها حتى يُستنفَد سقفُ اليوم
   let stalled = false;
   while (minutes < DAY_MINUTES) {
-    const node = p.nextNode();
+    const node = nextNode();
     if (!node) break;
     if (node.type === 'gate') {
       const items = gate.gateItems(node.part, rnd);
@@ -378,14 +388,14 @@ for (state.day = 1; state.day <= MAX_DAYS; state.day++) {
 
   // ٣) **وما بقي من اليوم مراجعة**: بابٌ واقفٌ ينتظر نضجَ مادّته، أو رحلةٌ تمّت
   // عقدُها والمفاتيحُ تُثبَّت — والشاشةُ نفسُها تُعاد بتمارين جديدة في كل مرة.
-  const idle = stalled || !p.nextNode();
+  const idle = stalled || !nextNode();
   while (idle && minutes < DAY_MINUTES) {
     const items = runReview(day, asked);
     if (!items) break;
     minutes += sessionMinutes(items);
   }
 
-  if (!p.nextNode() && !state.finishedAt) state.finishedAt = day;
+  if (!nextNode() && !state.finishedAt) state.finishedAt = day;
   // **وتمامُ الرحلة عقدٌ ومفاتيح**: العقدُ كلُّها بُلغت، وكلُّ مفتاحٍ كُتب له قياسٌ مرّةً
   if (state.finishedAt && state.measured.size >= ALL_KEYS.length) break;
   /* **وتوقُّفُ الاستيعاب يُقاس ولا يُنتظَر إلى السقف**: إن مضت أسابيعُ بعد تمام العقد

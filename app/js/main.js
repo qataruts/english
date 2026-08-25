@@ -15,6 +15,7 @@
 import * as progress from './progress.js';
 import * as audio from './audio.js';
 import { registerScreen, hasScreen, screenFor, ripeningFor } from './registry.js';
+import { isDrilled, stationById } from './station.js';
 import { renderReview } from './review.js';
 import { renderGate } from './gate.js';
 import { renderParent, skillsText } from './parent.js';
@@ -71,7 +72,12 @@ function focusIndex(sections, next) {
 
 function renderMap() {
   const earned = progress.totalStars();
-  const next = progress.nextNode();
+  /* **ومقياسُ التمام يُمرَّر من مالكه** (`station.js`: التدريبُ شأنُ المحطة لا شأنُ
+     السجلّ): فيبقى السهمُ على محطةٍ لم تُدرَّب مفاتيحُها بعدُ — يرشد ولا يقفل. */
+  const next = progress.nextNode((node) => {
+    const station = stationById(node.id);
+    return !station || isDrilled(station);
+  });
   const sections = progress.journey();
 
   const screen = h('div', {},
@@ -116,7 +122,12 @@ function renderMap() {
   }
 
   // الدرب المتعرج: انعطافة خيط بين كل محطتين، يمنةً مرة ويسرةً مرة
-  const focus = focusIndex(sections, next);
+  /* **والطيُّ يتبع الجبهةَ لا السهم** (بلاغُ الميدان ٧): صار السهمُ يعود إلى محطةٍ
+     لم تُدرَّب مفاتيحُها بعدُ، فلو طُوي حولَه لَاختفى **ما فُتح للتوّ** — وقِيس ذلك:
+     عبورُ بوابة الأذن يفتح بلدَ الحروف، فطُوي البلدُ لأنّ السهمَ عاد إلى محطةِ سماع.
+     **فالطيُّ حول أبعدِ ما بلغه الطفل** (الجبهة)، والسهمُ يرشد داخل المفرود. */
+  const frontier = progress.nextNode();
+  const focus = focusIndex(sections, frontier || next);
   let stations = 0;
   for (const [index, section] of sections.entries()) {
     if (stations++) main.append(trailEl(stations % 2 === 0));

@@ -47,7 +47,7 @@ import {
 import { figureEl, specOf } from './figures.js';
 import {
   say, sayEn, praiseThen, missedThen, seeder, skillOf, stationById, stationForSkill,
-  registerExercise, stationScreen, usedOf, BEAT,
+  registerExercise, stationScreen, usedOf, soloRounds, BEAT,
 } from './station.js';
 import { h, icon, pick, shuffle, seeded, pop, LETTER_ACCENT, roundSeed } from './ui.js';
 /* **سعةُ حوض الخيارات تُقرأ من مخزن المقابض عند بناء كل جولة** (وضعُ الدعم — الجلسة
@@ -61,7 +61,6 @@ import { optionCount } from './support.js';
 const TYPES = new Set(['grade']);
 
 const GUIDED = 2;
-const SOLO = 5;
 const MODEL_ITEMS = 2;
 /** سقفُ الدمج في جلسة المراجعة: تمرينٌ من ثلاث لمساتٍ يطول على طفلٍ إن تكرّر (نظيرُ س٤-٣). */
 export const BUILD_MAX = 2;
@@ -551,7 +550,23 @@ export function planOf(station, seed, isMastered, shapes = SHAPES, kit = {}) {
       said: [...new Set(shown.flatMap((round) => round.said || []))],
     },
     guided: Array.from({ length: GUIDED }, nextRound).filter(Boolean),
-    solo: Array.from({ length: SOLO }, nextRound).filter(Boolean),
+    /* **وكلُّ مفتاحٍ من مفاتيح الدرجة يُسأل عنه مرّتين** (`soloRounds` — قاعدةُ
+       الكفاية). وكانت سلّةُ الجولات تُقرَع على **الأنواع** فتنتقي مادّتَها بالصدفة:
+       درجةٌ بعشرين مفتاحاً تُعطي خمسَ جولات، فيُدرَّس الرمزُ ولا يُسأل عنه أصلاً.
+       فصارت القرعةُ على **المفاتيح بأعيانها** — ولكلٍّ مداه كما يعلنه المنهج،
+       وهي القسمةُ نفسُها التي في `singleIn` أدناه فلا يفترق المُدرَّبُ عن المُراجَع.
+       **ومفتاحٌ لا شكلَ له اليوم** (كلمةٌ لم تنضج سمعاً، أو شائكةٌ محبوسة) يُترَك. */
+    solo: soloRounds(station, rnd, (skill) => {
+      if (!kinds.includes(skill.kind)) return null;
+      const opts = { isMastered };
+      if (skill.kind === 'build' || skill.kind === 'decode') {
+        opts.word = (station.words || []).find((word) => word.w === skill.range) || null;
+        if (!opts.word) return null;
+      } else {
+        opts.range = skill.range;
+      }
+      return shapes[skill.kind](station, rnd, opts);
+    }),
   };
 }
 

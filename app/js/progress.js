@@ -229,8 +229,20 @@ export function isNodeUnlockedById(id) {
 }
 
 /** أول عقدة لم تُنجَز في الرحلة — «تابع من هنا». */
-export function nextNode() {
-  return allNodes()[unlockFrontier()] || null;   // خارج القائمة = اكتملت الرحلة
+export function nextNode(drilled = null) {
+  /* **والسهمُ يبقى على المحطة حتى تتمّ** (بلاغُ الميدان ٧ — ومرسومُ المالك بلفظه:
+     «**تنهي الطفلة المرحلة وتنتقل للتالي**»): صارت المحطةُ تُزار مراتٍ بالقضمة
+     (`station.js`: `VISIT_ROUNDS`)، فلو قفز السهمُ إلى التالية بعد أوّل زيارةٍ
+     لَمضت الطفلةُ وقد درّبت ثُلثَ مفاتيحها — وذاك عينُ ما شكا منه بلاغُ الميدان ٦.
+     **ولا حبسَ في هذا**: العقدةُ التالية مفتوحةٌ تُلمَس وتُلعَب متى شاءت — السهمُ
+     **يرشد ولا يقفل**، والقفلُ جبهتُه هي هي (`unlockFrontier`). */
+  const nodes = allNodes();
+  if (typeof drilled === 'function') {
+    for (let i = 0; i <= unlockFrontier() && i < nodes.length; i++) {
+      if (!isDone(nodes[i].id) || !drilled(nodes[i])) return nodes[i];
+    }
+  }
+  return nodes[unlockFrontier()] || null;   // خارج القائمة = اكتملت الرحلة
 }
 
 // ————— سجلّ المهارات والتكرار المتباعد (`METHOD.md §٧`) —————

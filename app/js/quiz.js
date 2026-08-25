@@ -26,7 +26,7 @@ import { stations, WORDS, DEIXIS } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
 import {
   say, sayEn, praiseThen, missedThen, seeder, skillOf, stationById, stationForSkill,
-  registerExercise, stationScreen, usedOf,
+  registerExercise, stationScreen, usedOf, soloRounds,
 } from './station.js';
 import { h, icon, pick, shuffle, seeded, pop, LISTEN_ACCENT, roundSeed } from './ui.js';
 /* **سعةُ حوض الخيارات تُقرأ من مخزن المقابض عند بناء كل جولة** (وضعُ الدعم — الجلسة
@@ -40,7 +40,6 @@ import { optionCount } from './support.js';
 const TYPES = new Set(['quiz']);
 
 const GUIDED = 2;          // «جرِّب معي» — جولتان بخيارين، غيرُ مقيستين
-const SOLO = 5;            // «وحدك» — وهي المقيسة
 const GUIDED_OPTIONS = 2;
 const MODEL_ITEMS = 3;     // ما يعرضه المعلم في «شاهِدْ»
 
@@ -245,9 +244,12 @@ function sentencePlan(station, seed) {
     guided: Array.from({ length: GUIDED }, () =>
       sentenceRound(station, rnd, { options: GUIDED_OPTIONS, sentence: nextSentence() }))
       .filter(Boolean),
-    solo: Array.from({ length: SOLO }, () =>
-      sentenceRound(station, rnd, { options: optionCount(), sentence: nextSentence() }))
-      .filter(Boolean),
+    /* **وكلُّ مفتاحٍ يُسأل عنه مرّتين** (`soloRounds` — قاعدةُ الكفاية): وجملةُ
+       الضمير مفتاحُها مفتاحُ ضميرها (`measures`)، فيُقرأ المدى من المنهج كما يُكتب. */
+    solo: soloRounds(station, rnd, (skill) => sentenceRound(station, rnd, {
+      options: optionCount(),
+      sentence: station.sentences.find((one) => (one.measures || one.id) === skill.range),
+    })),
   };
 }
 
@@ -287,8 +289,11 @@ export function buildStation(stationId, seed) {
     },
     guided: Array.from({ length: GUIDED }, () =>
       pickRound(station, rnd, { options: GUIDED_OPTIONS, word: nextWord() })).filter(Boolean),
-    solo: Array.from({ length: Math.min(SOLO, station.words.length) }, () =>
-      pickRound(station, rnd, { options: optionCount(), word: nextWord() })).filter(Boolean),
+    // **وكلُّ كلمةٍ من كلمات المحطة تُسأل مرّتين** (`soloRounds` — قاعدةُ الكفاية)
+    solo: soloRounds(station, rnd, (skill) => pickRound(station, rnd, {
+      options: optionCount(),
+      word: station.words.find((word) => word.w === skill.range),
+    })),
   };
 }
 

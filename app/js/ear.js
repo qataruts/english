@@ -31,7 +31,7 @@ import { stations, soundsOf, rimeOf, phonemeSay } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
 import {
   say, sayEn, praiseThen, missedThen, seeder, skillOf, stationById, stationForSkill,
-  registerExercise, stationScreen, usedOf, BEAT,
+  registerExercise, stationScreen, usedOf, soloRounds, BEAT,
 } from './station.js';
 import { h, icon, pick, shuffle, seeded, pop, LISTEN_ACCENT, roundSeed } from './ui.js';
 /* **سعةُ حوض الخيارات تُقرأ من مخزن المقابض عند بناء كل جولة** (وضعُ الدعم — الجلسة
@@ -45,7 +45,6 @@ import { optionCount } from './support.js';
 const TYPES = new Set(['ear']);
 
 const GUIDED = 2;
-const SOLO = 5;
 const MODEL_ITEMS = 2;
 /** سقفُ التقطيع في جلسة المراجعة: تمرينٌ من ثلاث لمساتٍ يطول على طفلٍ إن تكرّر. */
 const SEGMENT_MAX = 2;
@@ -279,8 +278,13 @@ export function buildStation(stationId, seed) {
     },
     guided: Array.from({ length: GUIDED }, () =>
       roundFor(station, rnd, nextOpts())).filter(Boolean),
-    solo: Array.from({ length: SOLO }, () =>
-      roundFor(station, rnd, nextOpts())).filter(Boolean),
+    /* **وكلُّ مفتاحٍ يُسأل عنه مرّتين** (`soloRounds` — قاعدةُ الكفاية): والمدى
+       يُترجَم إلى مادّة الجولة كما تعلنه المحطة — كلمةً في الدمج والتقطيع، ورمزَ
+       صوتٍ أو قافيةً فيما سواهما (وهي القسمةُ نفسُها التي في `single` أدناه). */
+    solo: soloRounds(station, rnd, (skill) => roundFor(station, rnd,
+      skill.kind === 'blend-ear' || skill.kind === 'segment-ear'
+        ? { word: station.words.find((word) => word.w === skill.range) }
+        : { range: skill.range })),
   };
 }
 

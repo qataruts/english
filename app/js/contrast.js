@@ -30,7 +30,7 @@ import { stations } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
 import {
   say, sayEn, praiseThen, missedThen, seeder, skillOf, stationById, stationForSkill,
-  registerExercise, stationScreen, usedOf,
+  registerExercise, stationScreen, usedOf, soloRounds,
 } from './station.js';
 import { h, icon, pick, shuffle, seeded, pop, LISTEN_ACCENT, roundSeed } from './ui.js';
 
@@ -38,7 +38,6 @@ import { h, icon, pick, shuffle, seeded, pop, LISTEN_ACCENT, roundSeed } from '.
 const TYPES = new Set(['contrast']);
 
 const GUIDED = 2;
-const SOLO = 5;
 const MODEL_ITEMS = 2;
 /**
  * **العنايةُ المضاعفة بزوجٍ يُعلنها المنهج** (`pairs[].focus` — حسمُ أ-٣ ج).
@@ -193,12 +192,14 @@ export function buildStation(stationId, seed) {
     },
     guided: Array.from({ length: GUIDED }, () =>
       pairRound(station, rnd, { pair: nextPair() })).filter(Boolean),
-    solo: [
-      ...Array.from({ length: SOLO }, () => pairRound(station, rnd, { pair: nextPair() })),
-      // **وجولاتٌ زائدةٌ لزوج العناية** — بعد القرعة كي لا تُنقِص من حظّ أخواته
-      ...focus.flatMap((pair) =>
-        Array.from({ length: FOCUS_SOLO }, () => pairRound(station, rnd, { pair }))),
-    ].filter(Boolean),
+    /* **وكلُّ زوجٍ يُسأل عنه مرّتين** (`soloRounds` — قاعدةُ الكفاية)، **وجولاتُ زوج
+       العناية زائدةٌ عليها** كما كانت — تأتي بعد التدريب فلا تُنقِص من حظّ أخواته. */
+    solo: soloRounds(station, rnd,
+      (skill) => pairRound(station, rnd, {
+        pair: station.pairs.find((pair) => pair.key === skill.range),
+      }),
+      focus.flatMap((pair) => Array.from({ length: FOCUS_SOLO },
+        () => pairRound(station, rnd, { pair }))).filter(Boolean)),
   };
 }
 

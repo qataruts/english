@@ -809,8 +809,12 @@ button {
 .step--now .step-dot { background: color-mix(in srgb, var(--accent) 20%, var(--mix)); }
 .step--done .step-dot { background: color-mix(in srgb, var(--ok) 18%, var(--mix)); }
 
+/* **وخرزاتُ الجولات تلتفّ ولا تنكمش** (بلاغُ الميدان ٧): صارت الجلسةُ ثلاثين جولةً
+   بقاعدة الكفاية، وصفٌّ واحدٌ لا يلتفّ يسحق الخرزةَ إلى شريطٍ لا يُقرأ — فتلتفّ
+   أسطراً، وحجمُها ثابتٌ لا يصغر مهما كثرت (`flex-wrap` مع `flex: 0 0 auto`). */
 .beads {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: .45rem;
   margin: 0 0 1.1rem;
@@ -819,6 +823,7 @@ button {
 }
 
 .bead {
+  flex: 0 0 auto;
   width: .75rem;
   height: .75rem;
   border-radius: 50%;

@@ -37,7 +37,7 @@ import { stations } from './curriculum.js';
 import { figureEl, specOf, hasPose } from './figures.js';
 import {
   say, sayEn, praiseThen, missedThen, seeder, skillOf, stationById, stationForSkill,
-  registerExercise, stationScreen, usedOf,
+  registerExercise, stationScreen, usedOf, soloRounds,
 } from './station.js';
 import { h, icon, pick, shuffle, seeded, pop, LISTEN_ACCENT, roundSeed } from './ui.js';
 /* **سعةُ حوض الخيارات تُقرأ من مخزن المقابض عند بناء كل جولة** (وضعُ الدعم — الجلسة
@@ -51,7 +51,6 @@ import { optionCount } from './support.js';
 const TYPES = new Set(['tpr']);
 
 const GUIDED = 2;
-const SOLO = 5;
 const GUIDED_OPTIONS = 2;
 const MODEL_ITEMS = 2;
 
@@ -328,8 +327,18 @@ export function buildStation(stationId, seed) {
     model,
     guided: Array.from({ length: GUIDED }, () =>
       roundFor(station, rnd, { options: GUIDED_OPTIONS, word: nextWord() })).filter(Boolean),
-    solo: Array.from({ length: SOLO }, () =>
-      roundFor(station, rnd, { options: optionCount(), word: nextWord() })).filter(Boolean),
+    /* **وكلُّ مفتاحٍ يُسأل عنه مرّتين** (`soloRounds` — قاعدةُ الكفاية). **والأمرُ
+       المركّب مفتاحاه صفتان في جولةٍ واحدة**: فيُصرَف المدى إلى الصفة التي هو منها
+       (حجماً أو لوناً) ويُقرَع على الأخرى — ولولا ذلك لَبقيت الألوانُ نصفَ نصيبها. */
+    solo: soloRounds(station, rnd, (skill) => roundFor(station, rnd, {
+      options: optionCount(),
+      word: station.words.find((word) => word.w === skill.range),
+      ...(station.kind === 'tpr-two'
+        ? (station.colours || []).some((colour) => colour.w === skill.range)
+          ? { colour: station.colours.find((colour) => colour.w === skill.range) }
+          : { size: sizesOf(station).find((word) => word.w === skill.range) }
+        : {}),
+    })),
   };
 }
 
