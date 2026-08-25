@@ -24,7 +24,7 @@ import * as progress from './progress.js';
 import { registerScreen, registerRipening } from './registry.js';
 import {
   stations, readableAt, readableTrickyAt, markedTricky, symbolById, isTouchable, WORDS,
-  pendingListenOf,
+  pendingListenOf, namedPictures,
 } from './curriculum.js';
 import { figureEl, specOf } from './figures.js';
 import {
@@ -104,19 +104,27 @@ function heartSpec(word, gradeId) {
 }
 
 /**
- * **سطرٌ إلى أوصافٍ مرسومة، أو `null`** — وهو موضعُ قيد الاقتران في هذه الشاشة:
- * كلمةٌ ليست كلمةَ قراءةٍ **ناضجةً سمعاً** ولا شائكةً **مقروءة** تُسقِط السطرَ كلَّه،
- * فتسقط معه القصةُ (فوق ما يحرسه `check_range` في النصّ نفسِه).
+ * **سطرٌ إلى أوصافٍ مرسومة — ولا يسقط لعدم نضج** (مرسومُ المالك، ٢٤ أغسطس ٢٠٢٦:
+ * «لا نريد توقف في الحلقات اطلاقاً… والمراجعة موضوع اختياري ولا يوقف تقدم الحلقات»).
+ *
+ * **وقيدُ الاقتران باقٍ بصورته الجديدة: سَنَدٌ عند موضع الحاجة لا بوابةُ عبور.**
+ * كان عدمُ نضجِ كلمةٍ واحدة يُسقط السطرَ فالقصةَ فالعقدةَ كلَّها، فيقف الطفلُ أمام
+ * حلقةٍ لا تُفتح ولا يعرف لماذا. فصارت الكلمةُ التي لم تنضج **تُوسَم `support`**:
+ * **تُسمَع بلسانها قبل أن يُسأل عنها** — فيلقاها بمعناها لا بحرفها المجرَّد، وهو
+ * عينُ ما وُضع القيدُ له. **ولا يسقط السطرُ إلا لعيبِ بيانات** (كلمةٌ خارج المنهج
+ * أصلاً — يحرسه `check_range` في النصّ نفسِه).
  */
 function lineSpecs(text, gradeId, isMastered) {
-  const words = new Map(readableAt(gradeId, isMastered).map((word) => [word.w, word]));
-  const tricky = new Set(readableTrickyAt(gradeId, isMastered));
+  const all = new Map(readableAt(gradeId, () => true).map((word) => [word.w, word]));
+  const allTricky = new Set(readableTrickyAt(gradeId, () => true));
+  const ripe = new Map(readableAt(gradeId, isMastered).map((word) => [word.w, word]));
+  const ripeTricky = new Set(readableTrickyAt(gradeId, isMastered));
   const out = [];
   for (const token of String(text).split(/\s+/).filter(Boolean)) {
-    const spec = words.has(token) ? textSpec(words.get(token))
-      : tricky.has(token) ? heartSpec(token, gradeId) : null;
+    const spec = all.has(token) ? textSpec(all.get(token))
+      : allTricky.has(token) ? heartSpec(token, gradeId) : null;
     if (!spec) return null;
-    out.push(spec);
+    out.push(ripe.has(token) || ripeTricky.has(token) ? spec : { ...spec, support: true });
   }
   return out;
 }
@@ -133,11 +141,23 @@ function pageRound(station, page, rnd, isMastered) {
   const skill = skillOf(station, station.part, 'read');
   if (!line || !skill || !isTouchable(page.pick)) return null;
   if (!line.some((spec) => spec.word === page.pick)) return null;
-  const others = shuffle(readableAt(station.part, isMastered)
-    .filter((word) => word.w !== page.pick && isTouchable(word.w)), rnd)
-    .slice(0, optionCount() - 1)
-    .map((word) => word.w);
-  if (!others.length) return null;
+  /* **والمشتّتاتُ صورُ ما نضج أوّلاً ثم ما عُرف اسمُه** (سُنّةُ `decode` — الجلسة ت):
+     صورةٌ لم يلقَها الطفلُ تجعل السؤالَ حزراً، **فالناضجُ مقدَّم**؛ ولكنّ ضيقَ الحوض
+     لا يُسقط الجولةَ بعد اليوم (مرسومُ المالك) — فيُتَمُّ العددُ ممّا أتقن اسمَه. */
+  const want = optionCount() - 1;
+  const near = shuffle(readableAt(station.part, isMastered)
+    .filter((word) => word.w !== page.pick && isTouchable(word.w)), rnd).map((word) => word.w);
+  const wider = shuffle(namedPictures(isMastered)
+    .filter((word) => word.w !== page.pick && !near.includes(word.w)), rnd).map((word) => word.w);
+  /* **وحوضٌ ثالثٌ يمنع الوقوف** (مرسومُ المالك): لو لم ينضج للطفل شيءٌ بعدُ لَفرغ
+     الحوضان فوقَف — فيُتَمّ العددُ **من الصور المرسومة كلِّها**. والسؤالُ يبقى
+     عادلاً: الكلمةُ المسؤولُ عنها **سُمعت بلسانها قبل السؤال** (`support`)،
+     والمشتّتُ صورةٌ تقابلها — لا يُطلَب من الطفل أن يعرفها ليجيب. */
+  const rest = shuffle(WORDS
+    .filter((word) => word.w !== page.pick && isTouchable(word.w)
+      && !near.includes(word.w) && !wider.includes(word.w)), rnd).map((word) => word.w);
+  const others = [...near, ...wider, ...rest].slice(0, want);
+  if (others.length < want) return null;
   const options = shuffle([page.pick, ...others], rnd).map(pictureSpec);
   const next = seeder(rnd);
   return {
@@ -149,6 +169,9 @@ function pageRound(station, page, rnd, isMastered) {
     text: page.text,
     target: page.pick,
     line,
+    /* **ما يُسنَد بصوته قبل السؤال**: كلماتُ السطر التي لم تنضج سمعاً — تُنطَق
+       بلسانها فيلقاها الطفلُ بمعناها، ثم يُسأل. */
+    support: line.filter((spec) => spec.support).map((spec) => spec.word),
     options,
     figures: [...line, ...options],
     saying: [page.pick, ...others],
@@ -255,6 +278,10 @@ function pageView(round, hooks) {
   });
   choices.append(...buttons);
 
+  /* **السَّندُ قبل السؤال** (مرسومُ المالك، ٢٤ أغسطس): ما لم ينضج من كلمات السطر
+     **يُسمَع بلسانه** قبل أن يُسأل الطفل — فيلقى الكلمةَ بمعناها لا بحرفها المجرَّد،
+     ويمضي في حينه. وهو صوتٌ واحدٌ في طابورٍ واحد (لا يتكدّس — `audio.js`). */
+  for (const word of round.support || []) sayEn(word);
   say(round.ask);
   return h('div', {}, h('p', { class: 'hint' }, round.ask), stage, choices);
 }

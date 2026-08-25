@@ -31,7 +31,7 @@
 // **وجلسةُ إنضاجها تُبنى** (`ripenItems`) — فلا لمسةَ ترجع صامتةً في الرحلة كلِّها.
 // وهو عينُ «تشييك كل الحلقات انها تفتح» بلفظ المالك.
 //
-// ————— **والدسّة تُعيد الحالَ إلى سلوك اليوم** (`--no-ripen`) —————
+// ————— **والدسّة تُعيد الحالَ إلى سلوك اليوم** (`--barrier`) —————
 //
 // «لا يُصدَّق حارسٌ لم يُرَ وهو يمسك»: بالراية تُقطَع طريقُ الإنضاج فتعود اللمسةُ
 // صامتةً كما كانت يومَ البلاغ — **فيلزم أن يحمرّ**. ويُشغَّل ذلك مع كلِّ تشغيل في
@@ -49,8 +49,9 @@ const flag = (name, fallback) => {
   return at < 0 ? fallback : Number(args[at + 1]);
 };
 const TRACE = args.includes('--trace');
-/** الدسّة: تُقطَع طريقُ الإنضاج فيعود سلوكُ اليوم — لمسةٌ صامتة، ويلزم الأحمر. */
-const NO_RIPEN = args.includes('--no-ripen');
+/** الدسّة: **يُعاد الحاجز** — صفحةٌ فيها كلمةٌ لم تنضج تسقط كما كانت قبل المرسوم،
+    فتقف العقدةُ. ويلزم الأحمر: حارسٌ لا يمسك عودةَ الحاجز لا يحرس المرسوم. */
+const BARRIER = args.includes('--barrier');
 const SEED = flag('--seed', 20260824);
 
 const store = new Map();
@@ -96,6 +97,10 @@ const planOf = (id, day) => {
   return null;
 };
 
+/** كلماتُ الخطة التي تُسنَد بصوتها (لم تنضج) — جردٌ من الجولات كما تُبنى. */
+const supportOf = (plan) => [...new Set([...(plan.guided || []), ...(plan.solo || [])]
+  .flatMap((round) => round.support || []))];
+
 /** جلسةُ إنضاجٍ لهذه العقدة من عدّة المراجعة — تمارينُها أو `[]`. */
 const ripenOf = (id) => {
   for (const { mod } of ripeners) {
@@ -117,8 +122,13 @@ function touchOf(node, day) {
     return gate.gateItems(node.part, rnd).length ? { state: 'open', plan: null } : { state: 'dead' };
   }
   const plan = planOf(node.id, day);
-  if (plan) return { state: 'open', plan };
-  if (NO_RIPEN) return { state: 'dead' };          // ————— سلوكُ اليوم: صمتٌ —————
+  if (plan) {
+    /* **الدسّة: يُعاد الحاجز** — كان قيدُ الاقتران يُسقط الصفحةَ التي فيها كلمةٌ لم
+       تنضج، فتقف العقدةُ ولا تُلعَب. فههنا: خطةٌ فيها كلمةٌ مسنودة تُعَدّ واقفةً كما
+       كانت — وعلى الحارس أن يحمرّ. */
+    const held = BARRIER ? supportOf(plan) : [];
+    return held.length ? { state: 'ripening', keys: held } : { state: 'open', plan };
+  }
   const keys = registry.ripeningFor(node.type)?.(node.part) || null;
   if (!keys?.length) return { state: 'dead' };
   return ripenOf(node.id).length ? { state: 'ripening', keys } : { state: 'dead' };
@@ -179,38 +189,42 @@ if (ripening.length) {
   }
 }
 
-/* **ولا بدّ أن يقع الإنضاجُ في هذا المشي**: حارسٌ لا يمرّ بالحال التي وُجد لها
-   يخضرّ كاذباً — فيُشترَط أن يجد الطفلُ السابقُ بابَاً واحداً على الأقلّ ينتظر
-   نضجَ مادّته (وهو البابُ الذي جلس عنده طفلُ الميدان). */
-ok(NO_RIPEN || ripening.length > 0,
-  `ومرّ الطفلُ بعقدةٍ تنتظر نضجَ مادّتها فعلاً (${ripening.length}) — وإلّا فالحارسُ `
-  + 'يخضرّ بلا أن يمرّ بحاله');
-
-console.log('\n— الدعوى: **لا لمسةَ ميتة في الرحلة كلِّها** —');
+/* **ودعوى الحارس قُلبت بمرسوم المالك** (٢٤ أغسطس ٢٠٢٦: «لا نريد توقف في الحلقات
+   اطلاقاً… والمراجعة موضوع اختياري ولا يوقف تقدم الحلقات»). كانت الدعوى «لا لمسةَ
+   **ميتة**» — أي أنّ العقدةَ الواقفة تُلمَس فتُنضج، وذلك **توقُّفٌ مهذَّب** لا
+   يرضاه المرسوم: قِيس أنّ الطفلَ يحتاج ثلاثَ لمساتٍ قبل أن تُفتَح. فصارت الدعوى
+   **«لا توقفَ ألبتّة»**: كلُّ عقدةٍ يبلغها الطفلُ **تُلعَب في حينها**، وما لم ينضج
+   من كلماتها **يُسمَع بلسانه قبل أن يُسأل عنه** (السَّندُ محلَّ الحاجز). */
+console.log('\n— الدعوى: **لا توقفَ ألبتّة في الرحلة كلِّها** —');
 for (const node of dead.slice(0, 8)) {
-  console.log(`     ✗ «${node.title}» (${node.id}) — خطتُها لا تُبنى ولا جلسةَ إنضاجٍ لها`);
+  console.log(`     ✗ «${node.title}» (${node.id}) — خطتُها لا تُبنى`);
 }
-ok(dead.length === 0,
-  `كلُّ عقدةٍ بلغها الطفلُ لمستُها تعمل: ${nodes.length - dead.length} من ${nodes.length}`
-  + (dead.length ? ` — ميتةٌ: ${dead.length}` : ''));
+for (const { node, keys } of ripening.slice(0, 8)) {
+  console.log(`     ⏳ «${node.title}» (${node.id}) — تقف بانتظار ${keys.length} مفتاحاً`);
+}
+ok(dead.length === 0 && ripening.length === 0,
+  `كلُّ عقدةٍ بلغها الطفلُ تُلعَب في حينها: ${nodes.length - dead.length - ripening.length}`
+  + ` من ${nodes.length}`
+  + (dead.length ? ` — لا تُبنى: ${dead.length}` : '')
+  + (ripening.length ? ` — تقف بانتظار نضج: ${ripening.length}` : ''));
 
 // ————— **الدسّة تُشغَّل مع كلِّ تشغيل** («فحصٌ لا يُشغَّل ليس حارساً») —————
 //
 // في عمليةٍ مستقلّة: الدسّةُ تمشي الرحلةَ بسجلٍّ خالٍ من الصفر، فلا يلوّث أحدُهما
 // الآخر — ويلزمها **الأحمر**، فإن اخضرّت فالحارسُ لا يمسك شيئاً.
-if (!NO_RIPEN) {
-  console.log('\n— الدسّة: أعِد الحالَ إلى سلوك اليوم (`--no-ripen`) فيلزم الأحمر —');
+if (!BARRIER) {
+  console.log('\n— الدسّة: أعِد الحاجزَ الذي نقضه المرسوم (`--barrier`) فيلزم الأحمر —');
   const dose = spawnSync(process.execPath,
-    [fileURLToPath(import.meta.url), '--no-ripen', '--seed', String(SEED)],
+    [fileURLToPath(import.meta.url), '--barrier', '--seed', String(SEED)],
     { encoding: 'utf8' });
   const caught = (dose.stdout || '').split('\n').find((l) => l.includes('✗ كلُّ عقدةٍ'))
     || (dose.stdout || '').split('\n').find((l) => l.includes('✗')) || '';
   ok(dose.status !== 0,
-    '**سلوكُ اليوم يحمرّ**: لمسةٌ ترجع صامتةً تُمسَك'
+    '**عودةُ الحاجز تحمرّ**: عقدةٌ تقف بانتظار نضجِ كلمةٍ تُمسَك'
     + (dose.status === 0 ? ' — لكنّه اخضرّ! الحارسُ لا يمسك شيئاً' : `\n     ${caught.trim()}`));
 }
 
 console.log(fails
   ? `\n${fails} فشل`
-  : '\nلا لمسةَ ميتة: كلُّ عقدةٍ بلغها الطفلُ إمّا تُلعَب وإمّا تُنضج بلمسة');
+  : '\nلا توقفَ ألبتّة: كلُّ عقدةٍ بلغها الطفلُ تُلعَب في حينها');
 process.exit(fails ? 1 : 0);
